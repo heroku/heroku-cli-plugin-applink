@@ -9,8 +9,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: ['16.x']
-        os: ['ubuntu-latest', 'macos-latest', 'windows-latest']
+        node_version: ['16.20.2']
+        os: ['sfdc-hk-ubuntu-latest', 'sfdc-hk-macos-latest', 'sfdc-hk-windows-latest']
       fail-fast: false
     steps:
       - uses: actions/checkout@v4

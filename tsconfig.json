@@ -6,7 +6,7 @@
     "outDir": "dist",
     "rootDirs": ["src"],
     "strict": true,
-    "target": "esnext",
+    "target": "ESNext",
     "skipLibCheck": true
   },
   "include": [

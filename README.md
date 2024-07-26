@@ -43,5 +43,5 @@ DESCRIPTION
   lists Heroku Events authorizations
 ```
 
-_See code: [src/commands/events/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/src/commands/events/authorizations/index.ts)_
+_See code: [dist/commands/events/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/index.ts)_
 <!-- commandsstop -->

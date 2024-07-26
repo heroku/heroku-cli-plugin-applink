@@ -1,7 +1,7 @@
-import {APIClient, Command} from '@heroku-cli/command'
 import {color} from '@heroku-cli/color'
-import {Config, ux} from '@oclif/core'
+import {APIClient, Command} from '@heroku-cli/command'
 import * as Heroku from '@heroku-cli/schema'
+import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
 export default abstract class extends Command {
@@ -29,7 +29,7 @@ export default abstract class extends Command {
     return this._tenant_id || ''
   }
 
-  protected async configureEventsClient(app: string, config: Config): Promise<void> {
+  protected async configureEventsClient(app: string): Promise<void> {
     if (this._events)
       return
 
@@ -67,7 +67,7 @@ export default abstract class extends Command {
     client.defaults.headers = {
       ...this.heroku.defaults.headers,
       accept: 'application/json',
-      'user-agent': `heroku-cli-plugin-events/${config.version} ${config.platform}`,
+      'user-agent': `heroku-cli-plugin-events/${this.config.version} ${this.config.platform}`,
     }
     const matchedTenantId = baseUrl.pathname.match(/tenants\/([^/]+)/)
     this._tenant_id = matchedTenantId ? matchedTenantId[1] : ''

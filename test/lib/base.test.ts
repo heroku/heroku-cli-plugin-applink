@@ -3,12 +3,12 @@ import {CLIError} from '@oclif/core/lib/errors'
 import {expect} from '@oclif/test'
 import netrc from 'netrc-parser'
 import nock from 'nock'
-import stripAnsi from 'strip-ansi'
 import heredoc from 'tsheredoc'
 import {stderr, stdout} from 'stdout-stderr'
 import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
 import * as Events from '../../src/lib/events/types'
+import stripAnsi from '../helpers/strip-ansi'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
@@ -24,8 +24,14 @@ class CommandWithConfiguration extends BaseCommand {
   async run() {
     const {flags} = await this.parse(CommandWithConfiguration)
     const {app} = flags
-    await this.configureEventsClient(app, this.config)
+    await this.configureEventsClient(app)
     this.events.get<Array<Events.Authorization>>(`/v1/tenants/${this.tenant_id}/authorizations`)
+  }
+}
+
+netrc.loadSync = function (this: typeof netrc) {
+  netrc.machines = {
+    'api.heroku.com': {password: 'mypass'},
   }
 }
 
@@ -37,14 +43,8 @@ describe('attempt a request using the Events API client', function () {
     name: 'herokuevents-horizontal-01234',
     addon_service: {
       id: '01234567-89ab-cdef-0123-456789abcdef',
-      name: 'herokuevents'
-    }
-  }
-
-  netrc.loadSync = function (this: typeof netrc) {
-    netrc.machines = {
-      'api.heroku.com': {password: 'mypass'},
-    }
+      name: 'herokuevents',
+    },
   }
 
   beforeEach(function () {
@@ -65,7 +65,7 @@ describe('attempt a request using the Events API client', function () {
       try {
         await runCommand(CommandWithoutConfiguration, [
           '--app',
-          'my-app'
+          'my-app',
         ])
       } catch (error) {
         const {message, oclif} = error as CLIError
@@ -93,12 +93,12 @@ describe('attempt a request using the Events API client', function () {
       try {
         await runCommand(CommandWithConfiguration, [
           '--app',
-          'my-app'
+          'my-app',
         ])
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          Heroku Events add-on isn’t present on ⬢ my-app.
+          Heroku Events add-on isn’t present on my-app.
           Install the add-on using heroku addons:create herokuevents -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -121,12 +121,12 @@ describe('attempt a request using the Events API client', function () {
       try {
         await runCommand(CommandWithConfiguration, [
           '--app',
-          'my-app'
+          'my-app',
         ])
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          Heroku Events add-on isn’t fully provisioned on ⬢ my-app.
+          Heroku Events add-on isn’t fully provisioned on my-app.
           Wait for the add-on to finish provisioning with heroku addons:wait herokuevents -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -143,7 +143,7 @@ describe('attempt a request using the Events API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKUEVENTS_API_URL: 'https://events-api.heroku.com/v1/tenants/01234567-89ab-cdef-0123-456789abcdef'
+          HEROKUEVENTS_API_URL: 'https://events-api.heroku.com/v1/tenants/01234567-89ab-cdef-0123-456789abcdef',
         })
       eventsApi
         .get('/v1/tenants/01234567-89ab-cdef-0123-456789abcdef/authorizations')
@@ -153,7 +153,7 @@ describe('attempt a request using the Events API client', function () {
     it('makes the request', async function () {
       await runCommand(CommandWithConfiguration, [
         '--app',
-        'my-app'
+        'my-app',
       ])
 
       expect(stderr.output).to.equal('')
@@ -164,7 +164,7 @@ describe('attempt a request using the Events API client', function () {
   context('when HEROKU_EVENTS_ADDON is set', function () {
     beforeEach(async function () {
       process.env = {
-        HEROKU_EVENTS_ADDON: 'herokuevents-qa'
+        HEROKU_EVENTS_ADDON: 'herokuevents-qa',
       }
       addon.addon_service.name = 'herokuevents-qa'
 
@@ -173,7 +173,7 @@ describe('attempt a request using the Events API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKUEVENTS_QA_API_URL: 'https://events-api.heroku.com/v1/tenants/01234567-89ab-cdef-0123-456789abcdef'
+          HEROKUEVENTS_QA_API_URL: 'https://events-api.heroku.com/v1/tenants/01234567-89ab-cdef-0123-456789abcdef',
         })
       eventsApi
         .get('/v1/tenants/01234567-89ab-cdef-0123-456789abcdef/authorizations')
@@ -183,7 +183,7 @@ describe('attempt a request using the Events API client', function () {
     it('respects the value of HEROKU_EVENTS_ADDON', async function () {
       await runCommand(CommandWithConfiguration, [
         '--app',
-        'my-app'
+        'my-app',
       ])
 
       expect(stderr.output).to.equal('')
