@@ -1,0 +1,28 @@
+{
+  "extends": [
+    "oclif",
+    "oclif-typescript"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "camelcase": "off",
+    "comma-dangle": "off",
+    "import/namespace": "off",
+    "import/no-named-as-default-member": "off",
+    "indent": ["error", 2, {"ObjectExpression": "off"}],
+    "perfectionist/sort-imports": "off",
+    "perfectionist/sort-named-imports": "off",
+    "perfectionist/sort-objects": "off",
+    "prefer-arrow-callback": "off",
+    "unicorn/catch-error-name": "off",
+    "unicorn/prefer-module": "off"
+  }
+}

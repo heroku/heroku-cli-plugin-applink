@@ -1,0 +1,92 @@
+{
+  "name": "@heroku-cli/plugin-events",
+  "description": "Heroku CLI plugin for Heroku Events add-on",
+  "version": "0.0.1",
+  "author": "Heroku",
+  "bugs": "https://github.com/heroku/heroku-cli-plugin-events/issues",
+  "dependencies": {
+    "@heroku-cli/color": "^2",
+    "@heroku-cli/command": "^11",
+    "@heroku-cli/schema": "^1",
+    "@oclif/core": "^2",
+    "tsheredoc": "^1"
+  },
+  "devDependencies": {
+    "@oclif/plugin-help": "^6",
+    "@oclif/test": "^2.3.28",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
+    "@types/mocha": "^10",
+    "@types/nock": "^10",
+    "@types/node": "^16",
+    "chai": "^4",
+    "eslint": "^8",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "http-call": "^5",
+    "mocha": "^10",
+    "netrc-parser": "^3",
+    "nock": "^10",
+    "nyc": "^15",
+    "oclif": "^4",
+    "stdout-stderr": "^0",
+    "strip-ansi": "^6",
+    "ts-node": "^10",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=16.20.0"
+  },
+  "files": [
+    "/dist"
+  ],
+  "homepage": "https://github.com/heroku/heroku-cli-plugin-events",
+  "keywords": [
+    "heroku-plugin",
+    "oclif"
+  ],
+  "license": "ISC",
+  "oclif": {
+    "bin": "heroku",
+    "commands": "./dist/commands",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ],
+    "topics": {
+      "events": {
+        "description": "manage Heroku Events authorizations, subscriptions and publications"
+      },
+      "events:authorizations": {
+        "description": "manage Heroku Events authorizations"
+      },
+      "events:authorizations:sfdc": {
+        "description": "create Salesforce Platform authorizations"
+      },
+      "events:publications": {
+        "description": "manage Heroku Events publications"
+      },
+      "events:publications:datacloud": {
+        "description": "create Datacloud publications"
+      },
+      "events:publications:sfdc": {
+        "description": "create Salesforce Platform publications"
+      },
+      "events:publications:webhooks": {
+        "description": "create webhook publications"
+      },
+      "events:subscriptions": {
+        "description": "manage Heroku Events subscriptions"
+      },
+      "events:subscriptions:sfdc": {
+        "description": "create Salesforce Platform subscriptions"
+      }
+    }
+  },
+  "repository": "heroku/heroku-cli-plugin-events",
+  "scripts": {
+    "build": "rm -rf dist && tsc -b && oclif manifest && oclif readme && mv oclif.manifest.json ./dist/oclif.manifest.json && cp README.md ./dist/README.md && node scripts/prepack.mjs",
+    "lint": "eslint . --ext .ts",
+    "posttest": "yarn lint",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif readme && git add README.md"
+  }
+}
