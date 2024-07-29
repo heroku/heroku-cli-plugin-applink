@@ -35,7 +35,7 @@ netrc.loadSync = function (this: typeof netrc) {
   }
 }
 
-describe('attempt a request using the Events API client', function () {
+describe('Heroku Events API client', function () {
   const {env} = process
   let api: nock.Scope
   let eventsApi: nock.Scope

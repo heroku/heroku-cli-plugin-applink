@@ -9,6 +9,7 @@ import stripAnsi from '../../../helpers/strip-ansi'
 describe('events:authorizations', function () {
   let api: nock.Scope
   let eventsApi: nock.Scope
+  const {env} = process
   const addon = {
     name: 'herokuevents-horizontal-01234',
     addon_service: {
@@ -18,6 +19,7 @@ describe('events:authorizations', function () {
   }
 
   beforeEach(function () {
+    process.env = {}
     api = nock('https://api.heroku.com')
       .get('/apps/my-app/addons')
       .reply(200, [addon])
@@ -29,6 +31,7 @@ describe('events:authorizations', function () {
   })
 
   afterEach(function () {
+    process.env = env
     api.done()
     eventsApi.done()
     nock.cleanAll()

@@ -1,4 +1,4 @@
-import {Command} from '@heroku-cli/command'
+import Command from '../src/lib/base'
 import {Config} from '@oclif/core'
 import {stdout, stderr} from 'stdout-stderr'
 
