@@ -1,6 +1,6 @@
 import {flags} from '@heroku-cli/command'
 import {CLIError} from '@oclif/core/lib/errors'
-import {expect} from '@oclif/test'
+import {expect} from 'chai'
 import netrc from 'netrc-parser'
 import nock from 'nock'
 import heredoc from 'tsheredoc'

@@ -27,6 +27,7 @@ USAGE
 <!-- commands -->
 * [`heroku events:authorizations`](#heroku-eventsauthorizations)
 * [`heroku events:authorizations:info AUTH_ID`](#heroku-eventsauthorizationsinfo-auth_id)
+* [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
 
 ## `heroku events:authorizations`
 
@@ -66,4 +67,26 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/info.ts)_
+
+## `heroku events:authorizations:sfdc:create ORG_NAME`
+
+creates a Salesforce Platform authorization for Heroku Events
+
+```
+USAGE
+  $ heroku events:authorizations:sfdc:create [ORG_NAME] -a <value> [--browser <value>] [-r <value>]
+
+ARGUMENTS
+  ORG_NAME  Salesforce Org instance name
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+  --browser=<value>     browser to open OAuth flow with (example: "firefox", "safari")
+
+DESCRIPTION
+  creates a Salesforce Platform authorization for Heroku Events
+```
+
+_See code: [dist/commands/events/authorizations/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/sfdc/create.ts)_
 <!-- commandsstop -->
