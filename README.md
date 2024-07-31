@@ -26,6 +26,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`heroku events:authorizations`](#heroku-eventsauthorizations)
+* [`heroku heroku events:authorizations:destroy AUTH_ID -a <value> [-c <value>]`](#heroku-heroku-eventsauthorizationsdestroy-auth_id--a-value--c-value)
 * [`heroku events:authorizations:info AUTH_ID`](#heroku-eventsauthorizationsinfo-auth_id)
 * [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
 * [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
@@ -50,6 +51,28 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/index.ts)_
+
+## `heroku heroku events:authorizations:destroy AUTH_ID -a <value> [-c <value>]`
+
+destroys a Heroku Events authorization
+
+```
+USAGE
+  $ heroku heroku events:authorizations:destroy AUTH_ID -a <value> [-c <value>]
+
+ARGUMENTS
+  AUTH_ID  Heroku Events authorization id
+
+FLAGS
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>
+  -r, --remote=<value>   git remote of app to use
+
+DESCRIPTION
+  destroys a Heroku Events authorization
+```
+
+_See code: [dist/commands/events/authorizations/destroy.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/destroy.ts)_
 
 ## `heroku events:authorizations:info AUTH_ID`
 

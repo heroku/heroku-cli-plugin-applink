@@ -14,6 +14,7 @@
     "tsheredoc": "^1"
   },
   "devDependencies": {
+    "@oclif/test": "^2.3.28",
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/node": "^16",
