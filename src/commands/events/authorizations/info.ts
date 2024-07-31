@@ -2,6 +2,7 @@ import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
 import * as Events from '../../../lib/events/types'
 import {Args, ux} from '@oclif/core'
+import {humanizeKeys} from '../../../lib/helpers'
 
 export default class Info extends Command {
   static description = 'shows info for a Heroku Events authorization'
@@ -28,19 +29,6 @@ export default class Info extends Command {
     ux.styledObject({
       Id: authorization.id,
       Platform: authorization.platform,
-      ...this.humanizeKeys(authorization.params)})
-  }
-
-  private humanizeKeys(params: Events.Authorization['params']): {[key: string]: string | null} {
-    return Object.fromEntries(Object.entries(params).map(
-      ([key, value]) => [this.toTitleCase(key.replace('_', ' ')), value]
-    ))
-  }
-
-  private toTitleCase = (str: string): string => {
-    return str.replace(
-      /\w\S*/g,
-      text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
-    )
+      ...humanizeKeys(authorization.params)})
   }
 }

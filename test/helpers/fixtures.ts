@@ -37,6 +37,7 @@ export const subscription: Events.Subscription = {
   targets: [
     {
       id: '8ecd4d31-191f-4c40-9fa7-0a3c5ab28142',
+      filter: null,
       name: 'hempSystemStatusFakeOrg',
       params: {
         event: '/event/Hemp_System_Status__e',
@@ -46,10 +47,51 @@ export const subscription: Events.Subscription = {
     },
     {
       id: 'f39974c4-cd1f-4c5c-81f3-2ae56eec0657',
+      filter: null,
       name: 'hempSystemStatusNotAnOrg',
       params: {
         event: '/event/Hemp_System_Status__e',
         org_name: 'not-a-sfdc-org',
+      },
+      platform: 'salesforce',
+    },
+  ],
+}
+
+export const publication1: Events.Publication = {
+  id: '8ecd4d31-191f-4c40-9fa7-0a3c5ab28142',
+  name: 'hempSystemStatusFakeOrg',
+  params: {event: '/event/Hemp_System_Status__e', org_name: 'fake-sfdc-org'},
+  platform: 'salesforce',
+  sources: [
+    {
+      id: '87756ff1-be2f-4dcd-980a-fba82c0e04b0',
+      filter: null,
+      name: 'herokuEventsSystemStatus',
+      params: {
+        interval: '1m',
+        mapping: 'root = {"status": "up", "created_at": timestamp_unix_milli()}',
+      },
+      platform: 'generate',
+    },
+  ],
+}
+
+export const publication2: Events.Publication = {
+  id: 'beabd9f6-cf0a-4469-a956-de4d2e4ffda0',
+  name: 'fakeOrgAccountCreated',
+  params: {
+    url: 'https://suscipit-laudantium-ratione-23cc2b95ee13/api/webhooks/fake-sfdc-org',
+  },
+  platform: 'webhook',
+  sources: [
+    {
+      id: '5d25c8a0-28b1-44fc-b6c0-e91fa018a42f',
+      filter: 'root = if ChangeEventHeader.ChangeType != "CREATE" { deleted() }',
+      name: 'fakeOrgAccountChange',
+      params: {
+        event: '/data/AccountChange',
+        org_name: 'fake-sfdc-org',
       },
       platform: 'salesforce',
     },

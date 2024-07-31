@@ -61,10 +61,10 @@ describe('events:authorizations', function () {
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
         === Heroku Events authorizations for app my-app
 
-         ID                                   Platform   Details 
-         ──────────────────────────────────── ────────── ─────── 
-         01234567-89ab-cdef-0123-456789abcdef salesforce TBD     
-         456789ab-cdef-0123-4567-89abcdef0123 salesforce TBD     
+         ID                                   Platform   Details                                                               
+         ──────────────────────────────────── ────────── ───────────────────────────────────────────────────────────────────── 
+         01234567-89ab-cdef-0123-456789abcdef salesforce Org Name: example-org, Url: https://example-org.my.salesforce.com     
+         456789ab-cdef-0123-4567-89abcdef0123 salesforce Org Name: fake-sfdc-org, Url: https://fake-sfdc-org.my.salesforce.com 
       `)
       expect(stderr.output).to.equal('')
     })

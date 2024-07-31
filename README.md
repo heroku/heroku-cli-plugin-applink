@@ -29,6 +29,7 @@ USAGE
 * [`heroku events:authorizations:info AUTH_ID`](#heroku-eventsauthorizationsinfo-auth_id)
 * [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
 * [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
+* [`heroku events:publications`](#heroku-eventspublications)
 
 ## `heroku events:authorizations`
 
@@ -120,4 +121,23 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/generate.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/generate.ts)_
+
+## `heroku events:publications`
+
+lists Heroku Events publications
+
+```
+USAGE
+  $ heroku events:publications -a <value> [-j] [-r <value>]
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -j, --json            output in json format
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  lists Heroku Events publications
+```
+
+_See code: [dist/commands/events/publications/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/index.ts)_
 <!-- commandsstop -->

@@ -6,29 +6,30 @@ import {ux} from '@oclif/core'
 import {humanizeKeys} from '../../../lib/helpers'
 
 export default class Index extends Command {
-  static description = 'lists Heroku Events authorizations'
+  static description = 'lists Heroku Events publications'
 
   static flags = {
     app: flags.app({required: true}),
+    json: flags.boolean({char: 'j', description: 'output in json format'}),
     remote: flags.remote(),
   }
 
   public async run(): Promise<void> {
     const {flags} = await this.parse(Index)
-    const {app} = flags
+    const {app, json} = flags
 
     await this.configureEventsClient(app)
-    const {body: authorizations} = await this.events.get<Events.Authorization[]>(`/v1/tenants/${this.tenant_id}/authorizations`)
+    const {body: publications} = await this.events.get<Events.Publication[]>(`/v1/tenants/${this.tenant_id}/publications`)
 
-    if (authorizations.length === 0) {
-      ux.log(`No Heroku Events authorizations for app ${color.app(app)}.`)
+    if (publications.length === 0) {
+      ux.log(`No Heroku Events publications for app ${color.app(app)}.`)
+    } else if (json) {
+      ux.styledJSON(publications)
     } else {
-      ux.styledHeader(`Heroku Events authorizations for app ${color.app(app)}`)
+      ux.styledHeader(`Heroku Events publications for app ${color.app(app)}`)
 
-      ux.table(authorizations, {
-        id: {
-          header: 'ID',
-        },
+      ux.table(publications, {
+        name: {},
         platform: {},
         details: {
           get(row): string {

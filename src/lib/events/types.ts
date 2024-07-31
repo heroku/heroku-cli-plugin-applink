@@ -68,7 +68,7 @@ export type Subscription = {
   /** event source platform */
   readonly platform: 'generate' | 'salesforce'
   /** array of publications linked to this subscription */
-  readonly targets: Array<Omit<Publication, 'sources'>>
+  readonly targets: Array<Omit<Publication, 'sources'> & {filter: string | null}>
 }
 
 /**
@@ -113,5 +113,5 @@ export type Publication = {
   /** event publication platform */
   readonly platform: 'datacloud' | 'salesforce' | 'webhook'
   /** array of subscriptions linked to this publication */
-  readonly sources: Array<Omit<Subscription, 'targets'>>
+  readonly sources: Array<Omit<Subscription, 'targets'> & {filter: string | null}>
 }
