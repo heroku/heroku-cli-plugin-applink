@@ -30,6 +30,7 @@ USAGE
 * [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
 * [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
 * [`heroku events:publications`](#heroku-eventspublications)
+* [`heroku events:publications:datacloud:create NAME`](#heroku-eventspublicationsdatacloudcreate-name)
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 
 ## `heroku events:authorizations`
@@ -141,6 +142,38 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/publications/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/index.ts)_
+
+## `heroku events:publications:datacloud:create NAME`
+
+creates a Datacloud publication
+
+```
+USAGE
+  $ heroku events:publications:datacloud:create [NAME] -a <value> -c <value> --object <value> -o <value> [-f <value> -s <value>] [-r
+    <value>]
+
+ARGUMENTS
+  NAME  name to assign to the publication created
+
+FLAGS
+  -a, --app=<value>        (required) app to run command against
+  -c, --connector=<value>  (required) ingest API Data Connector name
+  -f, --filter=<value>     filter to apply when linking to source
+  -o, --org-name=<value>   (required) authorized Salesforce Org instance name
+  -r, --remote=<value>     git remote of app to use
+  -s, --source=<value>     existing subscription name or id to link to
+  --object=<value>         (required) object to publish to
+
+DESCRIPTION
+  creates a Datacloud publication
+
+EXAMPLES
+  # Create a Datacloud target ingesting …
+
+    $ heroku events:publications:datacloud:create ordersDataTarget -c "SalesConnector" --object "Orders" -o "my-org"
+```
+
+_See code: [dist/commands/events/publications/datacloud/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/datacloud/create.ts)_
 
 ## `heroku events:publications:info PUB_NAME_OR_ID`
 

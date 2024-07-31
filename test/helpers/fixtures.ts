@@ -97,3 +97,26 @@ export const publication2: Events.Publication = {
     },
   ],
 }
+
+export const publication3: Events.Publication = {
+  id: 'c0a43940-156e-4a75-a613-93e883f0eb5a',
+  name: 'highPriorityOrders',
+  params: {
+    connector: 'salesConnector',
+    object: 'HighPriorityOrder',
+    org_name: 'fake-sfdc-org',
+  },
+  platform: 'datacloud',
+  sources: [
+    {
+      id: '2eaf6ea4-3964-49ea-bba7-662b52981ee1',
+      filter: 'root = if Order.TotalValue >= 100_000 { this } else { deleted() }',
+      name: 'fakeOrgOrderCreated',
+      params: {
+        event: '/event/Order_Created__e',
+        org_name: 'fake-sfdc-org',
+      },
+      platform: 'salesforce',
+    },
+  ],
+}
