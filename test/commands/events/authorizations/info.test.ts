@@ -5,27 +5,12 @@ import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
 import Cmd from '../../../../src/commands/events/authorizations/info'
 import stripAnsi from '../../../helpers/strip-ansi'
+import {addon, authorization2} from '../../../helpers/fixtures'
 
 describe('events:authorizations:info', function () {
   let api: nock.Scope
   let eventsApi: nock.Scope
   const {env} = process
-  const addon = {
-    name: 'herokuevents-horizontal-01234',
-    addon_service: {
-      id: '01234567-89ab-cdef-0123-456789abcdef',
-      name: 'herokuevents',
-    },
-  }
-  const authorization = {
-    extra: null,
-    id: '456789ab-cdef-0123-4567-89abcdef0123',
-    params: {
-      org_name: 'fake-sfdc-org',
-      url: 'https://fake-sfdc-org.my.salesforce.com',
-    },
-    platform: 'salesforce',
-  }
 
   beforeEach(function () {
     process.env = {}
@@ -49,7 +34,7 @@ describe('events:authorizations:info', function () {
   it('shows info for the authorization', async function () {
     eventsApi
       .get('/v1/tenants/01234567-89ab-cdef-0123-456789abcdef/authorizations/456789ab-cdef-0123-4567-89abcdef0123')
-      .reply(200, authorization)
+      .reply(200, authorization2)
 
     await runCommand(Cmd, [
       '456789ab-cdef-0123-4567-89abcdef0123',

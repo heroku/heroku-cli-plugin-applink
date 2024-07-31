@@ -5,18 +5,12 @@ import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
 import Cmd from '../../../../src/commands/events/authorizations/index'
 import stripAnsi from '../../../helpers/strip-ansi'
+import {addon, authorization1, authorization2} from '../../../helpers/fixtures'
 
 describe('events:authorizations', function () {
   let api: nock.Scope
   let eventsApi: nock.Scope
   const {env} = process
-  const addon = {
-    name: 'herokuevents-horizontal-01234',
-    addon_service: {
-      id: '01234567-89ab-cdef-0123-456789abcdef',
-      name: 'herokuevents',
-    },
-  }
 
   beforeEach(function () {
     process.env = {}
@@ -57,24 +51,7 @@ describe('events:authorizations', function () {
     it('shows the authorizations', async function () {
       eventsApi
         .get('/v1/tenants/01234567-89ab-cdef-0123-456789abcdef/authorizations')
-        .reply(200, [
-          {
-            id: '01234567-89ab-cdef-0123-456789abcdef',
-            params: {
-              org_name: 'example-org',
-              url: 'https://example-org.my.salesforce.com',
-            },
-            platform: 'salesforce',
-          },
-          {
-            id: '12345678-9abc-def0-1234-56789abcdef0',
-            params: {
-              org_name: 'another-org',
-              url: 'https://another-org.my.salesforce.com',
-            },
-            platform: 'salesforce',
-          },
-        ])
+        .reply(200, [authorization1, authorization2])
 
       await runCommand(Cmd, [
         '--app',
@@ -87,7 +64,7 @@ describe('events:authorizations', function () {
          ID                                   Platform   Details 
          ──────────────────────────────────── ────────── ─────── 
          01234567-89ab-cdef-0123-456789abcdef salesforce TBD     
-         12345678-9abc-def0-1234-56789abcdef0 salesforce TBD     
+         456789ab-cdef-0123-4567-89abcdef0123 salesforce TBD     
       `)
       expect(stderr.output).to.equal('')
     })

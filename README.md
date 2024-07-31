@@ -28,6 +28,7 @@ USAGE
 * [`heroku events:authorizations`](#heroku-eventsauthorizations)
 * [`heroku events:authorizations:info AUTH_ID`](#heroku-eventsauthorizationsinfo-auth_id)
 * [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
+* [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
 
 ## `heroku events:authorizations`
 
@@ -89,4 +90,34 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/authorizations/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/authorizations/sfdc/create.ts)_
+
+## `heroku events:generate NAME`
+
+creates an event generator
+
+```
+USAGE
+  $ heroku events:generate [NAME] -a <value> -i <value> -m <value> [-f <value> -t <value>] [-r <value>]
+
+ARGUMENTS
+  NAME  name to assign to the event generator
+
+FLAGS
+  -a, --app=<value>       (required) app to run command against
+  -f, --filter=<value>    filter to apply when linking to target
+  -i, --interval=<value>  (required) how often to trigger the event
+  -m, --mapping=<value>   (required) the payload to be generated
+  -r, --remote=<value>    git remote of app to use
+  -t, --target=<value>    existing publication id or name to link to
+
+DESCRIPTION
+  creates an event generator
+
+EXAMPLES
+  # Create an event generator named "my-generator" that triggers every minute
+
+    $ heroku events:generate my-generator -i "1m" -m "root = {this}" -a my-app
+```
+
+_See code: [dist/commands/events/generate.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/generate.ts)_
 <!-- commandsstop -->
