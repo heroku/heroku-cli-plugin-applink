@@ -56,7 +56,7 @@ describe('events:authorizations:sfdc:create', function () {
     sandbox.restore()
   })
 
-  context('when the users accepts the prompt to open the browser', function () {
+  context('when the user accepts the prompt to open the browser', function () {
     beforeEach(function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
         on: (_: string, _cb: ErrorCallback) => {},
@@ -109,7 +109,7 @@ describe('events:authorizations:sfdc:create', function () {
     })
   })
 
-  context('when the users rejects the prompt to open the browser', function () {
+  context('when the user rejects the prompt to open the browser', function () {
     beforeEach(function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener')
       sandbox.stub(ux, 'anykey').onFirstCall().rejects(new Error('quit'))

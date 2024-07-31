@@ -87,7 +87,7 @@ export const publication2: Events.Publication = {
   sources: [
     {
       id: '5d25c8a0-28b1-44fc-b6c0-e91fa018a42f',
-      filter: 'root = if ChangeEventHeader.ChangeType != "CREATE" { deleted() }',
+      filter: 'root = if ChangeEventHeader.ChangeType == "CREATE" { this } else { deleted() }',
       name: 'fakeOrgAccountChange',
       params: {
         event: '/data/AccountChange',

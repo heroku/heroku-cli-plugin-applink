@@ -30,6 +30,7 @@ USAGE
 * [`heroku events:authorizations:sfdc:create ORG_NAME`](#heroku-eventsauthorizationssfdccreate-org_name)
 * [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
 * [`heroku events:publications`](#heroku-eventspublications)
+* [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 
 ## `heroku events:authorizations`
 
@@ -140,4 +141,25 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/publications/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/index.ts)_
+
+## `heroku events:publications:info PUB_NAME_OR_ID`
+
+shows info for a Heroku Events publication
+
+```
+USAGE
+  $ heroku events:publications:info [PUB_NAME_OR_ID] -a <value> [-r <value>]
+
+ARGUMENTS
+  PUB_NAME_OR_ID  Heroku Events publication name or id
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  shows info for a Heroku Events publication
+```
+
+_See code: [dist/commands/events/publications/info.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/info.ts)_
 <!-- commandsstop -->
