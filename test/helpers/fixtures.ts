@@ -31,7 +31,8 @@ export const subscription: Events.Subscription = {
   id: '87756ff1-be2f-4dcd-980a-fba82c0e04b0',
   name: 'herokuEventsSystemStatus',
   params: {
-    interval: '1m', mapping: 'root = {"status": "up\', "created_at": timestamp_unix_milli()}',
+    interval: '1m',
+    mapping: 'root = {"status": "up", "created_at": timestamp_unix_milli()}',
   },
   platform: 'generate',
   targets: [
@@ -54,6 +55,27 @@ export const subscription: Events.Subscription = {
         org_name: 'not-a-sfdc-org',
       },
       platform: 'salesforce',
+    },
+  ],
+}
+
+export const subscription2: Events.Subscription = {
+  id: '5d25c8a0-28b1-44fc-b6c0-e91fa018a42f',
+  name: 'fakeOrgAccountChange',
+  params: {
+    event: '/data/AccountChange',
+    org_name: 'fake-sfdc-org',
+  },
+  platform: 'salesforce',
+  targets: [
+    {
+      id: 'beabd9f6-cf0a-4469-a956-de4d2e4ffda0',
+      filter: 'root = if ChangeEventHeader.ChangeType == "CREATE" { this } else { deleted() }',
+      name: 'fakeOrgAccountCreated',
+      params: {
+        url: 'https://suscipit-laudantium-ratione-23cc2b95ee13/api/webhooks/fake-sfdc-org',
+      },
+      platform: 'webhook',
     },
   ],
 }

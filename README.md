@@ -34,6 +34,7 @@ USAGE
 * [`heroku events:publications:datacloud:create NAME`](#heroku-eventspublicationsdatacloudcreate-name)
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
+* [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
 
 ## `heroku events:authorizations`
 
@@ -249,4 +250,25 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/publications/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/sfdc/create.ts)_
+
+## `heroku events:subscriptions:info SUB_NAME_OR_ID`
+
+shows info for a Heroku Events subscription
+
+```
+USAGE
+  $ heroku events:subscriptions:info [SUB_NAME_OR_ID] -a <value> [-r <value>]
+
+ARGUMENTS
+  SUB_NAME_OR_ID  Heroku Events subscription name or id
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  shows info for a Heroku Events subscription
+```
+
+_See code: [dist/commands/events/subscriptions/info.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/info.ts)_
 <!-- commandsstop -->
