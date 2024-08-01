@@ -34,6 +34,7 @@ USAGE
 * [`heroku events:publications:datacloud:create NAME`](#heroku-eventspublicationsdatacloudcreate-name)
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
+* [`heroku events:publications:webhook:create NAME`](#heroku-eventspublicationswebhookcreate-name)
 * [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
 
 ## `heroku events:authorizations`
@@ -250,6 +251,38 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/publications/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/sfdc/create.ts)_
+
+## `heroku events:publications:webhook:create NAME`
+
+creates a webhook publication
+
+```
+USAGE
+  $ heroku events:publications:webhook:create [NAME] -a <value> -u <value> [-f <value> -s <value>] [-r <value>] [-t
+  <value>]
+
+ARGUMENTS
+  NAME  name to assign to the publication created
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -f, --filter=<value>  filter to apply when linking to source
+  -r, --remote=<value>  git remote of app to use
+  -s, --source=<value>  existing subscription name or id to link to
+  -t, --token=<value>   access token
+  -u, --url=<value>     (required) webhook URL
+
+DESCRIPTION
+  creates a webhook publication
+
+EXAMPLES
+  # Create a Webhook URL target
+
+    $ heroku events:publications:webhook:create opportunityChanged -u "https://my-app.herokuapp.com/webhooks" -a \
+      my-app
+```
+
+_See code: [dist/commands/events/publications/webhook/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/webhook/create.ts)_
 
 ## `heroku events:subscriptions:info SUB_NAME_OR_ID`
 
