@@ -36,6 +36,7 @@ USAGE
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
 * [`heroku events:publications:webhook:create NAME`](#heroku-eventspublicationswebhookcreate-name)
+* [`heroku events:subscriptions`](#heroku-eventssubscriptions)
 * [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
 * [`heroku events:subscriptions:sfdc:create NAME`](#heroku-eventssubscriptionssfdccreate-name)
 
@@ -307,6 +308,25 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/publications/webhook/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/webhook/create.ts)_
+
+## `heroku events:subscriptions`
+
+lists Heroku Events subscriptions
+
+```
+USAGE
+  $ heroku events:subscriptions -a <value> [-j] [-r <value>]
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -j, --json            output in json format
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  lists Heroku Events subscriptions
+```
+
+_See code: [dist/commands/events/subscriptions/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/index.ts)_
 
 ## `heroku events:subscriptions:info SUB_NAME_OR_ID`
 
