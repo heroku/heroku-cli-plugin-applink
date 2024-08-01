@@ -32,6 +32,7 @@ USAGE
 * [`heroku events:generate NAME`](#heroku-eventsgenerate-name)
 * [`heroku events:publications`](#heroku-eventspublications)
 * [`heroku events:publications:datacloud:create NAME`](#heroku-eventspublicationsdatacloudcreate-name)
+* [`heroku heroku events:publications:destroy PUB_NAME_OR_ID -a <value> [-c <value>]`](#heroku-heroku-eventspublicationsdestroy-pub_name_or_id--a-value--c-value)
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
 * [`heroku events:publications:webhook:create NAME`](#heroku-eventspublicationswebhookcreate-name)
@@ -200,6 +201,28 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/publications/datacloud/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/datacloud/create.ts)_
+
+## `heroku heroku events:publications:destroy PUB_NAME_OR_ID -a <value> [-c <value>]`
+
+unlinks and destroys a Heroku Events publication
+
+```
+USAGE
+  $ heroku heroku events:publications:destroy PUB_NAME_OR_ID -a <value> [-c <value>]
+
+ARGUMENTS
+  PUB_NAME_OR_ID  Heroku Events publication name or id
+
+FLAGS
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>
+  -r, --remote=<value>   git remote of app to use
+
+DESCRIPTION
+  unlinks and destroys a Heroku Events publication
+```
+
+_See code: [dist/commands/events/publications/destroy.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/destroy.ts)_
 
 ## `heroku events:publications:info PUB_NAME_OR_ID`
 
