@@ -120,3 +120,25 @@ export const publication3: Events.Publication = {
     },
   ],
 }
+
+export const publication4: Events.Publication = {
+  id: 'f39974c4-cd1f-4c5c-81f3-2ae56eec0657',
+  name: 'hempSystemStatusNotAnOrg',
+  params: {
+    event: '/event/Hemp_System_Status__e',
+    org_name: 'not-a-sfdc-org',
+  },
+  platform: 'salesforce',
+  sources: [
+    {
+      id: '87756ff1-be2f-4dcd-980a-fba82c0e04b0',
+      filter: null,
+      name: 'herokuEventsSystemStatus',
+      params: {
+        interval: '1m',
+        mapping: 'root = {"status": "up", "created_at": timestamp_unix_milli()}',
+      },
+      platform: 'generate',
+    },
+  ],
+}

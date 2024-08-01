@@ -27,7 +27,7 @@ export default class Destroy extends Command {
     await this.configureEventsClient(app)
     await confirmCommand(app, confirm)
 
-    ux.action.start(`Destroying authorization ${color.yellow(authId)} on ⬢ ${color.app(app)}`)
+    ux.action.start(`Destroying authorization ${color.yellow(authId)} on ${color.app(app)}`)
     await this.events.delete<void>(`/v1/tenants/${this.tenant_id}/authorizations/${authId}`)
     ux.action.stop()
   }

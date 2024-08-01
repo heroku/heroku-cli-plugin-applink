@@ -33,6 +33,7 @@ USAGE
 * [`heroku events:publications`](#heroku-eventspublications)
 * [`heroku events:publications:datacloud:create NAME`](#heroku-eventspublicationsdatacloudcreate-name)
 * [`heroku events:publications:info PUB_NAME_OR_ID`](#heroku-eventspublicationsinfo-pub_name_or_id)
+* [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
 
 ## `heroku events:authorizations`
 
@@ -218,4 +219,34 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/publications/info.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/info.ts)_
+
+## `heroku events:publications:sfdc:create NAME`
+
+creates a Salesforce Platform publication
+
+```
+USAGE
+  $ heroku events:publications:sfdc:create [NAME] -a <value> -e <value> -o <value> [-f <value> -s <value>] [-r <value>]
+
+ARGUMENTS
+  NAME  name to assign to the publication created
+
+FLAGS
+  -a, --app=<value>       (required) app to run command against
+  -e, --event=<value>     (required) event to publish to
+  -f, --filter=<value>    filter to apply when linking to source
+  -o, --org-name=<value>  (required) authorized Salesforce Org instance name
+  -r, --remote=<value>    git remote of app to use
+  -s, --source=<value>    existing subscription name or id to link to
+
+DESCRIPTION
+  creates a Salesforce Platform publication
+
+EXAMPLES
+  # Create a Salesfore Platform event target that receives …
+
+    $ heroku events:publications:sfdc:create systemStatus -e "/event/System_Status__e" -o my-org
+```
+
+_See code: [dist/commands/events/publications/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/publications/sfdc/create.ts)_
 <!-- commandsstop -->
