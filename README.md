@@ -37,6 +37,7 @@ USAGE
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
 * [`heroku events:publications:webhook:create NAME`](#heroku-eventspublicationswebhookcreate-name)
 * [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
+* [`heroku events:subscriptions:sfdc:create NAME`](#heroku-eventssubscriptionssfdccreate-name)
 
 ## `heroku events:authorizations`
 
@@ -327,4 +328,34 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/subscriptions/info.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/info.ts)_
+
+## `heroku events:subscriptions:sfdc:create NAME`
+
+creates a Salesforce Platform subscription
+
+```
+USAGE
+  $ heroku events:subscriptions:sfdc:create [NAME] -a <value> -e <value> -o <value> [-f <value> -t <value>] [-r <value>]
+
+ARGUMENTS
+  NAME  name to assign to the subscription created
+
+FLAGS
+  -a, --app=<value>       (required) app to run command against
+  -e, --event=<value>     (required) event to publish to
+  -f, --filter=<value>    filter to apply when linking to source
+  -o, --org-name=<value>  (required) authorized Salesforce Org instance name
+  -r, --remote=<value>    git remote of app to use
+  -t, --target=<value>    existing publication name or id to link to
+
+DESCRIPTION
+  creates a Salesforce Platform subscription
+
+EXAMPLES
+  # Create a Salesfore Platform subscription for Account Change events from 'my-org'.
+
+    $ heroku events:subscriptions:sfdc:create accountChange -e "/data/AccountChange" -o my-org
+```
+
+_See code: [dist/commands/events/subscriptions/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/sfdc/create.ts)_
 <!-- commandsstop -->

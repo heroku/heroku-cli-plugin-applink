@@ -6,23 +6,19 @@ import Command from '../../../../lib/base'
 import * as Events from '../../../../lib/events/types'
 
 export default class Create extends Command {
-  static description = 'creates a Datacloud publication'
+  static description = 'creates a Salesforce Platform subscription'
 
   static flags = {
     app: flags.app({required: true}),
-    connector: flags.string({
-      char: 'c',
-      description: 'ingest API Data Connector name',
+    event: flags.string({
+      char: 'e',
+      description: 'event to publish to',
       required: true,
     }),
     filter: flags.string({
       char: 'f',
       description: 'filter to apply when linking to source',
-      dependsOn: ['source'],
-    }),
-    object: flags.string({
-      description: 'object to publish to',
-      required: true,
+      dependsOn: ['target'],
     }),
     'org-name': flags.string({
       char: 'o',
@@ -30,42 +26,41 @@ export default class Create extends Command {
       required: true,
     }),
     remote: flags.remote(),
-    source: flags.string({
-      char: 's',
-      description: 'existing subscription name or id to link to',
+    target: flags.string({
+      char: 't',
+      description: 'existing publication name or id to link to',
     }),
   }
 
   static args = {
-    name: Args.string({description: 'name to assign to the publication created', required: true}),
+    name: Args.string({description: 'name to assign to the subscription created', required: true}),
   }
 
   static examples = [
     // TODO: add real examples here
     heredoc`
-      # Create a Datacloud target ingesting …
-      $ heroku events:publications:datacloud:create ordersDataTarget -c "SalesConnector" --object "Orders" -o "my-org"
+      # Create a Salesfore Platform subscription for Account Change events from 'my-org'.
+      $ heroku events:subscriptions:sfdc:create accountChange -e "/data/AccountChange" -o my-org
     `,
   ]
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Create)
-    const {app, connector, filter, object, 'org-name': orgName, source} = flags
+    const {app, event, filter, 'org-name': orgName, target} = flags
     const {name} = args
 
     await this.configureEventsClient(app)
 
-    ux.action.start(`Creating publication ${color.yellow(name)}`)
-    await this.events.post<Events.Publication>(
-      `/v1/tenants/${this.tenant_id}/platforms/datacloud/publications`,
+    ux.action.start(`Creating subscription ${color.yellow(name)}`)
+    await this.events.post<Events.Subscription>(
+      `/v1/tenants/${this.tenant_id}/platforms/salesforce/subscriptions`,
       {
         body: {
-          connector: connector,
+          event: event,
           filter: filter,
           name: name,
-          object: object,
           org_name: orgName,
-          source: source,
+          target: target,
         },
       }
     )

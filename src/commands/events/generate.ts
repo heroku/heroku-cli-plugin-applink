@@ -56,7 +56,7 @@ export default class Generate extends Command {
       `/v1/tenants/${this.tenant_id}/platforms/generate/subscriptions`,
       {
         body: {
-          filter: filter || null,
+          filter: filter,
           interval: interval,
           mapping: mapping,
           name: name,
