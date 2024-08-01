@@ -32,7 +32,7 @@ export const subscription: Events.Subscription = {
   name: 'herokuEventsSystemStatus',
   params: {
     interval: '1m',
-    mapping: 'root = {"status": "up", "created_at": timestamp_unix_milli()}',
+    mapping: 'root = {"status": "up", "created_at": timestamp()}',
   },
   platform: 'generate',
   targets: [

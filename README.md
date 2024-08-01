@@ -37,6 +37,7 @@ USAGE
 * [`heroku events:publications:sfdc:create NAME`](#heroku-eventspublicationssfdccreate-name)
 * [`heroku events:publications:webhook:create NAME`](#heroku-eventspublicationswebhookcreate-name)
 * [`heroku events:subscriptions`](#heroku-eventssubscriptions)
+* [`heroku heroku events:subscriptions:destroy SUB_NAME_OR_ID -a <value> [-c <value>]`](#heroku-heroku-eventssubscriptionsdestroy-sub_name_or_id--a-value--c-value)
 * [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
 * [`heroku events:subscriptions:sfdc:create NAME`](#heroku-eventssubscriptionssfdccreate-name)
 
@@ -327,6 +328,28 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/events/subscriptions/index.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/index.ts)_
+
+## `heroku heroku events:subscriptions:destroy SUB_NAME_OR_ID -a <value> [-c <value>]`
+
+unlinks and destroys a Heroku Events subscription
+
+```
+USAGE
+  $ heroku heroku events:subscriptions:destroy SUB_NAME_OR_ID -a <value> [-c <value>]
+
+ARGUMENTS
+  SUB_NAME_OR_ID  Heroku Events subscription name or id
+
+FLAGS
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>
+  -r, --remote=<value>   git remote of app to use
+
+DESCRIPTION
+  unlinks and destroys a Heroku Events subscription
+```
+
+_See code: [dist/commands/events/subscriptions/destroy.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/destroy.ts)_
 
 ## `heroku events:subscriptions:info SUB_NAME_OR_ID`
 

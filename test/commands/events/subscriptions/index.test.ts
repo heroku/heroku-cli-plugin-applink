@@ -59,11 +59,11 @@ describe('events:subscriptions', function () {
       ])
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
         === Heroku Events subscriptions for app my-app
-        
-         Name                     Platform   Details                                                                              
-         ──────────────────────── ────────── ──────────────────────────────────────────────────────────────────────────────────── 
-         herokuEventsSystemStatus generate   Interval: 1m, Mapping: root = {"status": "up", "created_at": timestamp_unix_milli()} 
-         fakeOrgAccountChange     salesforce Event: /data/AccountChange, Org Name: fake-sfdc-org                                  
+
+         Name                     Platform   Details                                                                   
+         ──────────────────────── ────────── ───────────────────────────────────────────────────────────────────────── 
+         herokuEventsSystemStatus generate   Interval: 1m, Mapping: root = {"status": "up", "created_at": timestamp()} 
+         fakeOrgAccountChange     salesforce Event: /data/AccountChange, Org Name: fake-sfdc-org                       
        `)
       expect(stderr.output).to.equal('')
     })
