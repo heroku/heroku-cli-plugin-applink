@@ -40,6 +40,7 @@ USAGE
 * [`heroku heroku events:subscriptions:destroy SUB_NAME_OR_ID -a <value> [-c <value>]`](#heroku-heroku-eventssubscriptionsdestroy-sub_name_or_id--a-value--c-value)
 * [`heroku events:subscriptions:info SUB_NAME_OR_ID`](#heroku-eventssubscriptionsinfo-sub_name_or_id)
 * [`heroku events:subscriptions:sfdc:create NAME`](#heroku-eventssubscriptionssfdccreate-name)
+* [`heroku events:unlink SOURCE TARGET`](#heroku-eventsunlink-source-target)
 
 ## `heroku events:authorizations`
 
@@ -401,4 +402,29 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/events/subscriptions/sfdc/create.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/subscriptions/sfdc/create.ts)_
+
+## `heroku events:unlink SOURCE TARGET`
+
+unlinks a publication from a subscription
+
+```
+USAGE
+  $ heroku events:unlink [SOURCE] [TARGET] -a <value> [-r <value>]
+
+ARGUMENTS
+  SOURCE  name or id of an existing subscription
+  TARGET  name or id of an existing publication
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  unlinks a publication from a subscription
+
+EXAMPLES
+  $ heroku events:unlink subAccountChange pubAccountChange -a my-app
+```
+
+_See code: [dist/commands/events/unlink.ts](https://github.com/heroku/heroku-cli-plugin-events/blob/v0.0.1/dist/commands/events/unlink.ts)_
 <!-- commandsstop -->
