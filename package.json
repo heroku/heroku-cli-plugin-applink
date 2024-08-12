@@ -31,7 +31,7 @@
     "netrc-parser": "^3",
     "nock": "^13",
     "nyc": "^15",
-    "oclif": "2.2.0",
+    "oclif": "4.14.19",
     "sinon": "^14",
     "stdout-stderr": "^0",
     "strip-ansi": "^6",
