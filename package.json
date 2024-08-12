@@ -17,7 +17,7 @@
     "@oclif/test": "^2.3.28",
     "@types/chai": "^4",
     "@types/mocha": "^10",
-    "@types/node": "^16",
+    "@types/node": "^22",
     "@types/sinon": "^17",
     "chai": "^4",
     "eslint": "^7",
