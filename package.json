@@ -54,6 +54,12 @@
       "@oclif/plugin-help"
     ],
     "topics": {
+      "datacloud": {
+        "description": "manage Heroku app connections to a Datacloud Org"
+      },
+      "integration": {
+        "description": "access information and generate Heroku Integration projects"
+      },
       "salesforce": {
         "description": "manage Heroku app connections to a Salesforce Org"
       }
