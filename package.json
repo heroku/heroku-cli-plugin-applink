@@ -6,10 +6,11 @@
   "bugs": "https://github.com/heroku/heroku-cli-plugin-integration/issues",
   "dependencies": {
     "@heroku-cli/color": "^2.0.2",
-    "@heroku-cli/command": "^11.1.2",
+    "@heroku-cli/command": "^11.3",
     "@heroku-cli/schema": "^1.0.25",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
+    "open": "^8.4.2",
     "tsheredoc": "^1"
   },
   "devDependencies": {
@@ -30,6 +31,7 @@
     "nock": "^10",
     "nyc": "^15",
     "oclif": "2.2.0",
+    "sinon": "^14",
     "stdout-stderr": "^0",
     "strip-ansi": "^6",
     "ts-node": "^10",
