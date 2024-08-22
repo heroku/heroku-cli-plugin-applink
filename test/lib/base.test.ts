@@ -13,7 +13,7 @@ import {addon} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
-    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addon_id}/connections`)
+    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -26,7 +26,7 @@ class CommandWithConfiguration extends BaseCommand {
     const {flags} = await this.parse(CommandWithConfiguration)
     const {app} = flags
     await this.configureIntegrationClient(app)
-    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addon_id}/connections`)
+    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -134,7 +134,7 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_INTEGRATION_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
@@ -156,14 +156,14 @@ describe('attempt a request using the Integration API client', function () {
       process.env = {
         HEROKU_INTEGRATION_ADDON: 'heroku-integration-staging',
       }
-      addon.addon_service.name = 'heroku-integration-staging'
+      addon.addon_service = {...addon.addon_service, name: 'heroku-integration-staging'}
 
       api
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_INTEGRATION_STAGING_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_STAGING_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')

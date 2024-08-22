@@ -39,4 +39,3 @@ export const runCommand = async (Cmd: GenericCmd, args: string[] = [], printStd 
       throw error
     })
 }
-
