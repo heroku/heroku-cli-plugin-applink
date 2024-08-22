@@ -24,6 +24,7 @@
     "mocha/no-mocha-arrows": "warn",
     "mocha/no-exports": "warn",
     "mocha/no-setup-in-describe": "warn",
+    "no-await-in-loop": "off", // Perfect legit to use await in loops, we should leave it off
     "no-constant-condition": ["error", {"checkLoops": false }],
     "node/no-missing-import": "off",
     "unicorn/filename-case": "off",
