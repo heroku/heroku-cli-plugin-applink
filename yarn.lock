@@ -241,10 +241,10 @@
     supports-color "^7.2.0"
     tslib "^1.9.3"
 
-"@heroku-cli/command@^11.3":
-  version "11.3.0"
-  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-11.3.0.tgz#b375abc27f9a4267ca03dfad90f72780e3cc20f3"
-  integrity sha512-y4OqxwQsIok3lDr5Ypd2lnA1ODvdf4DRXW+toS2jIwDwKmR9gl/TKpJDMUMvAq6pyDMkhLUKcUiAktL+3QeHBw==
+"@heroku-cli/command@^11":
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-11.3.1.tgz#74671ee8149d31cc5beb0e7e8e369fe2dd7aeac2"
+  integrity sha512-n3+KgMmXScZDVEQu76mffzOJoQ5JyRYzzJ7uj3cNyAOK61xjaS1wEE86DBb57C1MlnjKtO7onJETBm2SMLdUIQ==
   dependencies:
     "@heroku-cli/color" "^2.0.1"
     "@oclif/core" "^2.16.0"
@@ -256,6 +256,8 @@
     netrc-parser "^3.1.6"
     open "^8.4.2"
     uuid "^8.3.0"
+    yargs-parser "^18.1.3"
+    yargs-unparser "^2.0.0"
 
 "@heroku-cli/schema@^1.0.25":
   version "1.0.25"
@@ -635,7 +637,7 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.4.tgz#56e2cc26c397c038fab0e3a917a12d5c5909e901"
   integrity sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==
 
-"@types/sinon@*":
+"@types/sinon@*", "@types/sinon@^17":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-17.0.3.tgz#9aa7e62f0a323b9ead177ed23a36ea757141a5fa"
   integrity sha512-j3uovdn8ewky9kRBG19bOwaZbexJu/XjtkHyjvUgt4xfPFz18dcORIMqnYh66Fx3Powhcr85NT5+er3+oViapw==
@@ -6617,7 +6619,7 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yargs-parser@^18.1.2:
+yargs-parser@^18.1.2, yargs-parser@^18.1.3:
   version "18.1.3"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
   integrity sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==
