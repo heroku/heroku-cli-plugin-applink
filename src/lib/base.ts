@@ -6,7 +6,7 @@ import heredoc from 'tsheredoc'
 
 export default abstract class extends Command {
   private _integration!: APIClient
-  private _addon_id!: string
+  private _addonId!: string
 
   get addonServiceSlug(): string {
     return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
@@ -25,8 +25,8 @@ export default abstract class extends Command {
     )
   }
 
-  get addon_id(): string {
-    return this._addon_id || ''
+  get addonId(): string {
+    return this._addonId || ''
   }
 
   protected async configureIntegrationClient(app: string): Promise<void> {
@@ -48,7 +48,7 @@ export default abstract class extends Command {
       )
     }
 
-    const apiUrlVarName = `${this.addonServiceSlug.replace(/-/g, '_').toUpperCase()}_URL`
+    const apiUrlVarName = `${this.addonServiceSlug.replace(/-/g, '_').toUpperCase()}_API_URL`
     const apiUrl = configVars[apiUrlVarName]
 
     if (!apiUrl) {
@@ -70,7 +70,7 @@ export default abstract class extends Command {
       'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
     }
     const matchedAddonId = baseUrl.pathname.match(/addons\/([^/]+)/)
-    this._addon_id = matchedAddonId ? matchedAddonId[1] : ''
+    this._addonId = matchedAddonId ? matchedAddonId[1] : ''
     this._integration = client
   }
 }

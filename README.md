@@ -25,5 +25,29 @@ USAGE
 ```
 # Commands
 <!-- commands -->
+* [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 
+## `heroku salesforce:connect ORG_NAME`
+
+connects a Heroku app to a Salesforce Org
+
+```
+USAGE
+  $ heroku salesforce:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>] [-S]
+
+ARGUMENTS
+  ORG_NAME  Salesforce Org instance name
+
+FLAGS
+  -S, --store-as-run-as-user  store user credentials
+  -a, --app=<value>           (required) app to run command against
+  -l, --login-url=<value>     login URL
+  -r, --remote=<value>        git remote of app to use
+  --browser=<value>           browser to open OAuth flow with (example: "firefox", "safari")
+
+DESCRIPTION
+  connects a Heroku app to a Salesforce Org
+```
+
+_See code: [dist/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/salesforce/connect.ts)_
 <!-- commandsstop -->

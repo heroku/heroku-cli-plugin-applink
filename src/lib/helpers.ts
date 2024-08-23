@@ -5,8 +5,12 @@ const toTitleCase = (str: string) => {
   )
 }
 
+export function humanize(underscored: string): string {
+  return toTitleCase(underscored.replace('_', ' '))
+}
+
 export function humanizeKeys(params: {[key: string]: string | null}): {[key: string]: string} {
   return Object.fromEntries(Object.entries(params).filter(([_, value]) => value).map(
-    ([key, value]) => [toTitleCase(key.replace('_', ' ')), value as string]
+    ([key, value]) => [humanize(key), value as string]
   ))
 }
