@@ -29,7 +29,7 @@
     "http-call": "^5",
     "mocha": "^10",
     "netrc-parser": "^3",
-    "nock": "^10",
+    "nock": "^13",
     "nyc": "^15",
     "oclif": "2.2.0",
     "sinon": "^14",
