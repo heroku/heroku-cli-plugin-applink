@@ -12,6 +12,10 @@ export default abstract class extends Command {
     return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
   }
 
+  get apiUrlConfigVarName(): string {
+    return `${this.addonServiceSlug.replace(/-/g, '_').toUpperCase()}_API_URL`
+  }
+
   get integration(): APIClient {
     if (this._integration)
       return this._integration
@@ -48,8 +52,7 @@ export default abstract class extends Command {
       )
     }
 
-    const apiUrlVarName = `${this.addonServiceSlug.replace(/-/g, '_').toUpperCase()}_API_URL`
-    const apiUrl = configVars[apiUrlVarName]
+    const apiUrl = configVars[this.apiUrlConfigVarName]
 
     if (!apiUrl) {
       ux.error(
