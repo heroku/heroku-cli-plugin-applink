@@ -26,6 +26,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`heroku integration:connections`](#heroku-integrationconnections)
+* [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 
 ## `heroku integration:connections`
@@ -45,6 +46,27 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/integration/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/integration/connections/index.ts)_
+
+## `heroku integration:connections:info ORG_NAME`
+
+shows info for a Heroku Integration connection
+
+```
+USAGE
+  $ heroku integration:connections:info [ORG_NAME] -a <value> [-r <value>]
+
+ARGUMENTS
+  ORG_NAME  connected org name
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+
+DESCRIPTION
+  shows info for a Heroku Integration connection
+```
+
+_See code: [dist/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/integration/connections/info.ts)_
 
 ## `heroku salesforce:connect ORG_NAME`
 
