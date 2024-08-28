@@ -6,6 +6,7 @@ import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
 import {humanize} from '../../lib/helpers'
+import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
   static description = 'connects a Heroku app to a Salesforce Org'
@@ -30,8 +31,8 @@ export default class Connect extends Command {
     const {org_name: orgName} = args
 
     await this.configureIntegrationClient(app)
-    let connection: Integration.Connection
-    ({body: connection} = await this.integration.post<Integration.Connection>(
+    let connection: Integration.SalesforceConnection
+    ({body: connection} = await this.integration.post<Integration.SalesforceConnection>(
       `/addons/${this.addonId}/connections/salesforce`,
       {
         body: {
@@ -70,7 +71,7 @@ export default class Connect extends Command {
     })
 
     ux.action.start(`Connecting ${color.app(app)} to ${color.yellow(orgName)}`)
-    let {state} = connection
+    let {state, error} = connection
     ux.action.status = humanize(state)
 
     while (this.isPendingState(state)) {
@@ -78,16 +79,24 @@ export default class Connect extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: connection} = await this.integration.get<Integration.Connection>(
+      ({body: connection} = await this.integration.get<Integration.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${salesforceOrg.org_name}`,
       ));
 
-      ({state} = connection)
+      ({state, error} = connection)
       ux.action.status = humanize(state)
     }
 
     if (state !== 'connected') {
-      return ux.error(humanize(state), {exit: 1})
+      return ux.error(
+        error === undefined ?
+          humanize(state) :
+          heredoc`
+            ${error.id}
+            ${error.message}
+          `,
+        {exit: 1}
+      )
     }
 
     ux.action.stop()

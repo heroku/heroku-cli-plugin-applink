@@ -27,7 +27,8 @@ export const addon2: Heroku.AddOn = {
   name: 'heroku-integration-horizontal-01234',
 }
 
-export const connection1: Integration.Connection = {
+export const connection1: Integration.SalesforceConnection = {
+  id: '51807d19-9d78-4064-9468-bcdc34611778',
   salesforce_org: {
     id: '00DSG000007a3FdB96',
     instance_url: 'https://dsg000007a3fdb96.test1.my.pc-rnd.salesforce.com',
@@ -38,7 +39,8 @@ export const connection1: Integration.Connection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_connecting: Integration.Connection = {
+export const connection2_connecting: Integration.SalesforceConnection = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '',
     instance_url: '',
@@ -50,7 +52,8 @@ export const connection2_connecting: Integration.Connection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_connected: Integration.Connection = {
+export const connection2_connected: Integration.SalesforceConnection = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -61,7 +64,12 @@ export const connection2_connected: Integration.Connection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_failed: Integration.Connection = {
+export const connection2_failed: Integration.SalesforceConnection = {
+  error: {
+    id: 'org_connection_failed',
+    message: 'There was a problem connecting your org. Try again later.',
+  },
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -72,7 +80,20 @@ export const connection2_failed: Integration.Connection = {
   type: 'SalesforceOrg',
 }
 
-export const connection3: Integration.Connection = {
+export const connection2_disconnected: Integration.SalesforceConnection = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  salesforce_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  state: 'disconnected',
+  type: 'SalesforceOrg',
+}
+
+export const connection3: Integration.SalesforceConnection = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3FdB96',
     instance_url: 'https://dsg000007a3fdb96.test1.my.pc-rnd.salesforce.com',
@@ -80,5 +101,58 @@ export const connection3: Integration.Connection = {
     run_as_user: 'user2@example.com',
   },
   state: 'connecting',
+  type: 'SalesforceOrg',
+}
+
+export const connection4_connecting: Integration.DatacloudConnection = {
+  datacloud_org: {
+    id: '',
+    instance_url: '',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
+  state: 'authenticating',
+  type: 'DatacloudOrg',
+}
+
+export const connection4_connected: Integration.DatacloudConnection = {
+  datacloud_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: 'user@example.com',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  state: 'connected',
+  type: 'DatacloudOrg',
+}
+
+export const connection4_failed: Integration.DatacloudConnection = {
+  datacloud_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  error: {
+    id: 'org_connection_failed',
+    message: 'There was a problem connecting your org. Try again later.',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  state: 'connection_failed',
+  type: 'DatacloudOrg',
+}
+
+export const connection4_disconnected: Integration.DatacloudConnection = {
+  datacloud_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  state: 'disconnected',
   type: 'DatacloudOrg',
 }

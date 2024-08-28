@@ -7,7 +7,7 @@ import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
 import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/salesforce/connect'
-import {addon, connection2_connected, connection2_connecting, connection2_failed} from '../../helpers/fixtures'
+import {addon, connection2_connected, connection2_connecting, connection2_disconnected, connection2_failed} from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -91,13 +91,11 @@ describe('salesforce:connect', function () {
     })
 
     context('when the connection fails', function () {
-      beforeEach(function () {
+      it('shows the expected output after failing when an error description is included', async function () {
         integrationApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
           .reply(200, connection2_failed)
-      })
 
-      it('shows the expected output after failing', async function () {
         try {
           await runCommand(Cmd, [
             'my-org-2',
@@ -105,7 +103,29 @@ describe('salesforce:connect', function () {
           ])
         } catch (error: unknown) {
           const {message, oclif} = error as CLIError
-          expect(stripAnsi(message)).to.equal('Connection Failed')
+          expect(stripAnsi(message)).to.equal(heredoc`
+            org_connection_failed
+            There was a problem connecting your org. Try again later.
+          `)
+          expect(oclif.exit).to.equal(1)
+        }
+
+        expect(stdout.output).to.eq('')
+      })
+
+      it('shows the expected output after failing when no error description is included', async function () {
+        integrationApi
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .reply(200, connection2_disconnected)
+
+        try {
+          await runCommand(Cmd, [
+            'my-org-2',
+            '--app=my-app',
+          ])
+        } catch (error: unknown) {
+          const {message, oclif} = error as CLIError
+          expect(stripAnsi(message)).to.equal('Disconnected')
           expect(oclif.exit).to.equal(1)
         }
 
