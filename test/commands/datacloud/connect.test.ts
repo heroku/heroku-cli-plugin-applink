@@ -84,7 +84,7 @@ describe('datacloud:connect', function () {
         expect(stripAnsi(stderr.output)).to.eq(heredoc`
           Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
           Connecting my-app to my-org-2...
-          Connecting my-app to my-org-2... done
+          Connecting my-app to my-org-2... Connected
         `)
         expect(stdout.output).to.eq('')
       })

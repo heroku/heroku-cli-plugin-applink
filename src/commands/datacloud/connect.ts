@@ -85,6 +85,8 @@ export default class Connect extends Command {
       ux.action.status = humanize(state)
     }
 
+    ux.action.stop(humanize(state))
+
     if (state !== 'connected') {
       ux.error(
         error === undefined ?
@@ -96,8 +98,6 @@ export default class Connect extends Command {
         {exit: 1}
       )
     }
-
-    ux.action.stop()
   }
 
   protected isPendingState(state: string): boolean {
