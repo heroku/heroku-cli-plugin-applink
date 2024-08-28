@@ -1,0 +1,54 @@
+import {expect} from 'chai'
+import nock from 'nock'
+import {stderr, stdout} from 'stdout-stderr'
+import heredoc from 'tsheredoc'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/integration/connections/info'
+import stripAnsi from '../../../helpers/strip-ansi'
+import {addon, connection2_connected} from '../../../helpers/fixtures'
+
+describe('integration:connections:info', function () {
+  let api: nock.Scope
+  let integrationApi: nock.Scope
+  const {env} = process
+
+  beforeEach(function () {
+    process.env = {}
+    api = nock('https://api.heroku.com')
+      .get('/apps/my-app/addons')
+      .reply(200, [addon])
+      .get('/apps/my-app/config-vars')
+      .reply(200, {
+        HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+      })
+    integrationApi = nock('https://integration-api.heroku.com')
+  })
+
+  afterEach(function () {
+    process.env = env
+    api.done()
+    integrationApi.done()
+    nock.cleanAll()
+  })
+
+  it('shows info for the connection', async function () {
+    integrationApi
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+      .reply(200, connection2_connected)
+
+    await runCommand(Cmd, [
+      'my-org-2',
+      '--app=my-app',
+    ])
+
+    expect(stripAnsi(stdout.output)).to.equal(heredoc`
+      Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+      Org ID:       00DSG000007a3BcA84
+      Org Name:     my-org-2
+      Run As User:  user@example.com
+      State:        Connected
+      Type:         Salesforce Org
+    `)
+    expect(stderr.output).to.equal('')
+  })
+})
