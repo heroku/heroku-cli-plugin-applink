@@ -29,6 +29,7 @@ USAGE
 * [`heroku integration:connections`](#heroku-integrationconnections)
 * [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
+* [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
 
 ## `heroku datacloud:connect ORG_NAME`
 
@@ -115,4 +116,28 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/salesforce/connect.ts)_
+
+## `heroku salesforce:import API_SPEC_FILE`
+
+Imports an API specification to an authenticated Salesforce Org.
+
+```
+USAGE
+  $ heroku salesforce:import [API_SPEC_FILE] -o <value> -a <value> -c <value> [-G <value>] [-r <value>]
+
+ARGUMENTS
+  API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format
+
+FLAGS
+  -G, --generate-auth-permission-set=<value>  generate a permission set for the client
+  -a, --app=<value>                           (required) app to run command against
+  -c, --client-name=<value>                   (required) name given to the client stub
+  -o, --org-name=<value>                      (required) authorized Salesforce Org instance name
+  -r, --remote=<value>                        git remote of app to use
+
+DESCRIPTION
+  Imports an API specification to an authenticated Salesforce Org.
+```
+
+_See code: [dist/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/salesforce/import.ts)_
 <!-- commandsstop -->
