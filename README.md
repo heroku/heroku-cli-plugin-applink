@@ -25,9 +25,33 @@ USAGE
 ```
 # Commands
 <!-- commands -->
+* [`heroku datacloud:connect ORG_NAME`](#heroku-datacloudconnect-org_name)
 * [`heroku integration:connections`](#heroku-integrationconnections)
 * [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
+
+## `heroku datacloud:connect ORG_NAME`
+
+connects a Heroku app to a Datacloud Org
+
+```
+USAGE
+  $ heroku datacloud:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>]
+
+ARGUMENTS
+  ORG_NAME  Datacloud Org instance name
+
+FLAGS
+  -a, --app=<value>        (required) app to run command against
+  -l, --login-url=<value>  login URL
+  -r, --remote=<value>     git remote of app to use
+  --browser=<value>        browser to open OAuth flow with (example: "firefox", "safari")
+
+DESCRIPTION
+  connects a Heroku app to a Datacloud Org
+```
+
+_See code: [dist/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/datacloud/connect.ts)_
 
 ## `heroku integration:connections`
 

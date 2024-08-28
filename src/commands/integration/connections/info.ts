@@ -25,13 +25,14 @@ export default class Info extends Command {
     const {body: connection} = await this.integration.get<Integration.Connection>(
       `/addons/${this.addonId}/connections/${orgName}`
     )
+    const orgInfo = Integration.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
 
     ux.styledObject({
       Id: connection.id,
-      'Instance URL': connection.salesforce_org.instance_url,
-      'Org ID': connection.salesforce_org.id,
-      'Org Name': connection.salesforce_org.org_name,
-      'Run As User': connection.salesforce_org.run_as_user,
+      'Instance URL': orgInfo.instance_url,
+      'Org ID': orgInfo.id,
+      'Org Name': orgInfo.org_name,
+      'Run As User': orgInfo.run_as_user,
       State: humanize(connection.state),
       Type: humanize(connection.type),
     })

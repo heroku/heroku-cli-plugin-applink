@@ -5,7 +5,7 @@ import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
 import Cmd from '../../../../src/commands/integration/connections/index'
 import stripAnsi from '../../../helpers/strip-ansi'
-import {addon, addon2, connection1, connection2_connected, connection3} from '../../../helpers/fixtures'
+import {addon, addon2, connection1, connection2_connected, connection3, connection4_connected} from '../../../helpers/fixtures'
 
 describe('integration:connections', function () {
   let api: nock.Scope
@@ -43,7 +43,7 @@ describe('integration:connections', function () {
 
         await runCommand(Cmd, [
           '--app=my-app',
-        ])
+        ], true)
 
         expect(stripAnsi(stdout.output)).to.equal('No Heroku Integration connections for app my-app.\n')
         expect(stderr.output).to.equal('')
@@ -57,8 +57,7 @@ describe('integration:connections', function () {
           .reply(200, [connection1, connection2_connected])
 
         await runCommand(Cmd, [
-          '--app',
-          'my-app',
+          '--app=my-app',
         ])
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
@@ -120,7 +119,7 @@ describe('integration:connections', function () {
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [connection1, connection2_connected])
           .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
-          .reply(200, [connection3])
+          .reply(200, [connection3, connection4_connected])
 
         await runCommand(Cmd)
 
@@ -131,7 +130,8 @@ describe('integration:connections', function () {
            ──────────── ────────────── ──────── ────────── ───────────────── 
            my-app       Salesforce Org my-org-1 Connected  user@example.com  
            my-app       Salesforce Org my-org-2 Connected  user@example.com  
-           my-other-app Datacloud Org  my-org-1 Connecting user2@example.com 
+           my-other-app Salesforce Org my-org-1 Connecting user2@example.com 
+           my-other-app Datacloud Org  my-org-2 Connected  user@example.com  
         `)
         expect(stderr.output).to.equal('')
       })

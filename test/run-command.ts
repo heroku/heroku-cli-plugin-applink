@@ -23,6 +23,9 @@ export const runCommand = async (Cmd: GenericCmd, args: string[] = [], printStd 
   if (printStd) {
     stdout.print = true
     stderr.print = true
+  } else {
+    stdout.print = false
+    stderr.print = false
   }
 
   stdout.start()
@@ -34,7 +37,7 @@ export const runCommand = async (Cmd: GenericCmd, args: string[] = [], printStd 
       stopMock()
       return args
     })
-    .catch((error: Error) => {
+    .catch(error => {
       stopMock()
       throw error
     })
