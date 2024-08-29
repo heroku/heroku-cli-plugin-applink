@@ -60,13 +60,13 @@ describe('salesforce:import', function () {
       filePath,
       '--app=my-app',
       '--client-name=AccountAPI',
-      '--generate-auth-permission-set=true',
+      '--generate-auth-permission-set',
       '--org-name=myorg',
     ])
 
     expect(parsedRequestBody?.api_spec).to.equal(encoded.json)
     expect(parsedRequestBody?.hex_digest).to.equal('1503e59f693ab475b165ab210a3f330fbeceff42e6edf5e9eda02eefa3a23e8c')
-    expect(stderr.output).to.contain('Importing App... done')
+    expect(stderr.output).to.contain('Importing App... Imported')
     expect(stdout.output).to.equal('')
   })
 
@@ -92,13 +92,13 @@ describe('salesforce:import', function () {
       filePath,
       '--app=my-app',
       '--client-name=AccountAPI',
-      '--generate-auth-permission-set=true',
+      '--generate-auth-permission-set',
       '--org-name=myorg',
     ])
 
     expect(parsedRequestBody?.api_spec).to.equal(encoded.yaml)
     expect(parsedRequestBody?.hex_digest).to.equal('63fa1d782b9472e3f5f55f06480d3aa7c7bb7ebde27a663892506f88b7ac18f8')
-    expect(stderr.output).to.contain('Importing App... done')
+    expect(stderr.output).to.contain('Importing App... Imported')
     expect(stdout.output).to.equal('')
   })
 
@@ -119,11 +119,11 @@ describe('salesforce:import', function () {
       filePath,
       '--app=my-app',
       '--client-name=AccountAPI',
-      '--generate-auth-permission-set=true',
+      '--generate-auth-permission-set',
       '--org-name=myorg',
     ])
 
-    expect(stderr.output).to.contain('Importing App... done')
+    expect(stderr.output).to.contain('Importing App... Imported')
     expect(stdout.output).to.equal('')
   })
 
@@ -141,7 +141,7 @@ describe('salesforce:import', function () {
         filePath,
         '--app=my-app',
         '--client-name=AccountAPI',
-        '--generate-auth-permission-set=true',
+        '--generate-auth-permission-set',
         '--org-name=myorg',
       ])
     } catch (error: unknown) {

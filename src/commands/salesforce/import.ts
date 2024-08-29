@@ -8,15 +8,14 @@ import * as Integration from '../../lib/integration/types'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
-
 export default class Import extends Command {
   static description = 'Imports an API specification to an authenticated Salesforce Org.'
 
   static flags = {
-    'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client', default: false}),
-    'org-name': flags.string({required: true, char: 'o', description: 'authorized Salesforce Org instance name'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
+    'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client'}),
+    'org-name': flags.string({required: true, char: 'o', description: 'authorized Salesforce Org instance name'}),
     remote: flags.remote(),
   }
 
