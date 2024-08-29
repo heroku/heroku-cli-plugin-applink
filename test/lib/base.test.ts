@@ -13,7 +13,7 @@ import {addon} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
-    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addonId}/connections`)
+    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -26,7 +26,7 @@ class CommandWithConfiguration extends BaseCommand {
     const {flags} = await this.parse(CommandWithConfiguration)
     const {app} = flags
     await this.configureIntegrationClient(app)
-    this.integration.get<Array<Integration.Connection>>(`/addons/${this.addonId}/connections`)
+    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 

@@ -9,41 +9,39 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connects a Heroku app to a Salesforce Org'
+  static description = 'connects a Heroku app to a Datacloud Org'
 
   static flags = {
     app: flags.app({required: true}),
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
     'login-url': flags.string({char: 'l', description: 'login URL'}),
     remote: flags.remote(),
-    'store-as-run-as-user': flags.boolean({char: 'S', description: 'store user credentials'}),
   }
 
   static args = {
-    org_name: Args.string({description: 'Salesforce Org instance name', required: true}),
+    org_name: Args.string({description: 'Datacloud Org instance name', required: true}),
   }
 
   public static urlOpener: (...args: Parameters<typeof open>) => ReturnType<typeof open> = open
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Connect)
-    const {app, browser, 'login-url': loginUrl, 'store-as-run-as-user': storeAsRunAsUser} = flags
+    const {app, browser, 'login-url': loginUrl} = flags
     const {org_name: orgName} = args
 
     await this.configureIntegrationClient(app)
-    let connection: Integration.SalesforceConnection
-    ({body: connection} = await this.integration.post<Integration.SalesforceConnection>(
-      `/addons/${this.addonId}/connections/salesforce`,
+    let connection: Integration.DatacloudConnection
+    ({body: connection} = await this.integration.post<Integration.DatacloudConnection>(
+      `/addons/${this.addonId}/connections/datacloud`,
       {
         body: {
           login_url: loginUrl,
           org_name: orgName,
-          store_as_run_as_user: Boolean(storeAsRunAsUser),
         },
       }
     ))
 
-    const {redirect_uri: redirectUri, salesforce_org: salesforceOrg} = connection
+    const {redirect_uri: redirectUri, datacloud_org: datacloudOrg} = connection
 
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
@@ -79,8 +77,8 @@ export default class Connect extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: connection} = await this.integration.get<Integration.SalesforceConnection>(
-        `/addons/${this.addonId}/connections/${salesforceOrg.org_name}`,
+      ({body: connection} = await this.integration.get<Integration.DatacloudConnection>(
+        `/addons/${this.addonId}/connections/${datacloudOrg.org_name}`,
       ));
 
       ({state, error} = connection)
