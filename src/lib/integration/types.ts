@@ -95,13 +95,3 @@ export type AppImport = {
     message: string
   }
 }
-
-/**
- * App import request body
- */
-export type AppImportRequestBody = {
-  readonly client_name: string
-  readonly api_spec: string
-  readonly generate_authorization_permission_set: boolean
-  readonly hex_digest: string
-}

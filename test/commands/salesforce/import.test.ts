@@ -11,8 +11,6 @@ import {
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
-import {encoded} from '../../helpers/encodedSpecs'
-import {AppImportRequestBody} from '../../../src/lib/integration/types'
 
 describe('salesforce:import', function () {
   let api: nock.Scope
