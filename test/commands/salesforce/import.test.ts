@@ -40,11 +40,11 @@ describe('salesforce:import', function () {
     integrationApi
       .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports')
       .reply(202, appImportPending)
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg/app_imports/AccountAPI')
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports/AccountAPI')
       .reply(200, appImportPending)
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg/app_imports/AccountAPI')
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports/AccountAPI')
       .reply(200, appImportPending)
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg/app_imports/AccountAPI')
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports/AccountAPI')
       .reply(200, appImportSuccess)
 
     const filePath = `${__dirname}/../../helpers/openapi.json`
@@ -65,7 +65,7 @@ describe('salesforce:import', function () {
     integrationApi
       .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports')
       .reply(202, appImportPending)
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg/app_imports/AccountAPI')
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/app_imports/AccountAPI')
       .reply(200, appImportFailed)
 
     const filePath = `${__dirname}/../../helpers/openapi.json`
