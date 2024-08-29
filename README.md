@@ -123,7 +123,7 @@ Imports an API specification to an authenticated Salesforce Org.
 
 ```
 USAGE
-  $ heroku salesforce:import [API_SPEC_FILE] -o <value> -a <value> -c <value> [-G] [-r <value>]
+  $ heroku salesforce:import [API_SPEC_FILE] -a <value> -c <value> -o <value> [-G] [-r <value>]
 
 ARGUMENTS
   API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format
