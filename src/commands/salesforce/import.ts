@@ -4,15 +4,16 @@ import {createHash} from 'crypto'
 import fs from 'fs'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
-import * as Integration from "../../lib/integration/types";
-import {humanize} from "../../lib/helpers";
+import * as Integration from '../../lib/integration/types'
+import {humanize} from '../../lib/helpers'
+import heredoc from 'tsheredoc'
 
 
 export default class Import extends Command {
   static description = 'Imports an API specification to an authenticated Salesforce Org.'
 
   static flags = {
-    'generate-auth-permission-set': flags.string({char: 'G', description: 'generate a permission set for the client'}),
+    'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client', default: false}),
     'org-name': flags.string({required: true, char: 'o', description: 'authorized Salesforce Org instance name'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
@@ -51,8 +52,7 @@ export default class Import extends Command {
           hex_digest: hexDigest,
         },
       })
-
-    let {state} = importRes
+    let {state, error} = importRes
 
     while (this.isPendingState(state)) {
       await new Promise(resolve => {
@@ -61,16 +61,26 @@ export default class Import extends Command {
 
       ({body: importState} = await this.integration.get<Integration.AppImport>(
         `/addons/${this.addonId}/connections/${orgName}/app_imports/${clientName}`,
-      ));
+      ))
 
-      ({state} = importState)
+      // ({state, error} = importState)
+      state = importState.state
+      error = importState.error
       ux.action.status = humanize(state)
     }
 
-    if (state !== 'imported') {
-      return ux.error(humanize(state), {exit: 1})
-    }
+    ux.action.stop(humanize(state))
 
-    ux.action.stop()
+    if (state !== 'imported') {
+      ux.error(
+        error === undefined ?
+          humanize(state) :
+          heredoc`
+            ${error.id}
+            ${error.message}
+          `,
+        {exit: 1}
+      )
+    }
   }
 }

@@ -89,6 +89,11 @@ export type AppImport = {
     name: string
     url: string
   }
+  /** last error on import */
+  readonly error?: {
+    id: string
+    message: string
+  }
 }
 
 /**
