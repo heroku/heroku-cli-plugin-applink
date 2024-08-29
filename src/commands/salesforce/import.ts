@@ -59,7 +59,7 @@ export default class Import extends Command {
       });
 
       ({body: importState} = await this.integration.get<Integration.AppImport>(
-        `/addons/${this.addonId}/connections/${orgName}/app_imports/${clientName}`,
+        `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
       ))
 
       // ({state, error} = importState)
