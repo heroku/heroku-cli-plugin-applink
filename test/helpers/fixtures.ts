@@ -107,8 +107,6 @@ export const appImportFailed: Integration.AppImport = {
   ...appImportPending,
   state: 'import_failed',
 }
-
-export const connection3: Integration.Connection = {
 export const connection2_disconnected: Integration.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
