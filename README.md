@@ -123,17 +123,17 @@ Imports an API specification to an authenticated Salesforce Org.
 
 ```
 USAGE
-  $ heroku salesforce:import [API_SPEC_FILE] -o <value> -a <value> -c <value> [-G <value>] [-r <value>]
+  $ heroku salesforce:import [API_SPEC_FILE] -o <value> -a <value> -c <value> [-G] [-r <value>]
 
 ARGUMENTS
   API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format
 
 FLAGS
-  -G, --generate-auth-permission-set=<value>  generate a permission set for the client
-  -a, --app=<value>                           (required) app to run command against
-  -c, --client-name=<value>                   (required) name given to the client stub
-  -o, --org-name=<value>                      (required) authorized Salesforce Org instance name
-  -r, --remote=<value>                        git remote of app to use
+  -G, --generate-auth-permission-set  generate a permission set for the client
+  -a, --app=<value>                   (required) app to run command against
+  -c, --client-name=<value>           (required) name given to the client stub
+  -o, --org-name=<value>              (required) authorized Salesforce Org instance name
+  -r, --remote=<value>                git remote of app to use
 
 DESCRIPTION
   Imports an API specification to an authenticated Salesforce Org.
