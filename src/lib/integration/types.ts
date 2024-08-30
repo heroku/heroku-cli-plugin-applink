@@ -83,4 +83,15 @@ export type AppImport = {
   }
   /** import process state */
   readonly state: 'pending' | 'importing' | 'imported' | 'import_failed'
+  /** app info */
+  readonly heroku_app: {
+    id: string
+    name: string
+    url: string
+  }
+  /** last error on import */
+  readonly error?: {
+    id: string
+    message: string
+  }
 }
