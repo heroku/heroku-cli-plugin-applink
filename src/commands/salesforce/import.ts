@@ -20,7 +20,7 @@ export default class Import extends Command {
   }
 
   static args = {
-    api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format'}),
+    api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format)'}),
   }
 
   protected isPendingState(state: string): boolean {
