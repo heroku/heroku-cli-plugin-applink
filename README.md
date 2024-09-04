@@ -28,6 +28,7 @@ USAGE
 * [`heroku datacloud:connect ORG_NAME`](#heroku-datacloudconnect-org_name)
 * [`heroku integration:connections`](#heroku-integrationconnections)
 * [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
+* [`heroku integration:project PROJECT_NAME`](#heroku-integrationproject-project_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
 
@@ -93,6 +94,26 @@ DESCRIPTION
 
 _See code: [dist/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/integration/connections/info.ts)_
 
+## `heroku integration:project PROJECT_NAME`
+
+generates a Heroku Integration project template
+
+```
+USAGE
+  $ heroku integration:project [PROJECT_NAME] [-o <value>]
+
+ARGUMENTS
+  PROJECT_NAME  user assigned project name
+
+FLAGS
+  -o, --output-directory=<value>  output directory where files will be placed (defaults to ./{PROJECT_NAME})
+
+DESCRIPTION
+  generates a Heroku Integration project template
+```
+
+_See code: [dist/commands/integration/project.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.1/dist/commands/integration/project.ts)_
+
 ## `heroku salesforce:connect ORG_NAME`
 
 connects a Heroku app to a Salesforce Org
@@ -126,7 +147,7 @@ USAGE
   $ heroku salesforce:import [API_SPEC_FILE] -a <value> -c <value> -o <value> [-G] [-r <value>]
 
 ARGUMENTS
-  API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format
+  API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format)
 
 FLAGS
   -G, --generate-auth-permission-set  generate a permission set for the client

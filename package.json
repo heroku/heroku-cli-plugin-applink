@@ -5,13 +5,15 @@
   "author": "Heroku",
   "bugs": "https://github.com/heroku/heroku-cli-plugin-integration/issues",
   "dependencies": {
-    "@heroku-cli/color": "^2.0.2",
+    "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11",
     "@heroku-cli/schema": "^1.0.25",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
+    "@heroku/generator-heroku-integration": "^0.0.1",
     "open": "^8.4.2",
-    "tsheredoc": "^1"
+    "tsheredoc": "^1",
+    "yeoman-environment": "^2"
   },
   "devDependencies": {
     "@oclif/test": "^2.3.28",
@@ -19,6 +21,9 @@
     "@types/nock": "^11",
     "@types/node": "^16",
     "@types/sinon": "^17",
+    "@types/yeoman-environment": "^2.10",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
     "chai": "^4",
     "eslint": "^7",
     "eslint-config-oclif": "^4",
@@ -36,7 +41,7 @@
     "stdout-stderr": "^0",
     "strip-ansi": "^6",
     "ts-node": "^10",
-    "typescript": "^5"
+    "typescript": "5.3.3"
   },
   "engines": {
     "node": ">=16.20.2"
@@ -70,10 +75,10 @@
   },
   "repository": "heroku/heroku-cli-plugin-integration",
   "scripts": {
-    "build": "rm -rf dist && tsc -b && oclif manifest && oclif readme && mv oclif.manifest.json ./dist/oclif.manifest.json && cp README.md ./dist/README.md && node scripts/prepack.mjs",
+    "build": "rm -rf dist && tsc -b && oclif manifest && oclif readme && mv oclif.manifest.json ./dist/oclif.manifest.json && cp README.md ./dist/README.md",
     "lint": "eslint . --ext .ts --config .eslintrc.json",
     "posttest": "yarn lint",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "test": "nyc mocha --forbid-only",
     "version": "oclif readme && git add README.md"
   }
 }

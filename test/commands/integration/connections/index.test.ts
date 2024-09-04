@@ -43,7 +43,7 @@ describe('integration:connections', function () {
 
         await runCommand(Cmd, [
           '--app=my-app',
-        ], true)
+        ])
 
         expect(stripAnsi(stdout.output)).to.equal('No Heroku Integration connections for app my-app.\n')
         expect(stderr.output).to.equal('')

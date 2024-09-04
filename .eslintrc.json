@@ -5,6 +5,7 @@
     "plugin:mocha/recommended"
   ],
   "ignorePatterns": ["**/test/**/*.js"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module",
