@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Sample API
+  description: Sample API, YAML spec.
+paths:
+  /list_of_things_yaml:
+    get:
+      description: Returns a list of stuff.
+      responses:
+        '200':
+          description: Successful response.

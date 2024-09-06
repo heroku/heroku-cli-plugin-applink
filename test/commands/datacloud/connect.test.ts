@@ -6,12 +6,12 @@ import sinon, {SinonSandbox, SinonStub} from 'sinon'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
 import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/salesforce/connect'
-import {addon, connection2_connected, connection2_connecting, connection2_disconnected, connection2_failed} from '../../helpers/fixtures'
+import Cmd from '../../../src/commands/datacloud/connect'
+import {addon, connection4_connected, connection4_connecting, connection4_disconnected, connection4_failed} from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
-describe('salesforce:connect', function () {
+describe('datacloud:connect', function () {
   let api: nock.Scope
   let integrationApi: nock.Scope
   const {env} = process
@@ -46,15 +46,15 @@ describe('salesforce:connect', function () {
       } as unknown as ChildProcess)
       sandbox.stub(ux, 'anykey').onFirstCall().resolves()
       integrationApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce')
-        .reply(202, connection2_connecting)
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud')
+        .reply(202, connection4_connecting)
     })
 
     context('when the connection succeeds', function () {
       beforeEach(function () {
         integrationApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
-          .reply(200, connection2_connected)
+          .reply(200, connection4_connected)
       })
 
       it('shows the URL that will be opened for the OAuth flow', async function () {
@@ -63,7 +63,7 @@ describe('salesforce:connect', function () {
           '--app=my-app',
         ])
 
-        expect(stderr.output).to.contain(`Opening browser to ${connection2_connecting.redirect_uri}`)
+        expect(stderr.output).to.contain(`Opening browser to ${connection4_connecting.redirect_uri}`)
       })
 
       it('attempts to open the browser to the redirect URI', async function () {
@@ -72,7 +72,7 @@ describe('salesforce:connect', function () {
           '--app=my-app',
         ])
 
-        expect(urlOpener.calledWith(connection2_connecting.redirect_uri, {wait: false})).to.equal(true)
+        expect(urlOpener.calledWith(connection4_connecting.redirect_uri, {wait: false})).to.equal(true)
       })
 
       it('shows the expected output after connecting', async function () {
@@ -94,7 +94,7 @@ describe('salesforce:connect', function () {
       it('shows the expected output after failing when an error description is included', async function () {
         integrationApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
-          .reply(200, connection2_failed)
+          .reply(200, connection4_failed)
 
         try {
           await runCommand(Cmd, [
@@ -116,7 +116,7 @@ describe('salesforce:connect', function () {
       it('shows the expected output after failing when no error description is included', async function () {
         integrationApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
-          .reply(200, connection2_disconnected)
+          .reply(200, connection4_disconnected)
 
         try {
           await runCommand(Cmd, [
@@ -139,8 +139,8 @@ describe('salesforce:connect', function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener')
       sandbox.stub(ux, 'anykey').onFirstCall().rejects(new Error('quit'))
       integrationApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce')
-        .reply(202, connection2_connecting)
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud')
+        .reply(202, connection4_connecting)
     })
 
     it('doesn’t attempt to open the browser to the redirect URI', async function () {
