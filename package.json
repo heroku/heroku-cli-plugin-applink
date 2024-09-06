@@ -1,16 +1,16 @@
 {
   "name": "@heroku-cli/plugin-integration",
   "description": "Heroku CLI plugin for Heroku Integration add-on",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Heroku",
   "bugs": "https://github.com/heroku/heroku-cli-plugin-integration/issues",
   "dependencies": {
     "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11",
     "@heroku-cli/schema": "^1.0.25",
+    "@heroku/generator-heroku-integration": "^0.0.3",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
-    "@heroku/generator-heroku-integration": "^0.0.3",
     "open": "^8.4.2",
     "tsheredoc": "^1",
     "yeoman-environment": "^2"
