@@ -39,9 +39,9 @@ export default class Project extends Command {
     const {project_name: projectName} = args
     const yeomanEnv = Project.yeomanEnvCreator()
 
-    yeomanEnv.lookup()
+    yeomanEnv.lookup({localOnly: true, packagePatterns: ['@heroku/generator-*']})
     await yeomanEnv.run(
-      `heroku-integration:${projectType}-${language}`, {
+      `@heroku/heroku-integration:${projectType}-${language}`, {
         projectName,
         outputDirectory: outputDirectory || `./${projectName}`,
       }

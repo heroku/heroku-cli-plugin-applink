@@ -31,7 +31,7 @@ describe('integration:project', function () {
       ])
 
       expect(yeomanEnvRunSpy.calledWith(
-        'heroku-integration:salesforce-javascript',
+        '@heroku/heroku-integration:salesforce-javascript',
         {
           projectName,
           outputDirectory: `./${projectName}`,
@@ -50,7 +50,7 @@ describe('integration:project', function () {
       ])
 
       expect(yeomanEnvRunSpy.calledWith(
-        'heroku-integration:salesforce-javascript',
+        '@heroku/heroku-integration:salesforce-javascript',
         {
           projectName,
           outputDirectory: customOutputDirectory,
