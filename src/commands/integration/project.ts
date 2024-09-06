@@ -40,7 +40,7 @@ export default class Project extends Command {
     const yeomanEnv = Project.yeomanEnvCreator()
 
     yeomanEnv.lookup()
-    yeomanEnv.run(
+    await yeomanEnv.run(
       `heroku-integration:${projectType}-${language}`, {
         projectName,
         outputDirectory: outputDirectory || `./${projectName}`,
