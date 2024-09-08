@@ -1,7 +1,7 @@
 {
   "name": "@heroku-cli/plugin-integration",
   "description": "Heroku CLI plugin for Heroku Integration add-on",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Heroku",
   "bugs": "https://github.com/heroku/heroku-cli-plugin-integration/issues",
   "dependencies": {
