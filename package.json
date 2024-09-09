@@ -11,7 +11,7 @@
     "@heroku/generator-heroku-integration": "^0.0.3",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
-    "open": "^8.4.2",
+    "open": "^10.1.0",
     "tsheredoc": "^1",
     "yeoman-environment": "^2"
   },
