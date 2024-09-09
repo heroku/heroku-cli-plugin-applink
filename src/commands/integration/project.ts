@@ -2,6 +2,7 @@ import {flags} from '@heroku-cli/command'
 import {Args} from '@oclif/core'
 import {createEnv} from 'yeoman-environment'
 import Command from '../../lib/base'
+import * as path from 'node:path'
 
 export default class Project extends Command {
   static description = 'generates a Heroku Integration project template'
@@ -39,7 +40,11 @@ export default class Project extends Command {
     const {project_name: projectName} = args
     const yeomanEnv = Project.yeomanEnvCreator()
 
-    yeomanEnv.lookup({localOnly: true, packagePatterns: ['@heroku/generator-*']})
+    yeomanEnv.lookup({
+      packagePatterns: ['@heroku/generator-*'],
+      npmPaths: [path.join(path.dirname(require.resolve('@heroku/generator-heroku-integration')), '../../../..')],
+    })
+
     await yeomanEnv.run(
       `@heroku/heroku-integration:${projectType}-${language}`, {
         projectName,
