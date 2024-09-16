@@ -9,7 +9,7 @@
     "@heroku-cli/command": "^11",
     "@heroku-cli/schema": "^1.0.25",
     "@heroku/generator-heroku-integration": "^0.0.3",
-    "@oclif/core": "^2.16.0",
+    "@oclif/core": "^4.0.22",
     "@oclif/plugin-help": "^5",
     "open": "^8.4.2",
     "tsheredoc": "^1",
