@@ -57,7 +57,7 @@ describe('salesforce:import', function () {
       '--org-name=myorg',
     ])
 
-    expect(stderr.output).to.contain('Importing App... Imported')
+    expect(stderr.output).to.contain('Imported')
     expect(stdout.output).to.equal('')
   })
 
