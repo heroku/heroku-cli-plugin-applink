@@ -7,7 +7,7 @@ import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Create extends Command {
-  static description = 'create Data Action Target webhook for a Heroku app'
+  static description = 'create Data Action Target for a Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
