@@ -1,3 +1,4 @@
+import {color} from '@heroku-cli/color'
 import {flags} from '@heroku-cli/command'
 import {ux, Args} from '@oclif/core'
 import {createHash} from 'crypto'
@@ -39,7 +40,7 @@ export default class Import extends Command {
 
     await this.configureIntegrationClient(app)
 
-    ux.action.start('Importing App')
+    ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
     let importState: Integration.AppImport
     const {body: importRes} = await this.integration.post<Integration.AppImport>(
       `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
