@@ -13,7 +13,7 @@ export default class Create extends Command {
     app: flags.app({required: true}),
     'api-name': flags.string({char: 'n', description: 'API name for Data Action Target, default derived from label'}),
     'org-name': flags.string({char: 'o', required: true, description: 'authorized Data Cloud Org instance name where Data Action Target is created'}),
-    'target-api-path': flags.string({char: 'p', required: true, description: 'API path for Data Action Target, eg "/" or "/handleDataCloudDataChangeEvent"'}),
+    'target-api-path': flags.string({char: 'p', required: true, description: 'API path for Data Action Target excluding app URL, eg "/" or "/handleDataCloudDataChangeEvent"'}),
     type: flags.string({char: 't', description: 'Data Action Target type', options: ['WebHook'], default: 'WebHook'}),
   }
 
