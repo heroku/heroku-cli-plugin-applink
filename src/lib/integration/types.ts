@@ -95,3 +95,30 @@ export type AppImport = {
     message: string
   }
 }
+
+/**
+ * Create Data Action Target process.
+ */
+export type DataActionTargetCreate = {
+  readonly api_name: string
+  readonly datacloud_org: {
+    readonly id?: string | null
+    readonly instance_url?: string | null
+    readonly org_name: string
+    readonly run_as_user?: string | null
+  }
+  readonly heroku_app: {
+    id: string
+    name: string
+    url: string
+  }
+  readonly label: string
+  readonly id: string
+  readonly state: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
+  readonly target_endpoint: string
+  readonly type: string
+  readonly error?: {
+    id: string
+    message: string
+  }
+}

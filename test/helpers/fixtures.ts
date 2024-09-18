@@ -107,6 +107,36 @@ export const appImportFailed: Integration.AppImport = {
   ...appImportPending,
   state: 'import_failed',
 }
+
+export const datCreatePending: Integration.DataActionTargetCreate = {
+  id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
+  api_name: 'MyDataActionTarget',
+  datacloud_org: {
+    id: '00DSG00000DGEIr2AP',
+    org_name: 'productionOrg',
+    instance_url: 'https://dsg00000dgeir2ap.test1.my.pc-rnd.salesforce.com',
+  },
+  heroku_app: {
+    id: '991383ba-b3bc-4a86-b606-2df760573bc0',
+    name: 'hint4aa8373ef0bb57ff28226530',
+    url: 'https://hint4aa8373ef0bb57ff28226530-229438e187dc.herokuapp.com/',
+  },
+  label: 'My Data Action Target',
+  state: 'pending',
+  target_endpoint: '/handleDataCloudDataChangeEvent',
+  type: 'Webhook',
+}
+
+export const datCreateSuccess: Integration.DataActionTargetCreate = {
+  ...datCreatePending,
+  state: 'created',
+}
+
+export const datCreateFailed: Integration.DataActionTargetCreate = {
+  ...datCreatePending,
+  state: 'creation_failed',
+}
+
 export const connection2_disconnected: Integration.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {

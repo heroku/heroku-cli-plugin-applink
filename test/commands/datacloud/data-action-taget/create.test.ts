@@ -1,0 +1,85 @@
+import {expect} from 'chai'
+import nock from 'nock'
+import {stderr, stdout} from 'stdout-stderr'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/datacloud/data-action-target/create'
+import {
+  addon,
+  datCreatePending,
+  datCreateSuccess,
+  datCreateFailed,
+} from '../../../helpers/fixtures'
+import stripAnsi from '../../../helpers/strip-ansi'
+import {CLIError} from '@oclif/core/lib/errors'
+
+describe('datacloud:data-action-target:create', function () {
+  let api: nock.Scope
+  let integrationApi: nock.Scope
+  const {env} = process
+
+  beforeEach(function () {
+    process.env = {}
+    api = nock('https://api.heroku.com')
+      .get('/apps/my-app/addons')
+      .reply(200, [addon])
+      .get('/apps/my-app/config-vars')
+      .reply(200, {
+        HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+      })
+    integrationApi = nock('https://integration-api.heroku.com')
+  })
+
+  afterEach(function () {
+    process.env = env
+    api.done()
+    integrationApi.done()
+    nock.cleanAll()
+  })
+
+  it('waits for /data_action_targets status to return "created" before ending the action successfully', async function () {
+    integrationApi
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+      .reply(202, datCreatePending)
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets/MyDataActionTarget')
+      .reply(200, datCreatePending)
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets/MyDataActionTarget')
+      .reply(200, datCreatePending)
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets/MyDataActionTarget')
+      .reply(200, datCreateSuccess)
+
+    await runCommand(Cmd, [
+      'My Data Action Target',
+      '--app=my-app',
+      '--api-name=MyDataActionTarget',
+      '--org-name=myorg',
+      '--target-api-path=/handleDataCloudDataChangeEvent',
+      '--type=WebHook',
+    ])
+
+    expect(stderr.output).to.contain('Created')
+    expect(stdout.output).to.equal('')
+  })
+
+  it('throws an error when /data_action_targets status returns "creation failed"', async function () {
+    integrationApi
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+      .reply(202, datCreatePending)
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets/My_Data_Action_Target')
+      .reply(200, datCreateFailed)
+
+    try {
+      await runCommand(Cmd, [
+        'My Data Action Target',
+        '--app=my-app',
+        '--org-name=myorg',
+        '--target-api-path=/handleDataCloudDataChangeEvent',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.equal('Creation Failed')
+      expect(oclif.exit).to.equal(1)
+    }
+
+    expect(stdout.output).to.equal('')
+  })
+})
