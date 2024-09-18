@@ -53,7 +53,7 @@ describe('datacloud:connect', function () {
     context('when the connection succeeds', function () {
       beforeEach(function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
           .reply(200, connection4_connected)
       })
 
@@ -93,7 +93,7 @@ describe('datacloud:connect', function () {
     context('when the connection fails', function () {
       it('shows the expected output after failing when an error description is included', async function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
           .reply(200, connection4_failed)
 
         try {
@@ -115,7 +115,7 @@ describe('datacloud:connect', function () {
 
       it('shows the expected output after failing when no error description is included', async function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
           .reply(200, connection4_disconnected)
 
         try {

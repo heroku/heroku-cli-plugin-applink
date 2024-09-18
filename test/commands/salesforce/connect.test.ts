@@ -53,7 +53,7 @@ describe('salesforce:connect', function () {
     context('when the connection succeeds', function () {
       beforeEach(function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, connection2_connected)
       })
 
@@ -93,7 +93,7 @@ describe('salesforce:connect', function () {
     context('when the connection fails', function () {
       it('shows the expected output after failing when an error description is included', async function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, connection2_failed)
 
         try {
@@ -115,7 +115,7 @@ describe('salesforce:connect', function () {
 
       it('shows the expected output after failing when no error description is included', async function () {
         integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, connection2_disconnected)
 
         try {
