@@ -41,7 +41,7 @@ export default class Connect extends Command {
       }
     ))
 
-    const {redirect_uri: redirectUri, datacloud_org: datacloudOrg} = connection
+    const {id, redirect_uri: redirectUri} = connection
 
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
@@ -78,7 +78,7 @@ export default class Connect extends Command {
       });
 
       ({body: connection} = await this.integration.get<Integration.DatacloudConnection>(
-        `/addons/${this.addonId}/connections/${datacloudOrg.org_name}`,
+        `/addons/${this.addonId}/connections/${id}`,
       ));
 
       ({state, error} = connection)
