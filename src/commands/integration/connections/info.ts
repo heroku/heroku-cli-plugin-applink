@@ -3,9 +3,8 @@ import {flags} from '@heroku-cli/command'
 import * as Integration from '../../../lib/integration/types'
 import {Args, ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
-import {color} from "@heroku-cli/color";
-import {CLIError} from "@oclif/core/lib/errors";
-import {Connection, ConnectionError} from "../../../lib/integration/types";
+import {color} from '@heroku-cli/color'
+import {ConnectionError} from '../../../lib/integration/types'
 
 export default class Info extends Command {
   static description = 'shows info for a Heroku Integration connection'
