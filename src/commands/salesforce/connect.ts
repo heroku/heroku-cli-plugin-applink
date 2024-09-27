@@ -9,7 +9,7 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connects a Heroku app to a Salesforce Org'
+  static description = 'connects a Salesforce Org to Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
@@ -20,7 +20,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    org_name: Args.string({description: 'Salesforce Org instance name', required: true}),
+    org_name: Args.string({description: 'Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
   }
 
   public static urlOpener: (...args: Parameters<typeof open>) => ReturnType<typeof open> = open
@@ -70,7 +70,7 @@ export default class Connect extends Command {
       if (code !== 0) showBrowserError()
     })
 
-    ux.action.start(`Connecting ${color.app(app)} to ${color.yellow(orgName)}`)
+    ux.action.start(`Connecting Salesforce org ${color.yellow(orgName)} to ${color.app(app)}`)
     let {state, error} = connection
     ux.action.status = humanize(state)
 

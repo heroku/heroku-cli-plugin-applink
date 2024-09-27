@@ -7,7 +7,13 @@ import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
 import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/datacloud/connect'
-import {addon, connection4_connected, connection4_connecting, connection4_disconnected, connection4_failed} from '../../helpers/fixtures'
+import {
+  addon,
+  connection4_connected,
+  connection4_connecting,
+  connection4_disconnected,
+  connection4_failed,
+} from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -83,8 +89,8 @@ describe('datacloud:connect', function () {
 
         expect(stripAnsi(stderr.output)).to.eq(heredoc`
           Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
-          Connecting my-app to my-org-2...
-          Connecting my-app to my-org-2... Connected
+          Connecting Data Cloud org my-org-2 to my-app...
+          Connecting Data Cloud org my-org-2 to my-app... Connected
         `)
         expect(stdout.output).to.eq('')
       })
