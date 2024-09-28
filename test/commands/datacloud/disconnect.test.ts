@@ -4,9 +4,12 @@ import {stderr, stdout} from 'stdout-stderr'
 import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/datacloud/disconnect'
 import {
-  addon,
-  connection5_disconnecting,
+  addon, connection2_disconnected,
+  connection5_disconnecting, connection5_disconnection_failed, ConnectionError_record_not_found,
 } from '../../helpers/fixtures'
+import {ConnectionError} from "../../../src/lib/integration/types";
+import {CLIError} from "@oclif/core/lib/errors";
+import stripAnsi from "../../helpers/strip-ansi";
 
 describe('datacloud:disconnect', function () {
   let api: nock.Scope
@@ -44,5 +47,39 @@ describe('datacloud:disconnect', function () {
 
     expect(stderr.output).to.contain('Disconnected')
     expect(stdout.output).to.equal('')
+  })
+
+  it('shows the expected output after failing', async function () {
+    integrationApi
+      .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
+      .reply(202, connection5_disconnection_failed)
+
+    try {
+      await runCommand(Cmd, [
+        'myorg',
+        '--app=my-app',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.equal('Disconnection Failed')
+      expect(oclif.exit).to.equal(1)
+    }
+  })
+
+  it('connection not found', async function () {
+    integrationApi
+      .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
+      .replyWithError(ConnectionError_record_not_found)
+
+    try {
+      await runCommand(Cmd, [
+        'myorg',
+        '--app=my-app',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain('not found or not connected to app')
+      expect(oclif.exit).to.equal(1)
+    }
   })
 })

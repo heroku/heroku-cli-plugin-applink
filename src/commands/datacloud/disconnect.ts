@@ -32,32 +32,14 @@ export default class Disconnect extends Command {
     } catch (error) {
       const connErr = error as ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
+        ux.error(`Data Cloud org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
       } else {
         throw error
       }
     }
 
-    const {id} = connection
-
     ux.action.start(`Disconnecting Data Cloud Org ${color.yellow(orgName)} from ${color.app(app)}`)
-    let {state, error} = connection
-    ux.action.status = humanize(state)
-
-    while (this.isPendingState(state)) {
-      await new Promise(resolve => {
-        setTimeout(resolve, 5000)
-      });
-
-      ({body: connection} = await this.integration.get<Integration.SalesforceConnection>(
-        `/addons/${this.addonId}/connections/${id}`,
-      ));
-
-      ({state, error} = connection)
-      ux.action.status = humanize(state)
-    }
-
-    ux.action.stop(humanize('Disconnected'))
+    const {state, error} = connection
 
     if (state !== 'disconnecting') {
       ux.error(
@@ -70,9 +52,7 @@ export default class Disconnect extends Command {
         {exit: 1}
       )
     }
-  }
 
-  protected isPendingState(state: string): boolean {
-    return state !== 'disconnecting'
+    ux.action.stop(humanize('Disconnected'))
   }
 }

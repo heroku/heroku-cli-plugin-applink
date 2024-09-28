@@ -237,3 +237,10 @@ export const connection5_disconnection_failed: Integration.DataCloudConnection =
   state: 'disconnection_failed',
   type: 'DatacloudOrg',
 }
+
+export const ConnectionError_record_not_found: Integration.ConnectionError = {
+  body: {
+    id: 'record_not_found',
+    message: 'record not found',
+  },
+}

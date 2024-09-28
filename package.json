@@ -41,7 +41,7 @@
     "stdout-stderr": "^0",
     "strip-ansi": "^6",
     "ts-node": "^10",
-    "typescript": "5.3.3"
+    "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=16.20.2"
@@ -63,7 +63,7 @@
     ],
     "topics": {
       "datacloud": {
-        "description": "manage Heroku app connections to a Datacloud Org"
+        "description": "manage Heroku app connections to a Data Cloud Org"
       },
       "integration": {
         "description": "access information and generate Heroku Integration projects"

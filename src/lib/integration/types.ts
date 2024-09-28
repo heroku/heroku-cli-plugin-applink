@@ -62,7 +62,7 @@ export function isSalesforceConnection(connection: Connection): connection is Sa
   return (connection as SalesforceConnection).salesforce_org !== undefined
 }
 
-export function isDatacloudConnection(connection: Connection): connection is DataCloudConnection {
+export function isDataCloudConnection(connection: Connection): connection is DataCloudConnection {
   return !isSalesforceConnection(connection)
 }
 
