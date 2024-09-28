@@ -5,7 +5,12 @@ import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
 import Cmd from '../../../../src/commands/integration/connections/info'
 import stripAnsi from '../../../helpers/strip-ansi'
-import {addon, connection2_connected} from '../../../helpers/fixtures'
+import {
+  addon,
+  connection2_connected,
+  connection_record_not_found
+} from '../../../helpers/fixtures'
+import {CLIError} from '@oclif/core/lib/errors'
 
 describe('integration:connections:info', function () {
   let api: nock.Scope
@@ -51,5 +56,22 @@ describe('integration:connections:info', function () {
       Type:         Salesforce Org
     `)
     expect(stderr.output).to.equal('')
+  })
+
+  it('connection not found', async function () {
+    integrationApi
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+      .reply(200, connection_record_not_found)
+
+    try {
+      await runCommand(Cmd, [
+        'my-org-2',
+        '--app=my-app',
+      ])
+    } catch (error) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain('not found or is not connected to')
+      expect(oclif.exit).to.equal(1)
+    }
   })
 })

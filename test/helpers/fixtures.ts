@@ -244,3 +244,19 @@ export const ConnectionError_record_not_found: Integration.ConnectionError = {
     message: 'record not found',
   },
 }
+
+export const connection_record_not_found: Integration.SalesforceConnection = {
+  error: {
+    id: 'record_not_found',
+    message: 'record not found',
+  },
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  salesforce_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  state: 'connection_failed',
+  type: 'SalesforceOrg',
+}

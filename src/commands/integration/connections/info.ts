@@ -30,7 +30,7 @@ export default class Info extends Command {
       )
 
       if (connection.error && connection.error.id === 'record_not_found') {
-        ux.error(`Org ${color.yellow(orgName)} not found and/or is not connected to ${color.app(app)}`)
+        ux.error(`Org ${color.yellow(orgName)} not found or is not connected to ${color.app(app)}`, {exit: 1})
       }
 
       const orgInfo = Integration.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
