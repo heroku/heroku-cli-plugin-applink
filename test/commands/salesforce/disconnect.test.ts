@@ -5,10 +5,12 @@ import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/salesforce/disconnect'
 import {
   addon,
-  connection5_disconnecting, connection5_disconnection_failed, ConnectionError_record_not_found,
+  connection5_disconnecting,
+  connection5_disconnection_failed,
+  ConnectionError_record_not_found,
 } from '../../helpers/fixtures'
-import {CLIError} from "@oclif/core/lib/errors";
-import stripAnsi from "../../helpers/strip-ansi";
+import {CLIError} from '@oclif/core/lib/errors'
+import stripAnsi from '../../helpers/strip-ansi'
 
 describe('salesforce:disconnect', function () {
   let api: nock.Scope
