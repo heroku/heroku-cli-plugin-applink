@@ -8,7 +8,7 @@ import stripAnsi from '../../../helpers/strip-ansi'
 import {
   addon,
   connection2_connected,
-  connection_record_not_found
+  connection_record_not_found,
 } from '../../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
