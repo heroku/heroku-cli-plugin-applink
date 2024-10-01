@@ -21,15 +21,16 @@ export type SalesforceConnection = {
   /** connection state */
   readonly state:
     'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' |
-    'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected'
+    'connecting' | 'connected' | 'connection_failed' |
+    'disconnecting' | 'disconnected' | 'disconnection_failed'
   /** connection type */
   readonly 'type': 'SalesforceOrg'
 }
 
 /**
- * A connection between a Heroku app and a Datacloud Org.
+ * A connection between a Data Cloud Org and Heroku app.
  */
-export type DatacloudConnection = {
+export type DataCloudConnection = {
   /** last error on connection */
   readonly error?: {
     id: string
@@ -37,7 +38,7 @@ export type DatacloudConnection = {
   }
   /** connection ID */
   readonly id: string
-  /** Datacloud Org info */
+  /** Data Cloud Org info */
   readonly datacloud_org: {
     readonly id?: string | null
     readonly instance_url?: string | null
@@ -49,19 +50,27 @@ export type DatacloudConnection = {
   /** connection state */
   readonly state:
     'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' |
-    'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected'
+    'connecting' | 'connected' | 'connection_failed' |
+    'disconnecting' | 'disconnected' | 'disconnection_failed'
   /** connection type */
   readonly 'type': 'DatacloudOrg'
 }
 
-export type Connection = SalesforceConnection | DatacloudConnection
+export type Connection = SalesforceConnection | DataCloudConnection
 
 export function isSalesforceConnection(connection: Connection): connection is SalesforceConnection {
   return (connection as SalesforceConnection).salesforce_org !== undefined
 }
 
-export function isDatacloudConnection(connection: Connection): connection is DatacloudConnection {
+export function isDataCloudConnection(connection: Connection): connection is DataCloudConnection {
   return !isSalesforceConnection(connection)
+}
+
+export type ConnectionError = {
+  readonly body: {
+    readonly id: string
+    readonly message: string
+  }
 }
 
 /**

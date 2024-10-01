@@ -161,7 +161,7 @@ export const connection3: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection4_connecting: Integration.DatacloudConnection = {
+export const connection4_connecting: Integration.DataCloudConnection = {
   datacloud_org: {
     id: '',
     instance_url: '',
@@ -174,7 +174,7 @@ export const connection4_connecting: Integration.DatacloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_connected: Integration.DatacloudConnection = {
+export const connection4_connected: Integration.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -186,7 +186,7 @@ export const connection4_connected: Integration.DatacloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_failed: Integration.DatacloudConnection = {
+export const connection4_failed: Integration.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -202,7 +202,7 @@ export const connection4_failed: Integration.DatacloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_disconnected: Integration.DatacloudConnection = {
+export const connection4_disconnected: Integration.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -212,4 +212,51 @@ export const connection4_disconnected: Integration.DatacloudConnection = {
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   state: 'disconnected',
   type: 'DatacloudOrg',
+}
+
+export const connection5_disconnecting: Integration.DataCloudConnection = {
+  datacloud_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  state: 'disconnecting',
+  type: 'DatacloudOrg',
+}
+
+export const connection5_disconnection_failed: Integration.DataCloudConnection = {
+  datacloud_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
+  state: 'disconnection_failed',
+  type: 'DatacloudOrg',
+}
+
+export const ConnectionError_record_not_found: Integration.ConnectionError = {
+  body: {
+    id: 'record_not_found',
+    message: 'record not found',
+  },
+}
+
+export const connection_record_not_found: Integration.SalesforceConnection = {
+  error: {
+    id: 'record_not_found',
+    message: 'record not found',
+  },
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  salesforce_org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    org_name: 'my-org-2',
+    run_as_user: '',
+  },
+  state: 'connection_failed',
+  type: 'SalesforceOrg',
 }
