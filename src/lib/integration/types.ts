@@ -66,6 +66,10 @@ export function isDataCloudConnection(connection: Connection): connection is Dat
   return !isSalesforceConnection(connection)
 }
 
+export function adjustConnectionType(type: string): string {
+  return type === 'DatacloudOrg' ? 'DataCloudOrg' : type
+}
+
 export type ConnectionError = {
   readonly body: {
     readonly id: string

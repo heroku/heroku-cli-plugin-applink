@@ -286,10 +286,10 @@
   resolved "https://registry.yarnpkg.com/@heroku-cli/schema/-/schema-1.0.25.tgz#175d489d82c2ff0be700fe9fab8590b64c7e4f39"
   integrity sha512-7V6/WdTHrsvpqeqttm4zhzVJyt/Us/Cz9oS4yure4JdLtwlr2eF6PvlDLA5ZIvBybMtSDyxhHid0PeshKLtwxw==
 
-"@heroku/generator-heroku-integration@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@heroku/generator-heroku-integration/-/generator-heroku-integration-0.0.3.tgz#ad9d729b7e1e35f13334f9ee9ddbcb5061d9da35"
-  integrity sha512-Zsga9M8rr+heYR3dv080E95bGWZCbjfB1eMTZk6ddBQE7ouxUVqrA7B9MGB3mihYK4AocMmfFRYrJAMjXPHJfg==
+"@heroku/generator-heroku-integration@^0.0.5":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@heroku/generator-heroku-integration/-/generator-heroku-integration-0.0.4.tgz#e605b6e99d065fb274733f3534cb5d19fd97668c"
+  integrity sha512-NQIpcHWOfx64NL/PE2PfRVtFJjetvMpLipHcmJ/k3sBZhiRIsaOCZtshdPTVpLBJXDf4r1drWMGNENGjE2vLMA==
   dependencies:
     chalk "^2.1.0"
     yeoman-generator "^4.8.2"
@@ -6528,10 +6528,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@5.3.3:
-  version "5.3.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
-  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
+typescript@^5.3.3:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.3.tgz#5f3449e31c9d94febb17de03cc081dd56d81db5b"
+  integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
