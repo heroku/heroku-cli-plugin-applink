@@ -131,7 +131,7 @@ describe('integration:connections', function () {
            my-app       Salesforce Org my-org-1 Connected  user@example.com  
            my-app       Salesforce Org my-org-2 Connected  user@example.com  
            my-other-app Salesforce Org my-org-1 Connecting user2@example.com 
-           my-other-app Datacloud Org  my-org-2 Connected  user@example.com  
+           my-other-app Data Cloud Org my-org-2 Connected  user@example.com  
         `)
         expect(stderr.output).to.equal('')
       })

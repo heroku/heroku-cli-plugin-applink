@@ -37,7 +37,7 @@ export default class Index extends Command {
 
       ux.table(appConnections, {
         ...(app ? {} : {app: {get: row => row.app?.name}}),
-        type: {get: row => humanize(row.type)},
+        type: {get: row => humanize(Integration.adjustConnectionType(row.type))},
         orgName: {
           header: 'Org Name',
           get: row => Integration.isSalesforceConnection(row) ? row.salesforce_org.org_name : row.datacloud_org.org_name,

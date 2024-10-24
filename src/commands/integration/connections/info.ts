@@ -46,7 +46,7 @@ export default class Info extends Command {
       'Org Name': orgInfo.org_name,
       'Run As User': orgInfo.run_as_user,
       State: humanize(connection.state),
-      Type: humanize(connection.type),
+      Type: humanize(Integration.adjustConnectionType(connection.type)),
     })
   }
 }
