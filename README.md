@@ -57,7 +57,7 @@ DESCRIPTION
   connects a Data Cloud Org to a Heroku app
 ```
 
-_See code: [dist/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/connect.ts)_
+_See code: [dist/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -84,7 +84,7 @@ DESCRIPTION
   creates a Data Cloud Data Action Target for a Heroku app
 ```
 
-_See code: [dist/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/data-action-target/create.ts)_
+_See code: [dist/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect ORG_NAME`
 
@@ -104,7 +104,7 @@ DESCRIPTION
   disconnects a Data Cloud Org from a Heroku app
 ```
 
-_See code: [dist/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/disconnect.ts)_
+_See code: [dist/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/datacloud/disconnect.ts)_
 
 ## `heroku integration:connections`
 
@@ -122,7 +122,7 @@ DESCRIPTION
   lists Heroku Integration connections
 ```
 
-_See code: [dist/commands/integration/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/integration/connections/index.ts)_
+_See code: [dist/commands/integration/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/integration/connections/index.ts)_
 
 ## `heroku integration:connections:info ORG_NAME`
 
@@ -143,7 +143,7 @@ DESCRIPTION
   shows info for a Heroku Integration connection
 ```
 
-_See code: [dist/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/integration/connections/info.ts)_
+_See code: [dist/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/integration/connections/info.ts)_
 
 ## `heroku integration:project PROJECT_NAME`
 
@@ -163,7 +163,7 @@ DESCRIPTION
   generates a Heroku Integration project template
 ```
 
-_See code: [dist/commands/integration/project.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/integration/project.ts)_
+_See code: [dist/commands/integration/project.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/integration/project.ts)_
 
 ## `heroku salesforce:connect ORG_NAME`
 
@@ -188,7 +188,7 @@ DESCRIPTION
   connects a Salesforce Org to Heroku app
 ```
 
-_See code: [dist/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/salesforce/connect.ts)_
+_See code: [dist/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/salesforce/connect.ts)_
 
 ## `heroku salesforce:disconnect ORG_NAME`
 
@@ -208,7 +208,7 @@ DESCRIPTION
   disconnects a Salesforce Org from a Heroku app
 ```
 
-_See code: [dist/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/salesforce/disconnect.ts)_
+_See code: [dist/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:import API_SPEC_FILE`
 
@@ -232,5 +232,5 @@ DESCRIPTION
   Imports an API specification to an authenticated Salesforce Org.
 ```
 
-_See code: [dist/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/salesforce/import.ts)_
+_See code: [dist/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.9/dist/commands/salesforce/import.ts)_
 <!-- commandsstop -->
