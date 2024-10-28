@@ -8,7 +8,7 @@
     "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11",
     "@heroku-cli/schema": "^1.0.25",
-    "@heroku/generator-heroku-integration": "^0.0.7",
+    "@heroku/generator-heroku-integration": "^0.0.8",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
     "open": "^8.4.2",
