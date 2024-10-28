@@ -26,22 +26,26 @@ USAGE
 # Commands
 <!-- commands -->
 * [`heroku datacloud:connect ORG_NAME`](#heroku-datacloudconnect-org_name)
+* [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
+* [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
 * [`heroku integration:connections`](#heroku-integrationconnections)
 * [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
 * [`heroku integration:project PROJECT_NAME`](#heroku-integrationproject-project_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
+* [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
 
 ## `heroku datacloud:connect ORG_NAME`
 
-connects a Heroku app to a Datacloud Org
+connects a Data Cloud Org to a Heroku app
 
 ```
 USAGE
   $ heroku datacloud:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  Datacloud Org instance name
+  ORG_NAME  Data Cloud Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
+            '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -50,10 +54,57 @@ FLAGS
   --browser=<value>        browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Heroku app to a Datacloud Org
+  connects a Data Cloud Org to a Heroku app
 ```
 
 _See code: [dist/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/connect.ts)_
+
+## `heroku datacloud:data-action-target:create LABEL`
+
+creates a Data Cloud Data Action Target for a Heroku app
+
+```
+USAGE
+  $ heroku datacloud:data-action-target:create [LABEL] -a <value> -o <value> -p <value> [-n <value>] [-t WebHook]
+
+ARGUMENTS
+  LABEL  Data Action Target label
+
+FLAGS
+  -a, --app=<value>              (required) app to run command against
+  -n, --api-name=<value>         API name for the Data Action Target, default derived from label
+  -o, --org-name=<value>         (required) authorized Data Cloud Org instance name where the Data Action Target is
+                                 created
+  -p, --target-api-path=<value>  (required) API path for the Data Action Target excluding app URL, eg "/" or
+                                 "/handleDataCloudDataChangeEvent"
+  -t, --type=<option>            [default: WebHook] Data Action Target type
+                                 <options: WebHook>
+
+DESCRIPTION
+  creates a Data Cloud Data Action Target for a Heroku app
+```
+
+_See code: [dist/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/data-action-target/create.ts)_
+
+## `heroku datacloud:disconnect ORG_NAME`
+
+disconnects a Data Cloud Org from a Heroku app
+
+```
+USAGE
+  $ heroku datacloud:disconnect [ORG_NAME] -a <value>
+
+ARGUMENTS
+  ORG_NAME  Data Cloud Org instance name
+
+FLAGS
+  -a, --app=<value>  (required) app to run command against
+
+DESCRIPTION
+  disconnects a Data Cloud Org from a Heroku app
+```
+
+_See code: [dist/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/datacloud/disconnect.ts)_
 
 ## `heroku integration:connections`
 
@@ -116,14 +167,15 @@ _See code: [dist/commands/integration/project.ts](https://github.com/heroku/hero
 
 ## `heroku salesforce:connect ORG_NAME`
 
-connects a Heroku app to a Salesforce Org
+connects a Salesforce Org to Heroku app
 
 ```
 USAGE
   $ heroku salesforce:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>] [-S]
 
 ARGUMENTS
-  ORG_NAME  Salesforce Org instance name
+  ORG_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
+            '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.
 
 FLAGS
   -S, --store-as-run-as-user  store user credentials
@@ -133,10 +185,30 @@ FLAGS
   --browser=<value>           browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Heroku app to a Salesforce Org
+  connects a Salesforce Org to Heroku app
 ```
 
 _See code: [dist/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/salesforce/connect.ts)_
+
+## `heroku salesforce:disconnect ORG_NAME`
+
+disconnects a Salesforce Org from a Heroku app
+
+```
+USAGE
+  $ heroku salesforce:disconnect [ORG_NAME] -a <value>
+
+ARGUMENTS
+  ORG_NAME  Salesforce Org instance name
+
+FLAGS
+  -a, --app=<value>  (required) app to run command against
+
+DESCRIPTION
+  disconnects a Salesforce Org from a Heroku app
+```
+
+_See code: [dist/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.8/dist/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:import API_SPEC_FILE`
 
