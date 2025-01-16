@@ -32,7 +32,7 @@
     "eslint-plugin-import": "^2",
     "eslint-plugin-mocha": "^10",
     "http-call": "^5",
-    "mocha": "^10",
+    "mocha": "^11",
     "netrc-parser": "^3",
     "nock": "^13",
     "nyc": "^15",
