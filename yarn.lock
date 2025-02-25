@@ -286,10 +286,10 @@
   resolved "https://registry.yarnpkg.com/@heroku-cli/schema/-/schema-1.0.25.tgz#175d489d82c2ff0be700fe9fab8590b64c7e4f39"
   integrity sha512-7V6/WdTHrsvpqeqttm4zhzVJyt/Us/Cz9oS4yure4JdLtwlr2eF6PvlDLA5ZIvBybMtSDyxhHid0PeshKLtwxw==
 
-"@heroku/generator-heroku-integration@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@heroku/generator-heroku-integration/-/generator-heroku-integration-0.0.9.tgz#b00a5b236f84c227394890517825d1723b66b762"
-  integrity sha512-GBgyY2vKMUVQ8z4+C5BvwgG7wnCD580N7tcfPwxpdxx6xjmeP7L9lZKJulTKclol+myEvep2moLRV5QiW3e65w==
+"@heroku/generator-heroku-integration@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@heroku/generator-heroku-integration/-/generator-heroku-integration-0.0.10.tgz#bd1db7172dea4200bdaba71dba929d6696d1cc7b"
+  integrity sha512-Pjx9+VO632QBJ6pjKIrvbMa+eqtcCmijtDKy7cGpy2G2wxmsVAbzvpq7oskOwdnekQVd7FYUfyIlh1Masvp78A==
   dependencies:
     chalk "^2.1.0"
     yeoman-generator "^4.8.2"
