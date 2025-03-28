@@ -161,3 +161,12 @@ export type Publication = {
   readonly created_by: string,
   readonly last_modified_by: string,
 }
+
+export type CredsCredential = {
+  readonly error?: {
+    id: string
+    message: string
+  }
+  readonly state: 'pending' | 'ready'
+  readonly credential_id: string
+}

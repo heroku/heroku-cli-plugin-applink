@@ -36,6 +36,7 @@ USAGE
 * [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
 * [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
 * [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
+* [`heroku salesforce:connect:jwt`](#heroku-salesforceconnectjwt)
 * [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
 * [`heroku salesforce:publications`](#heroku-salesforcepublications)
 * [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
@@ -250,7 +251,28 @@ DESCRIPTION
   connects a Salesforce Org to Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect.ts)_
+_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/index.ts)_
+
+## `heroku salesforce:connect:jwt`
+
+connects a Salesforce Org to Heroku app
+
+```
+USAGE
+  $ heroku salesforce:connect:jwt --client-id <value> --jwt-key-file <value> --username <value> [-l <value>] [-S]
+
+FLAGS
+  -S, --store-as-run-as-user  store user credentials
+  -l, --login-url=<value>     login URL
+      --client-id=<value>     (required) connected app secret
+      --jwt-key-file=<value>  (required) the key file counterpart for the key informed when created the connected app
+      --username=<value>      (required) the salesforce username
+
+DESCRIPTION
+  connects a Salesforce Org to Heroku app
+```
+
+_See code: [src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/jwt.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 

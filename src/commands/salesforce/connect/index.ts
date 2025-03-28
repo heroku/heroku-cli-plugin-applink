@@ -1,11 +1,11 @@
 import {color} from '@heroku-cli/color'
-import Command from '../../lib/base'
+import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as AppLink from '../../lib/applink/types'
+import * as AppLink from '../../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
-import {humanize} from '../../lib/helpers'
+import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {

@@ -370,3 +370,8 @@ export const publication2: AppLink.Publication = {
   created_by: 'user@example.com',
   last_modified_by: 'user@example.com',
 }
+
+export const credential_id: Integration.CredsCredential = {
+  state: 'ready',
+  credential_id: 'ec156c3c-0f7f-430a-92ff-0043a8b4a586',
+}

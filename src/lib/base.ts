@@ -124,4 +124,32 @@ export default abstract class extends Command {
     this._appId = applinkAddon.app?.id || ''
     this._applink = client
   }
+
+  protected async configureApplessIntegrationClient(): Promise<void> {
+    if (this._applink)
+      return
+
+    const apiUrl = 'https://heroku-integration.heroku.com'
+
+    if (!apiUrl) {
+      ux.error(
+        heredoc`
+          Heroku Integration add-on isn’t fully provisioned.
+        `,
+        {exit: 1}
+      )
+    }
+
+    const baseUrl = new URL(apiUrl)
+    const client = new APIClient(this.config)
+    client.defaults.protocol = baseUrl.protocol
+    client.defaults.host = baseUrl.hostname
+    client.defaults.port = baseUrl.port
+    client.defaults.headers = {
+      ...this.heroku.defaults.headers,
+      accept: 'application/json',
+      'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
+    }
+    this._applink = client
+  }
 }
