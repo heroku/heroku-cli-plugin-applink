@@ -63,7 +63,7 @@ describe('integration:connections', function () {
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku Integration connections for app my-app
   
-           Type           Org Name State     Run As User      
+           Type           Org Name Status    Run As User      
            ────────────── ──────── ───────── ──────────────── 
            Salesforce Org my-org-1 Connected user@example.com 
            Salesforce Org my-org-2 Connected user@example.com 
@@ -126,7 +126,7 @@ describe('integration:connections', function () {
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku Integration connections
 
-           App          Type           Org Name State      Run As User       
+           App          Type           Org Name Status     Run As User       
            ──────────── ────────────── ──────── ────────── ───────────────── 
            my-app       Salesforce Org my-org-1 Connected  user@example.com  
            my-app       Salesforce Org my-org-2 Connected  user@example.com  
