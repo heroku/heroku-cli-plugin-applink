@@ -23,7 +23,7 @@ export default class Connect extends Command {
     org_name: Args.string({description: 'Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
   }
 
-  public static urlOpener: (...args: Parameters<typeof open>) => ReturnType<typeof open> = open
+  public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Connect)
@@ -91,9 +91,9 @@ export default class Connect extends Command {
 
     if (state !== 'connected') {
       ux.error(
-        error === undefined ?
-          humanize(state) :
-          heredoc`
+        error === undefined
+          ? humanize(state)
+          : heredoc`
             ${error.id}
             ${error.message}
           `,

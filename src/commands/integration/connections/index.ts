@@ -61,12 +61,10 @@ export default class Index extends Command {
 
     for (const addonsSlice of arraySlice(integrationAddons)) {
       const appConnectionListUrls = await this.getAppConnectionListUrls(addonsSlice)
-      const connectionListPromises = appConnectionListUrls.map(appConnectionListUrl => {
-        return this.heroku.get<Integration.Connection[]>(
-          appConnectionListUrl.url,
-          {host: new URL(appConnectionListUrl.url).hostname}
-        )
-      })
+      const connectionListPromises = appConnectionListUrls.map(appConnectionListUrl => this.heroku.get<Integration.Connection[]>(
+        appConnectionListUrl.url,
+        {host: new URL(appConnectionListUrl.url).hostname}
+      ))
       const connectionListResponses = await Promise.all(connectionListPromises)
       connectionListResponses.forEach((response, index) => {
         const connections = response.body

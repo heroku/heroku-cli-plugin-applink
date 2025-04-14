@@ -7,7 +7,13 @@ import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
 import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/salesforce/connect'
-import {addon, connection2_connected, connection2_connecting, connection2_disconnected, connection2_failed} from '../../helpers/fixtures'
+import {
+  addon,
+  connection2_connected,
+  connection2_connecting,
+  connection2_disconnected,
+  connection2_failed,
+} from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -42,7 +48,7 @@ describe('salesforce:connect', function () {
   context('when the user accepts the prompt to open the browser', function () {
     beforeEach(function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
-        on: (_: string, _cb: ErrorCallback) => {},
+        on(_: string, _cb: (_err: Error) => void) {},
       } as unknown as ChildProcess)
       sandbox.stub(ux, 'anykey').onFirstCall().resolves()
       integrationApi
@@ -143,7 +149,7 @@ describe('salesforce:connect', function () {
         .reply(202, connection2_connecting)
     })
 
-    it('doesn’t attempt to open the browser to the redirect URI', async function () {
+    it("doesn't attempt to open the browser to the redirect URI", async function () {
       try {
         await runCommand(Cmd, [
           'my-org-2',

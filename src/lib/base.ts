@@ -13,7 +13,7 @@ export default abstract class extends Command {
   }
 
   get apiUrlConfigVarName(): string {
-    return `${this.addonServiceSlug.replace(/-/g, '_').toUpperCase()}_API_URL`
+    return `${this.addonServiceSlug.replaceAll('-', '_').toUpperCase()}_API_URL`
   }
 
   get integration(): APIClient {

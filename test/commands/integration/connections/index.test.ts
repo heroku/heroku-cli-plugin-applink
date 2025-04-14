@@ -5,7 +5,14 @@ import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
 import Cmd from '../../../../src/commands/integration/connections/index'
 import stripAnsi from '../../../helpers/strip-ansi'
-import {addon, addon2, connection1, connection2_connected, connection3, connection4_connected} from '../../../helpers/fixtures'
+import {
+  addon,
+  addon2,
+  connection1,
+  connection2_connected,
+  connection3,
+  connection4_connected,
+} from '../../../helpers/fixtures'
 
 describe('integration:connections', function () {
   let api: nock.Scope

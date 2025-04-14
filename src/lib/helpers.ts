@@ -1,9 +1,7 @@
-const toTitleCase = (str: string) => {
-  return str.replace(
-    /\w\S*/g,
-    text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
-  )
-}
+const toTitleCase = (str: string) => str.replace(
+  /\w\S*/g,
+  text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
+)
 
 export function humanize(value?: string | null): string {
   return toTitleCase((value || '').replace('_', ' ').replace(/([a-z])([A-Z])/g, '$1 $2'))

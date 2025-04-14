@@ -30,6 +30,7 @@ class CommandWithConfiguration extends BaseCommand {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 netrc.loadSync = function (this: typeof netrc) {
   netrc.machines = {
     'api.heroku.com': {password: 'mypass'},
