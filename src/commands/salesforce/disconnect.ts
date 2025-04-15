@@ -43,9 +43,9 @@ export default class Disconnect extends Command {
 
     if (state !== 'disconnecting') {
       ux.error(
-        error === undefined ?
-          humanize(state) :
-          heredoc`
+        error === undefined
+          ? humanize(state)
+          : heredoc`
             ${error.id}
             ${error.message}
           `,

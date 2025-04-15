@@ -19,15 +19,14 @@
     "@oclif/test": "^2.3.28",
     "@types/mocha": "^10",
     "@types/nock": "^11",
-    "@types/node": "^16",
+    "@types/node": "22.14.1",
     "@types/sinon": "^17",
     "@types/yeoman-environment": "^2.10",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "chai": "^4",
-    "eslint": "^7",
-    "eslint-config-oclif": "^4",
-    "eslint-config-oclif-typescript": "^1",
+    "eslint": "^8.57.0",
+    "eslint-config-oclif": "^5.2.2",
     "eslint-import-resolver-typescript": "^3",
     "eslint-plugin-import": "^2",
     "eslint-plugin-mocha": "^10",
@@ -36,15 +35,15 @@
     "netrc-parser": "^3",
     "nock": "^13",
     "nyc": "^15",
-    "oclif": "2.2.0",
-    "sinon": "^14",
+    "oclif": "4.14.36",
+    "sinon": "^19",
     "stdout-stderr": "^0",
     "strip-ansi": "^6",
     "ts-node": "^10",
     "typescript": "^5.3.3"
   },
   "engines": {
-    "node": ">=16.20.2"
+    "node": ">= 20"
   },
   "files": [
     "/dist"

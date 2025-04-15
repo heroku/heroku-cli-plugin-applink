@@ -30,17 +30,14 @@ describe('integration:project', function () {
         projectName,
       ])
 
-      expect(yeomanEnvRunSpy.calledWith(
-        '@heroku/heroku-integration:salesforce-javascript',
-        {
-          projectName,
-          outputDirectory: `./${projectName}`,
-        },
-      )).to.be.true
+      expect(yeomanEnvRunSpy.calledWith('@heroku/heroku-integration:salesforce-javascript', {
+        projectName,
+        outputDirectory: `./${projectName}`,
+      })).to.equal(true)
     })
   })
 
-  context('with ‘--project-type’, ‘--language’ and ‘--output-directory’ flags', function () {
+  context('with \'--project-type\', \'--language\' and \'--output-directory\' flags', function () {
     it('attempts to run the expected sub-generator with the specified output directory', async function () {
       await runCommand(Cmd, [
         projectName,
@@ -49,13 +46,10 @@ describe('integration:project', function () {
         `--output-directory=${customOutputDirectory}`,
       ])
 
-      expect(yeomanEnvRunSpy.calledWith(
-        '@heroku/heroku-integration:salesforce-javascript',
-        {
-          projectName,
-          outputDirectory: customOutputDirectory,
-        },
-      )).to.be.true
+      expect(yeomanEnvRunSpy.calledWith('@heroku/heroku-integration:salesforce-javascript', {
+        projectName,
+        outputDirectory: customOutputDirectory,
+      })).to.equal(true)
     })
   })
 })

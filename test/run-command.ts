@@ -3,7 +3,7 @@ import {Config} from '@oclif/core'
 import {stdout, stderr} from 'stdout-stderr'
 
 type CmdConstructorParams = ConstructorParameters<typeof Command>
-export type GenericCmd = new (...args: CmdConstructorParams) => Command
+export type GenericCmd = new (..._args: CmdConstructorParams) => Command
 
 const stopMock = () => {
   stdout.stop()

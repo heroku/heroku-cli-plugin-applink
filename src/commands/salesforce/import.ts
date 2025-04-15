@@ -73,9 +73,9 @@ export default class Import extends Command {
 
     if (state !== 'imported') {
       ux.error(
-        error === undefined ?
-          humanize(state) :
-          heredoc`
+        error === undefined
+          ? humanize(state)
+          : heredoc`
             ${error.id}
             ${error.message}
           `,

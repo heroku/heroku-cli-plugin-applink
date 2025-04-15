@@ -48,7 +48,7 @@ describe('datacloud:connect', function () {
   context('when the user accepts the prompt to open the browser', function () {
     beforeEach(function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
-        on: (_: string, _cb: ErrorCallback) => {},
+        on(_: string, _cb: (_err: Error) => void) {},
       } as unknown as ChildProcess)
       sandbox.stub(ux, 'anykey').onFirstCall().resolves()
       integrationApi
