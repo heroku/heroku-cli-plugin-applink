@@ -38,7 +38,7 @@
     "oclif": "4.14.36",
     "sinon": "^19",
     "stdout-stderr": "^0",
-    "strip-ansi": "^6",
+    "strip-ansi": "^7",
     "ts-node": "^10",
     "typescript": "^5.3.3"
   },
