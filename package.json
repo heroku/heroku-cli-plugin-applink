@@ -8,12 +8,10 @@
     "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11",
     "@heroku-cli/schema": "^1.0.25",
-    "@heroku/generator-heroku-integration": "^0.0.10",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
     "open": "^8.4.2",
-    "tsheredoc": "^1",
-    "yeoman-environment": "^2"
+    "tsheredoc": "^1"
   },
   "devDependencies": {
     "@oclif/test": "^2.3.28",
@@ -21,7 +19,6 @@
     "@types/nock": "^11",
     "@types/node": "22.14.1",
     "@types/sinon": "^17",
-    "@types/yeoman-environment": "^2.10",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "chai": "^4",
