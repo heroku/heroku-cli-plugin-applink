@@ -28,8 +28,6 @@ USAGE
 * [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
 * [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 * [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
-* [`heroku integration:connections`](#heroku-integrationconnections)
-* [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 * [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
@@ -56,7 +54,7 @@ DESCRIPTION
   connect a Data Cloud Org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/connect.ts)_
+_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -85,7 +83,7 @@ DESCRIPTION
   creates a Data Cloud Data Action Target for a Heroku app
 ```
 
-_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
+_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect ORG_NAME`
 
@@ -174,7 +172,7 @@ DESCRIPTION
   connects a Salesforce Org to Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/connect.ts)_
+_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect.ts)_
 
 ## `heroku salesforce:disconnect ORG_NAME`
 
@@ -196,7 +194,7 @@ DESCRIPTION
   disconnect a Salesforce org from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
+_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:import API_SPEC_FILE`
 
@@ -221,5 +219,5 @@ DESCRIPTION
   Imports an API specification to an authenticated Salesforce Org.
 ```
 
-_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/import.ts)_
+_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
 <!-- commandsstop -->

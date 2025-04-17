@@ -1,12 +1,12 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../../lib/integration/types'
+import * as AppLink from '../../../lib/applink/types'
 import {Args, ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
 export default class Info extends Command {
-  static description = 'shows info for a Heroku Integration connection'
+  static description = 'shows info for a Heroku AppLink connection'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -23,14 +23,14 @@ export default class Info extends Command {
     const {app, addon} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app, addon)
-    let connection: Integration.Connection
+    await this.configureAppLinkClient(app, addon)
+    let connection: AppLink.Connection
     try {
-      ({body: connection} = await this.integration.get<Integration.Connection>(
+      ({body: connection} = await this.applinkClient.get<AppLink.Connection>(
         `/addons/${this.addonId}/connections/${orgName}`
       ))
     } catch (error) {
-      const connErr = error as Integration.ConnectionError
+      const connErr = error as AppLink.ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
         ux.error(`Data Cloud org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
       } else {
@@ -38,7 +38,7 @@ export default class Info extends Command {
       }
     }
 
-    const orgInfo = Integration.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
+    const orgInfo = AppLink.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
 
     ux.styledObject({
       Id: connection.id,
@@ -47,7 +47,7 @@ export default class Info extends Command {
       'Org Name': orgInfo.org_name,
       'Run As User': orgInfo.run_as_user,
       Status: humanize(connection.state),
-      Type: humanize(Integration.adjustOrgType(connection.type)),
+      Type: humanize(AppLink.adjustOrgType(connection.type)),
     })
   }
 }

@@ -3,7 +3,7 @@ import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
 import {runCommand} from '../../../run-command'
-import Cmd from '../../../../src/commands/integration/connections/info'
+import Cmd from '../../../../src/commands/applink/connections/info'
 import stripAnsi from '../../../helpers/strip-ansi'
 import {
   addon,

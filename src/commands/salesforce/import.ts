@@ -5,7 +5,7 @@ import {createHash} from 'crypto'
 import fs from 'fs'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
-import * as Integration from '../../lib/integration/types'
+import * as AppLink from '../../lib/applink/types'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
@@ -39,11 +39,11 @@ export default class Import extends Command {
     const compressedSpec = gzipSync(Buffer.from(specFileContents))
     const encodedSpec = Buffer.from(compressedSpec).toString('base64')
 
-    await this.configureIntegrationClient(app, addon)
+    await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
-    let importState: Integration.AppImport
-    const {body: importRes} = await this.integration.post<Integration.AppImport>(
+    let importState: AppLink.AppImport
+    const {body: importRes} = await this.applinkClient.post<AppLink.AppImport>(
       `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
       {
         body: {
@@ -60,7 +60,7 @@ export default class Import extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: importState} = await this.integration.get<Integration.AppImport>(
+      ({body: importState} = await this.applinkClient.get<AppLink.AppImport>(
         `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
       ))
 

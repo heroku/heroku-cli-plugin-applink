@@ -7,13 +7,13 @@ import heredoc from 'tsheredoc'
 import {stderr, stdout} from 'stdout-stderr'
 import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
-import * as Integration from '../../src/lib/integration/types'
+import * as AppLink from '../../src/lib/applink/types'
 import stripAnsi from '../helpers/strip-ansi'
 import {addon, addon2, addonStaging} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
-    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -26,8 +26,8 @@ class CommandWithConfiguration extends BaseCommand {
   async run() {
     const {flags} = await this.parse(CommandWithConfiguration)
     const {app, addon} = flags
-    await this.configureIntegrationClient(app, addon)
-    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
+    await this.configureAppLinkClient(app, addon)
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -66,7 +66,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink API Client not configured.
-          Did you call await this.configureIntegrationClient(app, this.config) before accessing this.integration?
+          Did you call await this.configureAppLinkClient(app, this.config) before accessing this.applinkClient?
         `)
         expect(oclif.exit).to.equal(1)
       }

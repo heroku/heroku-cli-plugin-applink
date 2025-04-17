@@ -1,5 +1,5 @@
 import * as Heroku from '@heroku-cli/schema'
-import * as Integration from '../../src/lib/integration/types'
+import * as AppLink from '../../src/lib/applink/types'
 
 export const addon: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
@@ -43,7 +43,7 @@ export const addonStaging: Heroku.AddOn = {
   name: 'heroku-integration-staging-01234',
 }
 
-export const connection1: Integration.SalesforceConnection = {
+export const connection1: AppLink.SalesforceConnection = {
   id: '51807d19-9d78-4064-9468-bcdc34611778',
   salesforce_org: {
     id: '00DSG000007a3FdB96',
@@ -55,7 +55,7 @@ export const connection1: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_connecting: Integration.SalesforceConnection = {
+export const connection2_connecting: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '',
@@ -68,7 +68,7 @@ export const connection2_connecting: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_connected: Integration.SalesforceConnection = {
+export const connection2_connected: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3BcA84',
@@ -80,7 +80,7 @@ export const connection2_connected: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection2_failed: Integration.SalesforceConnection = {
+export const connection2_failed: AppLink.SalesforceConnection = {
   error: {
     id: 'org_connection_failed',
     message: 'There was a problem connecting your org. Try again later.',
@@ -96,7 +96,7 @@ export const connection2_failed: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const appImportPending: Integration.AppImport = {
+export const appImportPending: AppLink.AppImport = {
   id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
   client_name: 'AccountAPI',
   state: 'pending',
@@ -114,17 +114,17 @@ export const appImportPending: Integration.AppImport = {
   },
 }
 
-export const appImportSuccess: Integration.AppImport = {
+export const appImportSuccess: AppLink.AppImport = {
   ...appImportPending,
   state: 'imported',
 }
 
-export const appImportFailed: Integration.AppImport = {
+export const appImportFailed: AppLink.AppImport = {
   ...appImportPending,
   state: 'import_failed',
 }
 
-export const datCreatePending: Integration.DataActionTargetCreate = {
+export const datCreatePending: AppLink.DataActionTargetCreate = {
   id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
   api_name: 'MyDataActionTarget',
   datacloud_org: {
@@ -143,17 +143,17 @@ export const datCreatePending: Integration.DataActionTargetCreate = {
   type: 'Webhook',
 }
 
-export const datCreateSuccess: Integration.DataActionTargetCreate = {
+export const datCreateSuccess: AppLink.DataActionTargetCreate = {
   ...datCreatePending,
   state: 'created',
 }
 
-export const datCreateFailed: Integration.DataActionTargetCreate = {
+export const datCreateFailed: AppLink.DataActionTargetCreate = {
   ...datCreatePending,
   state: 'creation_failed',
 }
 
-export const connection2_disconnected: Integration.SalesforceConnection = {
+export const connection2_disconnected: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3BcA84',
@@ -165,7 +165,7 @@ export const connection2_disconnected: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection3: Integration.SalesforceConnection = {
+export const connection3: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   salesforce_org: {
     id: '00DSG000007a3FdB96',
@@ -177,7 +177,7 @@ export const connection3: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const connection4_connecting: Integration.DataCloudConnection = {
+export const connection4_connecting: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '',
     instance_url: '',
@@ -190,7 +190,7 @@ export const connection4_connecting: Integration.DataCloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_connected: Integration.DataCloudConnection = {
+export const connection4_connected: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -202,7 +202,7 @@ export const connection4_connected: Integration.DataCloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_failed: Integration.DataCloudConnection = {
+export const connection4_failed: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -218,7 +218,7 @@ export const connection4_failed: Integration.DataCloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection4_disconnected: Integration.DataCloudConnection = {
+export const connection4_disconnected: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -230,7 +230,7 @@ export const connection4_disconnected: Integration.DataCloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection5_disconnecting: Integration.DataCloudConnection = {
+export const connection5_disconnecting: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -242,7 +242,7 @@ export const connection5_disconnecting: Integration.DataCloudConnection = {
   type: 'DatacloudOrg',
 }
 
-export const connection5_disconnection_failed: Integration.DataCloudConnection = {
+export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
   datacloud_org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -254,14 +254,14 @@ export const connection5_disconnection_failed: Integration.DataCloudConnection =
   type: 'DatacloudOrg',
 }
 
-export const ConnectionError_record_not_found: Integration.ConnectionError = {
+export const ConnectionError_record_not_found: AppLink.ConnectionError = {
   body: {
     id: 'record_not_found',
     message: 'record not found',
   },
 }
 
-export const connection_record_not_found: Integration.SalesforceConnection = {
+export const connection_record_not_found: AppLink.SalesforceConnection = {
   error: {
     id: 'record_not_found',
     message: 'record not found',
@@ -277,7 +277,7 @@ export const connection_record_not_found: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const authorization1: Integration.Authorization = {
+export const authorization1: AppLink.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   status: 'connected',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
@@ -292,13 +292,13 @@ export const authorization1: Integration.Authorization = {
   last_modified_by: 'user@example.com',
 }
 
-export const authorization2: Integration.Authorization = {
+export const authorization2: AppLink.Authorization = {
   ...authorization1,
   status: 'disconnected',
   org_name: 'my-org-2',
 }
 
-export const authorization_pending: Integration.Authorization = {
+export const authorization_pending: AppLink.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   developer_name: 'my-auth-1',
   status: 'pending',
@@ -309,17 +309,17 @@ export const authorization_pending: Integration.Authorization = {
   last_modified_at: '2025-04-23T12:00:00Z',
 }
 
-export const authorization_authenticating: Integration.Authorization = {
+export const authorization_authenticating: AppLink.Authorization = {
   ...authorization_pending,
   status: 'authenticating',
 }
 
-export const authorization_connected: Integration.Authorization = {
+export const authorization_connected: AppLink.Authorization = {
   ...authorization_pending,
   status: 'connected',
 }
 
-export const authorization_connection_failed: Integration.Authorization = {
+export const authorization_connection_failed: AppLink.Authorization = {
   ...authorization_pending,
   status: 'connection_failed',
   error: {
@@ -328,7 +328,7 @@ export const authorization_connection_failed: Integration.Authorization = {
   },
 }
 
-export const authorization_disconnected: Integration.Authorization = {
+export const authorization_disconnected: AppLink.Authorization = {
   ...authorization_pending,
   status: 'disconnected',
 }

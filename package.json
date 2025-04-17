@@ -1,9 +1,9 @@
 {
-  "name": "@heroku-cli/plugin-integration",
-  "description": "Heroku CLI plugin for Heroku Integration add-on",
+  "name": "@heroku-cli/plugin-applink",
+  "description": "Heroku CLI plugin for Heroku AppLink add-on",
   "version": "0.0.11",
   "author": "Heroku",
-  "bugs": "https://github.com/heroku/heroku-cli-plugin-integration/issues",
+  "bugs": "https://github.com/heroku/heroku-cli-plugin-applink/issues",
   "dependencies": {
     "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11",
@@ -45,7 +45,7 @@
   "files": [
     "/dist"
   ],
-  "homepage": "https://github.com/heroku/heroku-cli-plugin-integration",
+  "homepage": "https://github.com/heroku/heroku-cli-plugin-applink",
   "keywords": [
     "heroku-plugin",
     "oclif"
@@ -61,21 +61,22 @@
       "datacloud": {
         "description": "manage Heroku app connections to a Data Cloud Org"
       },
-      "integration": {
-        "description": "access information and generate Heroku Integration projects"
+      "applink": {
+        "description": "access information and generate Heroku AppLink projects"
       },
       "salesforce": {
         "description": "manage Heroku app connections to a Salesforce Org"
       }
     }
   },
-  "repository": "heroku/heroku-cli-plugin-integration",
+  "repository": "heroku/heroku-cli-plugin-applink",
   "scripts": {
     "prepare": "yarn build",
     "build": "rm -rf dist && tsc -b && oclif manifest && oclif readme && mv oclif.manifest.json ./dist/oclif.manifest.json && cp README.md ./dist/README.md",
     "lint": "eslint . --ext .ts --config .eslintrc.json",
     "posttest": "yarn lint",
     "test": "nyc mocha --forbid-only",
+    "test:local": "nyc mocha",
     "version": "oclif readme && git add README.md"
   }
 }
