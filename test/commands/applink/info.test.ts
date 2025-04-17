@@ -2,17 +2,17 @@ import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../../run-command'
-import Cmd from '../../../../src/commands/applink/connections/info'
-import stripAnsi from '../../../helpers/strip-ansi'
+import {runCommand} from '../../run-command'
+import Cmd from '../../../src/commands/applink/connections/info'
+import stripAnsi from '../../helpers/strip-ansi'
 import {
   addon,
   connection2_connected,
   connection_record_not_found,
-} from '../../../helpers/fixtures'
+} from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
-describe('integration:connections:info', function () {
+describe('applink:connections:info', function () {
   let api: nock.Scope
   let integrationApi: nock.Scope
   const {env} = process
