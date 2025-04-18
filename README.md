@@ -30,7 +30,6 @@ USAGE
 * [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
 * [`heroku integration:connections`](#heroku-integrationconnections)
 * [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
-* [`heroku integration:project PROJECT_NAME`](#heroku-integrationproject-project_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 * [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
@@ -144,26 +143,6 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/integration/connections/info.ts)_
-
-## `heroku integration:project PROJECT_NAME`
-
-generates a Heroku Integration project template
-
-```
-USAGE
-  $ heroku integration:project PROJECT_NAME [-o <value>]
-
-ARGUMENTS
-  PROJECT_NAME  user assigned project name
-
-FLAGS
-  -o, --output-directory=<value>  output directory where files will be placed (defaults to ./{PROJECT_NAME})
-
-DESCRIPTION
-  generates a Heroku Integration project template
-```
-
-_See code: [src/commands/integration/project.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/integration/project.ts)_
 
 ## `heroku salesforce:connect ORG_NAME`
 

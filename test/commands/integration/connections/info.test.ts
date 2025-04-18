@@ -52,7 +52,7 @@ describe('integration:connections:info', function () {
       Org ID:       00DSG000007a3BcA84
       Org Name:     my-org-2
       Run As User:  user@example.com
-      State:        Connected
+      Status:       Connected
       Type:         Salesforce Org
     `)
     expect(stderr.output).to.equal('')
