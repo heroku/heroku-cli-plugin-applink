@@ -75,7 +75,7 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when the app doesn’t have the Heroku Integration add-on installed', function () {
+  context('when the app doesn’t have the Heroku AppLink add-on installed', function () {
     beforeEach(async function () {
       api
         .get('/apps/my-app/addons')
@@ -93,7 +93,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on isn’t present on my-app.
-          Install the add-on using heroku addons:create heroku-integration -a my-app.
+          Install the add-on using heroku addons:create heroku-applink -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
       }
@@ -102,7 +102,7 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when the add-on isn’t fully provisioned', function () {
+  context('when the add-on is not fully provisioned', function () {
     beforeEach(async function () {
       api
         .get('/apps/my-app/addons')
@@ -120,7 +120,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on isn’t fully provisioned on my-app.
-          Wait for the add-on to finish provisioning with heroku addons:wait heroku-integration -a my-app.
+          Wait for the add-on to finish provisioning with heroku addons:wait heroku-applink -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
       }

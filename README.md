@@ -1,7 +1,7 @@
-@heroku-cli/plugin-integration
+@heroku-cli/plugin-applink
 ==============================
 
-Heroku Integration CLI plugin
+Heroku Integration AppLink plugin
 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
@@ -15,12 +15,12 @@ Heroku Integration CLI plugin
 <!-- tocstop -->
 # Usage
 ```sh-session
-$ heroku plugins:install @heroku-cli/plugin-integration
-$ heroku integration:COMMAND
+$ heroku plugins:install @heroku-cli/plugin-applink
+$ heroku applink:COMMAND
 running command...
-$ heroku integration --help [COMMAND]
+$ heroku applink --help [COMMAND]
 USAGE
-  $ heroku integration:COMMAND
+  $ heroku applink:COMMAND
 ...
 ```
 # Commands

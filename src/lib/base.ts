@@ -13,7 +13,7 @@ export default abstract class extends Command {
    * Remove this once we've migrated to new default applink name
    */
   get legacyAddonServiceSlug(): string {
-    return process.env.HEROKU_APPLINK_ADDON || 'heroku-integration'
+    return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
   }
 
   get addonServiceSlug(): string {
