@@ -54,7 +54,7 @@ export default class Index extends Command {
 
   protected async getAppLinkAddons() {
     const {body: addons} = await this.heroku.get<Required<Heroku.AddOn>[]>('/addons')
-    return addons.filter(addon => addon.addon_service?.name === this.addonServiceSlug)
+    return addons.filter(addon => addon.addon_service?.name === this.addonServiceSlug || addon.addon_service?.name === this.legacyAddonServiceSlug)
   }
 
   protected async getAppConnections(applinkAddons: Required<Heroku.AddOn>[]): Promise<AppConnection[]> {
