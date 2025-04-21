@@ -8,14 +8,15 @@ import heredoc from 'tsheredoc'
 import {ConnectionError} from '../../lib/integration/types'
 
 export default class Disconnect extends Command {
-  static description = 'disconnects a Data Cloud Org from a Heroku app'
+  static description = 'disconnects a Data Cloud org from a Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
+    remote: flags.remote(),
   }
 
   static args = {
-    org_name: Args.string({description: 'Data Cloud Org instance name', required: true}),
+    org_name: Args.string({description: 'name of the Data Cloud Org instance', required: true}),
   }
 
   public async run(): Promise<void> {
@@ -32,13 +33,13 @@ export default class Disconnect extends Command {
     } catch (error) {
       const connErr = error as ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Data Cloud org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
+        ux.error(`Data Cloud org ${color.yellow(orgName)} doesn't exist on app ${color.app(app)}. Use ${color.cmd('heroku applink:connections')} to list the connections on the app.`, {exit: 1})
       } else {
         throw error
       }
     }
 
-    ux.action.start(`Disconnecting Data Cloud Org ${color.yellow(orgName)} from ${color.app(app)}`)
+    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(orgName)} from ${color.app(app)}`)
     const {state, error} = connection
 
     if (state !== 'disconnecting') {

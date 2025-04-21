@@ -79,7 +79,7 @@ describe('datacloud:disconnect', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('not found or not connected to app')
+      expect(stripAnsi(message)).to.equal('Data Cloud org myorg doesn\'t exist on app my-app. Use heroku applink:connections to list the connections on the app.')
       expect(oclif.exit).to.equal(1)
     }
   })
