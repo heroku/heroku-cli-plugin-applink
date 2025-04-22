@@ -9,7 +9,7 @@ import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
 import * as Integration from '../../src/lib/integration/types'
 import stripAnsi from '../helpers/strip-ansi'
-import {addon} from '../helpers/fixtures'
+import {addon, addon2} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
@@ -180,6 +180,94 @@ describe('attempt a request using the Integration API client', function () {
       ])
 
       expect(stderr.output).to.equal('')
+      expect(stdout.output).to.equal('')
+    })
+  })
+
+  context('when the --addon flag is specified', function () {
+    beforeEach(async function () {
+      api
+        .get('/apps/my-app/addons')
+        .reply(200, [addon])
+        .get('/apps/my-app/config-vars')
+        .reply(200, {
+          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+        })
+    })
+
+    it('uses the specified add-on', async function () {
+      integrationApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+        .reply(200, [])
+
+      await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+        '--addon=heroku-integration-vertical-01234',
+      ])
+
+      expect(stderr.output).to.equal('')
+      expect(stdout.output).to.equal('')
+    })
+
+    it('returns an error message and exits with a status of 1 if the add-on doesn’t exist', async function () {
+      try {
+        await runCommand(CommandWithConfiguration, [
+          '--app=my-app',
+          '--addon=my-addon-2',
+        ])
+      } catch (error) {
+        const {message, oclif} = error as CLIError
+        expect(stripAnsi(message)).to.equal(heredoc`
+          AppLink add-on my-addon-2 doesn't exist on my-app.
+          Use heroku addons:list --app my-app to list the add-ons on the app.
+        `)
+        expect(oclif.exit).to.equal(1)
+      }
+
+      expect(stdout.output).to.equal('')
+    })
+  })
+  context('when there are multiple AppLink addons', function () {
+    beforeEach(async function () {
+      api
+        .get('/apps/my-app/addons')
+        .reply(200, [addon, addon2])
+        .get('/apps/my-app/config-vars')
+        .reply(200, {
+          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+        })
+    })
+
+    it('uses the specified add-on', async function () {
+      integrationApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+        .reply(200, [])
+
+      await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+        '--addon=heroku-integration-vertical-01234',
+      ])
+
+      expect(stderr.output).to.equal('')
+      expect(stdout.output).to.equal('')
+    })
+
+    it('returns an error message and exits with a status of 1 if no addon is specified', async function () {
+      try {
+        await runCommand(CommandWithConfiguration, [
+          '--app=my-app',
+        ])
+      } catch (error) {
+        const {message, oclif} = error as CLIError
+        expect(stripAnsi(message)).to.equal(heredoc`
+          Your app my-app has multiple AppLink add-ons.
+          Rerun the command with the --addon flag to specify which one to use.
+        `)
+        expect(oclif.exit).to.equal(1)
+      }
+
       expect(stdout.output).to.equal('')
     })
   })
