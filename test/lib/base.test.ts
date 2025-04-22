@@ -20,12 +20,13 @@ class CommandWithoutConfiguration extends BaseCommand {
 class CommandWithConfiguration extends BaseCommand {
   static flags = {
     app: flags.app({required: true}),
+    addon: flags.string(),
   }
 
   async run() {
     const {flags} = await this.parse(CommandWithConfiguration)
-    const {app} = flags
-    await this.configureIntegrationClient(app)
+    const {app, addon} = flags
+    await this.configureIntegrationClient(app, addon)
     this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
@@ -64,7 +65,7 @@ describe('attempt a request using the Integration API client', function () {
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          Heroku Integration API Client not configured.
+          AppLink API Client not configured.
           Did you call await this.configureIntegrationClient(app, this.config) before accessing this.integration?
         `)
         expect(oclif.exit).to.equal(1)
@@ -91,7 +92,7 @@ describe('attempt a request using the Integration API client', function () {
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          Heroku Integration add-on isn’t present on my-app.
+          AppLink add-on isn’t present on my-app.
           Install the add-on using heroku addons:create heroku-integration -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -118,7 +119,7 @@ describe('attempt a request using the Integration API client', function () {
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          Heroku Integration add-on isn’t fully provisioned on my-app.
+          AppLink add-on isn’t fully provisioned on my-app.
           Wait for the add-on to finish provisioning with heroku addons:wait heroku-integration -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -135,7 +136,8 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
@@ -164,7 +166,8 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_INTEGRATION_STAGING_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')

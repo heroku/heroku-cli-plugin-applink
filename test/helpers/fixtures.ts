@@ -2,6 +2,7 @@ import * as Heroku from '@heroku-cli/schema'
 import * as Integration from '../../src/lib/integration/types'
 
 export const addon: Heroku.AddOn = {
+  config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
     id: '23456789-abcd-ef01-2345-6789abcdef01',
     name: 'heroku-integration',
@@ -15,6 +16,7 @@ export const addon: Heroku.AddOn = {
 }
 
 export const addon2: Heroku.AddOn = {
+  config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
     id: '456789ab-cdef-0123-4567-89abcdef0123',
     name: 'heroku-integration',

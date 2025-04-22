@@ -38,7 +38,8 @@ describe('integration:connections', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
@@ -100,11 +101,13 @@ describe('integration:connections', function () {
           .reply(200, [addon, addon2])
           .get('/apps/89abcdef-0123-4567-89ab-cdef01234567/config-vars')
           .reply(200, {
-            HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+            HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+            HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
           })
           .get('/apps/abcdef01-2345-6789-abcd-ef0123456789/config-vars')
           .reply(200, {
-            HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+            HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+            HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
           })
       })
 

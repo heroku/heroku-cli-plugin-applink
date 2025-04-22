@@ -83,7 +83,7 @@ export default abstract class extends Command {
     if (!apiUrl || !applinkToken) {
       ux.error(
         heredoc`
-          Heroku Integration add-on isn’t fully provisioned on ${color.app(app)}.
+          AppLink add-on isn’t fully provisioned on ${color.app(app)}.
           Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${this.addonServiceSlug} -a ${app}`)}.
         `,
         {exit: 1}
