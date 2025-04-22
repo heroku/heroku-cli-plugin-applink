@@ -25,7 +25,7 @@ USAGE
 ```
 # Commands
 <!-- commands -->
-* [`heroku datacloud:connect ORG_NAME`](#heroku-datacloudconnect-org_name)
+* [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
 * [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 * [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
 * [`heroku integration:connections`](#heroku-integrationconnections)
@@ -34,26 +34,25 @@ USAGE
 * [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
 
-## `heroku datacloud:connect ORG_NAME`
+## `heroku datacloud:connect [ORG_NAME]`
 
-connects a Data Cloud Org to a Heroku app
+connect a Data Cloud Org to a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:connect ORG_NAME -a <value> [--browser <value>] [-l <value>] [-r <value>]
+  $ heroku datacloud:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  Data Cloud Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
-            '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.
+  ORG_NAME  name for the Data Cloud Org instance
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
-  -l, --login-url=<value>  login URL
+  -l, --login-url=<value>  Salesforce login URL
   -r, --remote=<value>     git remote of app to use
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Data Cloud Org to a Heroku app
+  connect a Data Cloud Org to a Heroku app
 ```
 
 _See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/connect.ts)_
@@ -64,19 +63,20 @@ creates a Data Cloud Data Action Target for a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [-n <value>] [-t WebHook]
+  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [-n <value>] [-t WebHook] [-r
+  <value>]
 
 ARGUMENTS
   LABEL  Data Action Target label
 
 FLAGS
   -a, --app=<value>              (required) app to run command against
-  -n, --api-name=<value>         API name for the Data Action Target, default derived from label
-  -o, --org-name=<value>         (required) authorized Data Cloud Org instance name where the Data Action Target is
-                                 created
-  -p, --target-api-path=<value>  (required) API path for the Data Action Target excluding app URL, eg "/" or
+  -n, --api-name=<value>         [default: <LABEL>] API name for the data action target
+  -o, --org-name=<value>         (required) connected Data Cloud org instance name to create the data action target
+  -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
-  -t, --type=<option>            [default: WebHook] Data Action Target type
+  -r, --remote=<value>           git remote of app to use
+  -t, --type=<option>            [default: WebHook] Data action target type
                                  <options: WebHook>
 
 DESCRIPTION
@@ -87,20 +87,21 @@ _See code: [src/commands/datacloud/data-action-target/create.ts](https://github.
 
 ## `heroku datacloud:disconnect ORG_NAME`
 
-disconnects a Data Cloud Org from a Heroku app
+disconnects a Data Cloud org from a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:disconnect ORG_NAME -a <value>
+  $ heroku datacloud:disconnect ORG_NAME -a <value> [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  Data Cloud Org instance name
+  ORG_NAME  name of the Data Cloud Org instance
 
 FLAGS
-  -a, --app=<value>  (required) app to run command against
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
 
 DESCRIPTION
-  disconnects a Data Cloud Org from a Heroku app
+  disconnects a Data Cloud org from a Heroku app
 ```
 
 _See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/disconnect.ts)_

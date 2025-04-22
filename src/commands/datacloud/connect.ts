@@ -9,17 +9,17 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connects a Data Cloud Org to a Heroku app'
+  static description = 'connect a Data Cloud Org to a Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
-    'login-url': flags.string({char: 'l', description: 'login URL'}),
+    'login-url': flags.string({char: 'l', description: 'Salesforce login URL'}),
     remote: flags.remote(),
   }
 
   static args = {
-    org_name: Args.string({description: 'Data Cloud Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
+    org_name: Args.string({description: 'name for the Data Cloud Org instance'}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
@@ -46,7 +46,7 @@ export default class Connect extends Command {
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
     const showBrowserError = () => {
-      if (!urlDisplayed) ux.warn('Cannot open browser.')
+      if (!urlDisplayed) ux.warn('We can\'t open the browser. Try again, or use a different browser.')
       urlDisplayed = true
     }
 

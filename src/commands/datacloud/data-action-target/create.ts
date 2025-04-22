@@ -11,14 +11,15 @@ export default class Create extends Command {
 
   static flags = {
     app: flags.app({required: true}),
-    'api-name': flags.string({char: 'n', description: 'API name for the Data Action Target, default derived from label'}),
-    'org-name': flags.string({char: 'o', required: true, description: 'authorized Data Cloud Org instance name where the Data Action Target is created'}),
-    'target-api-path': flags.string({char: 'p', required: true, description: 'API path for the Data Action Target excluding app URL, eg "/" or "/handleDataCloudDataChangeEvent"'}),
+    'api-name': flags.string({char: 'n', description: '[default: <LABEL>] API name for the data action target'}),
+    'org-name': flags.string({char: 'o', required: true, description: 'connected Data Cloud org instance name to create the data action target'}),
+    'target-api-path': flags.string({char: 'p', required: true, description: 'API path for the data action target excluding app URL, eg "/" or "/handleDataCloudDataChangeEvent"'}),
     type: flags.string({
       char: 't',
-      description: 'Data Action Target type',
+      description: 'Data action target type',
       options: ['WebHook'], default: 'WebHook',
     }),
+    remote: flags.remote(),
   }
 
   static args = {
@@ -42,7 +43,7 @@ export default class Create extends Command {
 
     await this.configureIntegrationClient(app)
 
-    ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' Data Action Target ${type} to ${color.yellow(orgName)}`)
+    ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
     let createState: Integration.DataActionTargetCreate
     const {body: createResp} = await this.integration.post<Integration.DataActionTargetCreate>(
       `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
