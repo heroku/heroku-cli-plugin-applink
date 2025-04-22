@@ -99,8 +99,7 @@ export default abstract class extends Command {
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
     }
-    const matchedAddonId = baseUrl.pathname.match(/addons\/([^/]+)/)
-    this._addonId = matchedAddonId ? matchedAddonId[1] : ''
+    this._addonId = applinkAddon.id || ''
     this._integration = client
   }
 }
