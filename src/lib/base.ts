@@ -98,6 +98,7 @@ export default abstract class extends Command {
       authorization: `Bearer ${applinkToken}`,
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
+      'x-app-uuid': applinkAddon?.app?.id || '',
     }
     this._addonId = applinkAddon.id || ''
     this._integration = client
