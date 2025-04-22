@@ -11,6 +11,7 @@ export default class Disconnect extends Command {
   static description = 'disconnects a Data Cloud org from a Heroku app'
 
   static flags = {
+    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
     app: flags.app({required: true}),
     remote: flags.remote(),
   }
@@ -21,10 +22,10 @@ export default class Disconnect extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Disconnect)
-    const {app} = flags
+    const {app, addon} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
     let connection: Integration.SalesforceConnection
     try {
       ({body: connection} = await this.integration.delete<Integration.SalesforceConnection>(

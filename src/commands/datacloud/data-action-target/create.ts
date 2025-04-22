@@ -10,6 +10,7 @@ export default class Create extends Command {
   static description = 'creates a Data Cloud Data Action Target for a Heroku app'
 
   static flags = {
+    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
     app: flags.app({required: true}),
     'api-name': flags.string({char: 'n', description: '[default: <LABEL>] API name for the data action target'}),
     'org-name': flags.string({char: 'o', required: true, description: 'connected Data Cloud org instance name to create the data action target'}),
@@ -32,7 +33,7 @@ export default class Create extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Create)
-    const {app, 'org-name': orgName, 'target-api-path': targetPath, type} = flags
+    const {app, addon, 'org-name': orgName, 'target-api-path': targetPath, type} = flags
     let {'api-name': apiName} = flags
     const {label} = args
 
@@ -41,7 +42,7 @@ export default class Create extends Command {
       apiName = label.replaceAll(' ', '_')
     }
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
 
     ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
     let createState: Integration.DataActionTargetCreate
