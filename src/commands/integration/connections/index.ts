@@ -13,17 +13,18 @@ export default class Index extends Command {
   static description = 'lists Heroku Integration connections'
 
   static flags = {
+    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
     app: flags.app(),
     remote: flags.remote(),
   }
 
   public async run(): Promise<void> {
     const {flags} = await this.parse(Index)
-    const {app} = flags
+    const {app, addon} = flags
     let appConnections: AppConnection[] = []
 
     if (app) {
-      await this.configureIntegrationClient(app);
+      await this.configureIntegrationClient(app, addon);
       ({body: appConnections} = await this.integration.get<Integration.Connection[]>(`/addons/${this.addonId}/connections`))
     } else {
       const integrationAddons = await this.getIntegrationAddons()
@@ -86,7 +87,7 @@ export default class Index extends Command {
     const appConnectionListUrls: Array<AppConnectionListUrl> = []
 
     configVarsResponses.forEach((response, index) => {
-      const apiUrl = response.body[this.apiUrlConfigVarName]
+      const {apiUrl} = this.getConfigVars(integrationAddons[index], response.body)
       if (apiUrl) appConnectionListUrls.push({
         url: `${apiUrl}/connections`,
         app: integrationAddons[index].app,
