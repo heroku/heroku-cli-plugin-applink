@@ -29,6 +29,20 @@ export const addon2: Heroku.AddOn = {
   name: 'heroku-integration-horizontal-01234',
 }
 
+export const addonStaging: Heroku.AddOn = {
+  config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
+  addon_service: {
+    id: '456789ab-cdef-0123-4567-89abcdef0123',
+    name: 'heroku-integration-staging',
+  },
+  app: {
+    id: 'abcdef01-2345-6789-abcd-ef0123456789',
+    name: 'my-other-app',
+  },
+  id: '6789abcd-ef01-2345-6789-abcdef012345',
+  name: 'heroku-integration-staging-01234',
+}
+
 export const connection1: Integration.SalesforceConnection = {
   id: '51807d19-9d78-4064-9468-bcdc34611778',
   salesforce_org: {

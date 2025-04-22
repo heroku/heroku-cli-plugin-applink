@@ -9,7 +9,7 @@ import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
 import * as Integration from '../../src/lib/integration/types'
 import stripAnsi from '../helpers/strip-ansi'
-import {addon, addon2} from '../helpers/fixtures'
+import {addon, addon2, addonStaging} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
@@ -159,18 +159,17 @@ describe('attempt a request using the Integration API client', function () {
       process.env = {
         HEROKU_INTEGRATION_ADDON: 'heroku-integration-staging',
       }
-      addon.addon_service = {...addon.addon_service, name: 'heroku-integration-staging'}
 
       api
         .get('/apps/my-app/addons')
-        .reply(200, [addon])
+        .reply(200, [addonStaging])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi
-        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+        .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
         .reply(200, [])
     })
 
