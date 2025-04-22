@@ -40,7 +40,7 @@ connect a Data Cloud Org to a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:connect [ORG_NAME] -a <value> [--browser <value>] [-l <value>] [-r <value>]
+  $ heroku datacloud:connect [ORG_NAME] -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
   ORG_NAME  name for the Data Cloud Org instance
@@ -49,6 +49,7 @@ FLAGS
   -a, --app=<value>        (required) app to run command against
   -l, --login-url=<value>  Salesforce login URL
   -r, --remote=<value>     git remote of app to use
+      --addon=<value>      unique name or ID of an AppLink add-on
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
@@ -63,8 +64,8 @@ creates a Data Cloud Data Action Target for a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [-n <value>] [-t WebHook] [-r
-  <value>]
+  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [--addon <value>] [-n <value>] [-t WebHook] [-r
+    <value>]
 
 ARGUMENTS
   LABEL  Data Action Target label
@@ -78,6 +79,7 @@ FLAGS
   -r, --remote=<value>           git remote of app to use
   -t, --type=<option>            [default: WebHook] Data action target type
                                  <options: WebHook>
+      --addon=<value>            unique name or ID of an AppLink add-on
 
 DESCRIPTION
   creates a Data Cloud Data Action Target for a Heroku app
@@ -91,7 +93,7 @@ disconnects a Data Cloud org from a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:disconnect ORG_NAME -a <value> [-r <value>]
+  $ heroku datacloud:disconnect ORG_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
   ORG_NAME  name of the Data Cloud Org instance
@@ -99,6 +101,7 @@ ARGUMENTS
 FLAGS
   -a, --app=<value>     (required) app to run command against
   -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
   disconnects a Data Cloud org from a Heroku app
@@ -112,11 +115,12 @@ lists Heroku Integration connections
 
 ```
 USAGE
-  $ heroku integration:connections [-a <value>] [-r <value>]
+  $ heroku integration:connections [--addon <value>] [-a <value>] [-r <value>]
 
 FLAGS
   -a, --app=<value>     app to run command against
   -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
   lists Heroku Integration connections
@@ -130,7 +134,7 @@ shows info for a Heroku Integration connection
 
 ```
 USAGE
-  $ heroku integration:connections:info ORG_NAME -a <value> [-r <value>]
+  $ heroku integration:connections:info ORG_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
   ORG_NAME  connected org name
@@ -138,6 +142,7 @@ ARGUMENTS
 FLAGS
   -a, --app=<value>     (required) app to run command against
   -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
   shows info for a Heroku Integration connection
@@ -151,7 +156,7 @@ connects a Salesforce Org to Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:connect ORG_NAME -a <value> [--browser <value>] [-l <value>] [-r <value>] [-S]
+  $ heroku salesforce:connect ORG_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>] [-S]
 
 ARGUMENTS
   ORG_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
@@ -162,6 +167,7 @@ FLAGS
   -a, --app=<value>           (required) app to run command against
   -l, --login-url=<value>     login URL
   -r, --remote=<value>        git remote of app to use
+      --addon=<value>         unique name or ID of an AppLink add-on
       --browser=<value>       browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
@@ -172,20 +178,22 @@ _See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku
 
 ## `heroku salesforce:disconnect ORG_NAME`
 
-disconnects a Salesforce Org from a Heroku app
+disconnect a Salesforce org from a Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:disconnect ORG_NAME -a <value>
+  $ heroku salesforce:disconnect ORG_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  Salesforce Org instance name
+  ORG_NAME  name of the Salesforce org instance
 
 FLAGS
-  -a, --app=<value>  (required) app to run command against
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnects a Salesforce Org from a Heroku app
+  disconnect a Salesforce org from a Heroku app
 ```
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
@@ -196,7 +204,7 @@ Imports an API specification to an authenticated Salesforce Org.
 
 ```
 USAGE
-  $ heroku salesforce:import API_SPEC_FILE -a <value> -c <value> -o <value> [-G] [-r <value>]
+  $ heroku salesforce:import API_SPEC_FILE -a <value> -c <value> -o <value> [--addon <value>] [-G] [-r <value>]
 
 ARGUMENTS
   API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format)
@@ -207,6 +215,7 @@ FLAGS
   -c, --client-name=<value>           (required) name given to the client stub
   -o, --org-name=<value>              (required) authorized Salesforce Org instance name
   -r, --remote=<value>                git remote of app to use
+      --addon=<value>                 unique name or ID of an AppLink add-on
 
 DESCRIPTION
   Imports an API specification to an authenticated Salesforce Org.
