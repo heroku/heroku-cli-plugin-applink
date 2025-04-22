@@ -12,7 +12,7 @@ export default class Connect extends Command {
   static description = 'connects a Salesforce Org to Heroku app'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
     'login-url': flags.string({char: 'l', description: 'login URL'}),

@@ -13,7 +13,7 @@ export default class Import extends Command {
   static description = 'Imports an API specification to an authenticated Salesforce Org.'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
     'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client'}),

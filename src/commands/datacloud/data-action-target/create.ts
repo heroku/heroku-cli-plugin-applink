@@ -10,7 +10,7 @@ export default class Create extends Command {
   static description = 'creates a Data Cloud Data Action Target for a Heroku app'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'api-name': flags.string({char: 'n', description: '[default: <LABEL>] API name for the data action target'}),
     'org-name': flags.string({char: 'o', required: true, description: 'connected Data Cloud org instance name to create the data action target'}),

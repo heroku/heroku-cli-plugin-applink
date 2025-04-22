@@ -80,7 +80,7 @@ describe('salesforce:disconnect', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('not found or not connected to app')
+      expect(stripAnsi(message)).to.contain('Salesforce org myorg doesn\'t exist on app my-app.')
       expect(oclif.exit).to.equal(1)
     }
   })

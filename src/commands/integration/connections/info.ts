@@ -9,7 +9,7 @@ export default class Info extends Command {
   static description = 'shows info for a Heroku Integration connection'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     remote: flags.remote(),
   }

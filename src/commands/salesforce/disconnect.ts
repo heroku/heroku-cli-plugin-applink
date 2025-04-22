@@ -8,16 +8,16 @@ import heredoc from 'tsheredoc'
 import {ConnectionError} from '../../lib/integration/types'
 
 export default class Disconnect extends Command {
-  static description = 'disconnects a Salesforce Org from a Heroku app'
+  static description = 'disconnect a Salesforce org from a Heroku app'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     remote: flags.remote(),
   }
 
   static args = {
-    org_name: Args.string({description: 'Salesforce Org instance name', required: true}),
+    org_name: Args.string({description: 'name of the Salesforce org instance', required: true}),
   }
 
   public async run(): Promise<void> {
@@ -34,13 +34,16 @@ export default class Disconnect extends Command {
     } catch (error) {
       const connErr = error as ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Salesforce org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
+        ux.error(
+          heredoc`
+            Salesforce org ${color.yellow(orgName)} doesn't exist on app ${color.app(app)}.
+            Use ${color.cmd(`heroku applink:connections --app ${app}`)} to list the connections on the app`, {exit: 1})
       } else {
         throw error
       }
     }
 
-    ux.action.start(`Disconnecting Salesforce Org ${color.yellow(orgName)} from ${color.app(app)}`)
+    ux.action.start(`Disconnecting Salesforce org ${color.yellow(orgName)} from ${color.app(app)}`)
     const {state, error} = connection
 
     if (state !== 'disconnecting') {

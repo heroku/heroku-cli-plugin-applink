@@ -13,7 +13,7 @@ export default class Index extends Command {
   static description = 'lists Heroku Integration connections'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app(),
     remote: flags.remote(),
   }

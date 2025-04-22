@@ -11,7 +11,7 @@ export default class Disconnect extends Command {
   static description = 'disconnects a Data Cloud org from a Heroku app'
 
   static flags = {
-    addon: flags.string({description: 'unique name, ID, or alias of an AppLink add-on'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     remote: flags.remote(),
   }
