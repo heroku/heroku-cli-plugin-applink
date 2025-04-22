@@ -196,7 +196,7 @@ describe('attempt a request using the Integration API client', function () {
         })
     })
 
-    it('uses the specified add-on', async function () {
+    it('uses the specified add-on name', async function () {
       integrationApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
@@ -204,6 +204,20 @@ describe('attempt a request using the Integration API client', function () {
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
         '--addon=heroku-integration-vertical-01234',
+      ])
+
+      expect(stderr.output).to.equal('')
+      expect(stdout.output).to.equal('')
+    })
+
+    it('uses the specified add-on ID', async function () {
+      integrationApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+        .reply(200, [])
+
+      await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+        '--addon=01234567-89ab-cdef-0123-456789abcdef',
       ])
 
       expect(stderr.output).to.equal('')
