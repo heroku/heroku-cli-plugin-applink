@@ -60,7 +60,7 @@ export function isDataCloudConnection(connection: Connection): connection is Dat
   return !isSalesforceConnection(connection)
 }
 
-export function adjustConnectionType(type: string): string {
+export function adjustOrgType(type: string | undefined): string | undefined {
   return type === 'DatacloudOrg' ? 'DataCloudOrg' : type
 }
 
@@ -133,7 +133,7 @@ export type DataActionTargetCreate = {
 }
 
 /**
- * Create Salesforce Authorization process.
+ * Create Authorization process.
  */
 export type Authorization = {
   readonly id: string
