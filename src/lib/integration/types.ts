@@ -135,13 +135,18 @@ export type DataActionTargetCreate = {
 /**
  * Create Salesforce Authorization process.
  */
-export type SalesforceAuthorization = {
+export type Authorization = {
   readonly id: string
   readonly developer_name: string
   readonly status: ConnectionStatus
   readonly redirect_uri: string
   readonly created_at: string
   readonly last_modified_at: string
+  readonly salesforce_username?: string
+  readonly app_name?: string
+  readonly org_id?: string
+  readonly org_name?: string
+  readonly type?: string
   readonly created_by: string
   readonly last_modified_by: string
   readonly error?: {

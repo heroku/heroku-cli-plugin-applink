@@ -13,9 +13,9 @@ export default class Authorize extends Command {
 
   static flags = {
     app: flags.app({required: true}),
-    addon: flags.string(),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
-    'login-url': flags.string({char: 'l', description: 'login URL'}),
+    'login-url': flags.string({char: 'l', description: 'Salesforce login URL'}),
     remote: flags.remote(),
   }
 
@@ -27,12 +27,12 @@ export default class Authorize extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Authorize)
-    const {app, browser, 'login-url': loginUrl} = flags
+    const {addon, app, browser, 'login-url': loginUrl} = flags
     const {developer_name: developerName} = args
 
-    await this.configureIntegrationClient(app)
-    let authorization: Integration.SalesforceAuthorization
-    ({body: authorization} = await this.integration.post<Integration.SalesforceAuthorization>(
+    await this.configureIntegrationClient(app, addon)
+    let authorization: Integration.Authorization
+    ({body: authorization} = await this.integration.post<Integration.Authorization>(
       `/addons/${this.addonId}/authorizations`,
       {
         body: {
@@ -47,7 +47,7 @@ export default class Authorize extends Command {
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
     const showBrowserError = () => {
-      if (!urlDisplayed) ux.warn('Cannot open browser.')
+      if (!urlDisplayed) ux.warn('We can\'t open the browser. Try again, or use a different browser.')
       urlDisplayed = true
     }
 
@@ -78,7 +78,7 @@ export default class Authorize extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: authorization} = await this.integration.get<Integration.SalesforceAuthorization>(
+      ({body: authorization} = await this.integration.get<Integration.Authorization>(
         `/addons/${this.addonId}/authorizations/${id}`,
       ));
 
