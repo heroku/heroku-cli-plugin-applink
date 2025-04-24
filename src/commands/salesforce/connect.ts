@@ -17,7 +17,6 @@ export default class Connect extends Command {
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
     'login-url': flags.string({char: 'l', description: 'login URL'}),
     remote: flags.remote(),
-    'store-as-run-as-user': flags.boolean({char: 'S', description: 'store user credentials'}),
   }
 
   static args = {
@@ -28,7 +27,7 @@ export default class Connect extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Connect)
-    const {app, addon, browser, 'login-url': loginUrl, 'store-as-run-as-user': storeAsRunAsUser} = flags
+    const {app, addon, browser, 'login-url': loginUrl} = flags
     const {org_name: orgName} = args
 
     await this.configureIntegrationClient(app, addon)
@@ -39,7 +38,6 @@ export default class Connect extends Command {
         body: {
           login_url: loginUrl,
           org_name: orgName,
-          store_as_run_as_user: Boolean(storeAsRunAsUser),
         },
       }
     ))
