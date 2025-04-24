@@ -9,7 +9,7 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connect a Salesforce org to Heroku app'
+  static description = 'connects a Salesforce Org to Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -20,7 +20,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    org_name: Args.string({description: 'name for the Salesforce org instance.  Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.', required: true}),
+    org_name: Args.string({description: 'Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
@@ -47,7 +47,7 @@ export default class Connect extends Command {
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
     const showBrowserError = () => {
-      if (!urlDisplayed) ux.warn('We can\'t open the browser. Try again, or use a different browser.')
+      if (!urlDisplayed) ux.warn('Cannot open browser.')
       urlDisplayed = true
     }
 
@@ -70,10 +70,10 @@ export default class Connect extends Command {
     })
 
     ux.action.start(`Connecting Salesforce org ${color.yellow(orgName)} to ${color.app(app)}`)
-    let {status, error} = connection
-    ux.action.status = humanize(status)
+    let {state, error} = connection
+    ux.action.status = humanize(state)
 
-    while (this.isPendingStatus(status)) {
+    while (this.isPendingState(state)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
@@ -82,16 +82,16 @@ export default class Connect extends Command {
         `/addons/${this.addonId}/connections/${id}`,
       ));
 
-      ({status, error} = connection)
-      ux.action.status = humanize(status)
+      ({state, error} = connection)
+      ux.action.status = humanize(state)
     }
 
-    ux.action.stop(humanize(status))
+    ux.action.stop(humanize(state))
 
-    if (status !== 'connected') {
+    if (state !== 'connected') {
       ux.error(
         error === undefined
-          ? humanize(status)
+          ? humanize(state)
           : heredoc`
             ${error.id}
             ${error.message}
@@ -101,7 +101,7 @@ export default class Connect extends Command {
     }
   }
 
-  protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+  protected isPendingState(state: string): boolean {
+    return state !== 'connected' && state !== 'authentication_failed' && state !== 'connection_failed' && state !== 'disconnected'
   }
 }

@@ -25,8 +25,8 @@ export default class Import extends Command {
     api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format)'}),
   }
 
-  protected isPendingStatus(status: string): boolean {
-    return status !== 'imported' && status !== 'import_failed'
+  protected isPendingState(state: string): boolean {
+    return state !== 'imported' && state !== 'import_failed'
   }
 
   public async run(): Promise<void> {
@@ -42,7 +42,7 @@ export default class Import extends Command {
     await this.configureIntegrationClient(app, addon)
 
     ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
-    let importStatus: Integration.AppImport
+    let importState: Integration.AppImport
     const {body: importRes} = await this.integration.post<Integration.AppImport>(
       `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
       {
@@ -53,28 +53,29 @@ export default class Import extends Command {
           hex_digest: hexDigest,
         },
       })
-    let {status, error} = importRes
+    let {state, error} = importRes
 
-    while (this.isPendingStatus(status)) {
+    while (this.isPendingState(state)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
 
-      ({body: importStatus} = await this.integration.get<Integration.AppImport>(
+      ({body: importState} = await this.integration.get<Integration.AppImport>(
         `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
       ))
 
-      status = importStatus.status
-      error = importStatus.error
-      ux.action.status = humanize(status)
+      // ({state, error} = importState)
+      state = importState.state
+      error = importState.error
+      ux.action.status = humanize(state)
     }
 
-    ux.action.stop(humanize(status))
+    ux.action.stop(humanize(state))
 
-    if (status !== 'imported') {
+    if (state !== 'imported') {
       ux.error(
         error === undefined
-          ? humanize(status)
+          ? humanize(state)
           : heredoc`
             ${error.id}
             ${error.message}

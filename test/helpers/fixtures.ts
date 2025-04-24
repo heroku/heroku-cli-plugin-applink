@@ -51,7 +51,7 @@ export const connection1: Integration.SalesforceConnection = {
     org_name: 'my-org-1',
     run_as_user: 'user@example.com',
   },
-  status: 'connected',
+  state: 'connected',
   type: 'SalesforceOrg',
 }
 
@@ -64,7 +64,7 @@ export const connection2_connecting: Integration.SalesforceConnection = {
     run_as_user: '',
   },
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  status: 'authenticating',
+  state: 'authenticating',
   type: 'SalesforceOrg',
 }
 
@@ -76,7 +76,7 @@ export const connection2_connected: Integration.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: 'user@example.com',
   },
-  status: 'connected',
+  state: 'connected',
   type: 'SalesforceOrg',
 }
 
@@ -92,14 +92,14 @@ export const connection2_failed: Integration.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  status: 'connection_failed',
+  state: 'connection_failed',
   type: 'SalesforceOrg',
 }
 
 export const appImportPending: Integration.AppImport = {
   id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
   client_name: 'AccountAPI',
-  status: 'pending',
+  state: 'pending',
   generate_authorization_permission_set: true,
   salesforce_org: {
     id: '00DSG00000DGEIr2AP',
@@ -116,12 +116,12 @@ export const appImportPending: Integration.AppImport = {
 
 export const appImportSuccess: Integration.AppImport = {
   ...appImportPending,
-  status: 'imported',
+  state: 'imported',
 }
 
 export const appImportFailed: Integration.AppImport = {
   ...appImportPending,
-  status: 'import_failed',
+  state: 'import_failed',
 }
 
 export const datCreatePending: Integration.DataActionTargetCreate = {
@@ -138,19 +138,19 @@ export const datCreatePending: Integration.DataActionTargetCreate = {
     url: 'https://hint4aa8373ef0bb57ff28226530-229438e187dc.herokuapp.com/',
   },
   label: 'My Data Action Target',
-  status: 'pending',
+  state: 'pending',
   target_endpoint: '/handleDataCloudDataChangeEvent',
   type: 'Webhook',
 }
 
 export const datCreateSuccess: Integration.DataActionTargetCreate = {
   ...datCreatePending,
-  status: 'created',
+  state: 'created',
 }
 
 export const datCreateFailed: Integration.DataActionTargetCreate = {
   ...datCreatePending,
-  status: 'creation_failed',
+  state: 'creation_failed',
 }
 
 export const connection2_disconnected: Integration.SalesforceConnection = {
@@ -161,7 +161,7 @@ export const connection2_disconnected: Integration.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  status: 'disconnected',
+  state: 'disconnected',
   type: 'SalesforceOrg',
 }
 
@@ -173,7 +173,7 @@ export const connection3: Integration.SalesforceConnection = {
     org_name: 'my-org-1',
     run_as_user: 'user2@example.com',
   },
-  status: 'connecting',
+  state: 'connecting',
   type: 'SalesforceOrg',
 }
 
@@ -186,7 +186,7 @@ export const connection4_connecting: Integration.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  status: 'authenticating',
+  state: 'authenticating',
   type: 'DatacloudOrg',
 }
 
@@ -198,7 +198,7 @@ export const connection4_connected: Integration.DataCloudConnection = {
     run_as_user: 'user@example.com',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'connected',
+  state: 'connected',
   type: 'DatacloudOrg',
 }
 
@@ -214,7 +214,7 @@ export const connection4_failed: Integration.DataCloudConnection = {
     message: 'There was a problem connecting your org. Try again later.',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'connection_failed',
+  state: 'connection_failed',
   type: 'DatacloudOrg',
 }
 
@@ -226,7 +226,7 @@ export const connection4_disconnected: Integration.DataCloudConnection = {
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'disconnected',
+  state: 'disconnected',
   type: 'DatacloudOrg',
 }
 
@@ -238,7 +238,7 @@ export const connection5_disconnecting: Integration.DataCloudConnection = {
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'disconnecting',
+  state: 'disconnecting',
   type: 'DatacloudOrg',
 }
 
@@ -250,7 +250,7 @@ export const connection5_disconnection_failed: Integration.DataCloudConnection =
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'disconnection_failed',
+  state: 'disconnection_failed',
   type: 'DatacloudOrg',
 }
 
@@ -273,7 +273,7 @@ export const connection_record_not_found: Integration.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  status: 'connection_failed',
+  state: 'connection_failed',
   type: 'SalesforceOrg',
 }
 

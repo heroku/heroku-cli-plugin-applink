@@ -27,8 +27,8 @@ export default class Create extends Command {
     label: Args.string({required: true, description: 'Data Action Target label'}),
   }
 
-  protected isPendingStatus(status: string): boolean {
-    return status !== 'created' && status !== 'creation_failed'
+  protected isPendingState(state: string): boolean {
+    return state !== 'created' && state !== 'creation_failed'
   }
 
   public async run(): Promise<void> {
@@ -45,7 +45,7 @@ export default class Create extends Command {
     await this.configureIntegrationClient(app, addon)
 
     ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
-    let createStatus: Integration.DataActionTargetCreate
+    let createState: Integration.DataActionTargetCreate
     const {body: createResp} = await this.integration.post<Integration.DataActionTargetCreate>(
       `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
       {
@@ -58,28 +58,29 @@ export default class Create extends Command {
       }
     )
 
-    let {status, error} = createResp
+    let {state, error} = createResp
 
-    while (this.isPendingStatus(status)) {
+    while (this.isPendingState(state)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
 
-      ({body: createStatus} = await this.integration.get<Integration.DataActionTargetCreate>(
+      ({body: createState} = await this.integration.get<Integration.DataActionTargetCreate>(
         `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets/${apiName}`,
       ))
 
-      status = createStatus.status
-      error = createStatus.error
-      ux.action.status = humanize(status)
+      // ({state, error} = importState)
+      state = createState.state
+      error = createState.error
+      ux.action.status = humanize(state)
     }
 
-    ux.action.stop(humanize(status))
+    ux.action.stop(humanize(state))
 
-    if (status !== 'created') {
+    if (state !== 'created') {
       ux.error(
         error === undefined
-          ? humanize(status)
+          ? humanize(state)
           : heredoc`
             ${error.id}
             ${error.message}
