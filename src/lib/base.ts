@@ -7,6 +7,7 @@ import heredoc from 'tsheredoc'
 export default abstract class extends Command {
   private _integration!: APIClient
   private _addonId!: string
+  _addonName!: string
 
   get addonServiceSlug(): string {
     return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
@@ -101,6 +102,7 @@ export default abstract class extends Command {
       'x-app-uuid': applinkAddon?.app?.id || '',
     }
     this._addonId = applinkAddon.id || ''
+    this._addonName = applinkAddon.name || ''
     this._integration = client
   }
 }

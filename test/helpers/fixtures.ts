@@ -277,6 +277,27 @@ export const connection_record_not_found: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
+export const authorization1: Integration.Authorization = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  status: 'connected',
+  redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  developer_name: 'my-developer-name',
+  app_name: 'my-app',
+  org_id: '00DSG000007a3BcA84',
+  org_name: 'my-org-1',
+  type: 'SalesforceOrg',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+}
+
+export const authorization2: Integration.Authorization = {
+  ...authorization1,
+  status: 'disconnected',
+  org_name: 'my-org-2',
+}
+
 export const authorization_pending: Integration.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   developer_name: 'my-auth-1',
