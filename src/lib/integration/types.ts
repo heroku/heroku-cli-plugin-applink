@@ -19,10 +19,7 @@ export type SalesforceConnection = {
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
   /** connection state */
-  readonly state:
-    'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' |
-    'connecting' | 'connected' | 'connection_failed' |
-    'disconnecting' | 'disconnected' | 'disconnection_failed'
+  readonly state: ConnectionStatus
   /** connection type */
   readonly 'type': 'SalesforceOrg'
 }
@@ -48,10 +45,7 @@ export type DataCloudConnection = {
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
   /** connection state */
-  readonly state:
-    'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' |
-    'connecting' | 'connected' | 'connection_failed' |
-    'disconnecting' | 'disconnected' | 'disconnection_failed'
+  readonly state: ConnectionStatus
   /** connection type */
   readonly 'type': 'DatacloudOrg'
 }
@@ -76,6 +70,8 @@ export type ConnectionError = {
     readonly message: string
   }
 }
+
+export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
 
 /**
  * An app import process.
@@ -130,6 +126,29 @@ export type DataActionTargetCreate = {
   readonly state: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
   readonly target_endpoint: string
   readonly type: string
+  readonly error?: {
+    id: string
+    message: string
+  }
+}
+
+/**
+ * Create Salesforce Authorization process.
+ */
+export type Authorization = {
+  readonly id: string
+  readonly developer_name: string
+  readonly status: ConnectionStatus
+  readonly redirect_uri: string
+  readonly created_at: string
+  readonly last_modified_at: string
+  readonly salesforce_username?: string
+  readonly app_name?: string
+  readonly org_id?: string
+  readonly org_name?: string
+  readonly type?: string
+  readonly created_by: string
+  readonly last_modified_by: string
   readonly error?: {
     id: string
     message: string

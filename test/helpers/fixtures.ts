@@ -276,3 +276,38 @@ export const connection_record_not_found: Integration.SalesforceConnection = {
   state: 'connection_failed',
   type: 'SalesforceOrg',
 }
+
+export const authorization_pending: Integration.Authorization = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  developer_name: 'my-auth-1',
+  status: 'pending',
+  redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
+  created_at: '2025-04-23T12:00:00Z',
+  last_modified_by: 'user@example.com',
+  created_by: 'user@example.com',
+  last_modified_at: '2025-04-23T12:00:00Z',
+}
+
+export const authorization_authenticating: Integration.Authorization = {
+  ...authorization_pending,
+  status: 'authenticating',
+}
+
+export const authorization_connected: Integration.Authorization = {
+  ...authorization_pending,
+  status: 'connected',
+}
+
+export const authorization_connection_failed: Integration.Authorization = {
+  ...authorization_pending,
+  status: 'connection_failed',
+  error: {
+    id: 'org_connection_failed',
+    message: 'There was a problem connecting to your org. Try again later.',
+  },
+}
+
+export const authorization_disconnected: Integration.Authorization = {
+  ...authorization_pending,
+  status: 'disconnected',
+}
