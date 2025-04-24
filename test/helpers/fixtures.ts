@@ -277,7 +277,7 @@ export const connection_record_not_found: Integration.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const authorization_pending: Integration.SalesforceAuthorization = {
+export const authorization_pending: Integration.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   developer_name: 'my-auth-1',
   status: 'pending',
@@ -288,17 +288,17 @@ export const authorization_pending: Integration.SalesforceAuthorization = {
   last_modified_at: '2025-04-23T12:00:00Z',
 }
 
-export const authorization_authenticating: Integration.SalesforceAuthorization = {
+export const authorization_authenticating: Integration.Authorization = {
   ...authorization_pending,
   status: 'authenticating',
 }
 
-export const authorization_connected: Integration.SalesforceAuthorization = {
+export const authorization_connected: Integration.Authorization = {
   ...authorization_pending,
   status: 'connected',
 }
 
-export const authorization_connection_failed: Integration.SalesforceAuthorization = {
+export const authorization_connection_failed: Integration.Authorization = {
   ...authorization_pending,
   status: 'connection_failed',
   error: {
@@ -307,7 +307,7 @@ export const authorization_connection_failed: Integration.SalesforceAuthorizatio
   },
 }
 
-export const authorization_disconnected: Integration.SalesforceAuthorization = {
+export const authorization_disconnected: Integration.Authorization = {
   ...authorization_pending,
   status: 'disconnected',
 }

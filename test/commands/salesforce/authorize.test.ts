@@ -31,7 +31,8 @@ describe('salesforce:authorize', function () {
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')
       .reply(200, {
-        HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
       })
     integrationApi = nock('https://integration-api.heroku.com')
     sandbox = sinon.createSandbox()
