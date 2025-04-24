@@ -43,7 +43,7 @@ export default class Index extends Command {
           header: 'Org Name',
           get: row => Integration.isSalesforceConnection(row) ? row.salesforce_org.org_name : row.datacloud_org.org_name,
         },
-        status: {get: row => humanize(row.state)},
+        status: {get: row => humanize(row.status)},
         runAsUser: {
           header: 'Run As User',
           get: row => Integration.isSalesforceConnection(row) ? row.salesforce_org.run_as_user : row.datacloud_org.run_as_user,

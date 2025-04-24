@@ -44,12 +44,12 @@ export default class Disconnect extends Command {
     }
 
     ux.action.start(`Disconnecting Salesforce org ${color.yellow(orgName)} from ${color.app(app)}`)
-    const {state, error} = connection
+    const {status, error} = connection
 
-    if (state !== 'disconnecting') {
+    if (status !== 'disconnecting') {
       ux.error(
         error === undefined
-          ? humanize(state)
+          ? humanize(status)
           : heredoc`
             ${error.id}
             ${error.message}
