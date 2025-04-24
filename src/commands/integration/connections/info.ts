@@ -9,6 +9,7 @@ export default class Info extends Command {
   static description = 'shows info for a Heroku Integration connection'
 
   static flags = {
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     remote: flags.remote(),
   }
@@ -19,10 +20,10 @@ export default class Info extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Info)
-    const {app} = flags
+    const {app, addon} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
     let connection: Integration.Connection
     try {
       ({body: connection} = await this.integration.get<Integration.Connection>(

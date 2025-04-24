@@ -12,6 +12,7 @@ export default class Connect extends Command {
   static description = 'connect a Data Cloud Org to a Heroku app'
 
   static flags = {
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     browser: flags.string({description: 'browser to open OAuth flow with (example: "firefox", "safari")'}),
     'login-url': flags.string({char: 'l', description: 'Salesforce login URL'}),
@@ -26,10 +27,10 @@ export default class Connect extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Connect)
-    const {app, browser, 'login-url': loginUrl} = flags
+    const {app, addon, browser, 'login-url': loginUrl} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
     let connection: Integration.DataCloudConnection
     ({body: connection} = await this.integration.post<Integration.DataCloudConnection>(
       `/addons/${this.addonId}/connections/datacloud`,

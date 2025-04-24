@@ -24,7 +24,8 @@ describe('salesforce:disconnect', function () {
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')
       .reply(200, {
-        HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
       })
     integrationApi = nock('https://integration-api.heroku.com')
   })
@@ -79,7 +80,7 @@ describe('salesforce:disconnect', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('not found or not connected to app')
+      expect(stripAnsi(message)).to.contain('Salesforce org myorg doesn\'t exist on app my-app.')
       expect(oclif.exit).to.equal(1)
     }
   })

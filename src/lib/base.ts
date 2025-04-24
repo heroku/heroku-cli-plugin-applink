@@ -12,17 +12,13 @@ export default abstract class extends Command {
     return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
   }
 
-  get apiUrlConfigVarName(): string {
-    return `${this.addonServiceSlug.replaceAll('-', '_').toUpperCase()}_API_URL`
-  }
-
   get integration(): APIClient {
     if (this._integration)
       return this._integration
 
     ux.error(
       heredoc`
-        Heroku Integration API Client not configured.
+        AppLink API Client not configured.
         Did you call ${color.yellow('await this.configureIntegrationClient(app, this.config)')} before accessing ${color.yellow('this.integration')}?
       `,
       {exit: 1}
@@ -33,31 +29,61 @@ export default abstract class extends Command {
     return this._addonId || ''
   }
 
-  protected async configureIntegrationClient(app: string): Promise<void> {
+  protected getConfigVars(addon: Heroku.AddOn, configVars: Heroku.ConfigVars): {apiUrl: string, applinkToken: string} {
+    const apiConfigVarName = addon.config_vars?.find(v => v.endsWith('API_URL'))
+    const tokenConfigVarName = addon.config_vars?.find(v => v.endsWith('TOKEN'))
+    const apiUrl = apiConfigVarName ? configVars[apiConfigVarName] : ''
+    const applinkToken = tokenConfigVarName ? configVars[tokenConfigVarName] : ''
+    return {apiUrl, applinkToken}
+  }
+
+  protected async configureIntegrationClient(app: string, addon?: string): Promise<void> {
     if (this._integration)
       return
 
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
     const [{body: addons}, {body: configVars}] = await Promise.all([addonsRequest, configVarsRequest])
-    const addon = addons.find(addon => addon.addon_service.name === this.addonServiceSlug)
+    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
+    let applinkAddon: Heroku.AddOn | undefined
 
-    if (!addon) {
+    if (applinkAddons.length === 0) {
       ux.error(
         heredoc`
-          Heroku Integration add-on isn’t present on ${color.app(app)}.
+          AppLink add-on isn’t present on ${color.app(app)}.
           Install the add-on using ${color.cmd(`heroku addons:create ${this.addonServiceSlug} -a ${app}`)}.
+        `,
+        {exit: 1}
+      )
+    } else if (addon) {
+      applinkAddon = applinkAddons.find(a => a.name === addon || a.id === addon)
+      if (!applinkAddon) {
+        ux.error(
+          heredoc`
+            AppLink add-on ${color.addon(addon)} doesn't exist on ${color.app(app)}.
+            Use ${color.cmd(`heroku addons:list --app ${app}`)} to list the add-ons on the app.
+          `,
+          {exit: 1}
+        )
+      }
+    } else if (applinkAddons.length === 1) {
+      applinkAddon = applinkAddons[0]
+    } else {
+      ux.error(
+        heredoc`
+          Your app ${color.app(app)} has multiple AppLink add-ons.
+          Rerun the command with the ${color.cmd('--addon')} flag to specify which one to use.
         `,
         {exit: 1}
       )
     }
 
-    const apiUrl = configVars[this.apiUrlConfigVarName]
+    const {apiUrl, applinkToken} = this.getConfigVars(applinkAddon, configVars)
 
-    if (!apiUrl) {
+    if (!apiUrl || !applinkToken) {
       ux.error(
         heredoc`
-          Heroku Integration add-on isn’t fully provisioned on ${color.app(app)}.
+          AppLink add-on isn’t fully provisioned on ${color.app(app)}.
           Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${this.addonServiceSlug} -a ${app}`)}.
         `,
         {exit: 1}
@@ -69,11 +95,12 @@ export default abstract class extends Command {
     client.defaults.host = baseUrl.hostname
     client.defaults.headers = {
       ...this.heroku.defaults.headers,
+      authorization: `Bearer ${applinkToken}`,
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
+      'x-app-uuid': applinkAddon?.app?.id || '',
     }
-    const matchedAddonId = baseUrl.pathname.match(/addons\/([^/]+)/)
-    this._addonId = matchedAddonId ? matchedAddonId[1] : ''
+    this._addonId = applinkAddon.id || ''
     this._integration = client
   }
 }

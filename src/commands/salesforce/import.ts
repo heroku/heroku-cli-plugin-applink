@@ -13,6 +13,7 @@ export default class Import extends Command {
   static description = 'Imports an API specification to an authenticated Salesforce Org.'
 
   static flags = {
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
     'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client'}),
@@ -30,7 +31,7 @@ export default class Import extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Import)
-    const {app, 'client-name': clientName, 'generate-auth-permission-set': generateAuthPermissionSet, 'org-name': orgName} = flags
+    const {app, addon, 'client-name': clientName, 'generate-auth-permission-set': generateAuthPermissionSet, 'org-name': orgName} = flags
     const {api_spec_file: apiSpecFile} = args
 
     const specFileContents = fs.readFileSync(apiSpecFile)
@@ -38,7 +39,7 @@ export default class Import extends Command {
     const compressedSpec = gzipSync(Buffer.from(specFileContents))
     const encodedSpec = Buffer.from(compressedSpec).toString('base64')
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
 
     ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
     let importState: Integration.AppImport
