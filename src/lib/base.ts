@@ -102,7 +102,7 @@ export default abstract class extends Command {
       'x-app-uuid': applinkAddon?.app?.id || '',
     }
     this._addonId = applinkAddon.id || ''
-    this._addonName = addon.name
+    this._addonName = applinkAddon.name || ''
     this._integration = client
   }
 }

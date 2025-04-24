@@ -16,9 +16,9 @@ export default class Index extends Command {
 
   public async run(): Promise<void> {
     const {flags} = await this.parse(Index)
-    const {app} = flags
+    const {addon, app} = flags
 
-    await this.configureIntegrationClient(app)
+    await this.configureIntegrationClient(app, addon)
     const {body: appAuthorizations} = await this.integration.get<Integration.Authorization[]>(`/addons/${this.addonId}/authorizations`)
 
     if (appAuthorizations.length === 0) {
