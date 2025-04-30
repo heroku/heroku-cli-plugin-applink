@@ -34,7 +34,7 @@ export default class Index extends Command {
         },
         connectedOrg: {
           header: 'Connected Org',
-          get: row => row.org_name,
+          get: row => row.salesforce_org.org_name,
         },
         developerName: {
           header: 'Developer Name',

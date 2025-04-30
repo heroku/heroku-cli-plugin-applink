@@ -38,22 +38,20 @@ export default class Info extends Command {
       }
     }
 
-    const orgInfo = Integration.isSalesforceConnection(authorization) ? authorization.salesforce_org : authorization.datacloud_org
-
     ux.styledObject({
-      Id: connection.id,
-      'Instance URL': orgInfo.instance_url,
-      'Org ID': orgInfo.id,
-      'Org Name': orgInfo.org_name,
-      'Run As User': orgInfo.run_as_user,
-      Status: humanize(connection.state),
+      ID: authorization.id,
+      'Instance URL': authorization.salesforce_org.instance_url,
+      'Org ID': authorization.salesforce_org.id,
+      'Org Name': authorization.salesforce_org.org_name,
+      'Run As User': authorization.salesforce_org.run_as_user,
+      Status: humanize(authorization.status),
       App: app,
-      Type: humanize(Integration.adjustConnectionType(connection.type)),
-      'Add-On': this._addonName,
-      'Created Date': connection.created_at,
-      'Created By': connection.created_by,
-      'Last Modified': connection.updated_at,
-      'Last Modified By': connection.updated_by,
+      Type: humanize(Integration.adjustOrgType(authorization.type)),
+      'Add-on': this._addonName,
+      'Created Date': authorization.created_at,
+      'Created By': authorization.created_by,
+      'Last Modified': authorization.last_modified_at,
+      'Last Modified By': authorization.last_modified_by,
     })
   }
 }
