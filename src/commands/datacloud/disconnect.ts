@@ -6,6 +6,7 @@ import {ux, Args} from '@oclif/core'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 import {ConnectionError} from '../../lib/applink/types'
+import confirmCommand from '../../lib/confirmCommand'
 
 export default class Disconnect extends Command {
   static description = 'disconnects a Data Cloud org from a Heroku app'
@@ -13,20 +14,25 @@ export default class Disconnect extends Command {
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
+    confirm: flags.string({char: 'c', description: 'set to Data Cloud org instance name to bypass confirm prompt'}),
     remote: flags.remote(),
   }
 
   static args = {
-    org_name: Args.string({description: 'name of the Data Cloud Org instance', required: true}),
+    org_name: Args.string({description: 'name of the Data Cloud org instance', required: true}),
   }
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Disconnect)
-    const {app, addon} = flags
+    const {app, addon, confirm} = flags
     const {org_name: orgName} = args
 
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.SalesforceConnection
+
+    await confirmCommand(orgName, confirm)
+
+    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(orgName)} from ${color.app(app)}`)
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${orgName}`
@@ -40,7 +46,6 @@ export default class Disconnect extends Command {
       }
     }
 
-    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(orgName)} from ${color.app(app)}`)
     const {state, error} = connection
 
     if (state !== 'disconnecting') {
