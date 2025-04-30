@@ -7,8 +7,8 @@ import Cmd from '../../../../src/commands/applink/authorizations/index'
 import stripAnsi from '../../../helpers/strip-ansi'
 import {
   addon,
-  authorization1,
-  authorization2,
+  authorization_connected,
+  authorization_connected_2,
 } from '../../../helpers/fixtures'
 
 describe('applink:authorizations', function () {
@@ -59,7 +59,7 @@ describe('applink:authorizations', function () {
       it('shows the authorizations', async function () {
         applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
-          .reply(200, [authorization1, authorization2])
+          .reply(200, [authorization_connected, authorization_connected_2])
 
         await runCommand(Cmd, [
           '--app=my-app',
@@ -68,10 +68,10 @@ describe('applink:authorizations', function () {
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku AppLink authorizations for app my-app
   
-           Type           Add-On                        Connected Org Developer Name    Status       
-           ────────────── ───────────────────────────── ───────────── ───────────────── ──────────── 
-           Salesforce Org heroku-applink-vertical-01234 my-org-1      my-developer-name Connected    
-           Salesforce Org heroku-applink-vertical-01234 my-org-2      my-developer-name Disconnected 
+           Type           Add-On                            Connected Org Developer Name    Status    
+           ────────────── ───────────────────────────────── ───────────── ───────────────── ───────── 
+           Salesforce Org heroku-integration-vertical-01234 my-org-1      my-developer-name Connected 
+           Salesforce Org heroku-integration-vertical-01234 my-org-2      my-developer-name Connected 
         `)
         expect(stderr.output).to.equal('')
       })
