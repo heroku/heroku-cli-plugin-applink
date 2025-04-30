@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../../lib/integration/types'
+import * as AppLink from '../../../lib/applink/types'
 import {ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
@@ -18,8 +18,8 @@ export default class Index extends Command {
     const {flags} = await this.parse(Index)
     const {addon, app} = flags
 
-    await this.configureIntegrationClient(app, addon)
-    const {body: appAuthorizations} = await this.integration.get<Integration.Authorization[]>(`/addons/${this.addonId}/authorizations`)
+    await this.configureAppLinkClient(app, addon)
+    const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`)
 
     if (appAuthorizations.length === 0) {
       ux.log(`There are no Heroku AppLink authorizations for add-on ${this._addonName} on app ${color.app(app)}.`)
@@ -27,7 +27,7 @@ export default class Index extends Command {
       ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
 
       ux.table(appAuthorizations, {
-        type: {get: row => humanize(Integration.adjustOrgType(row.type))},
+        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
         addon: {
           header: 'Add-On',
           get: () => this._addonName,
