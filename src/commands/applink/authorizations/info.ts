@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../../lib/integration/types'
+import * as AppLink from '../../../lib/applink/types'
 import {Args, ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
@@ -23,14 +23,14 @@ export default class Info extends Command {
     const {app} = flags
     const {developer_name: developerName} = args
 
-    await this.configureIntegrationClient(app)
-    let authorization: Integration.Authorization
+    await this.configureAppLinkClient(app)
+    let authorization: AppLink.Authorization
     try {
-      ({body: authorization} = await this.integration.get<Integration.Authorization>(
+      ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
         `/addons/${this.addonId}/authorizations/${developerName}`
       ))
     } catch (error) {
-      const connErr = error as Integration.ConnectionError
+      const connErr = error as AppLink.ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
         ux.error(`Developer Name ${color.yellow(developerName)} doesn't exist on app ${color.app(app)}. Use ${color.cmd('heroku applink:authorizations')} to list all authorized users on the app.`, {exit: 1})
       } else {
@@ -46,7 +46,7 @@ export default class Info extends Command {
       'Run As User': authorization.salesforce_org.run_as_user,
       Status: humanize(authorization.status),
       App: app,
-      Type: humanize(Integration.adjustOrgType(authorization.type)),
+      Type: humanize(AppLink.adjustOrgType(authorization.type)),
       'Add-on': this._addonName,
       'Created Date': authorization.created_at,
       'Created By': authorization.created_by,

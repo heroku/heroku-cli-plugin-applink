@@ -291,7 +291,7 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
   type: 'SalesforceOrg',
 }
 
-export const authorization_connected: Integration.Authorization = {
+export const authorization_connected: AppLink.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
   status: 'connected',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
@@ -310,7 +310,7 @@ export const authorization_connected: Integration.Authorization = {
   last_modified_by: 'user@example.com',
 }
 
-export const authorization_connected_2: Integration.Authorization = {
+export const authorization_connected_2: AppLink.Authorization = {
   ...authorization_connected,
   status: 'connected',
   salesforce_org: {
@@ -321,17 +321,17 @@ export const authorization_connected_2: Integration.Authorization = {
   },
 }
 
-export const authorization_pending: Integration.Authorization = {
+export const authorization_pending: AppLink.Authorization = {
   ...authorization_connected,
   status: 'pending',
 }
 
-export const authorization_authenticating: Integration.Authorization = {
+export const authorization_authenticating: AppLink.Authorization = {
   ...authorization_connected,
   status: 'authenticating',
 }
 
-export const authorization_connection_failed: Integration.Authorization = {
+export const authorization_connection_failed: AppLink.Authorization = {
   ...authorization_connected,
   status: 'connection_failed',
   error: {
@@ -340,12 +340,12 @@ export const authorization_connection_failed: Integration.Authorization = {
   },
 }
 
-export const authorization_disconnected: Integration.Authorization = {
+export const authorization_disconnected: AppLink.Authorization = {
   ...authorization_connected,
   status: 'disconnected',
 }
 
-export const authorization_not_found: Integration.Authorization = {
+export const authorization_not_found: AppLink.Authorization = {
   ...authorization_connection_failed,
   error: {
     id: 'record_not_found',
