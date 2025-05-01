@@ -17,7 +17,6 @@ import {
 describe('applink:connections', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
-  let applinkApi: nock.Scope
   const {env} = process
 
   beforeEach(function () {
