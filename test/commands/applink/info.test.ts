@@ -1,24 +1,24 @@
 import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
+import heredoc from 'tsheredoc'
 import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/salesforce/disconnect'
+import Cmd from '../../../src/commands/applink/connections/info'
+import stripAnsi from '../../helpers/strip-ansi'
 import {
   addon,
-  connection5_disconnecting,
-  connection5_disconnection_failed,
-  ConnectionError_record_not_found,
   legacyAddon,
+  connection2_connected,
+  connection_record_not_found,
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
-import stripAnsi from '../../helpers/strip-ansi'
 
-describe('salesforce:disconnect', function () {
+describe('applink:connections:info', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
   const {env} = process
 
-  context('when config var is set to HEROKU_APPLINK_API_URL', function () {
+  context('when config var is set to the HEROKU_APPLINK_API_URL', function () {
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
@@ -39,50 +39,41 @@ describe('salesforce:disconnect', function () {
       nock.cleanAll()
     })
 
-    it('waits for DELETE /connections/orgName status to return "disconnecting" before ending the action successfully', async function () {
+    it('shows info for the connection', async function () {
       applinkApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnecting)
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+        .reply(200, connection2_connected)
 
       await runCommand(Cmd, [
-        'myorg',
+        'my-org-2',
         '--app=my-app',
       ])
 
-      expect(stderr.output).to.contain('Disconnected')
-      expect(stdout.output).to.equal('')
-    })
-
-    it('shows the expected output after failing', async function () {
-      applinkApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnection_failed)
-
-      try {
-        await runCommand(Cmd, [
-          'myorg',
-          '--app=my-app',
-        ])
-      } catch (error: unknown) {
-        const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Disconnection Failed')
-        expect(oclif.exit).to.equal(1)
-      }
+      expect(stripAnsi(stdout.output)).to.equal(heredoc`
+        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:       00DSG000007a3BcA84
+        Org Name:     my-org-2
+        Run As User:  user@example.com
+        Status:       Connected
+        Type:         Salesforce Org
+      `)
+      expect(stderr.output).to.equal('')
     })
 
     it('connection not found', async function () {
       applinkApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .replyWithError(ConnectionError_record_not_found)
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+        .reply(200, connection_record_not_found)
 
       try {
         await runCommand(Cmd, [
-          'myorg',
+          'my-org-2',
           '--app=my-app',
         ])
-      } catch (error: unknown) {
+      } catch (error) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.contain('Salesforce org myorg doesn\'t exist on app my-app.')
+        expect(stripAnsi(message)).to.contain('not found or is not connected to')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -90,7 +81,6 @@ describe('salesforce:disconnect', function () {
 
   context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
     let integrationApi: nock.Scope
-
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
@@ -111,18 +101,26 @@ describe('salesforce:disconnect', function () {
       nock.cleanAll()
     })
 
-    it('waits for DELETE /connections/orgName status to return "disconnecting" before ending the action successfully', async function () {
+    it('shows info for the connection', async function () {
       integrationApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnecting)
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
+        .reply(200, connection2_connected)
 
       await runCommand(Cmd, [
-        'myorg',
+        'my-org-2',
         '--app=my-app',
       ])
 
-      expect(stderr.output).to.contain('Disconnected')
-      expect(stdout.output).to.equal('')
+      expect(stripAnsi(stdout.output)).to.equal(heredoc`
+        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:       00DSG000007a3BcA84
+        Org Name:     my-org-2
+        Run As User:  user@example.com
+        Status:       Connected
+        Type:         Salesforce Org
+      `)
+      expect(stderr.output).to.equal('')
     })
   })
 })

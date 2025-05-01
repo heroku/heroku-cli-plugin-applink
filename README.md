@@ -1,12 +1,12 @@
-@heroku-cli/plugin-integration
+@heroku-cli/plugin-applink
 ==============================
 
-Heroku Integration CLI plugin
+Heroku AppLink plugin
 
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/@heroku-cli/plugin-integration.svg)](https://npmjs.org/package/@heroku-cli/plugin-integration)
-[![Downloads/week](https://img.shields.io/npm/dw/@heroku-cli/plugin-integration.svg)](https://npmjs.org/package/@heroku-cli/plugin-integration)
+[![Version](https://img.shields.io/npm/v/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
+[![Downloads/week](https://img.shields.io/npm/dw/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 
 
 <!-- toc -->
@@ -15,24 +15,86 @@ Heroku Integration CLI plugin
 <!-- tocstop -->
 # Usage
 ```sh-session
-$ heroku plugins:install @heroku-cli/plugin-integration
-$ heroku integration:COMMAND
+$ heroku plugins:install @heroku-cli/plugin-applink
+$ heroku applink:COMMAND
 running command...
-$ heroku integration --help [COMMAND]
+$ heroku applink --help [COMMAND]
 USAGE
-  $ heroku integration:COMMAND
+  $ heroku applink:COMMAND
 ...
 ```
 # Commands
 <!-- commands -->
+* [`heroku applink:authorizations`](#heroku-applinkauthorizations)
+* [`heroku applink:connections`](#heroku-applinkconnections)
+* [`heroku applink:connections:info ORG_NAME`](#heroku-applinkconnectionsinfo-org_name)
 * [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
 * [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 * [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
-* [`heroku integration:connections`](#heroku-integrationconnections)
-* [`heroku integration:connections:info ORG_NAME`](#heroku-integrationconnectionsinfo-org_name)
+* [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 * [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
+
+## `heroku applink:authorizations`
+
+list Heroku AppLink authorized users
+
+```
+USAGE
+  $ heroku applink:authorizations -a <value> [--addon <value>] [-r <value>]
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  list Heroku AppLink authorized users
+```
+
+_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/index.ts)_
+
+## `heroku applink:connections`
+
+lists Heroku AppLink connections
+
+```
+USAGE
+  $ heroku applink:connections [--addon <value>] [-a <value>] [-r <value>]
+
+FLAGS
+  -a, --app=<value>     app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  lists Heroku AppLink connections
+```
+
+_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/index.ts)_
+
+## `heroku applink:connections:info ORG_NAME`
+
+shows info for a Heroku AppLink connection
+
+```
+USAGE
+  $ heroku applink:connections:info ORG_NAME -a <value> [--addon <value>] [-r <value>]
+
+ARGUMENTS
+  ORG_NAME  connected org name
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  shows info for a Heroku AppLink connection
+```
+
+_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/info.ts)_
 
 ## `heroku datacloud:connect [ORG_NAME]`
 
@@ -56,7 +118,7 @@ DESCRIPTION
   connect a Data Cloud Org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/connect.ts)_
+_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -85,7 +147,7 @@ DESCRIPTION
   creates a Data Cloud Data Action Target for a Heroku app
 ```
 
-_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
+_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect ORG_NAME`
 
@@ -107,48 +169,34 @@ DESCRIPTION
   disconnects a Data Cloud org from a Heroku app
 ```
 
-_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/datacloud/disconnect.ts)_
+_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/disconnect.ts)_
 
-## `heroku integration:connections`
+## `heroku salesforce:authorize DEVELOPER_NAME`
 
-lists Heroku Integration connections
-
-```
-USAGE
-  $ heroku integration:connections [--addon <value>] [-a <value>] [-r <value>]
-
-FLAGS
-  -a, --app=<value>     app to run command against
-  -r, --remote=<value>  git remote of app to use
-      --addon=<value>   unique name or ID of an AppLink add-on
-
-DESCRIPTION
-  lists Heroku Integration connections
-```
-
-_See code: [src/commands/integration/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/integration/connections/index.ts)_
-
-## `heroku integration:connections:info ORG_NAME`
-
-shows info for a Heroku Integration connection
+store a user's credentials for connecting a Salesforce Org to a Heroku app
 
 ```
 USAGE
-  $ heroku integration:connections:info ORG_NAME -a <value> [--addon <value>] [-r <value>]
+  $ heroku salesforce:authorize DEVELOPER_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r
+  <value>]
 
 ARGUMENTS
-  ORG_NAME  connected org name
+  DEVELOPER_NAME  developer name for the authorization. Must begin with a letter, end with a letter or a number, and
+                  between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                  allowed.
 
 FLAGS
-  -a, --app=<value>     (required) app to run command against
-  -r, --remote=<value>  git remote of app to use
-      --addon=<value>   unique name or ID of an AppLink add-on
+  -a, --app=<value>        (required) app to run command against
+  -l, --login-url=<value>  Salesforce login URL
+  -r, --remote=<value>     git remote of app to use
+      --addon=<value>      unique name or ID of an AppLink add-on
+      --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  shows info for a Heroku Integration connection
+  store a user's credentials for connecting a Salesforce Org to a Heroku app
 ```
 
-_See code: [src/commands/integration/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/integration/connections/info.ts)_
+_See code: [src/commands/salesforce/authorize.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/authorize.ts)_
 
 ## `heroku salesforce:connect ORG_NAME`
 
@@ -156,25 +204,24 @@ connects a Salesforce Org to Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:connect ORG_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>] [-S]
+  $ heroku salesforce:connect ORG_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
   ORG_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
             '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.
 
 FLAGS
-  -S, --store-as-run-as-user  store user credentials
-  -a, --app=<value>           (required) app to run command against
-  -l, --login-url=<value>     login URL
-  -r, --remote=<value>        git remote of app to use
-      --addon=<value>         unique name or ID of an AppLink add-on
-      --browser=<value>       browser to open OAuth flow with (example: "firefox", "safari")
+  -a, --app=<value>        (required) app to run command against
+  -l, --login-url=<value>  login URL
+  -r, --remote=<value>     git remote of app to use
+      --addon=<value>      unique name or ID of an AppLink add-on
+      --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
   connects a Salesforce Org to Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/connect.ts)_
+_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect.ts)_
 
 ## `heroku salesforce:disconnect ORG_NAME`
 
@@ -196,7 +243,7 @@ DESCRIPTION
   disconnect a Salesforce org from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
+_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:import API_SPEC_FILE`
 
@@ -221,5 +268,5 @@ DESCRIPTION
   Imports an API specification to an authenticated Salesforce Org.
 ```
 
-_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-integration/blob/v0.0.11/src/commands/salesforce/import.ts)_
+_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
 <!-- commandsstop -->

@@ -5,22 +5,29 @@ import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
 export default abstract class extends Command {
-  private _integration!: APIClient
+  private _applink!: APIClient
   private _addonId!: string
   _addonName!: string
 
-  get addonServiceSlug(): string {
+  /**
+   * Remove this once we've migrated to new default applink name
+   */
+  get legacyAddonServiceSlug(): string {
     return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
   }
 
-  get integration(): APIClient {
-    if (this._integration)
-      return this._integration
+  get addonServiceSlug(): string {
+    return process.env.HEROKU_APPLINK_ADDON || 'heroku-applink'
+  }
+
+  get applinkClient(): APIClient {
+    if (this._applink)
+      return this._applink
 
     ux.error(
       heredoc`
         AppLink API Client not configured.
-        Did you call ${color.yellow('await this.configureIntegrationClient(app, this.config)')} before accessing ${color.yellow('this.integration')}?
+        Did you call ${color.yellow('await this.configureAppLinkClient(app, this.config)')} before accessing ${color.yellow('this.applinkClient')}?
       `,
       {exit: 1}
     )
@@ -38,14 +45,14 @@ export default abstract class extends Command {
     return {apiUrl, applinkToken}
   }
 
-  protected async configureIntegrationClient(app: string, addon?: string): Promise<void> {
-    if (this._integration)
+  protected async configureAppLinkClient(app: string, addon?: string): Promise<void> {
+    if (this._applink)
       return
 
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
     const [{body: addons}, {body: configVars}] = await Promise.all([addonsRequest, configVarsRequest])
-    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
+    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug || addon.addon_service.name === this.legacyAddonServiceSlug)
     let applinkAddon: Heroku.AddOn | undefined
 
     if (applinkAddons.length === 0) {
@@ -98,11 +105,11 @@ export default abstract class extends Command {
       ...this.heroku.defaults.headers,
       authorization: `Bearer ${applinkToken}`,
       accept: 'application/json',
-      'user-agent': `heroku-cli-plugin-integration/${this.config.version} ${this.config.platform}`,
+      'user-agent': `heroku-cli-plugin-applink/${this.config.version} ${this.config.platform}`,
       'x-app-uuid': applinkAddon?.app?.id || '',
     }
     this._addonId = applinkAddon.id || ''
     this._addonName = applinkAddon.name || ''
-    this._integration = client
+    this._applink = client
   }
 }
