@@ -12,9 +12,3 @@ export function humanizeKeys(params: {[key: string]: string | null}): {[key: str
     ([key, value]) => [humanize(key), value as string]
   ))
 }
-
-export function * arraySlice<T>(array: T[], size = 10): Generator<T[], void> {
-  for (let i = 0; i < array.length; i += size) {
-    yield array.slice(i, i + size)
-  }
-}
