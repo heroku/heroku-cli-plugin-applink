@@ -17,7 +17,7 @@ import {
 describe('applink:connections', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
   const {env} = process
 
   beforeEach(function () {
@@ -148,23 +148,23 @@ describe('applink:connections', function () {
       })
     })
 
-    context('when there are Heroku AppLink addons returned with the legacy integration API URL config var', function () {
+    context('when there are Heroku AppLink addons returned with the legacy applink API URL config var', function () {
       beforeEach(function () {
-        integrationApi = nock('https://integration-api.heroku.com')
+        applinkApi = nock('https://applink-api.heroku.com')
         api.get('/addons')
           .reply(200, [addon, addon2])
           .get('/apps/89abcdef-0123-4567-89ab-cdef01234567/config-vars')
           .reply(200, {
-            HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           })
           .get('/apps/abcdef01-2345-6789-abcd-ef0123456789/config-vars')
           .reply(200, {
-            HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
           })
       })
 
       it('shows the connections when there are Heroku AppLink connections returned', async function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [connection1, connection2_connected])
           .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')

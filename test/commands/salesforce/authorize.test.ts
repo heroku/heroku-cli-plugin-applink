@@ -19,7 +19,7 @@ import {CLIError} from '@oclif/core/lib/errors'
 
 describe('salesforce:authorize', function () {
   let api: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
   const {env} = process
   let sandbox: SinonSandbox
   let urlOpener: SinonStub
@@ -31,17 +31,17 @@ describe('salesforce:authorize', function () {
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')
       .reply(200, {
-        HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
         HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
       })
-    integrationApi = nock('https://integration-api.heroku.com')
+    applinkApi = nock('https://applink-api.heroku.com')
     sandbox = sinon.createSandbox()
   })
 
   afterEach(function () {
     process.env = env
     api.done()
-    integrationApi.done()
+    applinkApi.done()
     nock.cleanAll()
     sandbox.restore()
   })
@@ -52,14 +52,14 @@ describe('salesforce:authorize', function () {
         on(_: string, _cb: (_err: Error) => void) {},
       } as unknown as ChildProcess)
       sandbox.stub(ux, 'anykey').onFirstCall().resolves()
-      integrationApi
+      applinkApi
         .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
         .reply(202, authorization_authenticating)
     })
 
     context('when the connection succeeds', function () {
       beforeEach(function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, authorization_connected)
       })
@@ -99,7 +99,7 @@ describe('salesforce:authorize', function () {
 
     context('when the connection fails', function () {
       it('shows the expected output after failing when an error description is included', async function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, authorization_connection_failed)
 
@@ -121,7 +121,7 @@ describe('salesforce:authorize', function () {
       })
 
       it('shows the expected output after failing when no error description is included', async function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
           .reply(200, authorization_disconnected)
 
@@ -145,7 +145,7 @@ describe('salesforce:authorize', function () {
     beforeEach(function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener')
       sandbox.stub(ux, 'anykey').onFirstCall().rejects(new Error('quit'))
-      integrationApi
+      applinkApi
         .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
         .reply(202, authorization_authenticating)
     })

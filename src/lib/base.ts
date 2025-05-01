@@ -27,7 +27,7 @@ export default abstract class extends Command {
     ux.error(
       heredoc`
         AppLink API Client not configured.
-        Did you call ${color.yellow('await this.configureAppLinkClient(app, this.config)')} before accessing ${color.yellow('this.applink')}?
+        Did you call ${color.yellow('await this.configureAppLinkClient(app, this.config)')} before accessing ${color.yellow('this.applinkClient')}?
       `,
       {exit: 1}
     )
@@ -52,7 +52,7 @@ export default abstract class extends Command {
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
     const [{body: addons}, {body: configVars}] = await Promise.all([addonsRequest, configVarsRequest])
-    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
+    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug || addon.addon_service.name === this.legacyAddonServiceSlug)
     let applinkAddon: Heroku.AddOn | undefined
 
     if (applinkAddons.length === 0) {

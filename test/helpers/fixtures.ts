@@ -5,42 +5,42 @@ export const addon: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
     id: '23456789-abcd-ef01-2345-6789abcdef01',
-    name: 'heroku-integration',
+    name: 'heroku-applink',
   },
   app: {
     id: '89abcdef-0123-4567-89ab-cdef01234567',
     name: 'my-app',
   },
   id: '01234567-89ab-cdef-0123-456789abcdef',
-  name: 'heroku-integration-vertical-01234',
+  name: 'heroku-applink-vertical-01234',
 }
 
 export const addon2: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
     id: '456789ab-cdef-0123-4567-89abcdef0123',
-    name: 'heroku-integration',
+    name: 'heroku-applink',
   },
   app: {
     id: 'abcdef01-2345-6789-abcd-ef0123456789',
     name: 'my-other-app',
   },
   id: '6789abcd-ef01-2345-6789-abcdef012345',
-  name: 'heroku-integration-horizontal-01234',
+  name: 'heroku-applink-horizontal-01234',
 }
 
 export const addonStaging: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
     id: '456789ab-cdef-0123-4567-89abcdef0123',
-    name: 'heroku-integration-staging',
+    name: 'heroku-applink-staging',
   },
   app: {
     id: 'abcdef01-2345-6789-abcd-ef0123456789',
     name: 'my-other-app',
   },
   id: '6789abcd-ef01-2345-6789-abcdef012345',
-  name: 'heroku-integration-staging-01234',
+  name: 'heroku-applink-staging-01234',
 }
 
 export const connection1: AppLink.SalesforceConnection = {

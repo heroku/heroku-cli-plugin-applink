@@ -38,21 +38,21 @@ netrc.loadSync = function (this: typeof netrc) {
   }
 }
 
-describe('attempt a request using the Integration API client', function () {
+describe('attempt a request using the applink API client', function () {
   const {env} = process
   let api: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
 
   beforeEach(function () {
     process.env = {}
     api = nock('https://api.heroku.com')
-    integrationApi = nock('https://integration-api.heroku.com')
+    applinkApi = nock('https://applink-api.heroku.com')
   })
 
   afterEach(function () {
     process.env = env
     api.done()
-    integrationApi.done()
+    applinkApi.done()
     nock.cleanAll()
   })
 
@@ -136,10 +136,10 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
     })
@@ -154,10 +154,10 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when HEROKU_INTEGRATION_ADDON is set', function () {
+  context('when HEROKU_APPLINK_ADDON is set', function () {
     beforeEach(async function () {
       process.env = {
-        HEROKU_INTEGRATION_ADDON: 'heroku-integration-staging',
+        HEROKU_APPLINK_ADDON: 'heroku-applink-staging',
       }
 
       api
@@ -165,15 +165,15 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addonStaging])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
-      integrationApi
+      applinkApi
         .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
         .reply(200, [])
     })
 
-    it('respects the value of HEROKU_INTEGRATION_ADDON', async function () {
+    it('respects the value of HEROKU_applink_ADDON', async function () {
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
       ])
@@ -190,19 +190,19 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
     it('uses the specified add-on name', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
-        '--addon=heroku-integration-vertical-01234',
+        '--addon=heroku-applink-vertical-01234',
       ])
 
       expect(stderr.output).to.equal('')
@@ -210,7 +210,7 @@ describe('attempt a request using the Integration API client', function () {
     })
 
     it('uses the specified add-on ID', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
@@ -248,19 +248,19 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon, addon2])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
     it('uses the specified add-on', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
-        '--addon=heroku-integration-vertical-01234',
+        '--addon=heroku-applink-vertical-01234',
       ])
 
       expect(stderr.output).to.equal('')
