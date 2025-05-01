@@ -25,8 +25,8 @@ export default class Import extends Command {
     api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format)'}),
   }
 
-  protected isPendingState(state: string): boolean {
-    return state !== 'imported' && state !== 'import_failed'
+  protected isPendingStatus(status: string): boolean {
+    return status !== 'imported' && status !== 'import_failed'
   }
 
   public async run(): Promise<void> {
@@ -53,9 +53,9 @@ export default class Import extends Command {
           hex_digest: hexDigest,
         },
       })
-    let {state, error} = importRes
+    let {state: status, error} = importRes
 
-    while (this.isPendingState(state)) {
+    while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
@@ -64,18 +64,17 @@ export default class Import extends Command {
         `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
       ))
 
-      // ({state, error} = importState)
-      state = importState.state
+      status = importState.state
       error = importState.error
-      ux.action.status = humanize(state)
+      ux.action.status = humanize(status)
     }
 
-    ux.action.stop(humanize(state))
+    ux.action.stop(humanize(status))
 
-    if (state !== 'imported') {
+    if (status !== 'imported') {
       ux.error(
         error === undefined
-          ? humanize(state)
+          ? humanize(status)
           : heredoc`
             ${error.id}
             ${error.message}

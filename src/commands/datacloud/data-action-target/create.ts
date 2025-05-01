@@ -27,8 +27,8 @@ export default class Create extends Command {
     label: Args.string({required: true, description: 'Data Action Target label'}),
   }
 
-  protected isPendingState(state: string): boolean {
-    return state !== 'created' && state !== 'creation_failed'
+  protected isPendingStatus(status: string): boolean {
+    return status !== 'created' && status !== 'creation_failed'
   }
 
   public async run(): Promise<void> {
@@ -58,9 +58,9 @@ export default class Create extends Command {
       }
     )
 
-    let {state, error} = createResp
+    let {state: status, error} = createResp
 
-    while (this.isPendingState(state)) {
+    while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
@@ -70,17 +70,17 @@ export default class Create extends Command {
       ))
 
       // ({state, error} = importState)
-      state = createState.state
+      status = createState.state
       error = createState.error
-      ux.action.status = humanize(state)
+      ux.action.status = humanize(status)
     }
 
-    ux.action.stop(humanize(state))
+    ux.action.stop(humanize(status))
 
-    if (state !== 'created') {
+    if (status !== 'created') {
       ux.error(
         error === undefined
-          ? humanize(state)
+          ? humanize(status)
           : heredoc`
             ${error.id}
             ${error.message}
