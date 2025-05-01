@@ -32,7 +32,6 @@ export default class Disconnect extends Command {
 
     await confirmCommand(orgName, confirm)
 
-    ux.action.start(`Disconnecting Salesforce org ${color.yellow(orgName)} from ${color.app(app)}`)
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${orgName}`
@@ -50,6 +49,8 @@ export default class Disconnect extends Command {
     }
 
     const {state, error} = connection
+
+    ux.action.start(`Disconnecting Salesforce org ${color.yellow(orgName)} from ${color.app(app)}`)
 
     if (state !== 'disconnecting') {
       ux.error(
