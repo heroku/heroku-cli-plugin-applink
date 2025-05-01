@@ -61,10 +61,10 @@ lists Heroku AppLink connections
 
 ```
 USAGE
-  $ heroku applink:connections [--addon <value>] [-a <value>] [-r <value>]
+  $ heroku applink:connections -a <value> [--addon <value>] [-r <value>]
 
 FLAGS
-  -a, --app=<value>     app to run command against
+  -a, --app=<value>     (required) app to run command against
   -r, --remote=<value>  git remote of app to use
       --addon=<value>   unique name or ID of an AppLink add-on
 
