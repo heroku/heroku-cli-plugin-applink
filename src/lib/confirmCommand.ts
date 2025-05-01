@@ -2,16 +2,28 @@ import {color} from '@heroku-cli/color'
 import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
-export default async function confirmCommand(orgName: string, confirm?: string | undefined, message?: string) {
+export default async function confirmCommand({
+  orgName,
+  addon,
+  app,
+  confirm,
+  message,
+}: {
+  orgName: string,
+  addon: string,
+  app: string,
+  confirm?: string,
+  message?: string,
+}) {
   if (confirm) {
     if (confirm === orgName) return
-    throw new Error(`Confirmation ${color.bold.red(confirm)} did not match ${color.bold.red(orgName)}. Aborted.`)
+    ux.error(`Confirmation ${color.bold.red(confirm)} doesn't match ${color.bold.red(orgName)}. Re-run this command to try again.`, {exit: 1})
   }
 
   if (!message) {
     message = heredoc`
-      Destructive Action.
-      This command will affect the org ${color.bold.red(orgName)}.
+      Destructive action
+      This command disconnects the org ${color.bold.red(orgName)} from add-on ${color.addon(addon)} on app ${color.app(app)}.
     `
   }
 
@@ -25,5 +37,5 @@ export default async function confirmCommand(orgName: string, confirm?: string |
     return
   }
 
-  throw new Error(`Confirmation did not match ${color.bold.red(orgName)}. Aborted.`)
+  ux.error(`Confirmation ${color.bold.red(entered)} doesn't match ${color.bold.red(orgName)}. Re-run this command to try again.`, {exit: 1})
 }

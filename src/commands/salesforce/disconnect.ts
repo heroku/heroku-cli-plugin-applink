@@ -30,7 +30,12 @@ export default class Disconnect extends Command {
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.SalesforceConnection
 
-    await confirmCommand(orgName, confirm)
+    await confirmCommand({
+      orgName,
+      addon: this._addonName,
+      app,
+      confirm,
+    })
 
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(

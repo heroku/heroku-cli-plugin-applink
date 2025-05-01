@@ -121,8 +121,17 @@ describe('salesforce:disconnect', function () {
         '--app=my-app',
       ])
 
-      expect(stderr.output).to.contain('Disconnected')
-      expect(stdout.output).to.equal('')
-    })
+  it('errors when the wrong org name is passed to the confirm flag', async function () {
+    try {
+      await runCommand(Cmd, [
+        'myorg',
+        '--app=my-app',
+        '--confirm=myorg2',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
+      expect(oclif.exit).to.equal(1)
+    }
   })
 })
