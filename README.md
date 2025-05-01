@@ -26,6 +26,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`heroku applink:authorizations`](#heroku-applinkauthorizations)
+* [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
 * [`heroku applink:connections`](#heroku-applinkconnections)
 * [`heroku applink:connections:info ORG_NAME`](#heroku-applinkconnectionsinfo-org_name)
 * [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
@@ -54,6 +55,28 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/index.ts)_
+
+## `heroku applink:authorizations:info DEVELOPER_NAME`
+
+shows info for a Heroku AppLink authorized user
+
+```
+USAGE
+  $ heroku applink:authorizations:info DEVELOPER_NAME -a <value> [--addon <value>] [-r <value>]
+
+ARGUMENTS
+  DEVELOPER_NAME  developer name of the authorization
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  shows info for a Heroku AppLink authorized user
+```
+
+_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
