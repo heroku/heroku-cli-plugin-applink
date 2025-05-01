@@ -7,6 +7,7 @@ import Cmd from '../../../src/commands/applink/connections/info'
 import stripAnsi from '../../helpers/strip-ansi'
 import {
   addon,
+  legacyAddon,
   connection2_connected,
   connection_record_not_found,
 } from '../../helpers/fixtures'
@@ -17,7 +18,7 @@ describe('applink:connections:info', function () {
   let applinkApi: nock.Scope
   const {env} = process
 
-  context('when config var is set to the legacy HEROKU_APPLINK_API_URL', function () {
+  context('when config var is set to the HEROKU_APPLINK_API_URL', function () {
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
@@ -84,10 +85,11 @@ describe('applink:connections:info', function () {
       process.env = {}
       api = nock('https://api.heroku.com')
         .get('/apps/my-app/addons')
-        .reply(200, [addon])
+        .reply(200, [legacyAddon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi = nock('https://integration-api.heroku.com')
     })

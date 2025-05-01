@@ -8,6 +8,7 @@ import {
   connection5_disconnecting,
   connection5_disconnection_failed,
   ConnectionError_record_not_found,
+  legacyAddon,
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 import stripAnsi from '../../helpers/strip-ansi'
@@ -81,7 +82,7 @@ describe('datacloud:disconnect', function () {
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.contain('not found or not connected to app')
+        expect(stripAnsi(message)).to.equal('Data Cloud org myorg doesn\'t exist on app my-app. Use heroku applink:connections to list the connections on the app.')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -94,10 +95,11 @@ describe('datacloud:disconnect', function () {
       process.env = {}
       api = nock('https://api.heroku.com')
         .get('/apps/my-app/addons')
-        .reply(200, [addon])
+        .reply(200, [legacyAddon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi = nock('https://integration-api.heroku.com')
     })

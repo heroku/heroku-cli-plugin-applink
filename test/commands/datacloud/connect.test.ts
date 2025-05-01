@@ -1,3 +1,4 @@
+
 import {ux} from '@oclif/core'
 import {expect} from 'chai'
 import nock from 'nock'
@@ -9,6 +10,7 @@ import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/datacloud/connect'
 import {
   addon,
+  legacyAddon,
   connection4_connected,
   connection4_connecting,
   connection4_disconnected,
@@ -19,34 +21,13 @@ import {CLIError} from '@oclif/core/lib/errors'
 
 describe('datacloud:connect', function () {
   let api: nock.Scope
-  let applinkApi: nock.Scope
   const {env} = process
   let sandbox: SinonSandbox
   let urlOpener: SinonStub
 
-  beforeEach(function () {
-    process.env = {}
-    api = nock('https://api.heroku.com')
-      .get('/apps/my-app/addons')
-      .reply(200, [addon])
-      .get('/apps/my-app/config-vars')
-      .reply(200, {
-        HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-        HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
-      })
-    applinkApi = nock('https://applink-api.heroku.com')
-    sandbox = sinon.createSandbox()
-  })
+  context('when config var is set to the HEROKU_APPLINK_API_URL', function () {
+    let applinkApi: nock.Scope
 
-  afterEach(function () {
-    process.env = env
-    api.done()
-    applinkApi.done()
-    nock.cleanAll()
-    sandbox.restore()
-  })
-
-  context('when the user accepts the prompt to open the browser', function () {
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
@@ -55,6 +36,7 @@ describe('datacloud:connect', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       applinkApi = nock('https://applink-api.heroku.com')
       sandbox = sinon.createSandbox()
@@ -187,45 +169,51 @@ describe('datacloud:connect', function () {
 
   context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
     let integrationApi: nock.Scope
+
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
         .get('/apps/my-app/addons')
-        .reply(200, [addon])
+        .reply(200, [legacyAddon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
-      sandbox = sinon.createSandbox()
       integrationApi = nock('https://integration-api.heroku.com')
-      urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
-        on(_: string, _cb: (_err: Error) => void) {},
-      } as unknown as ChildProcess)
-      sandbox.stub(ux, 'anykey').onFirstCall().resolves()
-      integrationApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud')
-        .reply(202, connection4_connecting)
-
-      integrationApi
-        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
-        .reply(200, connection4_connected)
+      sandbox = sinon.createSandbox()
     })
 
     afterEach(function () {
       process.env = env
       api.done()
-      applinkApi.done()
+      integrationApi.done()
       nock.cleanAll()
       sandbox.restore()
     })
 
-    it('shows the URL that will be opened for the OAuth flow', async function () {
-      await runCommand(Cmd, [
-        'my-org-2',
-        '--app=my-app',
-      ])
+    context('when the user accepts the prompt to open the browser and the connection succeeds', function () {
+      beforeEach(function () {
+        urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
+          on(_: string, _cb: (_err: Error) => void) {},
+        } as unknown as ChildProcess)
+        sandbox.stub(ux, 'anykey').onFirstCall().resolves()
+        integrationApi
+          .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud')
+          .reply(202, connection4_connecting)
+        integrationApi
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
+          .reply(200, connection4_connected)
+      })
 
-      expect(stderr.output).to.contain(`Opening browser to ${connection4_connecting.redirect_uri}`)
+      it('shows the URL that will be opened for the OAuth flow', async function () {
+        await runCommand(Cmd, [
+          'my-org-2',
+          '--app=my-app',
+        ])
+
+        expect(stderr.output).to.contain(`Opening browser to ${connection4_connecting.redirect_uri}`)
+      })
     })
   })
 })

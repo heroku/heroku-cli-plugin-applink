@@ -68,8 +68,8 @@ describe('applink:authorizations', function () {
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku AppLink authorizations for app my-app
   
-           Type           Add-On                            Connected Org Developer Name    Status       
-           ────────────── ───────────────────────────────── ───────────── ───────────────── ──────────── 
+           Type           Add-On                        Connected Org Developer Name    Status       
+           ────────────── ───────────────────────────── ───────────── ───────────────── ──────────── 
            Salesforce Org heroku-applink-vertical-01234 my-org-1      my-developer-name Connected    
            Salesforce Org heroku-applink-vertical-01234 my-org-2      my-developer-name Disconnected 
         `)

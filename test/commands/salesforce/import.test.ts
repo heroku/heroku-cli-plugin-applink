@@ -8,6 +8,7 @@ import {
   appImportPending,
   appImportSuccess,
   appImportFailed,
+  legacyAddon,
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -97,10 +98,11 @@ describe('salesforce:import', function () {
       process.env = {}
       api = nock('https://api.heroku.com')
         .get('/apps/my-app/addons')
-        .reply(200, [addon])
+        .reply(200, [legacyAddon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
       integrationApi = nock('https://integration-api.heroku.com')
     })
