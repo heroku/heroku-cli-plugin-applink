@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../lib/integration/types'
+import * as AppLink from '../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -30,9 +30,9 @@ export default class Authorize extends Command {
     const {addon, app, browser, 'login-url': loginUrl} = flags
     const {developer_name: developerName} = args
 
-    await this.configureIntegrationClient(app, addon)
-    let authorization: Integration.Authorization
-    ({body: authorization} = await this.integration.post<Integration.Authorization>(
+    await this.configureAppLinkClient(app, addon)
+    let authorization: AppLink.Authorization
+    ({body: authorization} = await this.applinkClient.post<AppLink.Authorization>(
       `/addons/${this.addonId}/authorizations`,
       {
         body: {
@@ -78,7 +78,7 @@ export default class Authorize extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: authorization} = await this.integration.get<Integration.Authorization>(
+      ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
         `/addons/${this.addonId}/authorizations/${id}`,
       ));
 

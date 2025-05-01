@@ -2,9 +2,9 @@ import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../../run-command'
-import Cmd from '../../../../src/commands/integration/connections/index'
-import stripAnsi from '../../../helpers/strip-ansi'
+import {runCommand} from '../../run-command'
+import Cmd from '../../../src/commands/applink/connections/index'
+import stripAnsi from '../../helpers/strip-ansi'
 import {
   addon,
   addon2,
@@ -12,23 +12,23 @@ import {
   connection2_connected,
   connection3,
   connection4_connected,
-} from '../../../helpers/fixtures'
+} from '../../helpers/fixtures'
 
-describe('integration:connections', function () {
+describe('applink:connections', function () {
   let api: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
   const {env} = process
 
   beforeEach(function () {
     process.env = {}
     api = nock('https://api.heroku.com')
-    integrationApi = nock('https://integration-api.heroku.com')
+    applinkApi = nock('https://applink-api.heroku.com')
   })
 
   afterEach(function () {
     process.env = env
     api.done()
-    integrationApi.done()
+    applinkApi.done()
     nock.cleanAll()
   })
 
@@ -38,14 +38,14 @@ describe('integration:connections', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
-    context('when there are no Heroku Integration connections created on the app', function () {
+    context('when there are no Heroku AppLink connections created on the app', function () {
       it('displays a notification', async function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [])
 
@@ -53,14 +53,14 @@ describe('integration:connections', function () {
           '--app=my-app',
         ])
 
-        expect(stripAnsi(stdout.output)).to.equal('No Heroku Integration connections for app my-app.\n')
+        expect(stripAnsi(stdout.output)).to.equal('No Heroku AppLink connections for app my-app.\n')
         expect(stderr.output).to.equal('')
       })
     })
 
-    context('when there are Heroku Integration connections returned', function () {
+    context('when there are Heroku AppLink connections returned', function () {
       it('shows the connections', async function () {
-        integrationApi
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [connection1, connection2_connected])
 
@@ -69,7 +69,7 @@ describe('integration:connections', function () {
         ])
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku Integration connections for app my-app
+          === Heroku AppLink connections for app my-app
   
            Type           Org Name Status    Run As User      
            ────────────── ──────── ───────── ──────────────── 
@@ -81,8 +81,8 @@ describe('integration:connections', function () {
     })
   })
 
-  context('when the --app flag isn’t specified', function () {
-    context('when there are no Heroku Integration addons', function () {
+  context('when the --app flag is not specified', function () {
+    context('when there are no Heroku AppLink addons', function () {
       beforeEach(function () {
         api.get('/addons').reply(200, [])
       })
@@ -90,29 +90,29 @@ describe('integration:connections', function () {
       it('displays a notification', async function () {
         await runCommand(Cmd)
 
-        expect(stripAnsi(stdout.output)).to.equal('No Heroku Integration connections.\n')
+        expect(stripAnsi(stdout.output)).to.equal('No Heroku AppLink connections.\n')
         expect(stderr.output).to.equal('')
       })
     })
 
-    context('when there are Heroku Integration addons', function () {
+    context('when there are Heroku AppLink addons', function () {
       beforeEach(function () {
         api.get('/addons')
           .reply(200, [addon, addon2])
           .get('/apps/89abcdef-0123-4567-89ab-cdef01234567/config-vars')
           .reply(200, {
-            HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
             HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
           })
           .get('/apps/abcdef01-2345-6789-abcd-ef0123456789/config-vars')
           .reply(200, {
-            HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
             HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
           })
       })
 
-      it('displays a notification when there are no Heroku Integration connections on any app', async function () {
-        integrationApi
+      it('displays a notification when there are no Heroku AppLink connections on any app', async function () {
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [])
           .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
@@ -120,12 +120,12 @@ describe('integration:connections', function () {
 
         await runCommand(Cmd)
 
-        expect(stripAnsi(stdout.output)).to.equal('No Heroku Integration connections.\n')
+        expect(stripAnsi(stdout.output)).to.equal('No Heroku AppLink connections.\n')
         expect(stderr.output).to.equal('')
       })
 
-      it('shows the connections when there are Heroku Integration connections returned', async function () {
-        integrationApi
+      it('shows the connections when there are Heroku AppLink connections returned', async function () {
+        applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [connection1, connection2_connected])
           .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
@@ -134,7 +134,45 @@ describe('integration:connections', function () {
         await runCommand(Cmd)
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku Integration connections
+          === Heroku AppLink connections
+
+           App          Type           Org Name Status     Run As User       
+           ──────────── ────────────── ──────── ────────── ───────────────── 
+           my-app       Salesforce Org my-org-1 Connected  user@example.com  
+           my-app       Salesforce Org my-org-2 Connected  user@example.com  
+           my-other-app Salesforce Org my-org-1 Connecting user2@example.com 
+           my-other-app Data Cloud Org my-org-2 Connected  user@example.com  
+        `)
+        expect(stderr.output).to.equal('')
+      })
+    })
+
+    context('when there are Heroku AppLink addons returned with the legacy applink API URL config var', function () {
+      beforeEach(function () {
+        applinkApi = nock('https://applink-api.heroku.com')
+        api.get('/addons')
+          .reply(200, [addon, addon2])
+          .get('/apps/89abcdef-0123-4567-89ab-cdef01234567/config-vars')
+          .reply(200, {
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          })
+          .get('/apps/abcdef01-2345-6789-abcd-ef0123456789/config-vars')
+          .reply(200, {
+            HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+          })
+      })
+
+      it('shows the connections when there are Heroku AppLink connections returned', async function () {
+        applinkApi
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+          .reply(200, [connection1, connection2_connected])
+          .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
+          .reply(200, [connection3, connection4_connected])
+
+        await runCommand(Cmd)
+
+        expect(stripAnsi(stdout.output)).to.equal(heredoc`
+          === Heroku AppLink connections
 
            App          Type           Org Name Status     Run As User       
            ──────────── ────────────── ──────── ────────── ───────────────── 

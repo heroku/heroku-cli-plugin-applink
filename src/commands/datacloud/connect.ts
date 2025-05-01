@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../lib/integration/types'
+import * as AppLink from '../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -30,9 +30,9 @@ export default class Connect extends Command {
     const {app, addon, browser, 'login-url': loginUrl} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app, addon)
-    let connection: Integration.DataCloudConnection
-    ({body: connection} = await this.integration.post<Integration.DataCloudConnection>(
+    await this.configureAppLinkClient(app, addon)
+    let connection: AppLink.DataCloudConnection
+    ({body: connection} = await this.applinkClient.post<AppLink.DataCloudConnection>(
       `/addons/${this.addonId}/connections/datacloud`,
       {
         body: {
@@ -78,7 +78,7 @@ export default class Connect extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: connection} = await this.integration.get<Integration.DataCloudConnection>(
+      ({body: connection} = await this.applinkClient.get<AppLink.DataCloudConnection>(
         `/addons/${this.addonId}/connections/${id}`,
       ));
 
