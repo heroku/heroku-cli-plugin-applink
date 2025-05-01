@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../../lib/integration/types'
+import * as AppLink from '../../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
@@ -42,11 +42,11 @@ export default class Create extends Command {
       apiName = label.replaceAll(' ', '_')
     }
 
-    await this.configureIntegrationClient(app, addon)
+    await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
-    let createState: Integration.DataActionTargetCreate
-    const {body: createResp} = await this.integration.post<Integration.DataActionTargetCreate>(
+    let createState: AppLink.DataActionTargetCreate
+    const {body: createResp} = await this.applinkClient.post<AppLink.DataActionTargetCreate>(
       `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
       {
         body: {
@@ -65,7 +65,7 @@ export default class Create extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: createState} = await this.integration.get<Integration.DataActionTargetCreate>(
+      ({body: createState} = await this.applinkClient.get<AppLink.DataActionTargetCreate>(
         `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets/${apiName}`,
       ))
 

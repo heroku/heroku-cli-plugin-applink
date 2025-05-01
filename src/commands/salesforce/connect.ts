@@ -1,7 +1,7 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../lib/integration/types'
+import * as AppLink from '../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -30,9 +30,9 @@ export default class Connect extends Command {
     const {app, addon, browser, 'login-url': loginUrl} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app, addon)
-    let connection: Integration.SalesforceConnection
-    ({body: connection} = await this.integration.post<Integration.SalesforceConnection>(
+    await this.configureAppLinkClient(app, addon)
+    let connection: AppLink.SalesforceConnection
+    ({body: connection} = await this.applinkClient.post<AppLink.SalesforceConnection>(
       `/addons/${this.addonId}/connections/salesforce`,
       {
         body: {
@@ -78,7 +78,7 @@ export default class Connect extends Command {
         setTimeout(resolve, 5000)
       });
 
-      ({body: connection} = await this.integration.get<Integration.SalesforceConnection>(
+      ({body: connection} = await this.applinkClient.get<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${id}`,
       ));
 

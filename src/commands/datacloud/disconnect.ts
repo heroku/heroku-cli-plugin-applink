@@ -1,11 +1,11 @@
 import {color} from '@heroku-cli/color'
 import Command from '../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as Integration from '../../lib/integration/types'
+import * as AppLink from '../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
-import {ConnectionError} from '../../lib/integration/types'
+import {ConnectionError} from '../../lib/applink/types'
 
 export default class Disconnect extends Command {
   static description = 'disconnects a Data Cloud org from a Heroku app'
@@ -25,10 +25,10 @@ export default class Disconnect extends Command {
     const {app, addon} = flags
     const {org_name: orgName} = args
 
-    await this.configureIntegrationClient(app, addon)
-    let connection: Integration.SalesforceConnection
+    await this.configureAppLinkClient(app, addon)
+    let connection: AppLink.SalesforceConnection
     try {
-      ({body: connection} = await this.integration.delete<Integration.SalesforceConnection>(
+      ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${orgName}`
       ))
     } catch (error) {

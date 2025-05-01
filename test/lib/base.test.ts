@@ -7,13 +7,13 @@ import heredoc from 'tsheredoc'
 import {stderr, stdout} from 'stdout-stderr'
 import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
-import * as Integration from '../../src/lib/integration/types'
+import * as AppLink from '../../src/lib/applink/types'
 import stripAnsi from '../helpers/strip-ansi'
 import {addon, addon2, addonStaging} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
-    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -26,8 +26,8 @@ class CommandWithConfiguration extends BaseCommand {
   async run() {
     const {flags} = await this.parse(CommandWithConfiguration)
     const {app, addon} = flags
-    await this.configureIntegrationClient(app, addon)
-    this.integration.get<Array<Integration.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
+    await this.configureAppLinkClient(app, addon)
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`)
   }
 }
 
@@ -38,21 +38,21 @@ netrc.loadSync = function (this: typeof netrc) {
   }
 }
 
-describe('attempt a request using the Integration API client', function () {
+describe('attempt a request using the applink API client', function () {
   const {env} = process
   let api: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
 
   beforeEach(function () {
     process.env = {}
     api = nock('https://api.heroku.com')
-    integrationApi = nock('https://integration-api.heroku.com')
+    applinkApi = nock('https://applink-api.heroku.com')
   })
 
   afterEach(function () {
     process.env = env
     api.done()
-    integrationApi.done()
+    applinkApi.done()
     nock.cleanAll()
   })
 
@@ -66,7 +66,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink API Client not configured.
-          Did you call await this.configureIntegrationClient(app, this.config) before accessing this.integration?
+          Did you call await this.configureAppLinkClient(app, this.config) before accessing this.applinkClient?
         `)
         expect(oclif.exit).to.equal(1)
       }
@@ -75,7 +75,7 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when the app doesn’t have the Heroku Integration add-on installed', function () {
+  context('when the app doesn’t have the Heroku AppLink add-on installed', function () {
     beforeEach(async function () {
       api
         .get('/apps/my-app/addons')
@@ -93,7 +93,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on isn’t present on my-app.
-          Install the add-on using heroku addons:create heroku-integration -a my-app.
+          Install the add-on using heroku addons:create heroku-applink -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
       }
@@ -102,7 +102,7 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when the add-on isn’t fully provisioned', function () {
+  context('when the add-on is not fully provisioned', function () {
     beforeEach(async function () {
       api
         .get('/apps/my-app/addons')
@@ -120,7 +120,7 @@ describe('attempt a request using the Integration API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on isn’t fully provisioned on my-app.
-          Wait for the add-on to finish provisioning with heroku addons:wait heroku-integration -a my-app.
+          Wait for the add-on to finish provisioning with heroku addons:wait heroku-applink -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
       }
@@ -136,10 +136,10 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
     })
@@ -154,10 +154,10 @@ describe('attempt a request using the Integration API client', function () {
     })
   })
 
-  context('when HEROKU_INTEGRATION_ADDON is set', function () {
+  context('when HEROKU_APPLINK_ADDON is set', function () {
     beforeEach(async function () {
       process.env = {
-        HEROKU_INTEGRATION_ADDON: 'heroku-integration-staging',
+        HEROKU_APPLINK_ADDON: 'heroku-applink-staging',
       }
 
       api
@@ -165,15 +165,15 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addonStaging])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
-      integrationApi
+      applinkApi
         .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
         .reply(200, [])
     })
 
-    it('respects the value of HEROKU_INTEGRATION_ADDON', async function () {
+    it('respects the value of HEROKU_applink_ADDON', async function () {
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
       ])
@@ -190,19 +190,19 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
     it('uses the specified add-on name', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
-        '--addon=heroku-integration-vertical-01234',
+        '--addon=heroku-applink-vertical-01234',
       ])
 
       expect(stderr.output).to.equal('')
@@ -210,7 +210,7 @@ describe('attempt a request using the Integration API client', function () {
     })
 
     it('uses the specified add-on ID', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
@@ -248,19 +248,19 @@ describe('attempt a request using the Integration API client', function () {
         .reply(200, [addon, addon2])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
         })
     })
 
     it('uses the specified add-on', async function () {
-      integrationApi
+      applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
 
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
-        '--addon=heroku-integration-vertical-01234',
+        '--addon=heroku-applink-vertical-01234',
       ])
 
       expect(stderr.output).to.equal('')
