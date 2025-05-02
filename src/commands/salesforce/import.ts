@@ -42,7 +42,7 @@ export default class Import extends Command {
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
-    let importState: AppLink.AppImport
+    let importStatus: AppLink.AppImport
     const {body: importRes} = await this.applinkClient.post<AppLink.AppImport>(
       `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
       {
@@ -53,19 +53,19 @@ export default class Import extends Command {
           hex_digest: hexDigest,
         },
       })
-    let {state: status, error} = importRes
+    let {status, error} = importRes
 
     while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
 
-      ({body: importState} = await this.applinkClient.get<AppLink.AppImport>(
+      ({body: importStatus} = await this.applinkClient.get<AppLink.AppImport>(
         `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
       ))
 
-      status = importState.state
-      error = importState.error
+      status = importStatus.status
+      error = importStatus.error
       ux.action.status = humanize(status)
     }
 

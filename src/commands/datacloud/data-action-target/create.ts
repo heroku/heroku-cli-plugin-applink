@@ -45,7 +45,7 @@ export default class Create extends Command {
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
-    let createState: AppLink.DataActionTargetCreate
+    let createStatus: AppLink.DataActionTargetCreate
     const {body: createResp} = await this.applinkClient.post<AppLink.DataActionTargetCreate>(
       `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
       {
@@ -58,20 +58,19 @@ export default class Create extends Command {
       }
     )
 
-    let {state: status, error} = createResp
+    let {status, error} = createResp
 
     while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
 
-      ({body: createState} = await this.applinkClient.get<AppLink.DataActionTargetCreate>(
+      ({body: createStatus} = await this.applinkClient.get<AppLink.DataActionTargetCreate>(
         `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets/${apiName}`,
       ))
 
-      // ({state, error} = importState)
-      status = createState.state
-      error = createState.error
+      status = createStatus.status
+      error = createStatus.error
       ux.action.status = humanize(status)
     }
 

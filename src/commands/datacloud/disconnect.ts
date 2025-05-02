@@ -54,7 +54,7 @@ export default class Disconnect extends Command {
     }
 
     ux.action.start(`Disconnecting Data Cloud org ${color.yellow(orgName)} from ${color.app(app)}`)
-    const {state: status, error} = connection
+    const {status, error} = connection
 
     if (status !== 'disconnecting') {
       ux.error(

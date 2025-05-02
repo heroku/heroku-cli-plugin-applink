@@ -70,7 +70,7 @@ export default class Connect extends Command {
     })
 
     ux.action.start(`Connecting Salesforce org ${color.yellow(orgName)} to ${color.app(app)}`)
-    let {state: status, error} = connection
+    let {status, error} = connection
     ux.action.status = humanize(status)
 
     while (this.isPendingStatus(status)) {
@@ -82,7 +82,7 @@ export default class Connect extends Command {
         `/addons/${this.addonId}/connections/${id}`,
       ));
 
-      ({state: status, error} = connection)
+      ({status, error} = connection)
       ux.action.status = humanize(status)
     }
 
