@@ -144,8 +144,12 @@ export type Authorization = {
   readonly last_modified_at: string
   readonly salesforce_username?: string
   readonly app_name?: string
-  readonly org_id?: string
-  readonly org_name?: string
+  readonly salesforce_org: {
+    readonly id?: string | null
+    readonly instance_url?: string | null
+    readonly org_name: string
+    readonly run_as_user?: string | null
+  }
   readonly type?: string
   readonly created_by: string
   readonly last_modified_by: string

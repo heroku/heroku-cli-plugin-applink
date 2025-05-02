@@ -26,6 +26,7 @@ USAGE
 # Commands
 <!-- commands -->
 * [`heroku applink:authorizations`](#heroku-applinkauthorizations)
+* [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
 * [`heroku applink:connections`](#heroku-applinkconnections)
 * [`heroku applink:connections:info ORG_NAME`](#heroku-applinkconnectionsinfo-org_name)
 * [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
@@ -54,6 +55,28 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/index.ts)_
+
+## `heroku applink:authorizations:info DEVELOPER_NAME`
+
+shows info for a Heroku AppLink authorized user
+
+```
+USAGE
+  $ heroku applink:authorizations:info DEVELOPER_NAME -a <value> [--addon <value>] [-r <value>]
+
+ARGUMENTS
+  DEVELOPER_NAME  developer name of the authorization
+
+FLAGS
+  -a, --app=<value>     (required) app to run command against
+  -r, --remote=<value>  git remote of app to use
+      --addon=<value>   unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  shows info for a Heroku AppLink authorized user
+```
+
+_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
@@ -155,15 +178,16 @@ disconnects a Data Cloud org from a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:disconnect ORG_NAME -a <value> [--addon <value>] [-r <value>]
+  $ heroku datacloud:disconnect ORG_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  name of the Data Cloud Org instance
+  ORG_NAME  name of the Data Cloud org instance
 
 FLAGS
-  -a, --app=<value>     (required) app to run command against
-  -r, --remote=<value>  git remote of app to use
-      --addon=<value>   unique name or ID of an AppLink add-on
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>  set to Data Cloud org instance name to bypass confirm prompt
+  -r, --remote=<value>   git remote of app to use
+      --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
   disconnects a Data Cloud org from a Heroku app
@@ -229,15 +253,16 @@ disconnect a Salesforce org from a Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:disconnect ORG_NAME -a <value> [--addon <value>] [-r <value>]
+  $ heroku salesforce:disconnect ORG_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
   ORG_NAME  name of the Salesforce org instance
 
 FLAGS
-  -a, --app=<value>     (required) app to run command against
-  -r, --remote=<value>  git remote of app to use
-      --addon=<value>   unique name or ID of an AppLink add-on
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>  set to Salesforce org instance name to bypass confirm prompt
+  -r, --remote=<value>   git remote of app to use
+      --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
   disconnect a Salesforce org from a Heroku app
