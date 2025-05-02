@@ -49,6 +49,7 @@ describe('datacloud:disconnect', function () {
         await runCommand(Cmd, [
           'myorg',
           '--app=my-app',
+          '--confirm=myorg',
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
@@ -86,8 +87,8 @@ describe('datacloud:disconnect', function () {
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-        Data Cloud org myorg doesn\'t exist on app my-app.
-        Use heroku applink:connections to list the connections on the app.`)
+          Data Cloud org myorg doesn\'t exist on app my-app.
+          Use heroku applink:connections to list the connections on the app.`)
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -101,7 +102,7 @@ describe('datacloud:disconnect', function () {
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Confirmation myorg2 did not match myorg. Aborted.')
+        expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -141,17 +142,8 @@ describe('datacloud:disconnect', function () {
         '--confirm=myorg',
       ])
 
-  it('errors when the wrong org name is passed to the confirm flag', async function () {
-    try {
-      await runCommand(Cmd, [
-        'myorg',
-        '--app=my-app',
-        '--confirm=myorg2',
-      ])
-    } catch (error: unknown) {
-      const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
-      expect(oclif.exit).to.equal(1)
-    }
+      expect(stderr.output).to.contain('Disconnected')
+      expect(stdout.output).to.equal('')
+    })
   })
 })
