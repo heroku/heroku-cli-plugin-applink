@@ -47,6 +47,7 @@ describe('salesforce:disconnect', function () {
       await runCommand(Cmd, [
         'myorg',
         '--app=my-app',
+        '--confirm=myorg',
       ])
 
       expect(stderr.output).to.contain('Disconnected')
@@ -62,6 +63,7 @@ describe('salesforce:disconnect', function () {
         await runCommand(Cmd, [
           'myorg',
           '--app=my-app',
+          '--confirm=myorg',
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
@@ -79,10 +81,25 @@ describe('salesforce:disconnect', function () {
         await runCommand(Cmd, [
           'myorg',
           '--app=my-app',
+          '--confirm=myorg',
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.contain('Salesforce org myorg doesn\'t exist on app my-app.')
+        expect(oclif.exit).to.equal(1)
+      }
+    })
+
+    it('errors when the wrong org name is passed to the confirm flag', async function () {
+      try {
+        await runCommand(Cmd, [
+          'myorg',
+          '--app=my-app',
+          '--confirm=myorg2',
+        ])
+      } catch (error: unknown) {
+        const {message, oclif} = error as CLIError
+        expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -119,6 +136,7 @@ describe('salesforce:disconnect', function () {
       await runCommand(Cmd, [
         'myorg',
         '--app=my-app',
+        '--confirm=myorg',
       ])
 
       expect(stderr.output).to.contain('Disconnected')

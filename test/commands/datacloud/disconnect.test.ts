@@ -12,6 +12,7 @@ import {
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 import stripAnsi from '../../helpers/strip-ansi'
+import heredoc from 'tsheredoc'
 
 describe('datacloud:disconnect', function () {
   let api: nock.Scope
@@ -48,6 +49,7 @@ describe('datacloud:disconnect', function () {
         await runCommand(Cmd, [
           'myorg',
           '--app=my-app',
+          '--confirm=myorg',
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
@@ -64,6 +66,7 @@ describe('datacloud:disconnect', function () {
       await runCommand(Cmd, [
         'myorg',
         '--app=my-app',
+        '--confirm=myorg',
       ])
 
       expect(stderr.output).to.contain('Disconnected')
@@ -79,10 +82,27 @@ describe('datacloud:disconnect', function () {
         await runCommand(Cmd, [
           'myorg',
           '--app=my-app',
+          '--confirm=myorg',
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Data Cloud org myorg doesn\'t exist on app my-app. Use heroku applink:connections to list the connections on the app.')
+        expect(stripAnsi(message)).to.equal(heredoc`
+          Data Cloud org myorg doesn\'t exist on app my-app.
+          Use heroku applink:connections to list the connections on the app.`)
+        expect(oclif.exit).to.equal(1)
+      }
+    })
+
+    it('errors when the wrong org name is passed to the confirm flag', async function () {
+      try {
+        await runCommand(Cmd, [
+          'myorg',
+          '--app=my-app',
+          '--confirm=myorg2',
+        ])
+      } catch (error: unknown) {
+        const {message, oclif} = error as CLIError
+        expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -119,6 +139,7 @@ describe('datacloud:disconnect', function () {
       await runCommand(Cmd, [
         'myorg',
         '--app=my-app',
+        '--confirm=myorg',
       ])
 
       expect(stderr.output).to.contain('Disconnected')

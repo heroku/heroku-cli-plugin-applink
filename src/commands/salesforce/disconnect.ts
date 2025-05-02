@@ -6,6 +6,7 @@ import {ux, Args} from '@oclif/core'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 import {ConnectionError} from '../../lib/applink/types'
+import confirmCommand from '../../lib/confirmCommand'
 
 export default class Disconnect extends Command {
   static description = 'disconnect a Salesforce org from a Heroku app'
@@ -13,6 +14,7 @@ export default class Disconnect extends Command {
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
+    confirm: flags.string({char: 'c', description: 'set to Salesforce org instance name to bypass confirm prompt'}),
     remote: flags.remote(),
   }
 
@@ -22,11 +24,19 @@ export default class Disconnect extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Disconnect)
-    const {app, addon} = flags
+    const {app, addon, confirm} = flags
     const {org_name: orgName} = args
 
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.SalesforceConnection
+
+    await confirmCommand({
+      orgName,
+      addon: this._addonName,
+      app,
+      confirm,
+    })
+
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${orgName}`
