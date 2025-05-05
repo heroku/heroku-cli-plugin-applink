@@ -28,7 +28,7 @@ export default class Publish extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'imported' && status !== 'import_failed'
+    return status !== 'published' && status !== 'publish_failed'
   }
 
   public async run(): Promise<void> {
@@ -44,9 +44,9 @@ export default class Publish extends Command {
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
-    let importStatus: AppLink.AppImport
-    const {body: importRes} = await this.applinkClient.post<AppLink.AppImport>(
-      `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_imports`,
+    let publishStatus: AppLink.AppPublish
+    const {body: publishRes} = await this.applinkClient.post<AppLink.AppPublish>(
+      `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_publishes`,
       {
         body: {
           client_name: clientName,
@@ -55,25 +55,25 @@ export default class Publish extends Command {
           hex_digest: hexDigest,
         },
       })
-    let {status, error} = importRes
+    let {status, error} = publishRes
 
     while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
 
-      ({body: importStatus} = await this.applinkClient.get<AppLink.AppImport>(
-        `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_imports/${clientName}`,
+      ({body: publishStatus} = await this.applinkClient.get<AppLink.AppPublish>(
+        `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_publishes/${clientName}`,
       ))
 
-      status = importStatus.status
-      error = importStatus.error
+      status = publishStatus.status
+      error = publishStatus.error
       ux.action.status = humanize(status)
     }
 
     ux.action.stop(humanize(status))
 
-    if (status !== 'imported') {
+    if (status !== 'published') {
       ux.error(
         error === undefined
           ? humanize(status)

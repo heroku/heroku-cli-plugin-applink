@@ -74,14 +74,14 @@ export type ConnectionError = {
 export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
 
 /**
- * An app import process.
+ * An app publish process.
  */
-export type AppImport = {
+export type AppPublish = {
   /** client name */
   readonly client_name: string
   /** generate authorization permission set */
   readonly generate_authorization_permission_set: boolean
-  /** app import ID */
+  /** app publish ID */
   readonly id: string
   /** Salesforce Org info */
   readonly salesforce_org: {
@@ -90,15 +90,15 @@ export type AppImport = {
     readonly org_name: string
     readonly run_as_user?: string | null
   }
-  /** import process status */
-  readonly status: 'pending' | 'importing' | 'imported' | 'import_failed'
+  /** publish process status */
+  readonly status: 'pending' | 'publishing' | 'published' | 'publish_failed'
   /** app info */
   readonly heroku_app: {
     id: string
     name: string
     url: string
   }
-  /** last error on import */
+  /** last error on publish */
   readonly error?: {
     id: string
     message: string
