@@ -35,12 +35,12 @@ export default class Index extends Command {
         type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
         orgName: {
           header: 'Org Name',
-          get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.org_name : row.datacloud_org.org_name,
+          get: row => AppLink.isSalesforceConnection(row) ? row.org.connection_name : row.org.connection_name,
         },
         status: {get: row => humanize(row.state)},
         runAsUser: {
           header: 'Run As User',
-          get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.run_as_user : row.datacloud_org.run_as_user,
+          get: row => AppLink.isSalesforceConnection(row) ? row.org.run_as_user : row.org.run_as_user,
         },
       })
     }

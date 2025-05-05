@@ -10,10 +10,10 @@ export type SalesforceConnection = {
   /** connection ID */
   readonly id: string
   /** Salesforce Org info */
-  readonly salesforce_org: {
+  readonly org: {
     readonly id?: string | null
     readonly instance_url?: string | null
-    readonly org_name: string
+    readonly connection_name: string
     readonly run_as_user?: string | null
   }
   /** redirect URI for authentication */
@@ -36,10 +36,10 @@ export type DataCloudConnection = {
   /** connection ID */
   readonly id: string
   /** Data Cloud Org info */
-  readonly datacloud_org: {
+  readonly org: {
     readonly id?: string | null
     readonly instance_url?: string | null
-    readonly org_name: string
+    readonly connection_name: string
     readonly run_as_user?: string | null
   }
   /** redirect URI for authentication */
@@ -53,7 +53,7 @@ export type DataCloudConnection = {
 export type Connection = SalesforceConnection | DataCloudConnection
 
 export function isSalesforceConnection(connection: Connection): connection is SalesforceConnection {
-  return (connection as SalesforceConnection).salesforce_org !== undefined
+  return (connection as SalesforceConnection).org !== undefined
 }
 
 export function isDataCloudConnection(connection: Connection): connection is DataCloudConnection {
@@ -84,10 +84,10 @@ export type AppImport = {
   /** app import ID */
   readonly id: string
   /** Salesforce Org info */
-  readonly salesforce_org: {
+  readonly org: {
     readonly id?: string | null
     readonly instance_url?: string | null
-    readonly org_name: string
+    readonly connection_name: string
     readonly run_as_user?: string | null
   }
   /** import process state */
@@ -110,10 +110,10 @@ export type AppImport = {
  */
 export type DataActionTargetCreate = {
   readonly api_name: string
-  readonly datacloud_org: {
+  readonly org: {
     readonly id?: string | null
     readonly instance_url?: string | null
-    readonly org_name: string
+    readonly connection_name: string
     readonly run_as_user?: string | null
   }
   readonly heroku_app: {
@@ -141,14 +141,14 @@ export type Authorization = {
   readonly status: ConnectionStatus
   readonly redirect_uri: string
   readonly created_at: string
-  readonly last_modified_at: string
-  readonly salesforce_username?: string
+  readonly last_modified_at: string,
   readonly app_name?: string
-  readonly salesforce_org: {
+  readonly org: {
     readonly id?: string | null
     readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
+    readonly connection_name: string
+    readonly type: string,
+    readonly username?: string
   }
   readonly type?: string
   readonly created_by: string

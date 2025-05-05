@@ -40,10 +40,9 @@ export default class Info extends Command {
 
     ux.styledObject({
       ID: authorization.id,
-      'Instance URL': authorization.salesforce_org.instance_url,
-      'Org ID': authorization.salesforce_org.id,
-      'Org Name': authorization.salesforce_org.org_name,
-      'Run As User': authorization.salesforce_org.run_as_user,
+      'Instance URL': authorization.org.instance_url,
+      'Org ID': authorization.org.id,
+      'Connection Name': authorization.org.connection_name,
       Status: humanize(authorization.status),
       App: app,
       Type: humanize(AppLink.adjustOrgType(authorization.type)),

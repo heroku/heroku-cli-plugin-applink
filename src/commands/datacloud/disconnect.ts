@@ -19,19 +19,19 @@ export default class Disconnect extends Command {
   }
 
   static args = {
-    org_name: Args.string({description: 'name of the Data Cloud org instance', required: true}),
+    connection_name: Args.string({description: 'name of the Data Cloud org instance', required: true}),
   }
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Disconnect)
     const {app, addon, confirm} = flags
-    const {org_name: orgName} = args
+    const {connection_name: connectionName} = args
 
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.DataCloudConnection
 
     await confirmCommand({
-      orgName,
+      connectionName,
       addon: this._addonName,
       app,
       confirm,
@@ -39,14 +39,14 @@ export default class Disconnect extends Command {
 
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.DataCloudConnection>(
-        `/addons/${this.addonId}/connections/${orgName}`
+        `/addons/${this.addonId}/connections/${connectionName}`
       ))
     } catch (error) {
       const connErr = error as ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
         ux.error(
           heredoc`
-          Data Cloud org ${color.yellow(orgName)} doesn't exist on app ${color.app(app)}.
+          Data Cloud org ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
           Use ${color.cmd('heroku applink:connections')} to list the connections on the app.`, {exit: 1})
       } else {
         throw error
@@ -55,7 +55,7 @@ export default class Disconnect extends Command {
 
     const {state, error} = connection
 
-    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(orgName)} from ${color.app(app)}`)
+    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(connectionName)} from ${color.app(app)}`)
 
     if (state !== 'disconnecting') {
       ux.error(
