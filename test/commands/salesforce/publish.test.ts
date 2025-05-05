@@ -2,7 +2,7 @@ import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/salesforce/import'
+import Cmd from './publish'
 import {
   addon,
   appImportPending,

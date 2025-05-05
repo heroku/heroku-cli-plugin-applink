@@ -9,7 +9,7 @@ import * as AppLink from '../../lib/applink/types'
 import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
-export default class Import extends Command {
+export default class Publish extends Command {
   static description = 'Imports an API specification to an authenticated Salesforce Org.'
 
   static flags = {
@@ -30,7 +30,7 @@ export default class Import extends Command {
   }
 
   public async run(): Promise<void> {
-    const {flags, args} = await this.parse(Import)
+    const {flags, args} = await this.parse(Publish)
     const {app, addon, 'client-name': clientName, 'generate-auth-permission-set': generateAuthPermissionSet, 'org-name': orgName} = flags
     const {api_spec_file: apiSpecFile} = args
 
