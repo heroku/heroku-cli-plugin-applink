@@ -10,14 +10,16 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Publish extends Command {
-  static description = 'Imports an API specification to an authenticated Salesforce Org.'
+  static description = 'publish an app\'s API specification to an authenticated Salesforce org'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
-    'generate-auth-permission-set': flags.boolean({char: 'G', description: 'generate a permission set for the client'}),
-    'org-name': flags.string({required: true, char: 'o', description: 'authorized Salesforce Org instance name'}),
+    'connection-name': flags.string({required: true, char: 'o', description: 'authenticated Salesforce org instance name'}),
+    'authorization-connected-app-name': flags.string({description: 'name of connected app to create from our template'}),
+    'authorization-permission-set-name': flags.string({description: 'name of permission set to create from our template'}),
+    'metadata-dir': flags.boolean({description: 'directory containing connected app, permission set, or API spec'}),
     remote: flags.remote(),
   }
 
