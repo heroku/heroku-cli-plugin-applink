@@ -33,7 +33,7 @@ export default class Publish extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Publish)
-    const {app, addon, 'client-name': clientName, 'generate-auth-permission-set': generateAuthPermissionSet, 'org-name': orgName} = flags
+    const {app, addon, 'client-name': clientName, 'connection-name': connectionName, 'authorization-connected-app-name': authorizationConnectedAppName, 'authorization-permission-set-name': authorizationPermissionSetName, 'metadata-dir': metadataDir} = flags
     const {api_spec_file: apiSpecFile} = args
 
     const specFileContents = fs.readFileSync(apiSpecFile)
@@ -43,10 +43,10 @@ export default class Publish extends Command {
 
     await this.configureAppLinkClient(app, addon)
 
-    ux.action.start(`Importing ${color.app(app)} to ${color.yellow(orgName)} as ${color.yellow(clientName)}`)
+    ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
     let importStatus: AppLink.AppImport
     const {body: importRes} = await this.applinkClient.post<AppLink.AppImport>(
-      `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
+      `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_imports`,
       {
         body: {
           client_name: clientName,
@@ -63,7 +63,7 @@ export default class Publish extends Command {
       });
 
       ({body: importStatus} = await this.applinkClient.get<AppLink.AppImport>(
-        `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
+        `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_imports/${clientName}`,
       ))
 
       status = importStatus.status
