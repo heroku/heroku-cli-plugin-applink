@@ -45,7 +45,7 @@ export default class Info extends Command {
       'Connection Name': authorization.org.connection_name,
       Status: humanize(authorization.status),
       App: app,
-      Type: humanize(AppLink.adjustOrgType(authorization.type)),
+      Type: humanize(AppLink.adjustOrgType(authorization.org.type)),
       'Add-on': this._addonName,
       'Created Date': authorization.created_at,
       'Created By': authorization.created_by,

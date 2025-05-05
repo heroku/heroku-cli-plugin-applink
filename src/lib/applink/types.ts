@@ -10,11 +10,10 @@ export type SalesforceConnection = {
   /** connection ID */
   readonly id: string
   /** Salesforce Org info */
-  readonly org: {
+  readonly salesforce_org: {
     readonly id?: string | null
     readonly instance_url?: string | null
     readonly connection_name: string
-    readonly run_as_user?: string | null
   }
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
@@ -36,7 +35,7 @@ export type DataCloudConnection = {
   /** connection ID */
   readonly id: string
   /** Data Cloud Org info */
-  readonly org: {
+  readonly datacloud_org: {
     readonly id?: string | null
     readonly instance_url?: string | null
     readonly connection_name: string
@@ -53,7 +52,7 @@ export type DataCloudConnection = {
 export type Connection = SalesforceConnection | DataCloudConnection
 
 export function isSalesforceConnection(connection: Connection): connection is SalesforceConnection {
-  return (connection as SalesforceConnection).org !== undefined
+  return (connection as SalesforceConnection).salesforce_org !== undefined
 }
 
 export function isDataCloudConnection(connection: Connection): connection is DataCloudConnection {
@@ -110,11 +109,10 @@ export type AppImport = {
  */
 export type DataActionTargetCreate = {
   readonly api_name: string
-  readonly org: {
+  readonly datacloud_org: {
     readonly id?: string | null
     readonly instance_url?: string | null
     readonly connection_name: string
-    readonly run_as_user?: string | null
   }
   readonly heroku_app: {
     id: string
@@ -150,7 +148,6 @@ export type Authorization = {
     readonly type: string,
     readonly username?: string
   }
-  readonly type?: string
   readonly created_by: string
   readonly last_modified_by: string
   readonly error?: {

@@ -38,14 +38,13 @@ export default class Info extends Command {
       }
     }
 
-    const orgInfo = AppLink.isSalesforceConnection(connection) ? connection.org : connection.org
+    const orgInfo = AppLink.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
 
     ux.styledObject({
       Id: connection.id,
       'Instance URL': orgInfo.instance_url,
       'Org ID': orgInfo.id,
       'Org Name': orgInfo.connection_name,
-      'Run As User': orgInfo.run_as_user,
       Status: humanize(connection.state),
       Type: humanize(AppLink.adjustOrgType(connection.type)),
     })

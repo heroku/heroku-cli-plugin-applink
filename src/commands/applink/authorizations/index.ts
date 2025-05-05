@@ -27,7 +27,7 @@ export default class Index extends Command {
       ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
 
       ux.table(appAuthorizations, {
-        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
+        type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
         addon: {
           header: 'Add-On',
           get: () => this._addonName,
