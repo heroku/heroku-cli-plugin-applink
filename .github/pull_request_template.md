@@ -24,3 +24,5 @@ Replace this text with a summary of the change(s) including relevant motivations
 
 1. Replace this text with a list of steps used to validate changes or type 'Passing CI suffices'.
 2. ...
+
+## Screenshots (if applicable)

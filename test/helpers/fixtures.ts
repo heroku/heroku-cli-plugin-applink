@@ -65,7 +65,7 @@ export const connection1: AppLink.SalesforceConnection = {
     org_name: 'my-org-1',
     run_as_user: 'user@example.com',
   },
-  state: 'connected',
+  status: 'connected',
   type: 'SalesforceOrg',
 }
 
@@ -78,7 +78,7 @@ export const connection2_connecting: AppLink.SalesforceConnection = {
     run_as_user: '',
   },
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  state: 'authenticating',
+  status: 'authenticating',
   type: 'SalesforceOrg',
 }
 
@@ -90,7 +90,7 @@ export const connection2_connected: AppLink.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: 'user@example.com',
   },
-  state: 'connected',
+  status: 'connected',
   type: 'SalesforceOrg',
 }
 
@@ -106,14 +106,14 @@ export const connection2_failed: AppLink.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  state: 'connection_failed',
+  status: 'connection_failed',
   type: 'SalesforceOrg',
 }
 
 export const appImportPending: AppLink.AppImport = {
   id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
   client_name: 'AccountAPI',
-  state: 'pending',
+  status: 'pending',
   generate_authorization_permission_set: true,
   salesforce_org: {
     id: '00DSG00000DGEIr2AP',
@@ -130,12 +130,12 @@ export const appImportPending: AppLink.AppImport = {
 
 export const appImportSuccess: AppLink.AppImport = {
   ...appImportPending,
-  state: 'imported',
+  status: 'imported',
 }
 
 export const appImportFailed: AppLink.AppImport = {
   ...appImportPending,
-  state: 'import_failed',
+  status: 'import_failed',
 }
 
 export const datCreatePending: AppLink.DataActionTargetCreate = {
@@ -152,19 +152,19 @@ export const datCreatePending: AppLink.DataActionTargetCreate = {
     url: 'https://hint4aa8373ef0bb57ff28226530-229438e187dc.herokuapp.com/',
   },
   label: 'My Data Action Target',
-  state: 'pending',
+  status: 'pending',
   target_endpoint: '/handleDataCloudDataChangeEvent',
   type: 'Webhook',
 }
 
 export const datCreateSuccess: AppLink.DataActionTargetCreate = {
   ...datCreatePending,
-  state: 'created',
+  status: 'created',
 }
 
 export const datCreateFailed: AppLink.DataActionTargetCreate = {
   ...datCreatePending,
-  state: 'creation_failed',
+  status: 'creation_failed',
 }
 
 export const connection2_disconnected: AppLink.SalesforceConnection = {
@@ -175,7 +175,7 @@ export const connection2_disconnected: AppLink.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  state: 'disconnected',
+  status: 'disconnected',
   type: 'SalesforceOrg',
 }
 
@@ -187,7 +187,7 @@ export const connection3: AppLink.SalesforceConnection = {
     org_name: 'my-org-1',
     run_as_user: 'user2@example.com',
   },
-  state: 'connecting',
+  status: 'connecting',
   type: 'SalesforceOrg',
 }
 
@@ -200,7 +200,7 @@ export const connection4_connecting: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  state: 'authenticating',
+  status: 'authenticating',
   type: 'DatacloudOrg',
 }
 
@@ -212,7 +212,7 @@ export const connection4_connected: AppLink.DataCloudConnection = {
     run_as_user: 'user@example.com',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  state: 'connected',
+  status: 'connected',
   type: 'DatacloudOrg',
 }
 
@@ -228,7 +228,7 @@ export const connection4_failed: AppLink.DataCloudConnection = {
     message: 'There was a problem connecting your org. Try again later.',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  state: 'connection_failed',
+  status: 'connection_failed',
   type: 'DatacloudOrg',
 }
 
@@ -240,7 +240,7 @@ export const connection4_disconnected: AppLink.DataCloudConnection = {
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  state: 'disconnected',
+  status: 'disconnected',
   type: 'DatacloudOrg',
 }
 
@@ -252,7 +252,7 @@ export const connection5_disconnecting: AppLink.DataCloudConnection = {
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  state: 'disconnecting',
+  status: 'disconnecting',
   type: 'DatacloudOrg',
 }
 
@@ -264,7 +264,7 @@ export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
     run_as_user: '',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  state: 'disconnection_failed',
+  status: 'disconnection_failed',
   type: 'DatacloudOrg',
 }
 
@@ -287,7 +287,7 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
     org_name: 'my-org-2',
     run_as_user: '',
   },
-  state: 'connection_failed',
+  status: 'connection_failed',
   type: 'SalesforceOrg',
 }
 

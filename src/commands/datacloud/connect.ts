@@ -70,10 +70,10 @@ export default class Connect extends Command {
     })
 
     ux.action.start(`Connecting Data Cloud org ${color.yellow(orgName)} to ${color.app(app)}`)
-    let {state, error} = connection
-    ux.action.status = humanize(state)
+    let {status, error} = connection
+    ux.action.status = humanize(status)
 
-    while (this.isPendingState(state)) {
+    while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
         setTimeout(resolve, 5000)
       });
@@ -82,16 +82,16 @@ export default class Connect extends Command {
         `/addons/${this.addonId}/connections/${id}`,
       ));
 
-      ({state, error} = connection)
-      ux.action.status = humanize(state)
+      ({status, error} = connection)
+      ux.action.status = humanize(status)
     }
 
-    ux.action.stop(humanize(state))
+    ux.action.stop(humanize(status))
 
-    if (state !== 'connected') {
+    if (status !== 'connected') {
       ux.error(
         error === undefined
-          ? humanize(state)
+          ? humanize(status)
           : heredoc`
             ${error.id}
             ${error.message}
@@ -101,7 +101,7 @@ export default class Connect extends Command {
     }
   }
 
-  protected isPendingState(state: string): boolean {
-    return state !== 'connected' && state !== 'authentication_failed' && state !== 'connection_failed' && state !== 'disconnected'
+  protected isPendingStatus(status: string): boolean {
+    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
   }
 }
