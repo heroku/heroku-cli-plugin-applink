@@ -77,32 +77,15 @@ export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 
  * An app publish process.
  */
 export type AppPublish = {
-  /** client name */
-  readonly client_name: string
-  /** generate authorization permission set */
-  readonly generate_authorization_permission_set: boolean
-  /** app publish ID */
-  readonly id: string
-  /** Salesforce Org info */
-  readonly salesforce_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
+  app_request: {
+    /** client name */
+    client_name: string
+    /** authorization connected app name */
+    authorization_connected_app_name?: string
+    /** authorization permission set name */
+    authorization_permission_set_name?: string
   }
-  /** publish process status */
-  readonly status: 'pending' | 'publishing' | 'published' | 'publish_failed'
-  /** app info */
-  readonly heroku_app: {
-    id: string
-    name: string
-    url: string
-  }
-  /** last error on publish */
-  readonly error?: {
-    id: string
-    message: string
-  }
+  metadata: Buffer
 }
 
 /**

@@ -6,8 +6,6 @@ import fs from 'fs'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
-import {humanize} from '../../lib/helpers'
-import heredoc from 'tsheredoc'
 
 export default class Publish extends Command {
   static description = 'publish an app\'s API specification to an authenticated Salesforce org'
@@ -27,62 +25,36 @@ export default class Publish extends Command {
     api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format)'}),
   }
 
-  protected isPendingStatus(status: string): boolean {
-    return status !== 'published' && status !== 'publish_failed'
-  }
-
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Publish)
     const {app, addon, 'client-name': clientName, 'connection-name': connectionName, 'authorization-connected-app-name': authorizationConnectedAppName, 'authorization-permission-set-name': authorizationPermissionSetName, 'metadata-dir': metadataDir} = flags
     const {api_spec_file: apiSpecFile} = args
 
-    const specFileContents = fs.readFileSync(apiSpecFile)
-    const hexDigest = createHash('sha256').update(specFileContents).digest('hex')
-    const compressedSpec = gzipSync(Buffer.from(specFileContents))
-    const encodedSpec = Buffer.from(compressedSpec).toString('base64')
+    // const specFileContents = fs.readFileSync(apiSpecFile)
+    // const hexDigest = createHash('sha256').update(specFileContents).digest('hex')
+    // const compressedSpec = gzipSync(Buffer.from(specFileContents))
+    // const encodedSpec = Buffer.from(compressedSpec).toString('base64')
+
+    const metadataZip = ''
+    const binaryMetadataZip = Buffer.from(metadataZip)
 
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
-    let publishStatus: AppLink.AppPublish
-    const {body: publishRes} = await this.applinkClient.post<AppLink.AppPublish>(
-      `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_publishes`,
+
+    await this.applinkClient.post<AppLink.AppPublish>(
+      `/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`,
       {
         body: {
-          client_name: clientName,
-          api_spec: encodedSpec,
-          generate_authorization_permission_set: generateAuthPermissionSet,
-          hex_digest: hexDigest,
+          app_request: {
+            client_name: clientName,
+            authorization_connected_app_name: authorizationConnectedAppName,
+            authorization_permission_set_name: authorizationPermissionSetName,
+          },
+          metadata: binaryMetadataZip,
         },
       })
-    let {status, error} = publishRes
 
-    while (this.isPendingStatus(status)) {
-      await new Promise(resolve => {
-        setTimeout(resolve, 5000)
-      });
-
-      ({body: publishStatus} = await this.applinkClient.get<AppLink.AppPublish>(
-        `/addons/${this.addonId}/connections/salesforce/${connectionName}/app_publishes/${clientName}`,
-      ))
-
-      status = publishStatus.status
-      error = publishStatus.error
-      ux.action.status = humanize(status)
-    }
-
-    ux.action.stop(humanize(status))
-
-    if (status !== 'published') {
-      ux.error(
-        error === undefined
-          ? humanize(status)
-          : heredoc`
-            ${error.id}
-            ${error.message}
-          `,
-        {exit: 1}
-      )
-    }
+    ux.action.stop()
   }
 }
