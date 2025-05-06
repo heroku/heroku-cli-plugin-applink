@@ -159,3 +159,24 @@ export type Authorization = {
     message: string
   }
 }
+
+/**
+ * Heroku App Publication to a Salesforce Org.
+ */
+export type Publication = {
+  readonly app_uuid: string,
+  readonly heroku_applink_id: string,
+  readonly error?: {
+    id: string,
+    message: string,
+  },
+  readonly esr_id: string,
+  readonly esr_name: string,
+  readonly org_name: string,
+  readonly org_id: string,
+  readonly published_status: string,
+  readonly created_at: string,
+  readonly last_modified_at: string,
+  readonly created_by: string,
+  readonly last_modified_by: string,
+}
