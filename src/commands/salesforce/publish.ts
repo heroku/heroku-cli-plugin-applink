@@ -3,6 +3,7 @@ import {flags} from '@heroku-cli/command'
 import {ux, Args} from '@oclif/core'
 import {createHash} from 'crypto'
 import fs from 'fs'
+import path from 'path'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
@@ -17,7 +18,7 @@ export default class Publish extends Command {
     'connection-name': flags.string({required: true, char: 'o', description: 'authenticated Salesforce org instance name'}),
     'authorization-connected-app-name': flags.string({description: 'name of connected app to create from our template'}),
     'authorization-permission-set-name': flags.string({description: 'name of permission set to create from our template'}),
-    'metadata-dir': flags.boolean({description: 'directory containing connected app, permission set, or API spec'}),
+    'metadata-dir': flags.string({description: 'directory containing connected app, permission set, or API spec'}),
     remote: flags.remote(),
   }
 
@@ -29,6 +30,31 @@ export default class Publish extends Command {
     const {flags, args} = await this.parse(Publish)
     const {app, addon, 'client-name': clientName, 'connection-name': connectionName, 'authorization-connected-app-name': authorizationConnectedAppName, 'authorization-permission-set-name': authorizationPermissionSetName, 'metadata-dir': metadataDir} = flags
     const {api_spec_file: apiSpecFile} = args
+
+    let hasConnectedAppMeta = false
+    let hasPermissionSetMeta = false
+
+    if (metadataDir) {
+      try {
+        const files = fs.readdirSync(path.resolve(metadataDir))
+        hasConnectedAppMeta = files.includes('connectedapp-meta.xml')
+        hasPermissionSetMeta = files.includes('permissionset-meta.xml')
+
+        if (hasConnectedAppMeta && authorizationConnectedAppName) {
+          this.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
+        }
+
+        if (hasPermissionSetMeta && authorizationPermissionSetName) {
+          this.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          this.error(`Failed to read metadata directory: ${error.message}`)
+        } else {
+          this.error('Failed to read metadata directory: Unknown error')
+        }
+      }
+    }
 
     // const specFileContents = fs.readFileSync(apiSpecFile)
     // const hexDigest = createHash('sha256').update(specFileContents).digest('hex')
