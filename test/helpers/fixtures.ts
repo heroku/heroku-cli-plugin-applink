@@ -1,6 +1,6 @@
 import * as Heroku from '@heroku-cli/schema'
 import * as AppLink from '../../src/lib/applink/types'
-
+import * as HerokuSDK from '../../src/lib/types'
 export const addon: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
@@ -350,5 +350,23 @@ export const authorization_not_found: AppLink.Authorization = {
   error: {
     id: 'record_not_found',
     message: 'record not found',
+  },
+}
+
+export const sso_response: HerokuSDK.SSO = {
+  method: 'post',
+  action: 'https://applink.heroku.com/sso/login',
+  params: {
+    email: 'user@example.com',
+    user_id: '1234567890',
+    app: 'my-app',
+    context_app: 'my-other-app',
+    timestamp: '2021-01-01T00:00:00Z',
+    'nav-data': 'nav-data',
+    id: '1234567890',
+    token: '1234567890',
+    resource_id: '1234567890',
+    resource_token: '1234567890',
+    user_scoped_resource_token: '1234567890',
   },
 }
