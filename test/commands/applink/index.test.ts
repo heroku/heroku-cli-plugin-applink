@@ -9,6 +9,7 @@ import {
   addon,
   connection1,
   connection2_connected,
+  sso_response,
 } from '../../helpers/fixtures'
 
 describe('applink:connections', function () {
@@ -36,8 +37,10 @@ describe('applink:connections', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
     })
 
     context('when there are no Heroku AppLink connections created on the app', function () {

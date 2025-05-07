@@ -9,7 +9,12 @@ import {runCommand} from '../run-command'
 import BaseCommand from '../../src/lib/base'
 import * as AppLink from '../../src/lib/applink/types'
 import stripAnsi from '../helpers/strip-ansi'
-import {addon, addon2, addonStaging} from '../helpers/fixtures'
+import {
+  addon,
+  addon2,
+  addonStaging,
+  sso_response,
+} from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
@@ -137,8 +142,10 @@ describe('attempt a request using the applink API client', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
@@ -166,14 +173,16 @@ describe('attempt a request using the applink API client', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/6789abcd-ef01-2345-6789-abcdef012345/sso')
+        .reply(200, sso_response)
       applinkApi
         .get('/addons/6789abcd-ef01-2345-6789-abcdef012345/connections')
         .reply(200, [])
     })
 
-    it('respects the value of HEROKU_applink_ADDON', async function () {
+    it('respects the value of HEROKU_APPLINK_ADDON', async function () {
       await runCommand(CommandWithConfiguration, [
         '--app=my-app',
       ])
@@ -191,11 +200,14 @@ describe('attempt a request using the applink API client', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
     })
 
     it('uses the specified add-on name', async function () {
+      api
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
@@ -210,6 +222,9 @@ describe('attempt a request using the applink API client', function () {
     })
 
     it('uses the specified add-on ID', async function () {
+      api
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
@@ -249,11 +264,14 @@ describe('attempt a request using the applink API client', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
     })
 
     it('uses the specified add-on', async function () {
+      api
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, [])
