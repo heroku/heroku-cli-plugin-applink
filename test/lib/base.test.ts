@@ -125,7 +125,7 @@ describe('attempt a request using the applink API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on isn’t fully provisioned on my-app.
-          Wait for the add-on to finish provisioning with heroku addons:wait heroku-applink -a my-app.
+          Wait for the add-on to finish provisioning with heroku addons:wait ${addon.name} -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
       }
