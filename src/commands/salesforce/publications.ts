@@ -20,6 +20,9 @@ export default class Publications extends Command {
     const {addon, app, connection_name} = flags
 
     await this.configureAppLinkClient(app, addon)
+
+    const {body: connections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`)
+    const validConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected' && connection.app_id === app === this._appID)
     const {body: publications} = await this.applinkClient.get<AppLink.Publication[]>(`/addons/${this.addonId}/connections/salesforce/${connection_name}/apps`)
 
     if (publications.length === 0) {
@@ -28,16 +31,16 @@ export default class Publications extends Command {
       ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
 
       ux.table(publications, {
-        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
         connectionName: {
           header: 'Connection Name',
           get: () => connection_name,
         },
         orgId: {
           header: 'Org ID',
-          get: row => row.salesforce_org.org_id,
+          get: row => row.org_id,
         },
-        created: {
+        createdDate: {
+          header: 'Created Date',
           get: row => row.created_at,
         },
         createdBy: {
