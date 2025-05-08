@@ -3,7 +3,6 @@ import Command from '../../lib/base'
 import {flags} from '@heroku-cli/command'
 import * as AppLink from '../../lib/applink/types'
 import {ux} from '@oclif/core'
-import {humanize} from '../../lib/helpers'
 
 export default class Publications extends Command {
   static description = 'list Salesforce orgs the app is published to'
@@ -18,12 +17,19 @@ export default class Publications extends Command {
   public async run(): Promise<void> {
     const {flags} = await this.parse(Publications)
     const {addon, app, connection_name} = flags
+    const publications: AppLink.Publication[] = []
 
     await this.configureAppLinkClient(app, addon)
 
-    const {body: connections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`)
-    const validConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected' && connection.app_id === app === this._appID)
-    const {body: publications} = await this.applinkClient.get<AppLink.Publication[]>(`/addons/${this.addonId}/connections/salesforce/${connection_name}/apps`)
+    const {body: connections} = await this.applinkClient.get<AppLink.SalesforceConnection[]>(`/addons/${this.addonId}/connections`)
+    const activeSFConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected')
+
+    for (const connection of activeSFConnections) {
+      const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
+        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.org_name}/apps/${this._appId}`
+      )
+      pubs.forEach(pub => publications.push(pub))
+    }
 
     if (publications.length === 0) {
       ux.log(`You haven't published ${color.app(app)} to ${color.yellow(connection_name)} yet.`)
