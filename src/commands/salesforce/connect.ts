@@ -35,6 +35,7 @@ export default class Connect extends Command {
     ({body: connection} = await this.applinkClient.post<AppLink.SalesforceConnection>(
       `/addons/${this.addonId}/connections/salesforce`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           login_url: loginUrl,
           org_name: orgName,

@@ -27,7 +27,9 @@ export default class Info extends Command {
     let connection: AppLink.Connection
     try {
       ({body: connection} = await this.applinkClient.get<AppLink.Connection>(
-        `/addons/${this.addonId}/connections/${orgName}`
+        `/addons/${this.addonId}/connections/${orgName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as AppLink.ConnectionError

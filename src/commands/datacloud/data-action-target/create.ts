@@ -49,6 +49,7 @@ export default class Create extends Command {
     const {body: createResp} = await this.applinkClient.post<AppLink.DataActionTargetCreate>(
       `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           api_name: apiName,
           label,
