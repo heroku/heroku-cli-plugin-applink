@@ -19,7 +19,9 @@ export default class Index extends Command {
     const {addon, app} = flags
 
     await this.configureAppLinkClient(app, addon)
-    const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`)
+    const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`, {
+      headers: {authorization: `Bearer ${this._applinkToken}`},
+    })
 
     if (appAuthorizations.length === 0) {
       ux.log(`There are no Heroku AppLink authorizations for add-on ${this._addonName} on app ${color.app(app)}.`)

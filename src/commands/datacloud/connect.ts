@@ -35,6 +35,7 @@ export default class Connect extends Command {
     ({body: connection} = await this.applinkClient.post<AppLink.DataCloudConnection>(
       `/addons/${this.addonId}/connections/datacloud`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           login_url: loginUrl,
           connection_name: connectionName,

@@ -23,7 +23,9 @@ export default class Index extends Command {
     let appConnections: AppConnection[] = []
 
     await this.configureAppLinkClient(app, addon);
-    ({body: appConnections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`))
+    ({body: appConnections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`, {
+      headers: {authorization: `Bearer ${this._applinkToken}`},
+    }))
 
     if (appConnections.length === 0) {
       ux.log(`No Heroku AppLink connections${app ? ` for app ${color.app(app)}` : ''}.`)

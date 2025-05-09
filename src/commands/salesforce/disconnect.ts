@@ -39,7 +39,9 @@ export default class Disconnect extends Command {
 
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.SalesforceConnection>(
-        `/addons/${this.addonId}/connections/${connectionName}`
+        `/addons/${this.addonId}/connections/${connectionName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as ConnectionError
