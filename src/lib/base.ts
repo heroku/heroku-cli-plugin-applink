@@ -9,6 +9,7 @@ export default abstract class extends Command {
   private _applink!: APIClient
   private _addonId!: string
   _addonName!: string
+  _applinkToken!: string
 
   /**
    * Remove this once we've migrated to new default applink name
@@ -111,12 +112,12 @@ export default abstract class extends Command {
     client.defaults.host = baseUrl.hostname
     client.defaults.headers = {
       ...this.heroku.defaults.headers,
-      authorization: `Bearer ${applinkToken}`,
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-applink/${this.config.version} ${this.config.platform}`,
       'x-app-uuid': applinkAddon?.app?.id || '',
       'x-addon-sso': encodedSSO,
     }
+    this._applinkToken = applinkToken
     this._addonId = applinkAddon.id || ''
     this._addonName = applinkAddon.name || ''
     this._applink = client

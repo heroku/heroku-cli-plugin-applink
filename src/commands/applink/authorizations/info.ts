@@ -27,7 +27,9 @@ export default class Info extends Command {
     let authorization: AppLink.Authorization
     try {
       ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
-        `/addons/${this.addonId}/authorizations/${developerName}`
+        `/addons/${this.addonId}/authorizations/${developerName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as AppLink.ConnectionError

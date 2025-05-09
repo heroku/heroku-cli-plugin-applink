@@ -39,7 +39,9 @@ export default class Disconnect extends Command {
 
     try {
       ({body: connection} = await this.applinkClient.delete<AppLink.DataCloudConnection>(
-        `/addons/${this.addonId}/connections/${orgName}`
+        `/addons/${this.addonId}/connections/${orgName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as ConnectionError

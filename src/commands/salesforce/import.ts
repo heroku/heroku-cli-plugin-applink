@@ -46,6 +46,7 @@ export default class Import extends Command {
     const {body: importRes} = await this.applinkClient.post<AppLink.AppImport>(
       `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           client_name: clientName,
           api_spec: encodedSpec,
