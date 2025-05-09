@@ -7,11 +7,6 @@ import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
 
-interface FileEntry {
-  name: string;
-  content: Buffer;
-}
-
 export default class Publish extends Command {
   static description = 'publish an app\'s API specification to an authenticated Salesforce org'
 
@@ -38,7 +33,7 @@ export default class Publish extends Command {
     let hasConnectedAppMetadata = false
     let hasPermissionSetMetadata = false
 
-    const files: FileEntry[] = []
+    const files: AppLink.FileEntry[] = []
 
     try {
       if (!fs.existsSync(apiSpecFileDir)) {

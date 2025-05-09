@@ -142,3 +142,13 @@ export type Authorization = {
     message: string
   }
 }
+
+/**
+ * Represents a file entry with its name and content.
+ */
+export type FileEntry = {
+  /** file name */
+  readonly name: string;
+  /** file content as a Buffer */
+  readonly content: Buffer;
+}
