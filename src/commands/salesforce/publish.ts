@@ -9,7 +9,7 @@ import * as AppLink from '../../lib/applink/types'
 
 interface FileEntry {
   name: string;
-  content: string; // base64 encoded content
+  content: Buffer;  // Changed from string to Buffer
 }
 
 export default class Publish extends Command {
@@ -48,12 +48,12 @@ export default class Publish extends Command {
       if (fileExtension === '.yaml' || fileExtension === '.yml') {
         files.push({
           name: 'api-spec.yaml',
-          content: apiSpecContent.toString('base64'),
+          content: apiSpecContent,
         })
       } else if (fileExtension === '.json') {
         files.push({
           name: 'api-spec.json',
-          content: apiSpecContent.toString('base64'),
+          content: apiSpecContent,
         })
       } else {
         this.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
@@ -84,7 +84,7 @@ export default class Publish extends Command {
           const connectedAppContent = fs.readFileSync(path.join(metadataDir, 'connectedapp-meta.xml'))
           files.push({
             name: 'connectedapp-meta.xml',
-            content: connectedAppContent.toString('base64'),
+            content: connectedAppContent,
           })
         }
 
@@ -92,7 +92,7 @@ export default class Publish extends Command {
           const permissionSetContent = fs.readFileSync(path.join(metadataDir, 'permissionset-meta.xml'))
           files.push({
             name: 'permissionset-meta.xml',
-            content: permissionSetContent.toString('base64'),
+            content: permissionSetContent,
           })
         }
       } catch (error: unknown) {
@@ -104,11 +104,15 @@ export default class Publish extends Command {
       }
     }
 
-    // Create a JSON structure containing all files
-    const archiveContent = JSON.stringify(files)
-    // Compress the JSON structure
-    const compressedContent = gzipSync(Buffer.from(archiveContent))
-    const binaryMetadataZip = Buffer.from(compressedContent).toString('base64')
+    // Convert files array to a format that can be stringified
+    const filesForJson = files.map(file => ({
+      name: file.name,
+      content: file.content.toString('base64'),
+    }))
+
+    // Create JSON structure and compress it
+    const compressedContent = gzipSync(JSON.stringify(filesForJson))
+    const binaryMetadataZip = compressedContent.toString('base64')
 
     await this.configureAppLinkClient(app, addon)
 
