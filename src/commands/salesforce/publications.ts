@@ -22,6 +22,10 @@ export default class Publications extends Command {
     await this.configureAppLinkClient(app, addon)
 
     const {body: connections} = await this.applinkClient.get<AppLink.SalesforceConnection[]>(`/addons/${this.addonId}/connections`)
+    if (connections.length === 0) {
+      ux.error(`There are no Heroku AppLink connections for ${color.app(app)}.`, {exit: 1})
+    }
+
     const activeSFConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected')
 
     for (const connection of activeSFConnections) {
