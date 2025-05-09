@@ -27,6 +27,9 @@ export default class Publications extends Command {
     }
 
     const activeSFConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected')
+    if (activeSFConnections.length === 0) {
+      ux.error(`There are no active Heroku AppLink connections for ${color.app(app)}.`, {exit: 1})
+    }
 
     for (const connection of activeSFConnections) {
       const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
@@ -36,14 +39,14 @@ export default class Publications extends Command {
     }
 
     if (publications.length === 0) {
-      ux.log(`You haven't published ${color.app(app)} to ${color.yellow(connection_name)} yet.`)
+      ux.log(`You haven't published ${color.app(app)} to a Salesforce org yet.`)
     } else {
       ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
 
       ux.table(publications, {
         connectionName: {
           header: 'Connection Name',
-          get: () => connection_name,
+          get: row => row.connection_name,
         },
         orgId: {
           header: 'Org ID',

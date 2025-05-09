@@ -370,3 +370,29 @@ export const sso_response: HerokuSDK.SSO = {
     user_scoped_resource_token: '1234567890',
   },
 }
+
+export const publication1: AppLink.Publication = {
+  app_uuid: '89abcdef-0123-4567-89ab-cdef01234567',
+  heroku_applink_id: '51807d19-9d78-4064-9468-bcdc34611778',
+  esr_id: '51807d19',
+  esr_name: 'esrName',
+  connection_name: 'connection1',
+  org_id: '00DSG000007a3BcA84',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+}
+
+export const publication2: AppLink.Publication = {
+  app_uuid: '89abcdef-0123-4567-89ab-cdef01234567',
+  heroku_applink_id: '51807d19-9d78-4064-9468-bcdc34611778',
+  esr_id: '51807d19',
+  esr_name: 'esrName',
+  connection_name: 'connection2',
+  org_id: '00DSG000007a3BcA84',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+}
