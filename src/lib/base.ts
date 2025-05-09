@@ -9,6 +9,7 @@ export default abstract class extends Command {
   private _applink!: APIClient
   private _addonId!: string
   _addonName!: string
+  _appId!: string
   _applinkToken!: string
 
   /**
@@ -120,6 +121,7 @@ export default abstract class extends Command {
     this._applinkToken = applinkToken
     this._addonId = applinkAddon.id || ''
     this._addonName = applinkAddon.name || ''
+    this._appId = applinkAddon.app?.id || ''
     this._applink = client
   }
 }
