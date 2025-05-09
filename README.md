@@ -36,6 +36,7 @@ USAGE
 * [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
 * [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
 * [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
+* [`heroku salesforce:publications`](#heroku-salesforcepublications)
 
 ## `heroku applink:authorizations`
 
@@ -294,4 +295,24 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
+
+## `heroku salesforce:publications`
+
+list Salesforce orgs the app is published to
+
+```
+USAGE
+  $ heroku salesforce:publications -a <value> [--addon <value>] [--connection_name <value>] [-r <value>]
+
+FLAGS
+  -a, --app=<value>              (required) app to run command against
+  -r, --remote=<value>           git remote of app to use
+      --addon=<value>            unique name or ID of an AppLink add-on
+      --connection_name=<value>  name of the Salesforce connection
+
+DESCRIPTION
+  list Salesforce orgs the app is published to
+```
+
+_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
 <!-- commandsstop -->
