@@ -1,12 +1,16 @@
 import {color} from '@heroku-cli/color'
 import {flags} from '@heroku-cli/command'
 import {ux, Args} from '@oclif/core'
-import {createHash} from 'crypto'
 import fs from 'fs'
 import path from 'path'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
+
+interface FileEntry {
+  name: string;
+  content: string; // base64 encoded content
+}
 
 export default class Publish extends Command {
   static description = 'publish an app\'s API specification to an authenticated Salesforce org'
@@ -31,19 +35,26 @@ export default class Publish extends Command {
     const {app, addon, 'client-name': clientName, 'connection-name': connectionName, 'authorization-connected-app-name': authorizationConnectedAppName, 'authorization-permission-set-name': authorizationPermissionSetName, 'metadata-dir': metadataDir} = flags
     const {api_spec_file: apiSpecFile} = args
 
-    let hasConnectedAppMeta = false
-    let hasPermissionSetMeta = false
+    let hasConnectedAppMetadata = false
+    let hasPermissionSetMetadata = false
 
-    const filesToZip = new Map<string, Buffer>()
+    // Store files with their metadata
+    const files: FileEntry[] = []
 
     try {
       const apiSpecContent = fs.readFileSync(apiSpecFile)
       const fileExtension = path.extname(apiSpecFile).toLowerCase()
 
       if (fileExtension === '.yaml' || fileExtension === '.yml') {
-        filesToZip.set('api-spec.yaml', apiSpecContent)
+        files.push({
+          name: 'api-spec.yaml',
+          content: apiSpecContent.toString('base64'),
+        })
       } else if (fileExtension === '.json') {
-        filesToZip.set('api-spec.json', apiSpecContent)
+        files.push({
+          name: 'api-spec.json',
+          content: apiSpecContent.toString('base64'),
+        })
       } else {
         this.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
       }
@@ -57,26 +68,32 @@ export default class Publish extends Command {
 
     if (metadataDir) {
       try {
-        const files = fs.readdirSync(path.resolve(metadataDir))
-        hasConnectedAppMeta = files.includes('connectedapp-meta.xml')
-        hasPermissionSetMeta = files.includes('permissionset-meta.xml')
+        const dirFiles = fs.readdirSync(path.resolve(metadataDir))
+        hasConnectedAppMetadata = dirFiles.includes('connectedapp-meta.xml')
+        hasPermissionSetMetadata = dirFiles.includes('permissionset-meta.xml')
 
-        if (hasConnectedAppMeta && authorizationConnectedAppName) {
+        if (hasConnectedAppMetadata && authorizationConnectedAppName) {
           this.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
         }
 
-        if (hasPermissionSetMeta && authorizationPermissionSetName) {
+        if (hasPermissionSetMetadata && authorizationPermissionSetName) {
           this.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
         }
 
-        if (hasConnectedAppMeta) {
+        if (hasConnectedAppMetadata) {
           const connectedAppContent = fs.readFileSync(path.join(metadataDir, 'connectedapp-meta.xml'))
-          filesToZip.set('connectedapp-meta.xml', connectedAppContent)
+          files.push({
+            name: 'connectedapp-meta.xml',
+            content: connectedAppContent.toString('base64'),
+          })
         }
 
-        if (hasPermissionSetMeta) {
+        if (hasPermissionSetMetadata) {
           const permissionSetContent = fs.readFileSync(path.join(metadataDir, 'permissionset-meta.xml'))
-          filesToZip.set('permissionset-meta.xml', permissionSetContent)
+          files.push({
+            name: 'permissionset-meta.xml',
+            content: permissionSetContent.toString('base64'),
+          })
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -87,11 +104,10 @@ export default class Publish extends Command {
       }
     }
 
-    // Combine all files into a single buffer
-    const combinedContent = Buffer.concat([...filesToZip.values()])
-
-    // Compress and encode the combined content
-    const compressedContent = gzipSync(combinedContent)
+    // Create a JSON structure containing all files
+    const archiveContent = JSON.stringify(files)
+    // Compress the JSON structure
+    const compressedContent = gzipSync(Buffer.from(archiveContent))
     const binaryMetadataZip = Buffer.from(compressedContent).toString('base64')
 
     await this.configureAppLinkClient(app, addon)
