@@ -17,11 +17,23 @@ export default class Publications extends Command {
   public async run(): Promise<void> {
     const {flags} = await this.parse(Publications)
     const {addon, app, connection_name} = flags
+    const connections: AppLink.SalesforceConnection[] = []
     const publications: AppLink.Publication[] = []
 
     await this.configureAppLinkClient(app, addon)
 
-    const {body: connections} = await this.applinkClient.get<AppLink.SalesforceConnection[]>(`/addons/${this.addonId}/connections`)
+    if (connection_name) {
+      const {body: connectionResponse} = await this.applinkClient.get<AppLink.SalesforceConnection>(`/addons/${this.addonId}/connections/${connection_name}`, {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
+      })
+      connections.push(connectionResponse)
+    } else {
+      const {body: connectionResponse} = await this.applinkClient.get<AppLink.SalesforceConnection[]>(`/addons/${this.addonId}/connections`, {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
+      })
+      connections.push(...connectionResponse)
+    }
+
     if (connections.length === 0) {
       ux.error(`There are no Heroku AppLink connections for ${color.app(app)}.`, {exit: 1})
     }
@@ -33,9 +45,10 @@ export default class Publications extends Command {
 
     for (const connection of activeSFConnections) {
       const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
-        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.org_name}/apps/${this._appId}`
-      )
-      pubs.forEach(pub => publications.push(pub))
+        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.org_name}/apps/${this._appId}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        })
+      publications.push(...pubs)
     }
 
     if (publications.length === 0) {

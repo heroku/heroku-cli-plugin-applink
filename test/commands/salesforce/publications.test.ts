@@ -114,5 +114,27 @@ describe('salesforce:publications', function () {
     `)
     expect(stderr.output).to.equal('')
   })
+
+  it('when the connection_name flag is specified and app has been published to the specified Salesforce connection it prints a table with publication details', async function () {
+    applinkApi
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/connection1')
+      .reply(200, connection1)
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567')
+      .reply(200, [publication1])
+
+    await runCommand(Cmd, [
+      '--app=my-app',
+      '--connection_name=connection1',
+    ])
+
+    expect(stripAnsi(stdout.output)).to.equal(heredoc`
+      === Heroku AppLink authorizations for app my-app
+
+       Connection Name Org ID             Created Date         Created By       Last Modified        Last Modified By 
+       ─────────────── ────────────────── ──────────────────── ──────────────── ──────────────────── ──────────────── 
+       connection1     00DSG000007a3BcA84 2021-01-01T00:00:00Z user@example.com 2021-01-01T00:00:00Z user@example.com 
+    `)
+    expect(stderr.output).to.equal('')
+  })
 })
 
