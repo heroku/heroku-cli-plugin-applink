@@ -9,7 +9,7 @@ import * as AppLink from '../../lib/applink/types'
 
 interface FileEntry {
   name: string;
-  content: Buffer;  // Changed from string to Buffer
+  content: Buffer;
 }
 
 export default class Publish extends Command {
@@ -27,37 +27,36 @@ export default class Publish extends Command {
   }
 
   static args = {
-    api_spec_file: Args.file({required: true, description: 'OpenAPI 3.x spec file (JSON or YAML format)'}),
+    api_spec_file_dir: Args.file({required: true, description: 'path to OpenAPI 3.x spec file (JSON or YAML format)'}),
   }
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Publish)
     const {app, addon, 'client-name': clientName, 'connection-name': connectionName, 'authorization-connected-app-name': authorizationConnectedAppName, 'authorization-permission-set-name': authorizationPermissionSetName, 'metadata-dir': metadataDir} = flags
-    const {api_spec_file: apiSpecFile} = args
+    const {api_spec_file_dir: apiSpecFileDir} = args
 
     let hasConnectedAppMetadata = false
     let hasPermissionSetMetadata = false
 
-    // Store files with their metadata
     const files: FileEntry[] = []
 
     try {
-      const apiSpecContent = fs.readFileSync(apiSpecFile)
-      const fileExtension = path.extname(apiSpecFile).toLowerCase()
+      if (!fs.existsSync(apiSpecFileDir)) {
+        this.error(`API spec file not found: ${apiSpecFileDir}`)
+      }
 
-      if (fileExtension === '.yaml' || fileExtension === '.yml') {
-        files.push({
-          name: 'api-spec.yaml',
-          content: apiSpecContent,
-        })
-      } else if (fileExtension === '.json') {
-        files.push({
-          name: 'api-spec.json',
-          content: apiSpecContent,
-        })
-      } else {
+      const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
+
+      if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
         this.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
       }
+
+      const apiSpecContent = fs.readFileSync(apiSpecFileDir)
+      const fileName = fileExtension === '.json' ? 'api-spec.json' : 'api-spec.yaml'
+      files.push({
+        name: fileName,
+        content: apiSpecContent,
+      })
     } catch (error: unknown) {
       if (error instanceof Error) {
         this.error(`Failed to read API spec file: ${error.message}`)
@@ -104,13 +103,11 @@ export default class Publish extends Command {
       }
     }
 
-    // Convert files array to a format that can be stringified
     const filesForJson = files.map(file => ({
       name: file.name,
       content: file.content.toString('base64'),
     }))
 
-    // Create JSON structure and compress it
     const compressedContent = gzipSync(JSON.stringify(filesForJson))
     const binaryMetadataZip = compressedContent.toString('base64')
 
