@@ -37,7 +37,7 @@ export default class Index extends Command {
           header: 'Org Name',
           get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.connection_name : row.datacloud_org.connection_name,
         },
-        status: {get: row => humanize(row.state)},
+        status: {get: row => humanize(row.status)},
       })
     }
   }

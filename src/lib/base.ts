@@ -1,6 +1,7 @@
 import {color} from '@heroku-cli/color'
 import {APIClient, Command} from '@heroku-cli/command'
 import * as Heroku from '@heroku-cli/schema'
+import * as HerokuSDK from '../lib/types'
 import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
@@ -92,11 +93,18 @@ export default abstract class extends Command {
       ux.error(
         heredoc`
           AppLink add-on isn’t fully provisioned on ${color.app(app)}.
-          Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${this.addonServiceSlug} -a ${app}`)}.
+          Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${applinkAddon.name} -a ${app}`)}.
         `,
         {exit: 1}
       )
     }
+
+    const {body: sso} = await this.heroku.get<HerokuSDK.SSO>(`/apps/${app}/addons/${applinkAddon.id}/sso`, {
+      headers: {
+        Accept: 'application/vnd.heroku+json; version=3.sdk',
+      },
+    })
+    const encodedSSO = Buffer.from(JSON.stringify(sso)).toString('base64')
 
     const baseUrl = new URL(apiUrl)
     const client = new APIClient(this.config)
@@ -107,6 +115,7 @@ export default abstract class extends Command {
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-applink/${this.config.version} ${this.config.platform}`,
       'x-app-uuid': applinkAddon?.app?.id || '',
+      'x-addon-sso': encodedSSO,
     }
     this._addonId = applinkAddon.id || ''
     this._addonName = applinkAddon.name || ''

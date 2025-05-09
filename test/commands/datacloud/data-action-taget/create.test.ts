@@ -9,6 +9,7 @@ import {
   datCreateSuccess,
   datCreateFailed,
   legacyAddon,
+  sso_response,
 } from '../../../helpers/fixtures'
 import stripAnsi from '../../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -27,8 +28,10 @@ describe('datacloud:data-action-target:create', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi = nock('https://applink-api.heroku.com')
     })
 
@@ -98,8 +101,10 @@ describe('datacloud:data-action-target:create', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       integrationApi = nock('https://integration-api.heroku.com')
     })
 

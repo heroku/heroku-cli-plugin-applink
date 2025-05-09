@@ -45,7 +45,7 @@ export default class Info extends Command {
       'Instance URL': orgInfo.instance_url,
       'Org ID': orgInfo.id,
       'Org Name': orgInfo.connection_name,
-      Status: humanize(connection.state),
+      Status: humanize(connection.status),
       Type: humanize(AppLink.adjustOrgType(connection.type)),
     })
   }

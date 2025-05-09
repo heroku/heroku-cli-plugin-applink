@@ -17,8 +17,8 @@ export type SalesforceConnection = {
   }
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
-  /** connection state */
-  readonly state: ConnectionStatus
+  /** connection status */
+  readonly status: ConnectionStatus
   /** connection type */
   readonly 'type': 'SalesforceOrg'
 }
@@ -43,8 +43,8 @@ export type DataCloudConnection = {
   }
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
-  /** connection state */
-  readonly state: ConnectionStatus
+  /** connection status */
+  readonly status: ConnectionStatus
   /** connection type */
   readonly 'type': 'DatacloudOrg'
 }
@@ -89,8 +89,8 @@ export type AppImport = {
     readonly connection_name: string
     readonly run_as_user?: string | null
   }
-  /** import process state */
-  readonly state: 'pending' | 'importing' | 'imported' | 'import_failed'
+  /** import process status */
+  readonly status: 'pending' | 'importing' | 'imported' | 'import_failed'
   /** app info */
   readonly heroku_app: {
     id: string
@@ -121,7 +121,8 @@ export type DataActionTargetCreate = {
   }
   readonly label: string
   readonly id: string
-  readonly state: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
+  /** process status */
+  readonly status: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
   readonly target_endpoint: string
   readonly type: string
   readonly error?: {
