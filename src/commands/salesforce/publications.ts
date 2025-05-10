@@ -45,7 +45,7 @@ export default class Publications extends Command {
 
     for (const connection of activeSFConnections) {
       const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
-        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.org_name}/apps/${this._appId}`, {
+        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.connection_name}/apps/${this._appId}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
         })
       publications.push(...pubs)
