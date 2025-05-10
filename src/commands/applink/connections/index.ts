@@ -34,10 +34,10 @@ export default class Index extends Command {
 
       ux.table(appConnections, {
         ...(app ? {} : {app: {get: row => row.app?.name}}),
-        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
+        type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
         orgName: {
-          header: 'Org Name',
-          get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.connection_name : row.datacloud_org.connection_name,
+          header: 'Connection Name',
+          get: row => row.org.connection_name,
         },
         status: {get: row => humanize(row.status)},
       })

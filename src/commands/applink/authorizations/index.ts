@@ -34,13 +34,9 @@ export default class Index extends Command {
           header: 'Add-On',
           get: () => this._addonName,
         },
-        connectedOrg: {
-          header: 'Connected Org',
-          get: row => row.org.connection_name,
-        },
         developerName: {
           header: 'Developer Name',
-          get: row => row.developer_name,
+          get: row => row.org.developer_name,
         },
         status: {get: row => humanize(row.status)},
       })

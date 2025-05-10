@@ -44,7 +44,7 @@ export default class Info extends Command {
       ID: authorization.id,
       'Instance URL': authorization.org.instance_url,
       'Org ID': authorization.org.id,
-      'Connection Name': authorization.org.connection_name,
+      'Developer Name': authorization.org.developer_name,
       Status: humanize(authorization.status),
       App: app,
       Type: humanize(AppLink.adjustOrgType(authorization.org.type)),
