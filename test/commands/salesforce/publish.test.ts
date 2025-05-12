@@ -11,7 +11,7 @@ import {
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
-describe.only('salesforce:publish', function () {
+describe('salesforce:publish', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
   const {env} = process
