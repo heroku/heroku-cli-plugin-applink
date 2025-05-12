@@ -1,19 +1,19 @@
-@heroku-cli/plugin-applink
-==============================
+# @heroku-cli/plugin-applink
 
 Heroku AppLink plugin
-
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 [![Downloads/week](https://img.shields.io/npm/dw/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 
-
 <!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
+
+- [Usage](#usage)
+- [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 ```sh-session
 $ heroku plugins:install @heroku-cli/plugin-applink
 $ heroku applink:COMMAND
@@ -23,19 +23,23 @@ USAGE
   $ heroku applink:COMMAND
 ...
 ```
+
 # Commands
+
 <!-- commands -->
-* [`heroku applink:authorizations`](#heroku-applinkauthorizations)
-* [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
-* [`heroku applink:connections`](#heroku-applinkconnections)
-* [`heroku applink:connections:info ORG_NAME`](#heroku-applinkconnectionsinfo-org_name)
-* [`heroku datacloud:connect [ORG_NAME]`](#heroku-datacloudconnect-org_name)
-* [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
-* [`heroku datacloud:disconnect ORG_NAME`](#heroku-dataclouddisconnect-org_name)
-* [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
-* [`heroku salesforce:connect ORG_NAME`](#heroku-salesforceconnect-org_name)
-* [`heroku salesforce:disconnect ORG_NAME`](#heroku-salesforcedisconnect-org_name)
-* [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
+
+- [`heroku applink:authorizations`](#heroku-applinkauthorizations)
+- [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
+- [`heroku applink:connections`](#heroku-applinkconnections)
+- [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
+- [`heroku datacloud:connect [CONNECTION_NAME]`](#heroku-datacloudconnect-connection_name)
+- [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
+- [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
+- [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
+- [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
+- [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
+- [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
+- [`heroku salesforce:publications`](#heroku-salesforcepublications)
 
 ## `heroku applink:authorizations`
 
@@ -97,16 +101,16 @@ DESCRIPTION
 
 _See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/index.ts)_
 
-## `heroku applink:connections:info ORG_NAME`
+## `heroku applink:connections:info CONNECTION_NAME`
 
 shows info for a Heroku AppLink connection
 
 ```
 USAGE
-  $ heroku applink:connections:info ORG_NAME -a <value> [--addon <value>] [-r <value>]
+  $ heroku applink:connections:info CONNECTION_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  connected org name
+  CONNECTION_NAME  connected org name
 
 FLAGS
   -a, --app=<value>     (required) app to run command against
@@ -119,16 +123,17 @@ DESCRIPTION
 
 _See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/info.ts)_
 
-## `heroku datacloud:connect [ORG_NAME]`
+## `heroku datacloud:connect [CONNECTION_NAME]`
 
 connect a Data Cloud Org to a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:connect [ORG_NAME] -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
+  $ heroku datacloud:connect [CONNECTION_NAME] -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r
+    <value>]
 
 ARGUMENTS
-  ORG_NAME  name for the Data Cloud Org instance
+  CONNECTION_NAME  name for the Data Cloud Org instance
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -172,16 +177,16 @@ DESCRIPTION
 
 _See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
 
-## `heroku datacloud:disconnect ORG_NAME`
+## `heroku datacloud:disconnect CONNECTION_NAME`
 
 disconnects a Data Cloud org from a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:disconnect ORG_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
+  $ heroku datacloud:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  name of the Data Cloud org instance
+  CONNECTION_NAME  name of the Data Cloud org instance
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
@@ -222,17 +227,18 @@ DESCRIPTION
 
 _See code: [src/commands/salesforce/authorize.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/authorize.ts)_
 
-## `heroku salesforce:connect ORG_NAME`
+## `heroku salesforce:connect CONNECTION_NAME`
 
 connects a Salesforce Org to Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:connect ORG_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
+  $ heroku salesforce:connect CONNECTION_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores
-            '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.
+  CONNECTION_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and
+                   underscores '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30
+                   characters.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -247,16 +253,16 @@ DESCRIPTION
 
 _See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect.ts)_
 
-## `heroku salesforce:disconnect ORG_NAME`
+## `heroku salesforce:disconnect CONNECTION_NAME`
 
 disconnect a Salesforce org from a Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:disconnect ORG_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
+  $ heroku salesforce:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  ORG_NAME  name of the Salesforce org instance
+  CONNECTION_NAME  name of the Salesforce org instance
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
@@ -297,5 +303,26 @@ DESCRIPTION
   publish an app's API specification to an authenticated Salesforce org
 ```
 
-_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publish.ts)_
+_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
+
+## `heroku salesforce:publications`
+
+list Salesforce orgs the app is published to
+
+```
+USAGE
+  $ heroku salesforce:publications -a <value> [--addon <value>] [--connection_name <value>] [-r <value>]
+
+FLAGS
+  -a, --app=<value>              (required) app to run command against
+  -r, --remote=<value>           git remote of app to use
+      --addon=<value>            unique name or ID of an AppLink add-on
+      --connection_name=<value>  name of the Salesforce connection
+
+DESCRIPTION
+  list Salesforce orgs the app is published to
+```
+
+_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
+
 <!-- commandsstop -->

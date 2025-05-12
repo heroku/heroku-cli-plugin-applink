@@ -10,6 +10,7 @@ import {
   legacyAddon,
   connection2_connected,
   connection_record_not_found,
+  sso_response,
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -27,8 +28,10 @@ describe('applink:connections:info', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       applinkApi = nock('https://applink-api.heroku.com')
     })
 
@@ -50,13 +53,12 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:       00DSG000007a3BcA84
-        Org Name:     my-org-2
-        Run As User:  user@example.com
-        Status:       Connected
-        Type:         Salesforce Org
+        Connection Name: my-org-2
+        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:          00DSG000007a3BcA84
+        Status:          Connected
+        Type:            Salesforce Org
       `)
       expect(stderr.output).to.equal('')
     })
@@ -89,8 +91,10 @@ describe('applink:connections:info', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
       integrationApi = nock('https://integration-api.heroku.com')
     })
 
@@ -112,13 +116,12 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:       00DSG000007a3BcA84
-        Org Name:     my-org-2
-        Run As User:  user@example.com
-        Status:       Connected
-        Type:         Salesforce Org
+        Connection Name: my-org-2
+        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:          00DSG000007a3BcA84
+        Status:          Connected
+        Type:            Salesforce Org
       `)
       expect(stderr.output).to.equal('')
     })

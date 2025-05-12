@@ -9,6 +9,7 @@ import {
   addon,
   authorization_connected,
   authorization_connected_2,
+  sso_response,
 } from '../../../helpers/fixtures'
 
 describe('applink:authorizations', function () {
@@ -36,8 +37,10 @@ describe('applink:authorizations', function () {
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
         })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response)
     })
 
     context('when there are no Heroku AppLink authorizations created on the app', function () {
@@ -68,10 +71,10 @@ describe('applink:authorizations', function () {
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku AppLink authorizations for app my-app
   
-           Type           Add-On                        Connected Org Developer Name    Status    
-           ────────────── ───────────────────────────── ───────────── ───────────────── ───────── 
-           Salesforce Org heroku-applink-vertical-01234 my-org-1      my-developer-name Connected 
-           Salesforce Org heroku-applink-vertical-01234 my-org-2      my-developer-name Connected 
+           Type           Add-On                        Developer Name      Status    
+           ────────────── ───────────────────────────── ─────────────────── ───────── 
+           Salesforce Org heroku-applink-vertical-01234 my-developer-name   Connected 
+           Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Connected 
         `)
         expect(stderr.output).to.equal('')
       })

@@ -23,7 +23,9 @@ export default class Index extends Command {
     let appConnections: AppConnection[] = []
 
     await this.configureAppLinkClient(app, addon);
-    ({body: appConnections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`))
+    ({body: appConnections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`, {
+      headers: {authorization: `Bearer ${this._applinkToken}`},
+    }))
 
     if (appConnections.length === 0) {
       ux.log(`No Heroku AppLink connections${app ? ` for app ${color.app(app)}` : ''}.`)
@@ -32,16 +34,12 @@ export default class Index extends Command {
 
       ux.table(appConnections, {
         ...(app ? {} : {app: {get: row => row.app?.name}}),
-        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
+        type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
         orgName: {
-          header: 'Org Name',
-          get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.org_name : row.datacloud_org.org_name,
+          header: 'Connection Name',
+          get: row => row.org.connection_name,
         },
         status: {get: row => humanize(row.status)},
-        runAsUser: {
-          header: 'Run As User',
-          get: row => AppLink.isSalesforceConnection(row) ? row.salesforce_org.run_as_user : row.datacloud_org.run_as_user,
-        },
       })
     }
   }

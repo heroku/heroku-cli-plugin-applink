@@ -19,7 +19,9 @@ export default class Index extends Command {
     const {addon, app} = flags
 
     await this.configureAppLinkClient(app, addon)
-    const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`)
+    const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`, {
+      headers: {authorization: `Bearer ${this._applinkToken}`},
+    })
 
     if (appAuthorizations.length === 0) {
       ux.log(`There are no Heroku AppLink authorizations for add-on ${this._addonName} on app ${color.app(app)}.`)
@@ -27,18 +29,14 @@ export default class Index extends Command {
       ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
 
       ux.table(appAuthorizations, {
-        type: {get: row => humanize(AppLink.adjustOrgType(row.type))},
+        type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
         addon: {
           header: 'Add-On',
           get: () => this._addonName,
         },
-        connectedOrg: {
-          header: 'Connected Org',
-          get: row => row.salesforce_org.org_name,
-        },
         developerName: {
           header: 'Developer Name',
-          get: row => row.developer_name,
+          get: row => row.org.developer_name,
         },
         status: {get: row => humanize(row.status)},
       })

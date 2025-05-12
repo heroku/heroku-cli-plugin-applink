@@ -27,7 +27,9 @@ export default class Info extends Command {
     let authorization: AppLink.Authorization
     try {
       ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
-        `/addons/${this.addonId}/authorizations/${developerName}`
+        `/addons/${this.addonId}/authorizations/${developerName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as AppLink.ConnectionError
@@ -40,13 +42,12 @@ export default class Info extends Command {
 
     ux.styledObject({
       ID: authorization.id,
-      'Instance URL': authorization.salesforce_org.instance_url,
-      'Org ID': authorization.salesforce_org.id,
-      'Org Name': authorization.salesforce_org.org_name,
-      'Run As User': authorization.salesforce_org.run_as_user,
+      'Instance URL': authorization.org.instance_url,
+      'Org ID': authorization.org.id,
+      'Developer Name': authorization.org.developer_name,
       Status: humanize(authorization.status),
       App: app,
-      Type: humanize(AppLink.adjustOrgType(authorization.type)),
+      Type: humanize(AppLink.adjustOrgType(authorization.org.type)),
       'Add-on': this._addonName,
       'Created Date': authorization.created_at,
       'Created By': authorization.created_by,

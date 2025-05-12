@@ -15,39 +15,40 @@ export default class Info extends Command {
   }
 
   static args = {
-    org_name: Args.string({description: 'connected org name', required: true}),
+    connection_name: Args.string({description: 'connected org name', required: true}),
   }
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Info)
     const {app, addon} = flags
-    const {org_name: orgName} = args
+    const {connection_name: connectionName} = args
 
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.Connection
     try {
       ({body: connection} = await this.applinkClient.get<AppLink.Connection>(
-        `/addons/${this.addonId}/connections/${orgName}`
+        `/addons/${this.addonId}/connections/${connectionName}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
     } catch (error) {
       const connErr = error as AppLink.ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Data Cloud org ${color.yellow(orgName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
+        ux.error(`Data Cloud org ${color.yellow(connectionName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
       } else {
         throw error
       }
     }
 
-    const orgInfo = AppLink.isSalesforceConnection(connection) ? connection.salesforce_org : connection.datacloud_org
+    const orgInfo = connection.org
 
     ux.styledObject({
       Id: connection.id,
       'Instance URL': orgInfo.instance_url,
       'Org ID': orgInfo.id,
-      'Org Name': orgInfo.org_name,
-      'Run As User': orgInfo.run_as_user,
+      'Connection Name': orgInfo.connection_name,
       Status: humanize(connection.status),
-      Type: humanize(AppLink.adjustOrgType(connection.type)),
+      Type: humanize(AppLink.adjustOrgType(connection.org.type)),
     })
   }
 }

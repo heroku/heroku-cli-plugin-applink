@@ -20,7 +20,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    org_name: Args.string({description: 'name for the Data Cloud Org instance'}),
+    connection_name: Args.string({description: 'name for the Data Cloud Org instance'}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
@@ -28,16 +28,17 @@ export default class Connect extends Command {
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Connect)
     const {app, addon, browser, 'login-url': loginUrl} = flags
-    const {org_name: orgName} = args
+    const {connection_name: connectionName} = args
 
     await this.configureAppLinkClient(app, addon)
     let connection: AppLink.DataCloudConnection
     ({body: connection} = await this.applinkClient.post<AppLink.DataCloudConnection>(
       `/addons/${this.addonId}/connections/datacloud`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           login_url: loginUrl,
-          org_name: orgName,
+          connection_name: connectionName,
         },
       }
     ))
@@ -53,7 +54,7 @@ export default class Connect extends Command {
 
     try {
       await ux.anykey(
-        `Press any key to open up the browser to connect ${color.app(app)} to ${color.yellow(orgName)}, or ${color.yellow('q')} to exit`
+        `Press any key to open up the browser to connect ${color.app(app)} to ${color.yellow(connectionName)}, or ${color.yellow('q')} to exit`
       )
     } catch (error) {
       const {message, oclif} = error as CLIError
@@ -69,7 +70,7 @@ export default class Connect extends Command {
       if (code !== 0) showBrowserError()
     })
 
-    ux.action.start(`Connecting Data Cloud org ${color.yellow(orgName)} to ${color.app(app)}`)
+    ux.action.start(`Connecting Data Cloud org ${color.yellow(connectionName)} to ${color.app(app)}`)
     let {status, error} = connection
     ux.action.status = humanize(status)
 
@@ -79,7 +80,9 @@ export default class Connect extends Command {
       });
 
       ({body: connection} = await this.applinkClient.get<AppLink.DataCloudConnection>(
-        `/addons/${this.addonId}/connections/${id}`,
+        `/addons/${this.addonId}/connections/${id}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ));
 
       ({status, error} = connection)
