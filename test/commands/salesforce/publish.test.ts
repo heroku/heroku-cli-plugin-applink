@@ -8,7 +8,7 @@ import {
   legacyAddon,
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
-// import {CLIError} from '@oclif/core/lib/errors'
+import {CLIError} from '@oclif/core/lib/errors'
 
 describe.only('salesforce:publish', function () {
   let api: nock.Scope
@@ -97,5 +97,23 @@ describe.only('salesforce:publish', function () {
       expect(stripAnsi(stderr.output)).to.contain('Publishing my-app to myorg as AccountAPI')
       expect(stdout.output).to.equal('')
     })
+  })
+
+  it('throws an error when API spec file is not found', async function () {
+    const nonExistentPath = `${__dirname}/non-existent-file.json`
+
+    try {
+      await runCommand(Cmd, [
+        nonExistentPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain(`API spec file not found: ${nonExistentPath}`)
+      expect(oclif.exit).to.equal(1)
+    }
   })
 })

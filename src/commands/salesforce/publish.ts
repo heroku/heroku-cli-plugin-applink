@@ -37,13 +37,13 @@ export default class Publish extends Command {
 
     try {
       if (!fs.existsSync(apiSpecFileDir)) {
-        ux.error(`API spec file not found: ${apiSpecFileDir}`)
+        ux.error(`API spec file not found: ${apiSpecFileDir}`, {exit: 1})
       }
 
       const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
 
       if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
-        ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
+        ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
       }
 
       const apiSpecContent = fs.readFileSync(apiSpecFileDir)
@@ -54,9 +54,9 @@ export default class Publish extends Command {
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        ux.error(`Failed to read API spec file: ${error.message}`)
+        ux.error(`Failed to read API spec file: ${error.message}`, {exit: 1})
       } else {
-        ux.error('Failed to read API spec file: Unknown error')
+        ux.error('Failed to read API spec file: Unknown error', {exit: 1})
       }
     }
 
@@ -91,9 +91,9 @@ export default class Publish extends Command {
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
-          ux.error(`Failed to read metadata directory: ${error.message}`)
+          ux.error(`Failed to read metadata directory: ${error.message}`, {exit: 1})
         } else {
-          ux.error('Failed to read metadata directory: Unknown error')
+          ux.error('Failed to read metadata directory: Unknown error', {exit: 1})
         }
       }
     }
