@@ -97,32 +97,45 @@ describe.only('salesforce:publish', function () {
     // })
   })
 
-  // context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
-  //   let integrationApi: nock.Scope
+  context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
+    let integrationApi: nock.Scope
 
-  //   beforeEach(function () {
-  //     process.env = {}
-  //     api = nock('https://api.heroku.com')
-  //       .get('/apps/my-app/addons')
-  //       .reply(200, [legacyAddon])
-  //       .get('/apps/my-app/config-vars')
-  //       .reply(200, {
-  //         HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-  //         HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
-  //       })
-  //     integrationApi = nock('https://integration-api.heroku.com')
-  //   })
+    beforeEach(function () {
+      process.env = {}
+      api = nock('https://api.heroku.com')
+        .get('/apps/my-app/addons')
+        .reply(200, [legacyAddon])
+        .get('/apps/my-app/config-vars')
+        .reply(200, {
+          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_INTEGRATION_TOKEN: '01234567-89ab-cdef-0123-456789abcdef',
+        })
+      integrationApi = nock('https://integration-api.heroku.com')
+    })
 
-  //   afterEach(function () {
-  //     process.env = env
-  //     api.done()
-  //     integrationApi.done()
-  //     nock.cleanAll()
-  //   })
+    afterEach(function () {
+      process.env = env
+      api.done()
+      integrationApi.done()
+      nock.cleanAll()
+    })
 
-  //   it('successfully publishes the app api-spec to the Salesforce org', async function () {
-  //     expect(true).to.equal(true)
-  //   })
+    it('successfully publishes an API spec file', async function () {
+      integrationApi
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
+        .reply(201, [])
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`
+
+      await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-integration-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+      ])
+      expect(stdout.output).to.equal('')
+    })
 
   // it('waits for the apps info endpoint status to return "imported" before ending the action successfully', async function () {
   //   integrationApi
@@ -141,6 +154,6 @@ describe.only('salesforce:publish', function () {
 
   //   expect(stderr.output).to.contain('Imported')
   //   expect(stdout.output).to.equal('')
-  // })
+  })
   // })
 })
