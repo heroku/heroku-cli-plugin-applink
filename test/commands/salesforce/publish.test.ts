@@ -172,4 +172,32 @@ describe('salesforce:publish', function () {
       fs.rmdirSync(metadataDir)
     }
   })
+
+  it('throws an error when both permissionset-meta.xml exists and authorization-permission-set-name is provided', async function () {
+    const metadataDir = `${__dirname}/../../helpers/metadata`
+    const apiSpecPath = `${__dirname}/../../helpers/openapi.json`
+
+    fs.mkdirSync(metadataDir, {recursive: true})
+    fs.writeFileSync(`${metadataDir}/permissionset-meta.xml`, '<xml>test</xml>')
+
+    try {
+      await runCommand(Cmd, [
+        apiSpecPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--metadata-dir',
+        metadataDir,
+        '--authorization-permission-set-name=TestPermSet',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
+      expect(oclif.exit).to.equal(1)
+    } finally {
+      fs.unlinkSync(`${metadataDir}/permissionset-meta.xml`)
+      fs.rmdirSync(metadataDir)
+    }
+  })
 })
