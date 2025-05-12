@@ -80,7 +80,9 @@ export default class Connect extends Command {
       });
 
       ({body: connection} = await this.applinkClient.get<AppLink.DataCloudConnection>(
-        `/addons/${this.addonId}/connections/${id}`,
+        `/addons/${this.addonId}/connections/${id}`, {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ));
 
       ({status, error} = connection)

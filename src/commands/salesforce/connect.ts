@@ -81,6 +81,9 @@ export default class Connect extends Command {
 
       ({body: connection} = await this.applinkClient.get<AppLink.SalesforceConnection>(
         `/addons/${this.addonId}/connections/${id}`,
+        {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ));
 
       ({status, error} = connection)
