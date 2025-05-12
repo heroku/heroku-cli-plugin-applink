@@ -68,6 +68,9 @@ export default class Create extends Command {
 
       ({body: createStatus} = await this.applinkClient.get<AppLink.DataActionTargetCreate>(
         `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets/${apiName}`,
+        {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
 
       status = createStatus.status

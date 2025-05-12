@@ -63,6 +63,9 @@ export default class Import extends Command {
 
       ({body: importStatus} = await this.applinkClient.get<AppLink.AppImport>(
         `/addons/${this.addonId}/connections/salesforce/${orgName}/app_imports/${clientName}`,
+        {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ))
 
       status = importStatus.status

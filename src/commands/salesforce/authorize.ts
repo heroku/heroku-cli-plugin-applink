@@ -81,6 +81,9 @@ export default class Authorize extends Command {
 
       ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
         `/addons/${this.addonId}/authorizations/${id}`,
+        {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+        }
       ));
 
       ({status, error} = authorization)
