@@ -37,13 +37,13 @@ export default class Publish extends Command {
 
     try {
       if (!fs.existsSync(apiSpecFileDir)) {
-        this.error(`API spec file not found: ${apiSpecFileDir}`)
+        ux.error(`API spec file not found: ${apiSpecFileDir}`)
       }
 
       const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
 
       if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
-        this.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
+        ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
       }
 
       const apiSpecContent = fs.readFileSync(apiSpecFileDir)
@@ -54,9 +54,9 @@ export default class Publish extends Command {
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        this.error(`Failed to read API spec file: ${error.message}`)
+        ux.error(`Failed to read API spec file: ${error.message}`)
       } else {
-        this.error('Failed to read API spec file: Unknown error')
+        ux.error('Failed to read API spec file: Unknown error')
       }
     }
 
@@ -67,11 +67,11 @@ export default class Publish extends Command {
         hasPermissionSetMetadata = dirFiles.includes('permissionset-meta.xml')
 
         if (hasConnectedAppMetadata && authorizationConnectedAppName) {
-          this.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
+          ux.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
         }
 
         if (hasPermissionSetMetadata && authorizationPermissionSetName) {
-          this.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
+          ux.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
         }
 
         if (hasConnectedAppMetadata) {
@@ -91,9 +91,9 @@ export default class Publish extends Command {
         }
       } catch (error: unknown) {
         if (error instanceof Error) {
-          this.error(`Failed to read metadata directory: ${error.message}`)
+          ux.error(`Failed to read metadata directory: ${error.message}`)
         } else {
-          this.error('Failed to read metadata directory: Unknown error')
+          ux.error('Failed to read metadata directory: Unknown error')
         }
       }
     }
