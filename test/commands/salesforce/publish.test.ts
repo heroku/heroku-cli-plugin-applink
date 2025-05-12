@@ -144,4 +144,32 @@ describe('salesforce:publish', function () {
       fs.unlinkSync(invalidFormatPath)
     }
   })
+
+  it('throws an error when both connectedapp-meta.xml exists and authorization-connected-app-name is provided', async function () {
+    const metadataDir = `${__dirname}/../../helpers/metadata`
+    const apiSpecPath = `${__dirname}/../../helpers/openapi.json`
+
+    fs.mkdirSync(metadataDir, {recursive: true})
+    fs.writeFileSync(`${metadataDir}/connectedapp-meta.xml`, '<xml>test</xml>')
+
+    try {
+      await runCommand(Cmd, [
+        apiSpecPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--metadata-dir',
+        metadataDir,
+        '--authorization-connected-app-name=TestApp',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
+      expect(oclif.exit).to.equal(1)
+    } finally {
+      fs.unlinkSync(`${metadataDir}/connectedapp-meta.xml`)
+      fs.rmdirSync(metadataDir)
+    }
+  })
 })
