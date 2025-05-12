@@ -10,6 +10,7 @@ import {
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
+import fs from 'fs'
 
 describe('salesforce:publish', function () {
   let api: nock.Scope
@@ -119,6 +120,28 @@ describe('salesforce:publish', function () {
       const {message, oclif} = error as CLIError
       expect(stripAnsi(message)).to.contain(`API spec file not found: ${nonExistentPath}`)
       expect(oclif.exit).to.equal(1)
+    }
+  })
+
+  it('throws an error when API spec file has invalid format', async function () {
+    const invalidFormatPath = `${__dirname}/../../helpers/invalid.txt`
+
+    fs.writeFileSync(invalidFormatPath, 'test content')
+
+    try {
+      await runCommand(Cmd, [
+        invalidFormatPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+      ])
+    } catch (error: unknown) {
+      const {message, oclif} = error as CLIError
+      expect(stripAnsi(message)).to.contain('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
+      expect(oclif.exit).to.equal(1)
+    } finally {
+      fs.unlinkSync(invalidFormatPath)
     }
   })
 })
