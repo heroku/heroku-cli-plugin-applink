@@ -7,9 +7,9 @@ Heroku AppLink plugin
 [![Downloads/week](https://img.shields.io/npm/dw/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 
 <!-- toc -->
-
-- [Usage](#usage)
-- [Commands](#commands)
+* [@heroku-cli/plugin-applink](#heroku-cliplugin-applink)
+* [Usage](#usage)
+* [Commands](#commands)
 <!-- tocstop -->
 
 # Usage
@@ -27,19 +27,18 @@ USAGE
 # Commands
 
 <!-- commands -->
-
-- [`heroku applink:authorizations`](#heroku-applinkauthorizations)
-- [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
-- [`heroku applink:connections`](#heroku-applinkconnections)
-- [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
-- [`heroku datacloud:connect [CONNECTION_NAME]`](#heroku-datacloudconnect-connection_name)
-- [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
-- [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
-- [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
-- [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
-- [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
-- [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
-- [`heroku salesforce:publications`](#heroku-salesforcepublications)
+* [`heroku applink:authorizations`](#heroku-applinkauthorizations)
+* [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
+* [`heroku applink:connections`](#heroku-applinkconnections)
+* [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
+* [`heroku datacloud:connect [CONNECTION_NAME]`](#heroku-datacloudconnect-connection_name)
+* [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
+* [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
+* [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
+* [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
+* [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
+* [`heroku salesforce:publications`](#heroku-salesforcepublications)
+* [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
 
 ## `heroku applink:authorizations`
 
@@ -276,6 +275,26 @@ DESCRIPTION
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
 
+## `heroku salesforce:publications`
+
+list Salesforce orgs the app is published to
+
+```
+USAGE
+  $ heroku salesforce:publications -a <value> [--addon <value>] [--connection_name <value>] [-r <value>]
+
+FLAGS
+  -a, --app=<value>              (required) app to run command against
+  -r, --remote=<value>           git remote of app to use
+      --addon=<value>            unique name or ID of an AppLink add-on
+      --connection_name=<value>  name of the Salesforce connection
+
+DESCRIPTION
+  list Salesforce orgs the app is published to
+```
+
+_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
+
 ## `heroku salesforce:publish API_SPEC_FILE_DIR`
 
 publish an app's API specification to an authenticated Salesforce org
@@ -303,26 +322,5 @@ DESCRIPTION
   publish an app's API specification to an authenticated Salesforce org
 ```
 
-_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
-
-## `heroku salesforce:publications`
-
-list Salesforce orgs the app is published to
-
-```
-USAGE
-  $ heroku salesforce:publications -a <value> [--addon <value>] [--connection_name <value>] [-r <value>]
-
-FLAGS
-  -a, --app=<value>              (required) app to run command against
-  -r, --remote=<value>           git remote of app to use
-      --addon=<value>            unique name or ID of an AppLink add-on
-      --connection_name=<value>  name of the Salesforce connection
-
-DESCRIPTION
-  list Salesforce orgs the app is published to
-```
-
-_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
-
+_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publish.ts)_
 <!-- commandsstop -->
