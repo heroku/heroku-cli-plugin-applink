@@ -839,17 +839,17 @@
     tslib "^1.9.3"
 
 "@heroku-cli/command@^11":
-  version "11.3.1"
-  resolved "https://registry.npmjs.org/@heroku-cli/command/-/command-11.3.1.tgz"
-  integrity sha512-n3+KgMmXScZDVEQu76mffzOJoQ5JyRYzzJ7uj3cNyAOK61xjaS1wEE86DBb57C1MlnjKtO7onJETBm2SMLdUIQ==
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-11.5.0.tgz#86cf0e1e4b2ab5ec3a8dc1c1867bdc4ff3bb8c98"
+  integrity sha512-tUGmJbnRiBinJk9/OgP1w80YyQFnqgVQCySJoR2juBp9JjcwYPK8pIyO/P5xiL1+Aj69w4KbguDZVGWP079UKg==
   dependencies:
     "@heroku-cli/color" "^2.0.1"
+    "@heroku/http-call" "^5.4.0"
     "@oclif/core" "^2.16.0"
     cli-ux "^6.0.9"
-    debug "^4.3.4"
+    debug "^4.4.0"
     fs-extra "^9.1.0"
     heroku-client "^3.1.0"
-    http-call "^5.3.0"
     netrc-parser "^3.1.6"
     open "^8.4.2"
     uuid "^8.3.0"
@@ -860,6 +860,17 @@
   version "1.0.25"
   resolved "https://registry.npmjs.org/@heroku-cli/schema/-/schema-1.0.25.tgz"
   integrity sha512-7V6/WdTHrsvpqeqttm4zhzVJyt/Us/Cz9oS4yure4JdLtwlr2eF6PvlDLA5ZIvBybMtSDyxhHid0PeshKLtwxw==
+
+"@heroku/http-call@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@heroku/http-call/-/http-call-5.4.0.tgz#1f3d804d17888c61d375d2dcb399f405781132e8"
+  integrity sha512-8ys8jFP9l1wFXNmhmUb/EKLY/3flGzd7lv3x5MCw+36ov+qR9OFgk7bNHn3s+FPUKRSf/2GmKJjJmgnaD1YMmA==
+  dependencies:
+    content-type "^1.0.5"
+    debug "^4.4.0"
+    is-retry-allowed "^2.2.0"
+    is-stream "^2.0.0"
+    tunnel-agent "^0.6.0"
 
 "@humanwhocodes/config-array@^0.13.0":
   version "0.13.0"
@@ -2615,7 +2626,7 @@ constant-case@^3.0.4:
     tslib "^2.0.3"
     upper-case "^2.0.2"
 
-content-type@^1.0.4:
+content-type@^1.0.4, content-type@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/content-type/-/content-type-1.0.5.tgz"
   integrity sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==
@@ -3727,7 +3738,7 @@ http-cache-semantics@^4.1.1:
   resolved "https://registry.npmjs.org/http-cache-semantics/-/http-cache-semantics-4.1.1.tgz"
   integrity sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==
 
-http-call@^5, http-call@^5.2.2, http-call@^5.3.0:
+http-call@^5, http-call@^5.2.2:
   version "5.3.0"
   resolved "https://registry.npmjs.org/http-call/-/http-call-5.3.0.tgz"
   integrity sha512-ahwimsC23ICE4kPl9xTBjKB4inbRaeLyZeRunC/1Jy/Z6X8tv22MEAjK+KBOMSVLaqXPTTmd8638waVIKLGx2w==
@@ -3950,6 +3961,11 @@ is-retry-allowed@^1.0.0, is-retry-allowed@^1.1.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/is-retry-allowed/-/is-retry-allowed-1.2.0.tgz"
   integrity sha512-RUbUeKwvm3XG2VYamhJL1xFktgjvPzL0Hq8C+6yrWIswDy3BIXGqCxhxkc30N9jqK311gVU137K8Ei55/zVJRg==
+
+is-retry-allowed@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-2.2.0.tgz#88f34cbd236e043e71b6932d09b0c65fb7b4d71d"
+  integrity sha512-XVm7LOeLpTW4jV19QSH38vkswxoLud8sQ57YwJVTPWdiaI9I8keEhGFpBlslyVsgdQy4Opg8QOLb8YRgsyZiQg==
 
 is-shared-array-buffer@^1.0.2, is-shared-array-buffer@^1.0.3:
   version "1.0.3"
