@@ -53,13 +53,12 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:       00DSG000007a3BcA84
-        Org Name:     my-org-2
-        Run As User:  user@example.com
-        Status:       Connected
-        Type:         Salesforce Org
+        Connection Name: my-org-2
+        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:          00DSG000007a3BcA84
+        Status:          Connected
+        Type:            Salesforce Org
       `)
       expect(stderr.output).to.equal('')
     })
@@ -117,13 +116,12 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Id:           5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL: https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:       00DSG000007a3BcA84
-        Org Name:     my-org-2
-        Run As User:  user@example.com
-        Status:       Connected
-        Type:         Salesforce Org
+        Connection Name: my-org-2
+        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Org ID:          00DSG000007a3BcA84
+        Status:          Connected
+        Type:            Salesforce Org
       `)
       expect(stderr.output).to.equal('')
     })

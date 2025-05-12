@@ -38,14 +38,14 @@ export default class Publications extends Command {
       ux.error(`There are no Heroku AppLink connections for ${color.app(app)}.`, {exit: 1})
     }
 
-    const activeSFConnections = connections.filter(connection => connection.type === 'SalesforceOrg' && connection.status === 'connected')
+    const activeSFConnections = connections.filter(connection => connection.org.type === 'SalesforceOrg' && connection.status === 'connected')
     if (activeSFConnections.length === 0) {
       ux.error(`There are no active Heroku AppLink connections for ${color.app(app)}.`, {exit: 1})
     }
 
     for (const connection of activeSFConnections) {
       const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
-        `/addons/${this.addonId}/connections/salesforce/${connection.salesforce_org.org_name}/apps/${this._appId}`, {
+        `/addons/${this.addonId}/connections/salesforce/${connection.org.connection_name}/apps/${this._appId}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
         })
       publications.push(...pubs)

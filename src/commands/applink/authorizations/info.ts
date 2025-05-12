@@ -42,13 +42,12 @@ export default class Info extends Command {
 
     ux.styledObject({
       ID: authorization.id,
-      'Instance URL': authorization.salesforce_org.instance_url,
-      'Org ID': authorization.salesforce_org.id,
-      'Org Name': authorization.salesforce_org.org_name,
-      'Run As User': authorization.salesforce_org.run_as_user,
+      'Instance URL': authorization.org.instance_url,
+      'Org ID': authorization.org.id,
+      'Developer Name': authorization.org.developer_name,
       Status: humanize(authorization.status),
       App: app,
-      Type: humanize(AppLink.adjustOrgType(authorization.type)),
+      Type: humanize(AppLink.adjustOrgType(authorization.org.type)),
       'Add-on': this._addonName,
       'Created Date': authorization.created_at,
       'Created By': authorization.created_by,

@@ -59,39 +59,39 @@ export const addonStaging: Heroku.AddOn = {
 
 export const connection1: AppLink.SalesforceConnection = {
   id: '51807d19-9d78-4064-9468-bcdc34611778',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3FdB96',
     instance_url: 'https://dsg000007a3fdb96.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-1',
-    run_as_user: 'user@example.com',
+    connection_name: 'my-org-1',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'connected',
-  type: 'SalesforceOrg',
 }
 
 export const connection2_connecting: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '',
     instance_url: '',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
   status: 'authenticating',
-  type: 'SalesforceOrg',
 }
 
 export const connection2_connected: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: 'user@example.com',
+    connection_name: 'my-org-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'connected',
-  type: 'SalesforceOrg',
 }
 
 export const connection2_failed: AppLink.SalesforceConnection = {
@@ -100,14 +100,14 @@ export const connection2_failed: AppLink.SalesforceConnection = {
     message: 'There was a problem connecting your org. Try again later.',
   },
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'connection_failed',
-  type: 'SalesforceOrg',
 }
 
 export const appImportPending: AppLink.AppImport = {
@@ -115,11 +115,12 @@ export const appImportPending: AppLink.AppImport = {
   client_name: 'AccountAPI',
   status: 'pending',
   generate_authorization_permission_set: true,
-  salesforce_org: {
+  org: {
     id: '00DSG00000DGEIr2AP',
-    org_name: 'productionOrg',
+    connection_name: 'productionOrg',
     instance_url: 'https://dsg00000dgeir2ap.test1.my.pc-rnd.salesforce.com',
-    run_as_user: 'paguilar@salesforce.com',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   heroku_app: {
     id: '991383ba-b3bc-4a86-b606-2df760573bc0',
@@ -141,10 +142,12 @@ export const appImportFailed: AppLink.AppImport = {
 export const datCreatePending: AppLink.DataActionTargetCreate = {
   id: '94441cc0-0f52-42d1-9a66-9f8e43e9b7eb',
   api_name: 'MyDataActionTarget',
-  datacloud_org: {
+  org: {
     id: '00DSG00000DGEIr2AP',
-    org_name: 'productionOrg',
+    connection_name: 'productionOrg',
     instance_url: 'https://dsg00000dgeir2ap.test1.my.pc-rnd.salesforce.com',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   heroku_app: {
     id: '991383ba-b3bc-4a86-b606-2df760573bc0',
@@ -169,59 +172,60 @@ export const datCreateFailed: AppLink.DataActionTargetCreate = {
 
 export const connection2_disconnected: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'disconnected',
-  type: 'SalesforceOrg',
 }
 
 export const connection3: AppLink.SalesforceConnection = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3FdB96',
     instance_url: 'https://dsg000007a3fdb96.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-1',
-    run_as_user: 'user2@example.com',
+    connection_name: 'my-org-1',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'connecting',
-  type: 'SalesforceOrg',
 }
 
 export const connection4_connecting: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '',
     instance_url: '',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
   status: 'authenticating',
-  type: 'DatacloudOrg',
 }
 
 export const connection4_connected: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: 'user@example.com',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'connected',
-  type: 'DatacloudOrg',
 }
 
 export const connection4_failed: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   error: {
     id: 'org_connection_failed',
@@ -229,43 +233,42 @@ export const connection4_failed: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'connection_failed',
-  type: 'DatacloudOrg',
 }
 
 export const connection4_disconnected: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'disconnected',
-  type: 'DatacloudOrg',
 }
 
 export const connection5_disconnecting: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'disconnecting',
-  type: 'DatacloudOrg',
 }
 
 export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
-  datacloud_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'DataCloudOrg',
+    username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'disconnection_failed',
-  type: 'DatacloudOrg',
 }
 
 export const ConnectionError_record_not_found: AppLink.ConnectionError = {
@@ -281,14 +284,14 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
     message: 'record not found',
   },
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: '',
+    connection_name: 'my-org-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
   status: 'connection_failed',
-  type: 'SalesforceOrg',
 }
 
 export const authorization_connected: AppLink.Authorization = {
@@ -297,15 +300,14 @@ export const authorization_connected: AppLink.Authorization = {
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
-  developer_name: 'my-developer-name',
   app_name: 'my-app',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-1',
-    run_as_user: 'user@example.com',
+    developer_name: 'my-developer-name',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
-  type: 'SalesforceOrg',
   created_by: 'user@example.com',
   last_modified_by: 'user@example.com',
 }
@@ -313,11 +315,12 @@ export const authorization_connected: AppLink.Authorization = {
 export const authorization_connected_2: AppLink.Authorization = {
   ...authorization_connected,
   status: 'connected',
-  salesforce_org: {
+  org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
-    org_name: 'my-org-2',
-    run_as_user: 'user@example.com',
+    developer_name: 'my-developer-name-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
   },
 }
 

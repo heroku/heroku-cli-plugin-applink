@@ -1,6 +1,26 @@
 /**
  * A connection between a Heroku app and a Salesforce Org.
  */
+interface BaseOrg {
+  readonly id?: string | null
+  readonly instance_url?: string | null
+  readonly 'type': 'SalesforceOrg' | 'DataCloudOrg',
+  readonly username?: string | null
+}
+
+interface AuthorizationOrg extends BaseOrg {
+  readonly developer_name: string
+}
+
+interface ConnectionOrg extends BaseOrg {
+  readonly connection_name: string
+}
+
+export type Org = ConnectionOrg
+
+/**
+ * A connection between a Heroku app and a Salesforce Org.
+ */
 export type SalesforceConnection = {
   /** last error on connection */
   readonly error?: {
@@ -10,18 +30,11 @@ export type SalesforceConnection = {
   /** connection ID */
   readonly id: string
   /** Salesforce Org info */
-  readonly salesforce_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
-  }
+  readonly org: Org
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
-  /** connection type */
-  readonly 'type': 'SalesforceOrg'
 }
 
 /**
@@ -36,24 +49,17 @@ export type DataCloudConnection = {
   /** connection ID */
   readonly id: string
   /** Data Cloud Org info */
-  readonly datacloud_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
-  }
+  readonly org: Org
   /** redirect URI for authentication */
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
-  /** connection type */
-  readonly 'type': 'DatacloudOrg'
 }
 
 export type Connection = SalesforceConnection | DataCloudConnection
 
 export function isSalesforceConnection(connection: Connection): connection is SalesforceConnection {
-  return (connection as SalesforceConnection).salesforce_org !== undefined
+  return (connection as SalesforceConnection).org !== undefined
 }
 
 export function isDataCloudConnection(connection: Connection): connection is DataCloudConnection {
@@ -84,12 +90,7 @@ export type AppImport = {
   /** app import ID */
   readonly id: string
   /** Salesforce Org info */
-  readonly salesforce_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
-  }
+  readonly org: Org
   /** import process status */
   readonly status: 'pending' | 'importing' | 'imported' | 'import_failed'
   /** app info */
@@ -110,12 +111,7 @@ export type AppImport = {
  */
 export type DataActionTargetCreate = {
   readonly api_name: string
-  readonly datacloud_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
-  }
+  readonly org: Org
   readonly heroku_app: {
     id: string
     name: string
@@ -138,20 +134,12 @@ export type DataActionTargetCreate = {
  */
 export type Authorization = {
   readonly id: string
-  readonly developer_name: string
   readonly status: ConnectionStatus
   readonly redirect_uri: string
   readonly created_at: string
-  readonly last_modified_at: string
-  readonly salesforce_username?: string
+  readonly last_modified_at: string,
   readonly app_name?: string
-  readonly salesforce_org: {
-    readonly id?: string | null
-    readonly instance_url?: string | null
-    readonly org_name: string
-    readonly run_as_user?: string | null
-  }
-  readonly type?: string
+  readonly org: AuthorizationOrg
   readonly created_by: string
   readonly last_modified_by: string
   readonly error?: {
