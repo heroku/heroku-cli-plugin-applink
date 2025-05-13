@@ -301,7 +301,7 @@ publish an app's API specification to an authenticated Salesforce org
 
 ```
 USAGE
-  $ heroku salesforce:publish API_SPEC_FILE_DIR -a <value> -c <value> -o <value> [--addon <value>]
+  $ heroku salesforce:publish API_SPEC_FILE_DIR -a <value> -c <value> --connection-name <value> [--addon <value>]
     [--authorization-connected-app-name <value>] [--authorization-permission-set-name <value>] [--metadata-dir <value>]
     [-r <value>]
 
@@ -311,11 +311,11 @@ ARGUMENTS
 FLAGS
   -a, --app=<value>                                (required) app to run command against
   -c, --client-name=<value>                        (required) name given to the client stub
-  -o, --connection-name=<value>                    (required) authenticated Salesforce org instance name
   -r, --remote=<value>                             git remote of app to use
       --addon=<value>                              unique name or ID of an AppLink add-on
       --authorization-connected-app-name=<value>   name of connected app to create from our template
       --authorization-permission-set-name=<value>  name of permission set to create from our template
+      --connection-name=<value>                    (required) authenticated Salesforce org instance name
       --metadata-dir=<value>                       directory containing connected app, permission set, or API spec
 
 DESCRIPTION

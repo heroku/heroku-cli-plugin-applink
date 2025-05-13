@@ -14,7 +14,7 @@ export default class Publish extends Command {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
-    'connection-name': flags.string({required: true, char: 'o', description: 'authenticated Salesforce org instance name'}),
+    'connection-name': flags.string({required: true, description: 'authenticated Salesforce org instance name'}),
     'authorization-connected-app-name': flags.string({description: 'name of connected app to create from our template'}),
     'authorization-permission-set-name': flags.string({description: 'name of permission set to create from our template'}),
     'metadata-dir': flags.string({description: 'directory containing connected app, permission set, or API spec'}),
@@ -35,66 +35,50 @@ export default class Publish extends Command {
 
     const files: AppLink.FileEntry[] = []
 
-    try {
-      if (!fs.existsSync(apiSpecFileDir)) {
-        ux.error(`API spec file not found: ${apiSpecFileDir}`, {exit: 1})
-      }
-
-      const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
-
-      if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
-        ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
-      }
-
-      const apiSpecContent = fs.readFileSync(apiSpecFileDir)
-      const fileName = fileExtension === '.json' ? 'api-spec.json' : 'api-spec.yaml'
-      files.push({
-        name: fileName,
-        content: apiSpecContent,
-      })
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        ux.error(`Failed to read API spec file: ${error.message}`, {exit: 1})
-      } else {
-        ux.error('Failed to read API spec file: Unknown error', {exit: 1})
-      }
+    if (!fs.existsSync(apiSpecFileDir)) {
+      ux.error(`API spec file not found: ${apiSpecFileDir}`, {exit: 1})
     }
 
+    const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
+
+    if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
+      ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
+    }
+
+    const apiSpecContent = fs.readFileSync(apiSpecFileDir)
+    const fileName = fileExtension === '.json' ? 'api-spec.json' : 'api-spec.yaml'
+    files.push({
+      name: fileName,
+      content: apiSpecContent,
+    })
+
     if (metadataDir) {
-      try {
-        const dirFiles = fs.readdirSync(path.resolve(metadataDir))
-        hasConnectedAppMetadata = dirFiles.includes('connectedapp-meta.xml')
-        hasPermissionSetMetadata = dirFiles.includes('permissionset-meta.xml')
+      const dirFiles = fs.readdirSync(path.resolve(metadataDir))
+      hasConnectedAppMetadata = dirFiles.includes('connectedapp-meta.xml')
+      hasPermissionSetMetadata = dirFiles.includes('permissionset-meta.xml')
 
-        if (hasConnectedAppMetadata && authorizationConnectedAppName) {
-          ux.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
-        }
+      if (hasConnectedAppMetadata && authorizationConnectedAppName) {
+        ux.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag', {exit: 1})
+      }
 
-        if (hasPermissionSetMetadata && authorizationPermissionSetName) {
-          ux.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
-        }
+      if (hasPermissionSetMetadata && authorizationPermissionSetName) {
+        ux.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag', {exit: 1})
+      }
 
-        if (hasConnectedAppMetadata) {
-          const connectedAppContent = fs.readFileSync(path.join(metadataDir, 'connectedapp-meta.xml'))
-          files.push({
-            name: 'connectedapp-meta.xml',
-            content: connectedAppContent,
-          })
-        }
+      if (hasConnectedAppMetadata) {
+        const connectedAppContent = fs.readFileSync(path.join(metadataDir, 'connectedapp-meta.xml'))
+        files.push({
+          name: 'connectedapp-meta.xml',
+          content: connectedAppContent,
+        })
+      }
 
-        if (hasPermissionSetMetadata) {
-          const permissionSetContent = fs.readFileSync(path.join(metadataDir, 'permissionset-meta.xml'))
-          files.push({
-            name: 'permissionset-meta.xml',
-            content: permissionSetContent,
-          })
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          ux.error(`Failed to read metadata directory: ${error.message}`, {exit: 1})
-        } else {
-          ux.error('Failed to read metadata directory: Unknown error', {exit: 1})
-        }
+      if (hasPermissionSetMetadata) {
+        const permissionSetContent = fs.readFileSync(path.join(metadataDir, 'permissionset-meta.xml'))
+        files.push({
+          name: 'permissionset-meta.xml',
+          content: permissionSetContent,
+        })
       }
     }
 
@@ -113,13 +97,14 @@ export default class Publish extends Command {
     await this.applinkClient.post<AppLink.AppPublish>(
       `/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           app_request: {
             client_name: clientName,
             authorization_connected_app_name: authorizationConnectedAppName,
             authorization_permission_set_name: authorizationPermissionSetName,
           },
-          metadata: binaryMetadataZip,
+          metadata_zip: binaryMetadataZip,
         },
       })
 
