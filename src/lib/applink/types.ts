@@ -80,30 +80,18 @@ export type ConnectionError = {
 export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
 
 /**
- * An app import process.
+ * An app publish process.
  */
-export type AppImport = {
-  /** client name */
-  readonly client_name: string
-  /** generate authorization permission set */
-  readonly generate_authorization_permission_set: boolean
-  /** app import ID */
-  readonly id: string
-  /** Salesforce Org info */
-  readonly org: Org
-  /** import process status */
-  readonly status: 'pending' | 'importing' | 'imported' | 'import_failed'
-  /** app info */
-  readonly heroku_app: {
-    id: string
-    name: string
-    url: string
+export type AppPublish = {
+  app_request: {
+    /** client name */
+    client_name: string
+    /** authorization connected app name */
+    authorization_connected_app_name?: string
+    /** authorization permission set name */
+    authorization_permission_set_name?: string
   }
-  /** last error on import */
-  readonly error?: {
-    id: string
-    message: string
-  }
+  metadata: Buffer
 }
 
 /**
@@ -146,6 +134,16 @@ export type Authorization = {
     id: string
     message: string
   }
+}
+
+/**
+ * Represents a file entry with its name and content.
+ */
+export type FileEntry = {
+  /** file name */
+  readonly name: string;
+  /** file content as a Buffer */
+  readonly content: Buffer;
 }
 
 /**

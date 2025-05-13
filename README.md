@@ -1,19 +1,19 @@
-@heroku-cli/plugin-applink
-==============================
+# @heroku-cli/plugin-applink
 
 Heroku AppLink plugin
-
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 [![Downloads/week](https://img.shields.io/npm/dw/@heroku-cli/plugin-applink.svg)](https://npmjs.org/package/@heroku-cli/plugin-applink)
 
-
 <!-- toc -->
+* [@heroku-cli/plugin-applink](#heroku-cliplugin-applink)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
+
 # Usage
+
 ```sh-session
 $ heroku plugins:install @heroku-cli/plugin-applink
 $ heroku applink:COMMAND
@@ -23,7 +23,9 @@ USAGE
   $ heroku applink:COMMAND
 ...
 ```
+
 # Commands
+
 <!-- commands -->
 * [`heroku applink:authorizations`](#heroku-applinkauthorizations)
 * [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
@@ -35,8 +37,8 @@ USAGE
 * [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
 * [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
 * [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
-* [`heroku salesforce:import API_SPEC_FILE`](#heroku-salesforceimport-api_spec_file)
 * [`heroku salesforce:publications`](#heroku-salesforcepublications)
+* [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
 
 ## `heroku applink:authorizations`
 
@@ -273,31 +275,6 @@ DESCRIPTION
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
 
-## `heroku salesforce:import API_SPEC_FILE`
-
-Imports an API specification to an authenticated Salesforce Org.
-
-```
-USAGE
-  $ heroku salesforce:import API_SPEC_FILE -a <value> -c <value> -o <value> [--addon <value>] [-G] [-r <value>]
-
-ARGUMENTS
-  API_SPEC_FILE  OpenAPI 3.x spec file (JSON or YAML format)
-
-FLAGS
-  -G, --generate-auth-permission-set  generate a permission set for the client
-  -a, --app=<value>                   (required) app to run command against
-  -c, --client-name=<value>           (required) name given to the client stub
-  -o, --org-name=<value>              (required) authorized Salesforce Org instance name
-  -r, --remote=<value>                git remote of app to use
-      --addon=<value>                 unique name or ID of an AppLink add-on
-
-DESCRIPTION
-  Imports an API specification to an authenticated Salesforce Org.
-```
-
-_See code: [src/commands/salesforce/import.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/import.ts)_
-
 ## `heroku salesforce:publications`
 
 list Salesforce orgs the app is published to
@@ -317,4 +294,33 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
+
+## `heroku salesforce:publish API_SPEC_FILE_DIR`
+
+publish an app's API specification to an authenticated Salesforce org
+
+```
+USAGE
+  $ heroku salesforce:publish API_SPEC_FILE_DIR -a <value> -c <value> --connection-name <value> [--addon <value>]
+    [--authorization-connected-app-name <value>] [--authorization-permission-set-name <value>] [--metadata-dir <value>]
+    [-r <value>]
+
+ARGUMENTS
+  API_SPEC_FILE_DIR  path to OpenAPI 3.x spec file (JSON or YAML format)
+
+FLAGS
+  -a, --app=<value>                                (required) app to run command against
+  -c, --client-name=<value>                        (required) name given to the client stub
+  -r, --remote=<value>                             git remote of app to use
+      --addon=<value>                              unique name or ID of an AppLink add-on
+      --authorization-connected-app-name=<value>   name of connected app to create from our template
+      --authorization-permission-set-name=<value>  name of permission set to create from our template
+      --connection-name=<value>                    (required) authenticated Salesforce org instance name
+      --metadata-dir=<value>                       directory containing connected app, permission set, or API spec
+
+DESCRIPTION
+  publish an app's API specification to an authenticated Salesforce org
+```
+
+_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publish.ts)_
 <!-- commandsstop -->
