@@ -371,7 +371,26 @@ export const publication2: AppLink.Publication = {
   last_modified_by: 'user@example.com',
 }
 
-export const credential_id: Integration.CredsCredential = {
-  state: 'ready',
-  credential_id: 'ec156c3c-0f7f-430a-92ff-0043a8b4a586',
+export const credential_id_connected: AppLink.CredsCredential = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  status: 'connected',
+  org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    connection_name: 'my-connection-1',
+    type: 'SalesforceOrg',
+    username: 'test-username',
+  },
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+  app_id: '89abcdef-0123-4567-89ab-cdef01234567',
+  addon_id: '01234567-89ab-cdef-0123-456789abcdef',
+  connection_method: 'JWT',
+}
+
+export const credential_id_failed: AppLink.CredsCredential = {
+  ...credential_id_connected,
+  status: 'connection_failed',
 }
