@@ -29,6 +29,7 @@ export default class Info extends Command {
       ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
         `/addons/${this.addonId}/authorizations/${developerName}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         }
       ))
     } catch (error) {

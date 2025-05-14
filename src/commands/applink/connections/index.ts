@@ -25,6 +25,7 @@ export default class Index extends Command {
     await this.configureAppLinkClient(app, addon);
     ({body: appConnections} = await this.applinkClient.get<AppLink.Connection[]>(`/addons/${this.addonId}/connections`, {
       headers: {authorization: `Bearer ${this._applinkToken}`},
+      retryAuth: false,
     }))
 
     if (appConnections.length === 0) {

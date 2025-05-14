@@ -25,11 +25,13 @@ export default class Publications extends Command {
     if (connection_name) {
       const {body: connectionResponse} = await this.applinkClient.get<AppLink.SalesforceConnection>(`/addons/${this.addonId}/connections/${connection_name}`, {
         headers: {authorization: `Bearer ${this._applinkToken}`},
+        retryAuth: false,
       })
       connections.push(connectionResponse)
     } else {
       const {body: connectionResponse} = await this.applinkClient.get<AppLink.SalesforceConnection[]>(`/addons/${this.addonId}/connections`, {
         headers: {authorization: `Bearer ${this._applinkToken}`},
+        retryAuth: false,
       })
       connections.push(...connectionResponse)
     }
@@ -47,6 +49,7 @@ export default class Publications extends Command {
       const {body: pubs} = await this.applinkClient.get<AppLink.Publication[]>(
         `/addons/${this.addonId}/connections/salesforce/${connection.org.connection_name}/apps/${this._appId}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         })
       publications.push(...pubs)
     }

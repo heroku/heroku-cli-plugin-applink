@@ -40,6 +40,7 @@ export default class Connect extends Command {
           login_url: loginUrl,
           connection_name: connectionName,
         },
+        retryAuth: false,
       }
     ))
 
@@ -82,6 +83,7 @@ export default class Connect extends Command {
       ({body: connection} = await this.applinkClient.get<AppLink.DataCloudConnection>(
         `/addons/${this.addonId}/connections/${id}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         }
       ));
 
