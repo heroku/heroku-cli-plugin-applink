@@ -1,46 +1,54 @@
 import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
 import * as AppLink from '../../../lib/applink/types'
-import open from 'open'
 import fs from 'fs'
 import {v4 as uuidv4} from 'uuid'
+import {ux, Args} from '@oclif/core'
+import {humanize} from '../../../lib/helpers'
 
-export default class Jwt extends Command {
-  static description = 'connects a Salesforce Org to Heroku app'
+export default class JWT extends Command {
+  static description = 'connects a Salesforce Org to Heroku app using a JWT auth token'
 
   static flags = {
-    'client-id': flags.string({required: true, description: 'connected app secret'}),
-    'jwt-key-file': flags.file({required: true, description: 'the key file counterpart for the key informed when created the connected app'}),
-    username: flags.string({required: true, description: 'the salesforce username'}),
-    'login-url': flags.string({char: 'l', description: 'login URL'}),
-    'store-as-run-as-user': flags.boolean({char: 'S', description: 'store user credentials'}),
+    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
+    app: flags.app({required: true}),
+    'client-id': flags.string({required: true, description: 'ID of consumer key'}),
+    'jwt-key-file': flags.file({required: true, description: 'path to file containing private key to authorize with'}),
+    'login-url': flags.string({char: 'l', description: 'Salesforce login URL'}),
+    remote: flags.remote(),
+    username: flags.string({required: true, description: 'Salesforce username'}),
   }
 
-  public static urlOpener: (...args: Parameters<typeof open>) => ReturnType<typeof open> = open
+  static args = {
+    connection_name: Args.string({description: 'name for the Salesforce connection.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
+  }
 
   public async run(): Promise<void> {
-    const {flags} = await this.parse(Jwt)
-    const {'client-id': clientId, 'jwt-key-file': jwtKeyFile, username, 'login-url': loginUrl, 'store-as-run-as-user': storeAsRunAsUser} = flags
+    const {flags, args} = await this.parse(JWT)
+    const {addon, app, 'client-id': clientId, 'jwt-key-file': jwtKeyFile, username, 'login-url': loginUrl} = flags
+    const {connection_name: connectionName} = args
     const keyFileContents = fs.readFileSync(jwtKeyFile).toString()
 
-    console.log('key file contents:', keyFileContents)
+    await this.configureAppLinkClient(app, addon)
 
-    await this.configureApplessIntegrationClient()
-    let credential: AppLink.CredsCredential
-    ({body: credential} = await this.applinkClient.post<AppLink.CredsCredential>(
+    ux.action.start(`Adding credentials for ${username} to ${app} as ${connectionName}`)
+
+    const {body: credential} = await this.applinkClient.post<AppLink.CredsCredential>(
       '/salesforce/oauth/jwt',
       {
         body: {
-          destination: uuidv4(),
           alias: uuidv4(),
+          connection_name: connectionName,
           options: {
             login_url: loginUrl,
             client_id: clientId,
             jwt_private_key: keyFileContents,
-            username: username,
+            username,
           },
         },
       }
-    ))
+    )
+
+    ux.action.stop(humanize(credential.status))
   }
 }
