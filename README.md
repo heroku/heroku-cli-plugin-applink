@@ -36,7 +36,7 @@ USAGE
 * [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
 * [`heroku salesforce:authorize DEVELOPER_NAME`](#heroku-salesforceauthorize-developer_name)
 * [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
-* [`heroku salesforce:connect:jwt`](#heroku-salesforceconnectjwt)
+* [`heroku salesforce:connect:jwt CONNECTION_NAME`](#heroku-salesforceconnectjwt-connection_name)
 * [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
 * [`heroku salesforce:publications`](#heroku-salesforcepublications)
 * [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
@@ -236,8 +236,8 @@ USAGE
   $ heroku salesforce:connect CONNECTION_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and
-                   underscores '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30
+  CONNECTION_NAME  name for the Salesforce connection.  Must begin with a letter. Then allowed chars are alphanumeric
+                   and underscores '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30
                    characters.
 
 FLAGS
@@ -253,23 +253,31 @@ DESCRIPTION
 
 _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/index.ts)_
 
-## `heroku salesforce:connect:jwt`
+## `heroku salesforce:connect:jwt CONNECTION_NAME`
 
-connects a Salesforce Org to Heroku app
+connects a Salesforce Org to Heroku app using a JWT auth token
 
 ```
 USAGE
-  $ heroku salesforce:connect:jwt --client-id <value> --jwt-key-file <value> --username <value> [-l <value>] [-S]
+  $ heroku salesforce:connect:jwt CONNECTION_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
+    [--addon <value>] [-l <value>] [-r <value>]
+
+ARGUMENTS
+  CONNECTION_NAME  name for the Salesforce connection.  Must begin with a letter. Then allowed chars are alphanumeric
+                   and underscores '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30
+                   characters.
 
 FLAGS
-  -S, --store-as-run-as-user  store user credentials
-  -l, --login-url=<value>     login URL
-      --client-id=<value>     (required) connected app secret
-      --jwt-key-file=<value>  (required) the key file counterpart for the key informed when created the connected app
-      --username=<value>      (required) the salesforce username
+  -a, --app=<value>           (required) app to run command against
+  -l, --login-url=<value>     Salesforce login URL
+  -r, --remote=<value>        git remote of app to use
+      --addon=<value>         unique name or ID of an AppLink add-on
+      --client-id=<value>     (required) ID of consumer key
+      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
+      --username=<value>      (required) Salesforce username
 
 DESCRIPTION
-  connects a Salesforce Org to Heroku app
+  connects a Salesforce Org to Heroku app using a JWT auth token
 ```
 
 _See code: [src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/jwt.ts)_
