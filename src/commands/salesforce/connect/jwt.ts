@@ -2,7 +2,7 @@ import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
 import * as AppLink from '../../../lib/applink/types'
 import fs from 'fs'
-import {v4 as uuidv4} from 'uuid'
+import {randomUUID} from 'node:crypto'
 import {ux, Args} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
@@ -39,14 +39,12 @@ export default class JWT extends Command {
       `/addons/${this.addonId}/connections/salesforce/jwt`,
       {
         body: {
-          alias: uuidv4(),
+          alias: randomUUID(),
           connection_name: connectionName,
-          options: {
-            login_url: loginUrl,
-            client_id: clientId,
-            jwt_private_key: keyFileContents,
-            username,
-          },
+          login_url: loginUrl,
+          client_id: clientId,
+          jwt_private_key: keyFileContents,
+          username,
         },
       }
     )
