@@ -34,7 +34,7 @@ export default class JWT extends Command {
     ux.action.start(`Adding credentials for ${username} to ${app} as ${connectionName}`)
 
     const {body: credential} = await this.applinkClient.post<AppLink.CredsCredential>(
-      '/salesforce/oauth/jwt',
+      `/addons/${this.addonId}/connections/salesforce/jwt`,
       {
         body: {
           alias: uuidv4(),

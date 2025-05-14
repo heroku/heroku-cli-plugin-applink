@@ -16,7 +16,7 @@ describe('salesforce:connect:jwt', function () {
   let applinkApi: nock.Scope
   let api: nock.Scope
 
-  const filePath = `${__dirname}/../../helpers/jwt.key`
+  const filePath = `${__dirname}/../../../helpers/jwt.key`
 
   beforeEach(function () {
     api = nock('https://api.heroku.com')
@@ -40,7 +40,7 @@ describe('salesforce:connect:jwt', function () {
 
   it('when the connection succeeds, it shows the expected output', async function () {
     applinkApi
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
       .reply(202, credential_id_connected)
 
     await runCommand(Cmd, [
@@ -53,14 +53,14 @@ describe('salesforce:connect:jwt', function () {
     ])
 
     expect(stripAnsi(stderr.output)).to.eq(heredoc`
-      Adding credentials for test-username to my-app as my-connection-1
-      Adding credentials for test-username to my-app as my-connection-1 Connected
+      Adding credentials for test-username to my-app as my-connection-1...
+      Adding credentials for test-username to my-app as my-connection-1... Connected
     `)
   })
 
-  it('when the connection is unsuccessful, it shows the correct connection status in the output', async function () {
+  it('when the connection status is not "Connected", it shows the correct connection status in the output', async function () {
     applinkApi
-      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
       .reply(202, credential_id_failed)
 
     await runCommand(Cmd, [
@@ -73,8 +73,8 @@ describe('salesforce:connect:jwt', function () {
     ])
 
     expect(stripAnsi(stderr.output)).to.eq(heredoc`
-      Adding credentials for test-username to my-app as my-connection-1
-      Adding credentials for test-username to my-app as my-connection-1 Connection failed
+      Adding credentials for test-username to my-app as my-connection-1...
+      Adding credentials for test-username to my-app as my-connection-1... Connection Failed
     `)
   })
 })
