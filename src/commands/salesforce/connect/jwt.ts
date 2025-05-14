@@ -22,7 +22,7 @@ export default class JWT extends Command {
   }
 
   static args = {
-    connection_name: Args.string({description: 'name for the Salesforce connection.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
+    connection_name: Args.string({description: 'name for the Salesforce connection.  Must begin with a letter, end with a letter or a number, and be between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.', required: true}),
   }
 
   public async run(): Promise<void> {
