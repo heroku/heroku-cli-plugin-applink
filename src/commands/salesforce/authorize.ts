@@ -40,6 +40,7 @@ export default class Authorize extends Command {
           login_url: loginUrl,
           developer_name: developerName,
         },
+        retryAuth: false,
       }
     ))
 
@@ -83,6 +84,7 @@ export default class Authorize extends Command {
         `/addons/${this.addonId}/authorizations/${id}`,
         {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         }
       ));
 

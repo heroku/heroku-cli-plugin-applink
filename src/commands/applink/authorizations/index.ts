@@ -21,6 +21,7 @@ export default class Index extends Command {
     await this.configureAppLinkClient(app, addon)
     const {body: appAuthorizations} = await this.applinkClient.get<AppLink.Authorization[]>(`/addons/${this.addonId}/authorizations`, {
       headers: {authorization: `Bearer ${this._applinkToken}`},
+      retryAuth: false,
     })
 
     if (appAuthorizations.length === 0) {

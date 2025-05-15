@@ -40,6 +40,7 @@ export default class Connect extends Command {
           login_url: loginUrl,
           connection_name: connectionName,
         },
+        retryAuth: false,
       }
     ))
 
@@ -83,6 +84,7 @@ export default class Connect extends Command {
         `/addons/${this.addonId}/connections/${id}`,
         {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         }
       ));
 

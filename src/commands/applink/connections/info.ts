@@ -29,6 +29,7 @@ export default class Info extends Command {
       ({body: connection} = await this.applinkClient.get<AppLink.Connection>(
         `/addons/${this.addonId}/connections/${connectionName}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
         }
       ))
     } catch (error) {

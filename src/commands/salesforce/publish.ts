@@ -106,6 +106,7 @@ export default class Publish extends Command {
           },
           metadata_zip: binaryMetadataZip,
         },
+        retryAuth: false,
       })
 
     ux.action.stop()
