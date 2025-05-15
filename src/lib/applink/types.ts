@@ -161,3 +161,16 @@ export type Publication = {
   readonly created_by: string,
   readonly last_modified_by: string,
 }
+
+export type CredsCredential = {
+  readonly id: string,
+  readonly status: ConnectionStatus,
+  readonly org: Org,
+  readonly app_id: string,
+  readonly addon_id: string,
+  readonly created_at: string,
+  readonly last_modified_at: string,
+  readonly created_by: string,
+  readonly last_modified_by: string,
+  readonly connection_method: 'JWT'
+}

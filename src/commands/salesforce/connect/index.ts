@@ -1,11 +1,11 @@
 import {color} from '@heroku-cli/color'
-import Command from '../../lib/base'
+import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as AppLink from '../../lib/applink/types'
+import * as AppLink from '../../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
-import {humanize} from '../../lib/helpers'
+import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
@@ -20,7 +20,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    connection_name: Args.string({description: 'Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and underscores \'_\' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30 characters.', required: true}),
+    connection_name: Args.string({description: 'name for the Salesforce connection.  Must begin with a letter, end with a letter or a number, and be between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.', required: true}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open

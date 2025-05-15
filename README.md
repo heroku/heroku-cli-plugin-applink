@@ -235,9 +235,9 @@ USAGE
   $ heroku salesforce:connect CONNECTION_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  Salesforce Org instance name.  Must begin with a letter. Then allowed chars are alphanumeric and
-                   underscores '_' (non-consecutive). Must end with a letter or a number. Must be min 3, max 30
-                   characters.
+  CONNECTION_NAME  name for the Salesforce connection.  Must begin with a letter, end with a letter or a number, and be
+                   between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                   allowed.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -250,7 +250,7 @@ DESCRIPTION
   connects a Salesforce Org to Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect.ts)_
+_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/index.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 

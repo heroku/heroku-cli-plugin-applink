@@ -5,8 +5,8 @@ import {ChildProcess} from 'node:child_process'
 import sinon, {SinonSandbox, SinonStub} from 'sinon'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/salesforce/connect'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/salesforce/connect'
 import {
   addon,
   connection2_connected,
@@ -15,8 +15,8 @@ import {
   connection2_failed,
   legacyAddon,
   sso_response,
-} from '../../helpers/fixtures'
-import stripAnsi from '../../helpers/strip-ansi'
+} from '../../../helpers/fixtures'
+import stripAnsi from '../../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
 describe('salesforce:connect', function () {
