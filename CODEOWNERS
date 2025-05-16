@@ -3,5 +3,6 @@
 # Comment line immediately above ownership line is reserved for related GUS information.
 # Please exercise caution while editing.
 
-#GUSINFO: Heroku FE Dev Tools,Heroku CLI & Plugins
+#ECCN:Open Source
+#GUSINFO:Open Source,Open Source Workflow
 * @heroku/frontend-dev-tooling
