@@ -11,8 +11,7 @@
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
     "open": "^8.4.2",
-    "tsheredoc": "^1",
-    "yeoman-environment": "^2"
+    "tsheredoc": "^1"
   },
   "devDependencies": {
     "@oclif/test": "^2.3.28",
