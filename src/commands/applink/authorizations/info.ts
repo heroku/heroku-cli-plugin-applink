@@ -6,7 +6,7 @@ import {Args, ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
 export default class Info extends Command {
-  static description = 'shows info for a Heroku AppLink authorized user'
+  static description = 'show info for a Heroku AppLink authorized user'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -20,10 +20,10 @@ export default class Info extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Info)
-    const {app} = flags
+    const {app, addon} = flags
     const {developer_name: developerName} = args
 
-    await this.configureAppLinkClient(app)
+    await this.configureAppLinkClient(app, addon)
     let authorization: AppLink.Authorization
     try {
       ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
@@ -45,7 +45,7 @@ export default class Info extends Command {
       ID: authorization.id,
       'Instance URL': authorization.org.instance_url,
       'Org ID': authorization.org.id,
-      'Developer Name': authorization.org.developer_name,
+      Username: authorization.org.username,
       Status: humanize(authorization.status),
       App: app,
       Type: humanize(AppLink.adjustOrgType(authorization.org.type)),

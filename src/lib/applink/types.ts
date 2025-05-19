@@ -6,6 +6,7 @@ interface BaseOrg {
   readonly instance_url?: string | null
   readonly 'type': 'SalesforceOrg' | 'DataCloudOrg',
   readonly username?: string | null
+  readonly user_id?: string | null
 }
 
 interface AuthorizationOrg extends BaseOrg {

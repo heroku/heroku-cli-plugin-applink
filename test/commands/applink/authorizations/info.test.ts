@@ -55,7 +55,6 @@ describe('applink:authorizations:info', function () {
       App:              my-app
       Created By:       user@example.com
       Created Date:     2021-01-01T00:00:00Z
-      Developer Name:   my-developer-name
       ID:               5551fe92-c2fb-4ef7-be43-9d927d9a5c53
       Instance URL:     https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
       Last Modified:    2021-01-01T00:00:00Z
@@ -63,6 +62,7 @@ describe('applink:authorizations:info', function () {
       Org ID:           00DSG000007a3BcA84
       Status:           Connected
       Type:             Salesforce Org
+      Username:         admin@applink.org
     `)
     expect(stderr.output).to.equal('')
   })
