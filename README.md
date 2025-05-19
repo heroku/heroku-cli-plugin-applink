@@ -61,7 +61,7 @@ _See code: [src/commands/applink/authorizations/index.ts](https://github.com/her
 
 ## `heroku applink:authorizations:info DEVELOPER_NAME`
 
-shows info for a Heroku AppLink authorized user
+show info for a Heroku AppLink authorized user
 
 ```
 USAGE
@@ -76,7 +76,7 @@ FLAGS
       --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  shows info for a Heroku AppLink authorized user
+  show info for a Heroku AppLink authorized user
 ```
 
 _See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/info.ts)_

@@ -278,6 +278,7 @@ export const authorization_connected: AppLink.Authorization = {
     developer_name: 'my-developer-name',
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
+    user_id: 'user_id',
   },
   created_by: 'user@example.com',
   last_modified_by: 'user@example.com',
