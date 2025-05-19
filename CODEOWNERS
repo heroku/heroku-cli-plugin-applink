@@ -4,5 +4,5 @@
 # Please exercise caution while editing.
 
 #ECCN:Open Source
-#GUSINFO:Open Source,Open Source Workflow
+#GUSINFO: Heroku FE Dev Tools,Heroku CLI & Plugins
 * @heroku/frontend-dev-tooling
