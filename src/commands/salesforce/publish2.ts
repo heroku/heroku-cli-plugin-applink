@@ -6,7 +6,6 @@ import path from 'path'
 import {gzipSync} from 'zlib'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
-import {warn} from "@oclif/core/lib/errors";
 
 export default class Publish extends Command {
   static description = 'publish an app\'s API specification to an authenticated Salesforce org'
@@ -89,38 +88,26 @@ export default class Publish extends Command {
     }))
 
     const compressedContent = gzipSync(JSON.stringify(filesForJson))
+    const binaryMetadataZip = compressedContent.toString('base64')
 
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
 
-    const FormData = require('form-data')
-    const formData = new FormData()
-    formData.append('app_request',
-      JSON.stringify({
-        client_name: clientName,
-        authorization_connected_app_name: authorizationConnectedAppName,
-        authorization_permission_set_name: authorizationPermissionSetName,
-      }),
+    await this.applinkClient.post<AppLink.AppPublish>(
+      `/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`,
       {
-        type: 'application/json',
-      }
-    )
-    formData.append('metadata',
-      compressedContent,
-      {
-        type: 'application/zip',
-      }
-    )
-    const opts = {
-      method: 'POST',
-      body: formData,
-      header: this._applink.defaults.headers,
-    }
-    const fetch = require('node-fetch')
-    const url = `https://applink.staging.herokudev.com/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
-    const response = await fetch(url, opts)
-    ux.warn(`${response.status} ${response.statusText}`)
+        headers: {authorization: `Bearer ${this._applinkToken}`},
+        body: {
+          app_request: {
+            client_name: clientName,
+            authorization_connected_app_name: authorizationConnectedAppName,
+            authorization_permission_set_name: authorizationPermissionSetName,
+          },
+          metadata_zip: binaryMetadataZip,
+        },
+        retryAuth: false,
+      })
 
     ux.action.stop()
   }

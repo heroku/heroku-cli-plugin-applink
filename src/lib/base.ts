@@ -6,8 +6,8 @@ import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
 export default abstract class extends Command {
-  private _applink!: APIClient
-  private _addonId!: string
+  _applink!: APIClient
+  _addonId!: string
   _addonName!: string
   _appId!: string
   _applinkToken!: string
@@ -113,7 +113,8 @@ export default abstract class extends Command {
     client.defaults.host = baseUrl.hostname
     client.defaults.headers = {
       ...this.heroku.defaults.headers,
-      accept: 'application/json',
+      accept: 'application/json;version=1',
+      authorization: `Bearer ${applinkToken}`,
       'user-agent': `heroku-cli-plugin-applink/${this.config.version} ${this.config.platform}`,
       'x-app-uuid': applinkAddon?.app?.id || '',
       'x-addon-sso': encodedSSO,
