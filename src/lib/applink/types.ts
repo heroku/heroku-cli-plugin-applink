@@ -175,3 +175,11 @@ export type CredsCredential = {
   readonly last_modified_by: string,
   readonly connection_method: 'JWT'
 }
+
+export type StandardApplinkError = {
+  readonly type: string
+  readonly status: number
+  readonly title: string
+  readonly detail: string
+  readonly instance: string
+}
