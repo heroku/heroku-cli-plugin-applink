@@ -115,12 +115,14 @@ export default class Publish extends Command {
     const opts = {
       method: 'POST',
       body: formData,
-      header: this._applink.defaults.headers,
+      headers: this._applink.defaults.headers,
     }
     const fetch = require('node-fetch')
     const url = `https://applink.staging.herokudev.com/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
     const response = await fetch(url, opts)
-    ux.warn(`${response.status} ${response.statusText}`)
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`)
+    }
 
     ux.action.stop()
   }
