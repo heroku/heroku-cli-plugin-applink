@@ -1,6 +1,7 @@
 import {color} from '@heroku-cli/color'
 import {flags} from '@heroku-cli/command'
 import {ux, Args} from '@oclif/core'
+import axios from 'axios'
 import fs from 'fs'
 import path from 'path'
 import {gzipSync} from 'zlib'
@@ -88,26 +89,47 @@ export default class Publish extends Command {
     }))
 
     const compressedContent = gzipSync(JSON.stringify(filesForJson))
-    const binaryMetadataZip = compressedContent.toString('base64')
+    const appRequestContent = {
+      client_name: clientName,
+      authorization_connected_app_name: authorizationConnectedAppName,
+      authorization_permission_set_name: authorizationPermissionSetName,
+    }
+    const formData = new FormData()
+    formData.append('metadata_zip', new Blob([
+      compressedContent,
+    ], {
+      type: 'application/zip',
+    }
+    ))
+    formData.append('app_request', new Blob([
+      JSON.stringify(appRequestContent),
+    ], {
+      type: 'application/json',
+    }))
 
     await this.configureAppLinkClient(app, addon)
 
+    const publishURL = `${this._applink.defaults.host}/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
+    const headers = this._applink.defaults.headers || {}
+
     ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
 
-    await this.applinkClient.post<AppLink.AppPublish>(
-      `/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`,
-      {
-        headers: {authorization: `Bearer ${this._applinkToken}`},
-        body: {
-          app_request: {
-            client_name: clientName,
-            authorization_connected_app_name: authorizationConnectedAppName,
-            authorization_permission_set_name: authorizationPermissionSetName,
-          },
-          metadata_zip: binaryMetadataZip,
-        },
-        retryAuth: false,
-      })
+    await axios.post(publishURL, formData, {
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${this._applinkToken}`,
+        'x-addon-sso': headers['x-addon-sso'],
+        'x-app-uuid': headers['x-app-uuid'],
+        'User-Agent': headers['user-agent'],
+      },
+    }).catch(error => {
+      if (error.body && error.body.message) {
+        ux.error(error.body.message, {exit: 1})
+      } else {
+        throw error
+      }
+    })
 
     ux.action.stop()
   }
