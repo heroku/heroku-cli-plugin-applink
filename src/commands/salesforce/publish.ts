@@ -112,7 +112,7 @@ export default class Publish extends Command {
     const publishURL = `https://${this._applink.defaults.host}/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
     const headers = this._applink.defaults.headers || {}
 
-    ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
+    ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)} via ${publishURL}`)
 
     await axios.post(publishURL, formData, {
       headers: {
@@ -124,8 +124,8 @@ export default class Publish extends Command {
         'User-Agent': headers['user-agent'],
       },
     }).catch(error => {
-      if (error.body && error.body.message) {
-        ux.error(error.body.message, {exit: 1})
+      if (error.response.data && error.response.data.message) {
+        ux.error(error.response.data.message, {exit: 1})
       } else {
         throw error
       }
