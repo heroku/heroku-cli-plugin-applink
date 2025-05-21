@@ -95,7 +95,7 @@ export default class Publish extends Command {
       authorization_permission_set_name: authorizationPermissionSetName,
     }
     const formData = new FormData()
-    formData.append('metadata_zip', new Blob([
+    formData.append('metadata', new Blob([
       compressedContent,
     ], {
       type: 'application/zip',
