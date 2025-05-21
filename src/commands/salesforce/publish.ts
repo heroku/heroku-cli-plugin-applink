@@ -4,7 +4,8 @@ import {ux, Args} from '@oclif/core'
 import axios from 'axios'
 import fs from 'fs'
 import path from 'path'
-import {gzipSync} from 'zlib'
+import zlib from 'node:zlib'
+import * as tar from 'tar-stream'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
 
@@ -24,6 +25,22 @@ export default class Publish extends Command {
 
   static args = {
     api_spec_file_dir: Args.file({required: true, description: 'path to OpenAPI 3.x spec file (JSON or YAML format)'}),
+  }
+
+  protected createZipArchive = async (files: AppLink.FileEntry[]) => {
+    const pack = tar.pack()
+    const zip = zlib.createDeflate()
+    const chunks: Buffer[] = []
+
+    zip.on('data', chunk => chunks.push(chunk as Buffer))
+
+    pack.pipe(zip)
+
+    files.forEach(file => pack.entry({name: file.name}, file.content))
+    pack.finalize()
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise(resolve => zip.on('end', resolve))
+    return Buffer.concat(chunks)
   }
 
   public async run(): Promise<void> {
@@ -83,12 +100,7 @@ export default class Publish extends Command {
       }
     }
 
-    const filesForJson = files.map(file => ({
-      name: file.name,
-      content: file.content.toString('base64'),
-    }))
-
-    const compressedContent = gzipSync(JSON.stringify(filesForJson))
+    const compressedContent = await this.createZipArchive(files)
     const appRequestContent = {
       client_name: clientName,
       authorization_connected_app_name: authorizationConnectedAppName,

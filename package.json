@@ -12,6 +12,7 @@
     "@oclif/plugin-help": "^5",
     "axios": "^1.9.0",
     "open": "^8.4.2",
+    "tar-stream": "^2.2.0",
     "tsheredoc": "^1"
   },
   "devDependencies": {
@@ -20,6 +21,7 @@
     "@types/nock": "^11",
     "@types/node": "22.14.1",
     "@types/sinon": "^17",
+    "@types/tar-stream": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
     "chai": "^4",
