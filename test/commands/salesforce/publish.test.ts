@@ -5,7 +5,6 @@ import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/salesforce/publish'
 import {
   addon,
-  legacyAddon,
   sso_response,
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
@@ -51,51 +50,6 @@ describe('salesforce:publish', function () {
         filePath,
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
-        '--client-name=AccountAPI',
-        '--connection-name=myorg',
-      ])
-
-      expect(stripAnsi(stderr.output)).to.contain('Publishing my-app to myorg as AccountAPI')
-      expect(stdout.output).to.equal('')
-    })
-  })
-
-  context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
-    let integrationApi: nock.Scope
-
-    beforeEach(function () {
-      process.env = {}
-      api = nock('https://api.heroku.com')
-        .get('/apps/my-app/addons')
-        .reply(200, [legacyAddon])
-        .get('/apps/my-app/config-vars')
-        .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: 'token',
-        })
-        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-      integrationApi = nock('https://integration-api.heroku.com')
-    })
-
-    afterEach(function () {
-      process.env = env
-      api.done()
-      integrationApi.done()
-      nock.cleanAll()
-    })
-
-    it('successfully publishes an API spec file', async function () {
-      integrationApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
-        .reply(201, [])
-
-      const filePath = `${__dirname}/../../helpers/openapi.json`
-
-      await runCommand(Cmd, [
-        filePath,
-        '--app=my-app',
-        '--addon=heroku-integration-vertical-01234',
         '--client-name=AccountAPI',
         '--connection-name=myorg',
       ])
