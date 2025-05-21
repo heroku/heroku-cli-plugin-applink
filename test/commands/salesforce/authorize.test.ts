@@ -94,7 +94,7 @@ describe('salesforce:authorize', function () {
         expect(stripAnsi(stderr.output)).to.eq(heredoc`
           Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
           Adding credentials to my-app as my-auth-1...
-          Adding credentials to my-app as my-auth-1... Connected
+          Adding credentials to my-app as my-auth-1... Authorized
         `)
         expect(stdout.output).to.eq('')
       })
