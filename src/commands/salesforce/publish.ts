@@ -109,7 +109,7 @@ export default class Publish extends Command {
 
     await this.configureAppLinkClient(app, addon)
 
-    const publishURL = `${this._applink.defaults.host}/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
+    const publishURL = `https://${this._applink.defaults.host}/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
     const headers = this._applink.defaults.headers || {}
 
     ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
