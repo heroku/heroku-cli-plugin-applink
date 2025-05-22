@@ -10,11 +10,14 @@
     "@heroku-cli/schema": "^1.0.25",
     "@oclif/core": "^2.16.0",
     "@oclif/plugin-help": "^5",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.9.0",
     "open": "^8.4.2",
     "tsheredoc": "^1"
   },
   "devDependencies": {
     "@oclif/test": "^2.3.28",
+    "@types/adm-zip": "^0.5.7",
     "@types/mocha": "^10",
     "@types/nock": "^11",
     "@types/node": "22.14.1",
