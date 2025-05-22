@@ -94,7 +94,7 @@ export default class Add extends Command {
 
     ux.action.stop(humanize(status))
 
-    if (status !== 'connected') {
+    if (status !== 'authorized') {
       ux.error(
         error === undefined
           ? humanize(status)
@@ -108,6 +108,6 @@ export default class Add extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+    return status !== 'authorized' && status !== 'disconnected'
   }
 }

@@ -267,7 +267,7 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
 
 export const authorization_connected: AppLink.Authorization = {
   id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
-  status: 'connected',
+  status: 'authorized',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
@@ -286,7 +286,7 @@ export const authorization_connected: AppLink.Authorization = {
 
 export const authorization_connected_2: AppLink.Authorization = {
   ...authorization_connected,
-  status: 'connected',
+  status: 'authorized',
   org: {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
@@ -298,17 +298,17 @@ export const authorization_connected_2: AppLink.Authorization = {
 
 export const authorization_pending: AppLink.Authorization = {
   ...authorization_connected,
-  status: 'pending',
+  status: 'authorizing',
 }
 
 export const authorization_authenticating: AppLink.Authorization = {
   ...authorization_connected,
-  status: 'authenticating',
+  status: 'authorizing',
 }
 
 export const authorization_connection_failed: AppLink.Authorization = {
   ...authorization_connected,
-  status: 'connection_failed',
+  status: 'disconnected',
   error: {
     id: 'org_connection_failed',
     message: 'There was a problem connecting to your org. Try again later.',
