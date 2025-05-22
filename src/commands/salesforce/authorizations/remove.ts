@@ -25,7 +25,7 @@ export default class Remove extends Command {
     await this.configureAppLinkClient(app, addon)
 
     ux.action.start(`Removing credentials ${color.yellow(developerName)} from ${color.app(app)}`)
-    await this.applinkClient.post<AppLink.Authorization>(
+    await this.applinkClient.delete<AppLink.Authorization>(
       `/addons/${this.addonId}/authorizations/${developerName}`,
       {
         headers: {authorization: `Bearer ${this._applinkToken}`},
