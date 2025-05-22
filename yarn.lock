@@ -838,13 +838,13 @@
     supports-color "^7.2.0"
     tslib "^1.9.3"
 
-"@heroku-cli/command@^11.5.0":
-  version "11.5.0"
-  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-11.5.0.tgz#86cf0e1e4b2ab5ec3a8dc1c1867bdc4ff3bb8c98"
-  integrity sha512-tUGmJbnRiBinJk9/OgP1w80YyQFnqgVQCySJoR2juBp9JjcwYPK8pIyO/P5xiL1+Aj69w4KbguDZVGWP079UKg==
+"@heroku-cli/command@^11.6.0":
+  version "11.6.0"
+  resolved "https://registry.yarnpkg.com/@heroku-cli/command/-/command-11.6.0.tgz#b10c65e6e24c360d162ff8371feffdbaa37322ca"
+  integrity sha512-NPqJ7ISyOoTlLjLG1C/k4LH7LDxrTb3afji2SDCb46pabVIFOrjEnEv0lGuMPF6BgyxZBkBZl5/JuK3EGwu23w==
   dependencies:
     "@heroku-cli/color" "^2.0.1"
-    "@heroku/http-call" "^5.4.0"
+    "@heroku/http-call" "^5.5.0"
     "@oclif/core" "^2.16.0"
     cli-ux "^6.0.9"
     debug "^4.4.0"
@@ -861,15 +861,17 @@
   resolved "https://registry.npmjs.org/@heroku-cli/schema/-/schema-1.0.25.tgz"
   integrity sha512-7V6/WdTHrsvpqeqttm4zhzVJyt/Us/Cz9oS4yure4JdLtwlr2eF6PvlDLA5ZIvBybMtSDyxhHid0PeshKLtwxw==
 
-"@heroku/http-call@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@heroku/http-call/-/http-call-5.4.0.tgz#1f3d804d17888c61d375d2dcb399f405781132e8"
-  integrity sha512-8ys8jFP9l1wFXNmhmUb/EKLY/3flGzd7lv3x5MCw+36ov+qR9OFgk7bNHn3s+FPUKRSf/2GmKJjJmgnaD1YMmA==
+"@heroku/http-call@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@heroku/http-call/-/http-call-5.5.0.tgz#46716bf03e0bec3b5bb65654c1fa1f90b5b74127"
+  integrity sha512-fHeprmOuBqrfUlRmSjUvuY7blagZ5GDtqWAdGqUeVNfiXdZBul7Q/O8wJMqvqwyR9GjU8gq0Hl1U+J5jThcOcA==
   dependencies:
+    chalk "^4.1.2"
     content-type "^1.0.5"
     debug "^4.4.0"
     is-retry-allowed "^2.2.0"
     is-stream "^2.0.0"
+    sinon "^20.0.0"
     tunnel-agent "^0.6.0"
 
 "@humanwhocodes/config-array@^0.13.0":
@@ -5355,6 +5357,17 @@ sinon@^19:
     "@sinonjs/samsam" "^8.0.1"
     diff "^7.0.0"
     nise "^6.1.1"
+    supports-color "^7.2.0"
+
+sinon@^20.0.0:
+  version "20.0.0"
+  resolved "https://registry.yarnpkg.com/sinon/-/sinon-20.0.0.tgz#4b653468735f7152ba694d05498c2b5d024ab006"
+  integrity sha512-+FXOAbdnj94AQIxH0w1v8gzNxkawVvNqE3jUzRLptR71Oykeu2RrQXXl/VQjKay+Qnh73fDt/oDfMo6xMeDQbQ==
+  dependencies:
+    "@sinonjs/commons" "^3.0.1"
+    "@sinonjs/fake-timers" "^13.0.5"
+    "@sinonjs/samsam" "^8.0.1"
+    diff "^7.0.0"
     supports-color "^7.2.0"
 
 slash@^3.0.0:
