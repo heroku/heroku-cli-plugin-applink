@@ -5,8 +5,8 @@ import {ChildProcess} from 'node:child_process'
 import sinon, {SinonSandbox, SinonStub} from 'sinon'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/salesforce/authorize'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/salesforce/authorizations/add'
 import {
   addon,
   authorization_authenticating,
@@ -14,11 +14,11 @@ import {
   authorization_connection_failed,
   authorization_disconnected,
   sso_response,
-} from '../../helpers/fixtures'
-import stripAnsi from '../../helpers/strip-ansi'
+} from '../../../helpers/fixtures'
+import stripAnsi from '../../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
 
-describe('salesforce:authorize', function () {
+describe('salesforce:authorizations:add', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
   const {env} = process
