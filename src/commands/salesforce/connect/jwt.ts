@@ -38,6 +38,7 @@ export default class JWT extends Command {
     const {body: credential} = await this.applinkClient.post<AppLink.CredsCredential>(
       `/addons/${this.addonId}/connections/salesforce/jwt`,
       {
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
           alias: randomUUID(),
           connection_name: connectionName,
