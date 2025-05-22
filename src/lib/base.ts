@@ -6,8 +6,8 @@ import {ux} from '@oclif/core'
 import heredoc from 'tsheredoc'
 
 export default abstract class extends Command {
-  private _applink!: APIClient
   private _addonId!: string
+  _applink!: APIClient
   _addonName!: string
   _appId!: string
   _applinkToken!: string

@@ -60,7 +60,7 @@ describe('applink:authorizations:info', function () {
       Last Modified:    2021-01-01T00:00:00Z
       Last Modified By: user@example.com
       Org ID:           00DSG000007a3BcA84
-      Status:           Connected
+      Status:           Authorized
       Type:             Salesforce Org
       Username:         admin@applink.org
     `)

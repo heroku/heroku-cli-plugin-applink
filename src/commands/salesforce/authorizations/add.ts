@@ -1,14 +1,14 @@
 import {color} from '@heroku-cli/color'
-import Command from '../../lib/base'
+import Command from '../../../lib/base'
 import {flags} from '@heroku-cli/command'
-import * as AppLink from '../../lib/applink/types'
+import * as AppLink from '../../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
-import {humanize} from '../../lib/helpers'
+import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
-export default class Authorize extends Command {
+export default class Add extends Command {
   static description = 'store a user\'s credentials for connecting a Salesforce Org to a Heroku app'
 
   static flags = {
@@ -26,7 +26,7 @@ export default class Authorize extends Command {
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
 
   public async run(): Promise<void> {
-    const {flags, args} = await this.parse(Authorize)
+    const {flags, args} = await this.parse(Add)
     const {addon, app, browser, 'login-url': loginUrl} = flags
     const {developer_name: developerName} = args
 
@@ -62,7 +62,7 @@ export default class Authorize extends Command {
       ux.error(message, {exit: oclif?.exit || 1})
     }
 
-    const cp = await Authorize.urlOpener(redirectUri as string, {wait: false, ...(browser ? {app: {name: browser}} : {})})
+    const cp = await Add.urlOpener(redirectUri as string, {wait: false, ...(browser ? {app: {name: browser}} : {})})
     cp.on('error', (err: Error) => {
       ux.warn(err)
       showBrowserError()
@@ -94,7 +94,7 @@ export default class Authorize extends Command {
 
     ux.action.stop(humanize(status))
 
-    if (status !== 'connected') {
+    if (status !== 'authorized') {
       ux.error(
         error === undefined
           ? humanize(status)
@@ -108,6 +108,6 @@ export default class Authorize extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+    return status !== 'authorized' && status !== 'disconnected'
   }
 }

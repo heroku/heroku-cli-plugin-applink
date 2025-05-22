@@ -79,6 +79,7 @@ export type ConnectionError = {
 }
 
 export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
+export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected'
 
 /**
  * An app publish process.
@@ -123,7 +124,7 @@ export type DataActionTargetCreate = {
  */
 export type Authorization = {
   readonly id: string
-  readonly status: ConnectionStatus
+  readonly status: AuthorizationStatus
   readonly redirect_uri: string
   readonly created_at: string
   readonly last_modified_at: string,
