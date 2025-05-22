@@ -4,10 +4,9 @@ import {ux, Args} from '@oclif/core'
 import axios from 'axios'
 import fs from 'fs'
 import path from 'path'
-import zlib from 'node:zlib'
-import * as tar from 'tar-stream'
 import Command from '../../lib/base'
 import * as AppLink from '../../lib/applink/types'
+import AdmZip from 'adm-zip'
 
 export default class Publish extends Command {
   static description = 'publish an app\'s API specification to an authenticated Salesforce org'
@@ -28,19 +27,9 @@ export default class Publish extends Command {
   }
 
   protected createZipArchive = async (files: AppLink.FileEntry[]) => {
-    const pack = tar.pack()
-    const zip = zlib.createDeflate()
-    const chunks: Buffer[] = []
-
-    zip.on('data', chunk => chunks.push(chunk as Buffer))
-
-    pack.pipe(zip)
-
-    files.forEach(file => pack.entry({name: file.name}, file.content))
-    pack.finalize()
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise(resolve => zip.on('end', resolve))
-    return Buffer.concat(chunks)
+    const zipArchive = new AdmZip()
+    files.forEach(file => zipArchive.addFile(file.name, file.content))
+    return zipArchive.toBuffer()
   }
 
   public async run(): Promise<void> {
