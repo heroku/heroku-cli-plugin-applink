@@ -41,8 +41,20 @@ export default abstract class extends Command {
   }
 
   protected getConfigVars(addon: Heroku.AddOn, configVars: Heroku.ConfigVars): {apiUrl: string, applinkToken: string} {
-    const apiConfigVarName = addon.config_vars?.find(v => v.endsWith('API_URL'))
-    const tokenConfigVarName = addon.config_vars?.find(v => v.endsWith('TOKEN'))
+    const possibleUrlKeys = new Set([
+      'HEROKU_APPLINK_API_URL',
+      'HEROKU_APPLINK_STAGING_API_URL',
+      'HEROKU_INTEGRATION_API_URL',
+    ])
+
+    const possibleTokenKeys = new Set([
+      'HEROKU_APPLINK_TOKEN',
+      'HEROKU_APPLINK_STAGING_TOKEN',
+      'HEROKU_INTEGRATION_TOKEN',
+    ])
+
+    const apiConfigVarName = addon.config_vars?.find(v => possibleUrlKeys.has(v))
+    const tokenConfigVarName = addon.config_vars?.find(v => possibleTokenKeys.has(v))
     const apiUrl = apiConfigVarName ? configVars[apiConfigVarName] : ''
     const applinkToken = tokenConfigVarName ? configVars[tokenConfigVarName] : ''
     return {apiUrl, applinkToken}
