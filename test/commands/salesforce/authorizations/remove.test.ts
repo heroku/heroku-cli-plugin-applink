@@ -45,6 +45,7 @@ describe('salesforce:authorizations:remove', function () {
       'my-auth-1',
       '--app=my-app',
       '--addon=heroku-applink-vertical-01234',
+      '--confirm=my-auth-1',
     ])
 
     expect(stdout.output).to.eq('')

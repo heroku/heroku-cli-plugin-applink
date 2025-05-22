@@ -233,15 +233,16 @@ remove a Salesforce authorization from a Heroku app
 
 ```
 USAGE
-  $ heroku salesforce:authorizations:remove DEVELOPER_NAME -a <value> [--addon <value>] [-r <value>]
+  $ heroku salesforce:authorizations:remove DEVELOPER_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
   DEVELOPER_NAME  developer name of the Salesforce authorization
 
 FLAGS
-  -a, --app=<value>     (required) app to run command against
-  -r, --remote=<value>  git remote of app to use
-      --addon=<value>   unique name or ID of an AppLink add-on
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>  set to developer name to bypass confirm prompt
+  -r, --remote=<value>   git remote of app to use
+      --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
   remove a Salesforce authorization from a Heroku app
