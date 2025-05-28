@@ -2,15 +2,15 @@ import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/applink/connections/index'
-import stripAnsi from '../../helpers/strip-ansi'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/applink/connections'
+import stripAnsi from '../../../helpers/strip-ansi'
 import {
   addon,
   connection1,
   connection2_connected,
   sso_response,
-} from '../../helpers/fixtures'
+} from '../../../helpers/fixtures'
 
 describe('applink:connections', function () {
   let api: nock.Scope
@@ -53,7 +53,7 @@ describe('applink:connections', function () {
           '--app=my-app',
         ])
 
-        expect(stripAnsi(stdout.output)).to.equal('No Heroku AppLink connections for app my-app.\n')
+        expect(stripAnsi(stdout.output)).to.equal('There are no Heroku AppLink connections for app my-app.\n')
         expect(stderr.output).to.equal('')
       })
     })
@@ -69,12 +69,12 @@ describe('applink:connections', function () {
         ])
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku AppLink connections for app my-app
-  
-           Type           Connection Name Status    
-           ────────────── ─────────────── ───────── 
-           Salesforce Org my-org-1        Connected 
-           Salesforce Org my-org-2        Connected 
+          === Heroku AppLink connections for add-on undefined on app my-app
+        
+           Add-On                        Type           Connection Name Status    
+           ───────────────────────────── ────────────── ─────────────── ───────── 
+           heroku-applink-vertical-01234 Salesforce Org my-org-1        Connected 
+           heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
         `)
         expect(stderr.output).to.equal('')
       })
