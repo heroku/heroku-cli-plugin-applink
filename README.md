@@ -125,7 +125,7 @@ _See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/
 
 ## `heroku datacloud:connect [CONNECTION_NAME]`
 
-connect a Data Cloud Org to a Heroku app
+connect a Data Cloud org to a Heroku app
 
 ```
 USAGE
@@ -133,7 +133,9 @@ USAGE
     <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name for the Data Cloud Org instance
+  CONNECTION_NAME  name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and
+                   between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                   allowed.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -143,7 +145,7 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connect a Data Cloud Org to a Heroku app
+  connect a Data Cloud org to a Heroku app
 ```
 
 _See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/connect.ts)_
