@@ -347,6 +347,7 @@ export const authorization_connected: AppLink.Authorization = {
   },
   created_by: 'user@example.com',
   last_modified_by: 'user@example.com',
+  created_via_app: 'my-app',
 }
 
 export const authorization_connected_2: AppLink.Authorization = {
