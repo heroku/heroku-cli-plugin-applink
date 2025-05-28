@@ -6,7 +6,7 @@ import {Args, ux} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
 export default class Info extends Command {
-  static description = 'shows info for a Heroku AppLink connection'
+  static description = 'show info for a Heroku AppLink connection'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -15,7 +15,7 @@ export default class Info extends Command {
   }
 
   static args = {
-    connection_name: Args.string({description: 'connected org name', required: true}),
+    connection_name: Args.string({description: 'name of the connected org', required: true}),
   }
 
   public async run(): Promise<void> {
@@ -35,7 +35,7 @@ export default class Info extends Command {
     } catch (error) {
       const connErr = error as AppLink.ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Data Cloud org ${color.yellow(connectionName)} not found or not connected to app ${color.app(app)}`, {exit: 1})
+        ux.error(`${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}. Use ${color.cmd('heroku applink:connections')} to list the connections on the app.`, {exit: 1})
       } else {
         throw error
       }
@@ -43,13 +43,18 @@ export default class Info extends Command {
 
     const orgInfo = connection.org
 
+    ux.styledHeader(`${color.yellow(connectionName)} on app ${color.app(app)}`)
+
     ux.styledObject({
       Id: connection.id,
       'Instance URL': orgInfo.instance_url,
       'Org ID': orgInfo.id,
-      'Connection Name': orgInfo.connection_name,
       Status: humanize(connection.status),
-      Type: humanize(AppLink.adjustOrgType(connection.org.type)),
+      'Connection Type': humanize(AppLink.adjustOrgType(connection.org.type)),
+      'Created Date': connection.created_at,
+      'Created By': connection.created_by,
+      'Last Modified': connection.last_modified_at,
+      'Last Modified By': connection.last_modified_by,
     })
   }
 }

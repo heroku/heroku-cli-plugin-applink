@@ -70,7 +70,7 @@ describe('salesforce:disconnect', function () {
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Disconnection Failed')
+        expect(stripAnsi(message)).to.equal('Error')
         expect(oclif.exit).to.equal(1)
       }
     })

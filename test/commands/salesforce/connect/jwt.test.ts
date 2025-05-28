@@ -74,7 +74,7 @@ describe('salesforce:connect:jwt', function () {
 
     expect(stripAnsi(stderr.output)).to.eq(heredoc`
       Adding credentials for test-username to my-app as my-connection-1...
-      Adding credentials for test-username to my-app as my-connection-1... Connection Failed
+      Adding credentials for test-username to my-app as my-connection-1... Error
     `)
   })
 })

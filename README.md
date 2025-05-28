@@ -84,7 +84,7 @@ _See code: [src/commands/applink/authorizations/info.ts](https://github.com/hero
 
 ## `heroku applink:connections`
 
-lists Heroku AppLink connections
+list Heroku AppLink connections
 
 ```
 USAGE
@@ -96,21 +96,21 @@ FLAGS
       --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  lists Heroku AppLink connections
+  list Heroku AppLink connections
 ```
 
 _See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/index.ts)_
 
 ## `heroku applink:connections:info CONNECTION_NAME`
 
-shows info for a Heroku AppLink connection
+show info for a Heroku AppLink connection
 
 ```
 USAGE
   $ heroku applink:connections:info CONNECTION_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  connected org name
+  CONNECTION_NAME  name of the connected org
 
 FLAGS
   -a, --app=<value>     (required) app to run command against
@@ -118,7 +118,7 @@ FLAGS
       --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  shows info for a Heroku AppLink connection
+  show info for a Heroku AppLink connection
 ```
 
 _See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/info.ts)_

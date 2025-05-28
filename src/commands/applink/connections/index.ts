@@ -9,7 +9,7 @@ import {humanize} from '../../../lib/helpers'
 type AppConnection = Pick<Heroku.AddOn, 'app'> & AppLink.Connection
 
 export default class Index extends Command {
-  static description = 'lists Heroku AppLink connections'
+  static description = 'list Heroku AppLink connections'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -29,14 +29,17 @@ export default class Index extends Command {
     }))
 
     if (appConnections.length === 0) {
-      ux.log(`No Heroku AppLink connections${app ? ` for app ${color.app(app)}` : ''}.`)
+      ux.log(`There are no Heroku AppLink connections for app ${color.app(app)}.`)
     } else {
-      ux.styledHeader(`Heroku AppLink connections${app ? ` for app ${color.app(app)}` : ''}`)
+      ux.styledHeader(`Heroku AppLink connections for add-on ${color.addon(addon)} on app ${color.app(app)}`)
 
       ux.table(appConnections, {
-        ...(app ? {} : {app: {get: row => row.app?.name}}),
+        addon: {
+          header: 'Add-On',
+          get: () => this._addonName,
+        },
         type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
-        orgName: {
+        connectionName: {
           header: 'Connection Name',
           get: row => row.org.connection_name,
         },

@@ -36,6 +36,12 @@ export type SalesforceConnection = {
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
+  readonly addon_id?: string
+  readonly created_via_app: string
+  readonly created_at: string
+  readonly last_modified_at: string
+  readonly created_by: string
+  readonly last_modified_by: string
 }
 
 /**
@@ -52,9 +58,16 @@ export type DataCloudConnection = {
   /** Data Cloud Org info */
   readonly org: Org
   /** redirect URI for authentication */
+
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
+  readonly addon_id?: string
+  readonly created_via_app: string
+  readonly created_at: string
+  readonly last_modified_at: string
+  readonly created_by: string
+  readonly last_modified_by: string
 }
 
 export type Connection = SalesforceConnection | DataCloudConnection
@@ -78,7 +91,7 @@ export type ConnectionError = {
   }
 }
 
-export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
+export type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected' | 'error'
 export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected'
 
 /**
