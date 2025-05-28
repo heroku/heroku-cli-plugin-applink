@@ -2,16 +2,16 @@ import {expect} from 'chai'
 import nock from 'nock'
 import {stderr, stdout} from 'stdout-stderr'
 import heredoc from 'tsheredoc'
-import {runCommand} from '../../run-command'
-import Cmd from '../../../src/commands/applink/connections/info'
-import stripAnsi from '../../helpers/strip-ansi'
+import {runCommand} from '../../../run-command'
+import Cmd from '../../../../src/commands/applink/connections/info'
+import stripAnsi from '../../../helpers/strip-ansi'
 import {
   addon,
   legacyAddon,
   connection2_connected,
   connection_record_not_found,
   sso_response,
-} from '../../helpers/fixtures'
+} from '../../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
 describe('applink:connections:info', function () {
@@ -53,12 +53,17 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Connection Name: my-org-2
-        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:          00DSG000007a3BcA84
-        Status:          Connected
-        Type:            Salesforce Org
+        === my-org-2 on app my-app
+
+        Connection Type:  Salesforce Org
+        Created By:       user@example.com
+        Created Date:     2021-01-01T00:00:00Z
+        Id:               5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:     https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Last Modified:    2021-01-01T00:00:00Z
+        Last Modified By: user@example.com
+        Org ID:           00DSG000007a3BcA84
+        Status:           Connected
       `)
       expect(stderr.output).to.equal('')
     })
@@ -116,12 +121,17 @@ describe('applink:connections:info', function () {
       ])
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
-        Connection Name: my-org-2
-        Id:              5551fe92-c2fb-4ef7-be43-9d927d9a5c53
-        Instance URL:    https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
-        Org ID:          00DSG000007a3BcA84
-        Status:          Connected
-        Type:            Salesforce Org
+        === my-org-2 on app my-app
+
+        Connection Type:  Salesforce Org
+        Created By:       user@example.com
+        Created Date:     2021-01-01T00:00:00Z
+        Id:               5551fe92-c2fb-4ef7-be43-9d927d9a5c53
+        Instance URL:     https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com
+        Last Modified:    2021-01-01T00:00:00Z
+        Last Modified By: user@example.com
+        Org ID:           00DSG000007a3BcA84
+        Status:           Connected
       `)
       expect(stderr.output).to.equal('')
     })
