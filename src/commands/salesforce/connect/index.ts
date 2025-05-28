@@ -108,6 +108,6 @@ export default class Connect extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+    return status !== 'connected' && status !== 'error' && status !== 'disconnected'
   }
 }
