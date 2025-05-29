@@ -15,7 +15,7 @@ import {CLIError} from '@oclif/core/lib/errors'
 
 describe('applink:authorizations:info', function () {
   let api: nock.Scope
-  let integrationApi: nock.Scope
+  let applinkApi: nock.Scope
   const {env} = process
 
   beforeEach(function () {
@@ -25,23 +25,23 @@ describe('applink:authorizations:info', function () {
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')
       .reply(200, {
-        HEROKU_APPLINK_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
         HEROKU_APPLINK_TOKEN: 'token',
       })
       .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
       .reply(200, sso_response)
-    integrationApi = nock('https://integration-api.heroku.com')
+    applinkApi = nock('https://applink-api.heroku.com')
   })
 
   afterEach(function () {
     process.env = env
     api.done()
-    integrationApi.done()
+    applinkApi.done()
     nock.cleanAll()
   })
 
   it('shows info for the authorization', async function () {
-    integrationApi
+    applinkApi
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/my-developer-name')
       .reply(200, authorization_connected)
 
@@ -68,7 +68,7 @@ describe('applink:authorizations:info', function () {
   })
 
   it('connection not found', async function () {
-    integrationApi
+    applinkApi
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/my-developer-name')
       .reply(200, authorization_not_found)
 
