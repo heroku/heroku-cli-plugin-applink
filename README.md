@@ -182,23 +182,23 @@ _See code: [src/commands/datacloud/data-action-target/create.ts](https://github.
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
-disconnects a Data Cloud org from a Heroku app
+disconnect a Data Cloud org from a Heroku app
 
 ```
 USAGE
   $ heroku datacloud:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Data Cloud org instance
+  CONNECTION_NAME  name of the Data Cloud connection
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Data Cloud org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Data Cloud org connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnects a Data Cloud org from a Heroku app
+  disconnect a Data Cloud org from a Heroku app
 ```
 
 _See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/disconnect.ts)_
