@@ -123,7 +123,7 @@ export type DataActionTargetCreate = {
   readonly label: string
   readonly id: string
   /** process status */
-  readonly status: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
+  readonly status: 'pending' | 'creating' | 'generating_signing_key' | 'created' | 'creation_failed'
   readonly target_endpoint: string
   readonly type: string
   readonly error?: {

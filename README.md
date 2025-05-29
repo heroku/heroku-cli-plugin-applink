@@ -152,7 +152,7 @@ _See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
-creates a Data Cloud Data Action Target for a Heroku app
+create a Data Cloud data action target for a Heroku app
 
 ```
 USAGE
@@ -160,12 +160,13 @@ USAGE
     <value>]
 
 ARGUMENTS
-  LABEL  Data Action Target label
+  LABEL  label for the data action target. Must begin with a letter, end with a letter or a number, and between 3-30
+         characters. Only alphanumeric characters and non-consecutive underscores ('_') are allowed.
 
 FLAGS
   -a, --app=<value>              (required) app to run command against
   -n, --api-name=<value>         [default: <LABEL>] API name for the data action target
-  -o, --org-name=<value>         (required) connected Data Cloud org instance name to create the data action target
+  -o, --connection-name=<value>  (required) Data Cloud connection namee to create the data action target
   -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
   -r, --remote=<value>           git remote of app to use
@@ -174,7 +175,7 @@ FLAGS
       --addon=<value>            unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  creates a Data Cloud Data Action Target for a Heroku app
+  create a Data Cloud data action target for a Heroku app
 ```
 
 _See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/data-action-target/create.ts)_
