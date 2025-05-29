@@ -13,7 +13,6 @@ import {
   connection2_connecting,
   connection2_disconnected,
   connection2_failed,
-  legacyAddon,
   sso_response,
 } from '../../../helpers/fixtures'
 import stripAnsi from '../../../helpers/strip-ansi'
@@ -165,57 +164,6 @@ describe('salesforce:connect', function () {
         } catch {}
 
         expect(urlOpener.notCalled).to.equal(true)
-      })
-    })
-  })
-
-  context('when config var is set to HEROKU_INTEGRATION_API_URL', function () {
-    let integrationApi: nock.Scope
-    beforeEach(function () {
-      process.env = {}
-      api = nock('https://api.heroku.com')
-        .get('/apps/my-app/addons')
-        .reply(200, [legacyAddon])
-        .get('/apps/my-app/config-vars')
-        .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: 'token',
-        })
-        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-      integrationApi = nock('https://integration-api.heroku.com')
-      sandbox = sinon.createSandbox()
-    })
-
-    afterEach(function () {
-      process.env = env
-      api.done()
-      integrationApi.done()
-      nock.cleanAll()
-      sandbox.restore()
-    })
-
-    context('when the user accepts the prompt to open the browser and the connection succeeds', function () {
-      beforeEach(function () {
-        urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
-          on(_: string, _cb: (_err: Error) => void) {},
-        } as unknown as ChildProcess)
-        sandbox.stub(ux, 'anykey').onFirstCall().resolves()
-        integrationApi
-          .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce')
-          .reply(202, connection2_connecting)
-        integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
-          .reply(200, connection2_connected)
-      })
-
-      it('shows the URL that will be opened for the OAuth flow', async function () {
-        await runCommand(Cmd, [
-          'my-org-2',
-          '--app=my-app',
-        ])
-
-        expect(stderr.output).to.contain(`Opening browser to ${connection2_connecting.redirect_uri}`)
       })
     })
   })
