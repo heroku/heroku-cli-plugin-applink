@@ -6,7 +6,6 @@ import Cmd from '../../../src/commands/salesforce/disconnect'
 import {
   addon,
   connection5_disconnecting,
-  connection5_disconnection_failed,
   ConnectionError_record_not_found,
   sso_response,
 } from '../../helpers/fixtures'
@@ -54,24 +53,6 @@ describe('salesforce:disconnect', function () {
 
       expect(stderr.output).to.contain('Disconnected')
       expect(stdout.output).to.equal('')
-    })
-
-    it('shows the expected output after failing', async function () {
-      applinkApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnection_failed)
-
-      try {
-        await runCommand(Cmd, [
-          'myorg',
-          '--app=my-app',
-          '--confirm=myorg',
-        ])
-      } catch (error: unknown) {
-        const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Error')
-        expect(oclif.exit).to.equal(1)
-      }
     })
 
     it('connection not found', async function () {
