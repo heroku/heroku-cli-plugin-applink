@@ -15,7 +15,7 @@ export default class Publish extends Command {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'client-name': flags.string({required: true, char: 'c', description: 'name given to the client stub'}),
-    'connection-name': flags.string({required: true, description: 'authenticated Salesforce org instance name'}),
+    'connection-name': flags.string({required: true, description: 'authenticated Salesforce connection name'}),
     'authorization-connected-app-name': flags.string({description: 'name of connected app to create from our template'}),
     'authorization-permission-set-name': flags.string({description: 'name of permission set to create from our template'}),
     'metadata-dir': flags.string({description: 'directory containing connected app, permission set, or API spec'}),
@@ -43,13 +43,13 @@ export default class Publish extends Command {
     const files: AppLink.FileEntry[] = []
 
     if (!fs.existsSync(apiSpecFileDir)) {
-      ux.error(`API spec file not found: ${apiSpecFileDir}`, {exit: 1})
+      ux.error(`The API spec file path ${apiSpecFileDir} doesn't exist. Make sure it's the correct path or use a different one, and try again`, {exit: 1})
     }
 
     const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
 
     if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
-      ux.error('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
+      ux.error('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
     }
 
     const apiSpecContent = fs.readFileSync(apiSpecFileDir)
@@ -65,11 +65,11 @@ export default class Publish extends Command {
       hasPermissionSetMetadata = dirFiles.includes('permissionset-meta.xml')
 
       if (hasConnectedAppMetadata && authorizationConnectedAppName) {
-        ux.error('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag', {exit: 1})
+        ux.error('You can only specify the connected app name with connectedapp-meta.xml in the metadata directory or with the --authorization-connected-app-name flag, not both.', {exit: 1})
       }
 
       if (hasPermissionSetMetadata && authorizationPermissionSetName) {
-        ux.error('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag', {exit: 1})
+        ux.error('You can only specify the permission set name with permissionset-meta.xml in the metadata directory or with the --authorization-permission-set-name flag, not both.', {exit: 1})
       }
 
       if (hasConnectedAppMetadata) {
@@ -113,7 +113,7 @@ export default class Publish extends Command {
     const publishURL = `https://${this._applink.defaults.host}/addons/${this.addonId}/connections/salesforce/${connectionName}/apps`
     const headers = this._applink.defaults.headers || {}
 
-    ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)} via ${publishURL}`)
+    ux.action.start(`Publishing ${color.app(app)} to ${color.yellow(connectionName)} as ${color.yellow(clientName)}`)
 
     await axios.post(publishURL, formData, {
       headers: {
