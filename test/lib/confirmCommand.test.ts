@@ -11,6 +11,7 @@ describe('confirmApp', function () {
     .stderr()
     .do(() => confirmCommand({
       connectionName: 'orgName',
+      connectionType: 'org',
       addon: 'addon',
       app: 'app',
       confirm: 'orgName',
@@ -25,6 +26,7 @@ describe('confirmApp', function () {
     .stderr()
     .do(() => confirmCommand({
       connectionName: 'orgName',
+      connectionType: 'org',
       addon: 'addon',
       app: 'app',
       confirm: 'nope',
@@ -40,6 +42,7 @@ describe('confirmApp', function () {
     .stub(ux, 'prompt', () => Promise.resolve('orgName'))
     .do(() => confirmCommand({
       connectionName: 'orgName',
+      connectionType: 'org',
       addon: 'addon',
       app: 'app',
     }))
@@ -56,6 +59,7 @@ describe('confirmApp', function () {
     .stub(ux, 'prompt', () => Promise.resolve('orgName'))
     .do(() => confirmCommand({
       connectionName: 'orgName',
+      connectionType: 'org',
       addon: 'addon',
       app: 'app',
       message: customMessage,
@@ -69,6 +73,7 @@ describe('confirmApp', function () {
     .stub(ux, 'prompt', () => Promise.resolve('nope'))
     .do(() => confirmCommand({
       connectionName: 'orgName',
+      connectionType: 'org',
       addon: 'addon',
       app: 'app',
     }))

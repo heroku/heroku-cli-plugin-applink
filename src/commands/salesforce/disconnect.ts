@@ -32,6 +32,7 @@ export default class Disconnect extends Command {
 
     await confirmCommand({
       connectionName,
+      connectionType: 'connection',
       addon: this._addonName,
       app,
       confirm,
