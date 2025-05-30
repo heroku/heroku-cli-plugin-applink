@@ -1,9 +1,12 @@
 {
-  "name": "@heroku/plugin-applink",
+  "name": "@heroku-cli/plugin-applink",
   "description": "Heroku CLI plugin for Heroku AppLink add-on",
   "version": "0.0.12",
   "author": "Heroku",
   "bugs": "https://github.com/heroku/heroku-cli-plugin-applink/issues",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@heroku-cli/color": "^2",
     "@heroku-cli/command": "^11.6.0",
