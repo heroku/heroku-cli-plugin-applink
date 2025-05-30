@@ -7,13 +7,13 @@ import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Create extends Command {
-  static description = 'creates a Data Cloud Data Action Target for a Heroku app'
+  static description = 'create a Data Cloud data action target for a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'api-name': flags.string({char: 'n', description: '[default: <LABEL>] API name for the data action target'}),
-    'org-name': flags.string({char: 'o', required: true, description: 'connected Data Cloud org instance name to create the data action target'}),
+    'connection-name': flags.string({char: 'o', required: true, description: 'Data Cloud connection namee to create the data action target'}),
     'target-api-path': flags.string({char: 'p', required: true, description: 'API path for the data action target excluding app URL, eg "/" or "/handleDataCloudDataChangeEvent"'}),
     type: flags.string({
       char: 't',
@@ -24,7 +24,7 @@ export default class Create extends Command {
   }
 
   static args = {
-    label: Args.string({required: true, description: 'Data Action Target label'}),
+    label: Args.string({required: true, description: 'label for the data action target. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.'}),
   }
 
   protected isPendingStatus(status: string): boolean {
@@ -33,7 +33,7 @@ export default class Create extends Command {
 
   public async run(): Promise<void> {
     const {flags, args} = await this.parse(Create)
-    const {app, addon, 'org-name': orgName, 'target-api-path': targetPath, type} = flags
+    const {app, addon, 'connection-name': connectionName, 'target-api-path': targetPath, type} = flags
     let {'api-name': apiName} = flags
     const {label} = args
 
@@ -44,10 +44,10 @@ export default class Create extends Command {
 
     await this.configureAppLinkClient(app, addon)
 
-    ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(orgName)}`)
+    ux.action.start(`Creating ${color.app(app)} as '${color.yellow(label)}' data action target ${type} to ${color.yellow(connectionName)}`)
     let createStatus: AppLink.DataActionTargetCreate
     const {body: createResp} = await this.applinkClient.post<AppLink.DataActionTargetCreate>(
-      `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets`,
+      `/addons/${this.addonId}/connections/datacloud/${connectionName}/data_action_targets`,
       {
         headers: {authorization: `Bearer ${this._applinkToken}`},
         retryAuth: false,
@@ -68,7 +68,7 @@ export default class Create extends Command {
       });
 
       ({body: createStatus} = await this.applinkClient.get<AppLink.DataActionTargetCreate>(
-        `/addons/${this.addonId}/connections/datacloud/${orgName}/data_action_targets/${apiName}`,
+        `/addons/${this.addonId}/connections/datacloud/${connectionName}/data_action_targets/${apiName}`,
         {
           headers: {authorization: `Bearer ${this._applinkToken}`},
           retryAuth: false,

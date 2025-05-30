@@ -56,7 +56,7 @@ describe('datacloud:data-action-target:create', function () {
         'My Data Action Target',
         '--app=my-app',
         '--api-name=MyDataActionTarget',
-        '--org-name=myorg',
+        '--connection-name=myorg',
         '--target-api-path=/handleDataCloudDataChangeEvent',
         '--type=WebHook',
       ])
@@ -76,7 +76,7 @@ describe('datacloud:data-action-target:create', function () {
         await runCommand(Cmd, [
           'My Data Action Target',
           '--app=my-app',
-          '--org-name=myorg',
+          '--connection-name=myorg',
           '--target-api-path=/handleDataCloudDataChangeEvent',
         ])
       } catch (error: unknown) {
