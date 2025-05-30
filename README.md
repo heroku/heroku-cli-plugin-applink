@@ -281,23 +281,23 @@ _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
-disconnect a Salesforce org from a Heroku app
+disconnect a Salesforce connection from a Heroku app
 
 ```
 USAGE
   $ heroku salesforce:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Salesforce org instance
+  CONNECTION_NAME  name of the Salesforce connection you would like to disconnect
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Salesforce org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Salesforce connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnect a Salesforce org from a Heroku app
+  disconnect a Salesforce connection from a Heroku app
 ```
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/disconnect.ts)_
