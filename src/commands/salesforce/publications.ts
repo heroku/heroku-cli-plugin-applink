@@ -57,7 +57,7 @@ export default class Publications extends Command {
     if (publications.length === 0) {
       ux.log(`You haven't published ${color.app(app)} to a Salesforce org yet.`)
     } else {
-      ux.styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`)
+      ux.styledHeader(`Salesforce publications for app ${color.app(app)}`)
 
       ux.table(publications, {
         connectionName: {

@@ -105,7 +105,7 @@ describe('salesforce:publications', function () {
     ])
 
     expect(stripAnsi(stdout.output)).to.equal(heredoc`
-      === Heroku AppLink authorizations for app my-app
+      === Salesforce publications for app my-app
 
        Connection Name Org ID             Created Date         Created By       Last Modified        Last Modified By 
        ─────────────── ────────────────── ──────────────────── ──────────────── ──────────────────── ──────────────── 
@@ -128,7 +128,7 @@ describe('salesforce:publications', function () {
     ])
 
     expect(stripAnsi(stdout.output)).to.equal(heredoc`
-      === Heroku AppLink authorizations for app my-app
+      === Salesforce publications for app my-app
 
        Connection Name Org ID             Created Date         Created By       Last Modified        Last Modified By 
        ─────────────── ────────────────── ──────────────────── ──────────────── ──────────────────── ──────────────── 

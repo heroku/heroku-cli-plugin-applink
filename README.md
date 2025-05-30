@@ -255,7 +255,7 @@ _See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com
 
 ## `heroku salesforce:connect CONNECTION_NAME`
 
-connects a Salesforce Org to Heroku app
+connect a Salesforce org to a Heroku app
 
 ```
 USAGE
@@ -274,30 +274,30 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Salesforce Org to Heroku app
+  connect a Salesforce org to a Heroku app
 ```
 
 _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/connect/index.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
-disconnect a Salesforce org from a Heroku app
+disconnect a Salesforce connection from a Heroku app
 
 ```
 USAGE
   $ heroku salesforce:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Salesforce org instance
+  CONNECTION_NAME  name of the Salesforce connection you would like to disconnect
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Salesforce org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Salesforce connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnect a Salesforce org from a Heroku app
+  disconnect a Salesforce connection from a Heroku app
 ```
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/disconnect.ts)_
@@ -342,7 +342,7 @@ FLAGS
       --addon=<value>                              unique name or ID of an AppLink add-on
       --authorization-connected-app-name=<value>   name of connected app to create from our template
       --authorization-permission-set-name=<value>  name of permission set to create from our template
-      --connection-name=<value>                    (required) authenticated Salesforce org instance name
+      --connection-name=<value>                    (required) authenticated Salesforce connection name
       --metadata-dir=<value>                       directory containing connected app, permission set, or API spec
 
 DESCRIPTION
