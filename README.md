@@ -255,7 +255,7 @@ _See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com
 
 ## `heroku salesforce:connect CONNECTION_NAME`
 
-connects a Salesforce Org to Heroku app
+connect a Salesforce org to a Heroku app
 
 ```
 USAGE
@@ -274,7 +274,7 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Salesforce Org to Heroku app
+  connect a Salesforce org to a Heroku app
 ```
 
 _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/connect/index.ts)_
