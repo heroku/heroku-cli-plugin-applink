@@ -342,7 +342,7 @@ FLAGS
       --addon=<value>                              unique name or ID of an AppLink add-on
       --authorization-connected-app-name=<value>   name of connected app to create from our template
       --authorization-permission-set-name=<value>  name of permission set to create from our template
-      --connection-name=<value>                    (required) authenticated Salesforce org instance name
+      --connection-name=<value>                    (required) authenticated Salesforce connection name
       --metadata-dir=<value>                       directory containing connected app, permission set, or API spec
 
 DESCRIPTION

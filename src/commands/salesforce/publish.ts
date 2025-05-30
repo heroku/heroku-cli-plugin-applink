@@ -43,13 +43,13 @@ export default class Publish extends Command {
     const files: AppLink.FileEntry[] = []
 
     if (!fs.existsSync(apiSpecFileDir)) {
-      ux.error(`The API spec file path ${apiSpecFileDir} doesn't exist. Make sure it's the correct path or use a different one, and try again`, {exit: 1})
+      ux.error(`The API spec file path ${apiSpecFileDir} doesn't exist. Make sure it's the correct path or use a different one, and try again.`, {exit: 1})
     }
 
     const fileExtension = path.extname(apiSpecFileDir).toLowerCase()
 
     if (!['.yaml', '.yml', '.json'].includes(fileExtension)) {
-      ux.error('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format', {exit: 1})
+      ux.error('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format.', {exit: 1})
     }
 
     const apiSpecContent = fs.readFileSync(apiSpecFileDir)
