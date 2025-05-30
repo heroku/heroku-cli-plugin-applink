@@ -58,7 +58,7 @@ DESCRIPTION
   list Heroku AppLink authorized users
 ```
 
-_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/applink/authorizations/index.ts)_
+_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/authorizations/index.ts)_
 
 ## `heroku applink:authorizations:info DEVELOPER_NAME`
 
@@ -80,7 +80,7 @@ DESCRIPTION
   show info for a Heroku AppLink authorized user
 ```
 
-_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/applink/authorizations/info.ts)_
+_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
@@ -99,7 +99,7 @@ DESCRIPTION
   list Heroku AppLink connections
 ```
 
-_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/applink/connections/index.ts)_
+_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/connections/index.ts)_
 
 ## `heroku applink:connections:info CONNECTION_NAME`
 
@@ -121,7 +121,7 @@ DESCRIPTION
   show info for a Heroku AppLink connection
 ```
 
-_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/applink/connections/info.ts)_
+_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/connections/info.ts)_
 
 ## `heroku datacloud:connect [CONNECTION_NAME]`
 
@@ -148,7 +148,7 @@ DESCRIPTION
   connect a Data Cloud org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/connect.ts)_
+_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -178,7 +178,7 @@ DESCRIPTION
   create a Data Cloud data action target for a Heroku app
 ```
 
-_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/data-action-target/create.ts)_
+_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
@@ -201,7 +201,7 @@ DESCRIPTION
   disconnect a Data Cloud org from a Heroku app
 ```
 
-_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/disconnect.ts)_
+_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/disconnect.ts)_
 
 ## `heroku salesforce:authorizations:add DEVELOPER_NAME`
 
@@ -228,7 +228,7 @@ DESCRIPTION
   store a user's credentials for connecting a Salesforce Org to a Heroku app
 ```
 
-_See code: [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/authorizations/add.ts)_
+_See code: [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/authorizations/add.ts)_
 
 ## `heroku salesforce:authorizations:remove DEVELOPER_NAME`
 
@@ -251,7 +251,7 @@ DESCRIPTION
   remove a Salesforce authorization from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/authorizations/remove.ts)_
+_See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/authorizations/remove.ts)_
 
 ## `heroku salesforce:connect CONNECTION_NAME`
 
@@ -277,7 +277,7 @@ DESCRIPTION
   connect a Salesforce org to a Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/connect/index.ts)_
+_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/connect/index.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
@@ -300,7 +300,7 @@ DESCRIPTION
   disconnect a Salesforce connection from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/disconnect.ts)_
+_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:publications`
 
@@ -320,7 +320,7 @@ DESCRIPTION
   list Salesforce orgs the app is published to
 ```
 
-_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/publications.ts)_
+_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/publications.ts)_
 
 ## `heroku salesforce:publish API_SPEC_FILE_DIR`
 
@@ -349,5 +349,5 @@ DESCRIPTION
   publish an app's API specification to an authenticated Salesforce org
 ```
 
-_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/salesforce/publish.ts)_
+_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/publish.ts)_
 <!-- commandsstop -->
