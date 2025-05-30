@@ -92,7 +92,7 @@ export type ConnectionError = {
 }
 
 export type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected' | 'error'
-export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected'
+export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected' | 'error'
 
 /**
  * An app publish process.
@@ -138,13 +138,14 @@ export type DataActionTargetCreate = {
 export type Authorization = {
   readonly id: string
   readonly status: AuthorizationStatus
-  readonly redirect_uri: string
+  readonly redirect_uri?: string
   readonly created_at: string
   readonly last_modified_at: string,
   readonly app_name?: string
   readonly org: AuthorizationOrg
   readonly created_by: string
   readonly last_modified_by: string
+  readonly created_via_app: string
   readonly error?: {
     id: string
     message: string
