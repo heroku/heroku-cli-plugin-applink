@@ -72,7 +72,7 @@ describe('salesforce:publish', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain(`API spec file not found: ${nonExistentPath}`)
+      expect(stripAnsi(message)).to.contain(`The API spec file path ${nonExistentPath} doesn't exist. Make sure it's the correct path or use a different one, and try again.`)
       expect(oclif.exit).to.equal(1)
     }
   })
@@ -92,7 +92,7 @@ describe('salesforce:publish', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('API spec file must be either YAML (.yaml/.yml) or JSON (.json) format')
+      expect(stripAnsi(message)).to.contain('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format.')
       expect(oclif.exit).to.equal(1)
     } finally {
       fs.unlinkSync(invalidFormatPath)
@@ -119,7 +119,7 @@ describe('salesforce:publish', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('Cannot specify both connectedapp-meta.xml in metadata directory and --authorization-connected-app-name flag')
+      expect(stripAnsi(message)).to.contain('You can only specify the connected app name with connectedapp-meta.xml in the metadata directory or with the --authorization-connected-app-name flag, not both.')
       expect(oclif.exit).to.equal(1)
     } finally {
       fs.unlinkSync(`${metadataDir}/connectedapp-meta.xml`)
@@ -147,7 +147,7 @@ describe('salesforce:publish', function () {
       ])
     } catch (error: unknown) {
       const {message, oclif} = error as CLIError
-      expect(stripAnsi(message)).to.contain('Cannot specify both permissionset-meta.xml in metadata directory and --authorization-permission-set-name flag')
+      expect(stripAnsi(message)).to.contain('You can only specify the permission set name with permissionset-meta.xml in the metadata directory or with the --authorization-permission-set-name flag, not both.')
       expect(oclif.exit).to.equal(1)
     } finally {
       fs.unlinkSync(`${metadataDir}/permissionset-meta.xml`)

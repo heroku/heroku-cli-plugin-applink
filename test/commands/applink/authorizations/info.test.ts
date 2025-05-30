@@ -51,6 +51,8 @@ describe('applink:authorizations:info', function () {
     ])
 
     expect(stripAnsi(stdout.output)).to.equal(heredoc`
+      === my-developer-name on app my-app
+
       Add-on:           heroku-applink-vertical-01234
       App:              my-app
       Created By:       user@example.com

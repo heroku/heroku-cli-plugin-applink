@@ -95,8 +95,8 @@ describe('salesforce:connect', function () {
 
           expect(stripAnsi(stderr.output)).to.eq(heredoc`
             Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
-            Connecting Salesforce org my-org-2 to my-app...
-            Connecting Salesforce org my-org-2 to my-app... Connected
+            Connecting Salesforce org to my-app as my-org-2...
+            Connecting Salesforce org to my-app as my-org-2... Connected
           `)
           expect(stdout.output).to.eq('')
         })
