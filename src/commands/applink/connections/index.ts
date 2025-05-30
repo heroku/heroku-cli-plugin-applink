@@ -31,7 +31,7 @@ export default class Index extends Command {
     if (appConnections.length === 0) {
       ux.log(`There are no Heroku AppLink connections for app ${color.app(app)}.`)
     } else {
-      ux.styledHeader(`Heroku AppLink connections for add-on ${color.addon(addon)} on app ${color.app(app)}`)
+      ux.styledHeader(`Heroku AppLink connections for add-on ${color.addon(this._addonName)} on app ${color.app(app)}`)
 
       ux.table(appConnections, {
         addon: {
