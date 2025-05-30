@@ -97,8 +97,8 @@ describe('datacloud:connect', function () {
 
           expect(stripAnsi(stderr.output)).to.eq(heredoc`
             Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
-            Connecting Data Cloud org my-org-2 to my-app...
-            Connecting Data Cloud org my-org-2 to my-app... Connected
+            Connecting Data Cloud org to my-app as my-org-2...
+            Connecting Data Cloud org to my-app as my-org-2... Connected
           `)
           expect(stdout.output).to.eq('')
         })
