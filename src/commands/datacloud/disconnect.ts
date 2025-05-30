@@ -9,17 +9,17 @@ import {ConnectionError} from '../../lib/applink/types'
 import confirmCommand from '../../lib/confirmCommand'
 
 export default class Disconnect extends Command {
-  static description = 'disconnects a Data Cloud org from a Heroku app'
+  static description = 'disconnect a Data Cloud org from a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
-    confirm: flags.string({char: 'c', description: 'set to Data Cloud org instance name to bypass confirm prompt'}),
+    confirm: flags.string({char: 'c', description: 'set to Data Cloud org connection name to bypass confirm prompt'}),
     remote: flags.remote(),
   }
 
   static args = {
-    connection_name: Args.string({description: 'name of the Data Cloud org instance', required: true}),
+    connection_name: Args.string({description: 'name of the Data Cloud connection', required: true}),
   }
 
   public async run(): Promise<void> {
@@ -58,7 +58,7 @@ export default class Disconnect extends Command {
 
     const {status, error} = connection
 
-    ux.action.start(`Disconnecting Data Cloud org ${color.yellow(connectionName)} from ${color.app(app)}`)
+    ux.action.start(`Disconnecting Data Cloud connection ${color.yellow(connectionName)} from ${color.app(app)}`)
 
     if (status !== 'disconnecting') {
       ux.error(

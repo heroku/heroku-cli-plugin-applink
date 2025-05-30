@@ -125,7 +125,7 @@ _See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/
 
 ## `heroku datacloud:connect [CONNECTION_NAME]`
 
-connect a Data Cloud Org to a Heroku app
+connect a Data Cloud org to a Heroku app
 
 ```
 USAGE
@@ -133,7 +133,9 @@ USAGE
     <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name for the Data Cloud Org instance
+  CONNECTION_NAME  name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and
+                   between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                   allowed.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -143,14 +145,14 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connect a Data Cloud Org to a Heroku app
+  connect a Data Cloud org to a Heroku app
 ```
 
 _See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
-creates a Data Cloud Data Action Target for a Heroku app
+create a Data Cloud data action target for a Heroku app
 
 ```
 USAGE
@@ -158,12 +160,13 @@ USAGE
     <value>]
 
 ARGUMENTS
-  LABEL  Data Action Target label
+  LABEL  label for the data action target. Must begin with a letter, end with a letter or a number, and between 3-30
+         characters. Only alphanumeric characters and non-consecutive underscores ('_') are allowed.
 
 FLAGS
   -a, --app=<value>              (required) app to run command against
   -n, --api-name=<value>         [default: <LABEL>] API name for the data action target
-  -o, --org-name=<value>         (required) connected Data Cloud org instance name to create the data action target
+  -o, --connection-name=<value>  (required) Data Cloud connection namee to create the data action target
   -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
   -r, --remote=<value>           git remote of app to use
@@ -172,30 +175,30 @@ FLAGS
       --addon=<value>            unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  creates a Data Cloud Data Action Target for a Heroku app
+  create a Data Cloud data action target for a Heroku app
 ```
 
 _See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
-disconnects a Data Cloud org from a Heroku app
+disconnect a Data Cloud org from a Heroku app
 
 ```
 USAGE
   $ heroku datacloud:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Data Cloud org instance
+  CONNECTION_NAME  name of the Data Cloud connection
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Data Cloud org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Data Cloud org connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnects a Data Cloud org from a Heroku app
+  disconnect a Data Cloud org from a Heroku app
 ```
 
 _See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.12/src/commands/datacloud/disconnect.ts)_
