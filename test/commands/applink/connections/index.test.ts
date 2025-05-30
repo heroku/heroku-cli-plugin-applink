@@ -69,7 +69,7 @@ describe('applink:connections', function () {
         ])
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku AppLink connections for add-on undefined on app my-app
+          === Heroku AppLink connections for add-on heroku-applink-vertical-01234 on app my-app
         
            Add-On                        Type           Connection Name Status    
            ───────────────────────────── ────────────── ─────────────── ───────── 
