@@ -4,12 +4,14 @@ import heredoc from 'tsheredoc'
 
 export default async function confirmCommand({
   connectionName,
+  connectionType,
   addon,
   app,
   confirm,
   message,
 }: {
   connectionName: string,
+  connectionType: string,
   addon: string,
   app: string,
   confirm?: string,
@@ -23,7 +25,7 @@ export default async function confirmCommand({
   if (!message) {
     message = heredoc`
       Destructive action
-      This command disconnects the org ${color.bold.red(connectionName)} from add-on ${color.addon(addon)} on app ${color.app(app)}.
+      This command disconnects the ${connectionType} ${color.bold.red(connectionName)} from add-on ${color.addon(addon)} on app ${color.app(app)}.
     `
   }
 
