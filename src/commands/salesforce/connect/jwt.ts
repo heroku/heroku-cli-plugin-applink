@@ -9,8 +9,6 @@ import {humanize} from '../../../lib/helpers'
 export default class JWT extends Command {
   static description = 'connect a Salesforce Org to Heroku app using a JWT auth token'
 
-  static hidden = true
-
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
