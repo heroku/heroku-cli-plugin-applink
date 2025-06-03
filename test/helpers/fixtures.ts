@@ -29,20 +29,6 @@ export const addon2: Heroku.AddOn = {
   name: 'heroku-applink-horizontal-01234',
 }
 
-export const legacyAddon: Heroku.AddOn = {
-  config_vars: ['HEROKU_INTEGRATION_API_URL', 'HEROKU_INTEGRATION_TOKEN'],
-  addon_service: {
-    id: '23456789-abcd-ef01-2345-6789abcdef01',
-    name: 'heroku-integration',
-  },
-  app: {
-    id: '89abcdef-0123-4567-89ab-cdef01234567',
-    name: 'my-app',
-  },
-  id: '01234567-89ab-cdef-0123-456789abcdef',
-  name: 'heroku-integration-vertical-01234',
-}
-
 export const addonStaging: Heroku.AddOn = {
   config_vars: ['HEROKU_APPLINK_API_URL', 'HEROKU_APPLINK_TOKEN'],
   addon_service: {
@@ -67,6 +53,11 @@ export const connection1: AppLink.SalesforceConnection = {
     username: 'admin@applink.org',
   },
   status: 'connected',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection2_connecting: AppLink.SalesforceConnection = {
@@ -79,7 +70,12 @@ export const connection2_connecting: AppLink.SalesforceConnection = {
     username: 'admin@applink.org',
   },
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  status: 'authenticating',
+  status: 'connecting',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection2_connected: AppLink.SalesforceConnection = {
@@ -92,6 +88,11 @@ export const connection2_connected: AppLink.SalesforceConnection = {
     username: 'admin@applink.org',
   },
   status: 'connected',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection2_failed: AppLink.SalesforceConnection = {
@@ -107,7 +108,12 @@ export const connection2_failed: AppLink.SalesforceConnection = {
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
   },
-  status: 'connection_failed',
+  status: 'error',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const datCreatePending: AppLink.DataActionTargetCreate = {
@@ -151,6 +157,11 @@ export const connection2_disconnected: AppLink.SalesforceConnection = {
     username: 'admin@applink.org',
   },
   status: 'disconnected',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection3: AppLink.SalesforceConnection = {
@@ -163,6 +174,11 @@ export const connection3: AppLink.SalesforceConnection = {
     username: 'admin@applink.org',
   },
   status: 'connecting',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection4_connecting: AppLink.DataCloudConnection = {
@@ -175,7 +191,12 @@ export const connection4_connecting: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   redirect_uri: 'https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize',
-  status: 'authenticating',
+  status: 'connecting',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection4_connected: AppLink.DataCloudConnection = {
@@ -188,6 +209,11 @@ export const connection4_connected: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'connected',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection4_failed: AppLink.DataCloudConnection = {
@@ -203,7 +229,12 @@ export const connection4_failed: AppLink.DataCloudConnection = {
     message: 'There was a problem connecting your org. Try again later.',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'connection_failed',
+  status: 'error',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection4_disconnected: AppLink.DataCloudConnection = {
@@ -216,6 +247,11 @@ export const connection4_disconnected: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'disconnected',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection5_disconnecting: AppLink.DataCloudConnection = {
@@ -228,6 +264,11 @@ export const connection5_disconnecting: AppLink.DataCloudConnection = {
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
   status: 'disconnecting',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
@@ -239,7 +280,12 @@ export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
     username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'disconnection_failed',
+  status: 'error',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const ConnectionError_record_not_found: AppLink.ConnectionError = {
@@ -262,7 +308,12 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
   },
-  status: 'connection_failed',
+  status: 'error',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
 }
 
 export const authorization_connected: AppLink.Authorization = {
@@ -282,6 +333,7 @@ export const authorization_connected: AppLink.Authorization = {
   },
   created_by: 'user@example.com',
   last_modified_by: 'user@example.com',
+  created_via_app: 'my-app',
 }
 
 export const authorization_connected_2: AppLink.Authorization = {
@@ -393,5 +445,5 @@ export const credential_id_connected: AppLink.CredsCredential = {
 
 export const credential_id_failed: AppLink.CredsCredential = {
   ...credential_id_connected,
-  status: 'connection_failed',
+  status: 'error',
 }

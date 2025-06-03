@@ -12,13 +12,6 @@ export default abstract class extends Command {
   _appId!: string
   _applinkToken!: string
 
-  /**
-   * Remove this once we've migrated to new default applink name
-   */
-  get legacyAddonServiceSlug(): string {
-    return process.env.HEROKU_INTEGRATION_ADDON || 'heroku-integration'
-  }
-
   get addonServiceSlug(): string {
     return process.env.HEROKU_APPLINK_ADDON || 'heroku-applink'
   }
@@ -55,7 +48,7 @@ export default abstract class extends Command {
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
     const [{body: addons}, {body: configVars}] = await Promise.all([addonsRequest, configVarsRequest])
-    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug || addon.addon_service.name === this.legacyAddonServiceSlug)
+    const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
     let applinkAddon: Heroku.AddOn | undefined
 
     if (applinkAddons.length === 0) {

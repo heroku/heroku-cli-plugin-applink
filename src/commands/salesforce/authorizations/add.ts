@@ -108,6 +108,6 @@ export default class Add extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'authorized' && status !== 'disconnected'
+    return status === 'authorizing'
   }
 }

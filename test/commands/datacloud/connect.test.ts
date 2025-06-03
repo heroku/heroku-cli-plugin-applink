@@ -10,7 +10,6 @@ import {runCommand} from '../../run-command'
 import Cmd from '../../../src/commands/datacloud/connect'
 import {
   addon,
-  legacyAddon,
   connection4_connected,
   connection4_connecting,
   connection4_disconnected,
@@ -97,8 +96,8 @@ describe('datacloud:connect', function () {
 
           expect(stripAnsi(stderr.output)).to.eq(heredoc`
             Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
-            Connecting Data Cloud org my-org-2 to my-app...
-            Connecting Data Cloud org my-org-2 to my-app... Connected
+            Connecting Data Cloud org to my-app as my-org-2...
+            Connecting Data Cloud org to my-app as my-org-2... Connected
           `)
           expect(stdout.output).to.eq('')
         })
@@ -166,58 +165,6 @@ describe('datacloud:connect', function () {
         } catch {}
 
         expect(urlOpener.notCalled).to.equal(true)
-      })
-    })
-  })
-
-  context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
-    let integrationApi: nock.Scope
-
-    beforeEach(function () {
-      process.env = {}
-      api = nock('https://api.heroku.com')
-        .get('/apps/my-app/addons')
-        .reply(200, [legacyAddon])
-        .get('/apps/my-app/config-vars')
-        .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: 'token',
-        })
-        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-      integrationApi = nock('https://integration-api.heroku.com')
-      sandbox = sinon.createSandbox()
-    })
-
-    afterEach(function () {
-      process.env = env
-      api.done()
-      integrationApi.done()
-      nock.cleanAll()
-      sandbox.restore()
-    })
-
-    context('when the user accepts the prompt to open the browser and the connection succeeds', function () {
-      beforeEach(function () {
-        urlOpener = sandbox.stub(Cmd, 'urlOpener').onFirstCall().resolves({
-          on(_: string, _cb: (_err: Error) => void) {},
-        } as unknown as ChildProcess)
-        sandbox.stub(ux, 'anykey').onFirstCall().resolves()
-        integrationApi
-          .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud')
-          .reply(202, connection4_connecting)
-        integrationApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/339b373a-5d0c-4056-bfdd-47a06b79f112')
-          .reply(200, connection4_connected)
-      })
-
-      it('shows the URL that will be opened for the OAuth flow', async function () {
-        await runCommand(Cmd, [
-          'my-org-2',
-          '--app=my-app',
-        ])
-
-        expect(stderr.output).to.contain(`Opening browser to ${connection4_connecting.redirect_uri}`)
       })
     })
   })

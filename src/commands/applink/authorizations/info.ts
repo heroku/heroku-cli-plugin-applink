@@ -41,6 +41,8 @@ export default class Info extends Command {
       }
     }
 
+    ux.styledHeader(`${color.yellow(developerName)} on app ${color.app(app)}`)
+
     ux.styledObject({
       ID: authorization.id,
       'Instance URL': authorization.org.instance_url,

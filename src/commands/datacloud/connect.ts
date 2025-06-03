@@ -9,7 +9,7 @@ import {humanize} from '../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connect a Data Cloud Org to a Heroku app'
+  static description = 'connect a Data Cloud org to a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -20,7 +20,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    connection_name: Args.string({description: 'name for the Data Cloud Org instance'}),
+    connection_name: Args.string({description: 'name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.'}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
@@ -71,7 +71,7 @@ export default class Connect extends Command {
       if (code !== 0) showBrowserError()
     })
 
-    ux.action.start(`Connecting Data Cloud org ${color.yellow(connectionName)} to ${color.app(app)}`)
+    ux.action.start(`Connecting Data Cloud org to ${color.app(app)} as ${color.yellow(connectionName)}`)
     let {status, error} = connection
     ux.action.status = humanize(status)
 
@@ -107,6 +107,6 @@ export default class Connect extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+    return status !== 'connected' && status !== 'error' && status !== 'disconnected'
   }
 }

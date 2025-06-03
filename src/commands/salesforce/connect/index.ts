@@ -9,7 +9,7 @@ import {humanize} from '../../../lib/helpers'
 import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
-  static description = 'connects a Salesforce Org to Heroku app'
+  static description = 'connect a Salesforce org to a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
@@ -49,7 +49,7 @@ export default class Connect extends Command {
     process.stderr.write(`Opening browser to ${redirectUri}\n`)
     let urlDisplayed = false
     const showBrowserError = () => {
-      if (!urlDisplayed) ux.warn('Cannot open browser.')
+      if (!urlDisplayed) ux.warn('We can\'t open the browser. Try again, or use a different browser.')
       urlDisplayed = true
     }
 
@@ -71,7 +71,7 @@ export default class Connect extends Command {
       if (code !== 0) showBrowserError()
     })
 
-    ux.action.start(`Connecting Salesforce org ${color.yellow(connectionName)} to ${color.app(app)}`)
+    ux.action.start(`Connecting Salesforce org to ${color.app(app)} as ${color.yellow(connectionName)}`)
     let {status, error} = connection
     ux.action.status = humanize(status)
 
@@ -108,6 +108,6 @@ export default class Connect extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'authentication_failed' && status !== 'connection_failed' && status !== 'disconnected'
+    return status !== 'connected' && status !== 'error' && status !== 'disconnected'
   }
 }

@@ -34,6 +34,7 @@ export default class Remove extends Command {
 
     await confirmCommand({
       connectionName: developerName,
+      connectionType: 'authorization',
       addon: this._addonName,
       app,
       confirm,

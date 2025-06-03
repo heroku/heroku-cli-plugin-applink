@@ -7,7 +7,7 @@ on:
 
 jobs:
   send-alerts:
-    runs-on: sfdc-hk-ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Send data to Security Alerts
         uses: heroku/security-alerts-action@stable

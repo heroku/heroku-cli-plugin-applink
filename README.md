@@ -37,6 +37,7 @@ USAGE
 * [`heroku salesforce:authorizations:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsadd-developer_name)
 * [`heroku salesforce:authorizations:remove DEVELOPER_NAME`](#heroku-salesforceauthorizationsremove-developer_name)
 * [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
+* [`heroku salesforce:connect:jwt CONNECTION_NAME`](#heroku-salesforceconnectjwt-connection_name)
 * [`heroku salesforce:disconnect CONNECTION_NAME`](#heroku-salesforcedisconnect-connection_name)
 * [`heroku salesforce:publications`](#heroku-salesforcepublications)
 * [`heroku salesforce:publish API_SPEC_FILE_DIR`](#heroku-salesforcepublish-api_spec_file_dir)
@@ -58,7 +59,7 @@ DESCRIPTION
   list Heroku AppLink authorized users
 ```
 
-_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/index.ts)_
+_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/authorizations/index.ts)_
 
 ## `heroku applink:authorizations:info DEVELOPER_NAME`
 
@@ -80,11 +81,11 @@ DESCRIPTION
   show info for a Heroku AppLink authorized user
 ```
 
-_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/authorizations/info.ts)_
+_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
-lists Heroku AppLink connections
+list Heroku AppLink connections
 
 ```
 USAGE
@@ -96,21 +97,21 @@ FLAGS
       --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  lists Heroku AppLink connections
+  list Heroku AppLink connections
 ```
 
-_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/index.ts)_
+_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/connections/index.ts)_
 
 ## `heroku applink:connections:info CONNECTION_NAME`
 
-shows info for a Heroku AppLink connection
+show info for a Heroku AppLink connection
 
 ```
 USAGE
   $ heroku applink:connections:info CONNECTION_NAME -a <value> [--addon <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  connected org name
+  CONNECTION_NAME  name of the connected org
 
 FLAGS
   -a, --app=<value>     (required) app to run command against
@@ -118,14 +119,14 @@ FLAGS
       --addon=<value>   unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  shows info for a Heroku AppLink connection
+  show info for a Heroku AppLink connection
 ```
 
-_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/applink/connections/info.ts)_
+_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/applink/connections/info.ts)_
 
 ## `heroku datacloud:connect [CONNECTION_NAME]`
 
-connect a Data Cloud Org to a Heroku app
+connect a Data Cloud org to a Heroku app
 
 ```
 USAGE
@@ -133,7 +134,9 @@ USAGE
     <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name for the Data Cloud Org instance
+  CONNECTION_NAME  name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and
+                   between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                   allowed.
 
 FLAGS
   -a, --app=<value>        (required) app to run command against
@@ -143,14 +146,14 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connect a Data Cloud Org to a Heroku app
+  connect a Data Cloud org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/connect.ts)_
+_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
-creates a Data Cloud Data Action Target for a Heroku app
+create a Data Cloud data action target for a Heroku app
 
 ```
 USAGE
@@ -158,12 +161,13 @@ USAGE
     <value>]
 
 ARGUMENTS
-  LABEL  Data Action Target label
+  LABEL  label for the data action target. Must begin with a letter, end with a letter or a number, and between 3-30
+         characters. Only alphanumeric characters and non-consecutive underscores ('_') are allowed.
 
 FLAGS
   -a, --app=<value>              (required) app to run command against
   -n, --api-name=<value>         [default: <LABEL>] API name for the data action target
-  -o, --org-name=<value>         (required) connected Data Cloud org instance name to create the data action target
+  -o, --connection-name=<value>  (required) Data Cloud connection namee to create the data action target
   -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
   -r, --remote=<value>           git remote of app to use
@@ -172,33 +176,33 @@ FLAGS
       --addon=<value>            unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  creates a Data Cloud Data Action Target for a Heroku app
+  create a Data Cloud data action target for a Heroku app
 ```
 
-_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/data-action-target/create.ts)_
+_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
-disconnects a Data Cloud org from a Heroku app
+disconnect a Data Cloud org from a Heroku app
 
 ```
 USAGE
   $ heroku datacloud:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Data Cloud org instance
+  CONNECTION_NAME  name of the Data Cloud connection
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Data Cloud org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Data Cloud org connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnects a Data Cloud org from a Heroku app
+  disconnect a Data Cloud org from a Heroku app
 ```
 
-_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/datacloud/disconnect.ts)_
+_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/datacloud/disconnect.ts)_
 
 ## `heroku salesforce:authorizations:add DEVELOPER_NAME`
 
@@ -225,7 +229,7 @@ DESCRIPTION
   store a user's credentials for connecting a Salesforce Org to a Heroku app
 ```
 
-_See code: [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/authorizations/add.ts)_
+_See code: [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/authorizations/add.ts)_
 
 ## `heroku salesforce:authorizations:remove DEVELOPER_NAME`
 
@@ -248,11 +252,11 @@ DESCRIPTION
   remove a Salesforce authorization from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/authorizations/remove.ts)_
+_See code: [src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/authorizations/remove.ts)_
 
 ## `heroku salesforce:connect CONNECTION_NAME`
 
-connects a Salesforce Org to Heroku app
+connect a Salesforce org to a Heroku app
 
 ```
 USAGE
@@ -271,33 +275,62 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  connects a Salesforce Org to Heroku app
+  connect a Salesforce org to a Heroku app
 ```
 
-_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/connect/index.ts)_
+_See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/connect/index.ts)_
+
+## `heroku salesforce:connect:jwt CONNECTION_NAME`
+
+connect a Salesforce Org to Heroku app using a JWT auth token
+
+```
+USAGE
+  $ heroku salesforce:connect:jwt CONNECTION_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
+    [--addon <value>] [-l <value>] [-r <value>]
+
+ARGUMENTS
+  CONNECTION_NAME  name for the Salesforce connection.  Must begin with a letter, end with a letter or a number, and be
+                   between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                   allowed.
+
+FLAGS
+  -a, --app=<value>           (required) app to run command against
+  -l, --login-url=<value>     Salesforce login URL
+  -r, --remote=<value>        git remote of app to use
+      --addon=<value>         unique name or ID of an AppLink add-on
+      --client-id=<value>     (required) ID of consumer key
+      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
+      --username=<value>      (required) Salesforce username
+
+DESCRIPTION
+  connect a Salesforce Org to Heroku app using a JWT auth token
+```
+
+_See code: [src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/connect/jwt.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
-disconnect a Salesforce org from a Heroku app
+disconnect a Salesforce connection from a Heroku app
 
 ```
 USAGE
   $ heroku salesforce:disconnect CONNECTION_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
 
 ARGUMENTS
-  CONNECTION_NAME  name of the Salesforce org instance
+  CONNECTION_NAME  name of the Salesforce connection you would like to disconnect
 
 FLAGS
   -a, --app=<value>      (required) app to run command against
-  -c, --confirm=<value>  set to Salesforce org instance name to bypass confirm prompt
+  -c, --confirm=<value>  set to Salesforce connection name to bypass confirm prompt
   -r, --remote=<value>   git remote of app to use
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnect a Salesforce org from a Heroku app
+  disconnect a Salesforce connection from a Heroku app
 ```
 
-_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/disconnect.ts)_
+_See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:publications`
 
@@ -317,7 +350,7 @@ DESCRIPTION
   list Salesforce orgs the app is published to
 ```
 
-_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publications.ts)_
+_See code: [src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/publications.ts)_
 
 ## `heroku salesforce:publish API_SPEC_FILE_DIR`
 
@@ -339,12 +372,12 @@ FLAGS
       --addon=<value>                              unique name or ID of an AppLink add-on
       --authorization-connected-app-name=<value>   name of connected app to create from our template
       --authorization-permission-set-name=<value>  name of permission set to create from our template
-      --connection-name=<value>                    (required) authenticated Salesforce org instance name
+      --connection-name=<value>                    (required) authenticated Salesforce connection name
       --metadata-dir=<value>                       directory containing connected app, permission set, or API spec
 
 DESCRIPTION
   publish an app's API specification to an authenticated Salesforce org
 ```
 
-_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.11/src/commands/salesforce/publish.ts)_
+_See code: [src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.13/src/commands/salesforce/publish.ts)_
 <!-- commandsstop -->

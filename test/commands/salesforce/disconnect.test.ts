@@ -6,9 +6,7 @@ import Cmd from '../../../src/commands/salesforce/disconnect'
 import {
   addon,
   connection5_disconnecting,
-  connection5_disconnection_failed,
   ConnectionError_record_not_found,
-  legacyAddon,
   sso_response,
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -57,24 +55,6 @@ describe('salesforce:disconnect', function () {
       expect(stdout.output).to.equal('')
     })
 
-    it('shows the expected output after failing', async function () {
-      applinkApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnection_failed)
-
-      try {
-        await runCommand(Cmd, [
-          'myorg',
-          '--app=my-app',
-          '--confirm=myorg',
-        ])
-      } catch (error: unknown) {
-        const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Disconnection Failed')
-        expect(oclif.exit).to.equal(1)
-      }
-    })
-
     it('connection not found', async function () {
       applinkApi
         .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
@@ -88,7 +68,7 @@ describe('salesforce:disconnect', function () {
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.contain('Salesforce org myorg doesn\'t exist on app my-app.')
+        expect(stripAnsi(message)).to.contain('Salesforce connection myorg doesn\'t exist on app my-app.')
         expect(oclif.exit).to.equal(1)
       }
     })
@@ -105,47 +85,6 @@ describe('salesforce:disconnect', function () {
         expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
         expect(oclif.exit).to.equal(1)
       }
-    })
-  })
-
-  context('when config var is set to the legacy HEROKU_INTEGRATION_API_URL', function () {
-    let integrationApi: nock.Scope
-
-    beforeEach(function () {
-      process.env = {}
-      api = nock('https://api.heroku.com')
-        .get('/apps/my-app/addons')
-        .reply(200, [legacyAddon])
-        .get('/apps/my-app/config-vars')
-        .reply(200, {
-          HEROKU_INTEGRATION_API_URL: 'https://integration-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_INTEGRATION_TOKEN: 'token',
-        })
-        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-      integrationApi = nock('https://integration-api.heroku.com')
-    })
-
-    afterEach(function () {
-      process.env = env
-      api.done()
-      integrationApi.done()
-      nock.cleanAll()
-    })
-
-    it('waits for DELETE /connections/orgName status to return "disconnecting" before ending the action successfully', async function () {
-      integrationApi
-        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
-        .reply(202, connection5_disconnecting)
-
-      await runCommand(Cmd, [
-        'myorg',
-        '--app=my-app',
-        '--confirm=myorg',
-      ])
-
-      expect(stderr.output).to.contain('Disconnected')
-      expect(stdout.output).to.equal('')
     })
   })
 })

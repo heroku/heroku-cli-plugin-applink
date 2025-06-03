@@ -9,17 +9,17 @@ import {ConnectionError} from '../../lib/applink/types'
 import confirmCommand from '../../lib/confirmCommand'
 
 export default class Disconnect extends Command {
-  static description = 'disconnect a Salesforce org from a Heroku app'
+  static description = 'disconnect a Salesforce connection from a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
-    confirm: flags.string({char: 'c', description: 'set to Salesforce org instance name to bypass confirm prompt'}),
+    confirm: flags.string({char: 'c', description: 'set to Salesforce connection name to bypass confirm prompt'}),
     remote: flags.remote(),
   }
 
   static args = {
-    connection_name: Args.string({description: 'name of the Salesforce org instance', required: true}),
+    connection_name: Args.string({description: 'name of the Salesforce connection you would like to disconnect', required: true}),
   }
 
   public async run(): Promise<void> {
@@ -32,6 +32,7 @@ export default class Disconnect extends Command {
 
     await confirmCommand({
       connectionName,
+      connectionType: 'connection',
       addon: this._addonName,
       app,
       confirm,
@@ -49,7 +50,7 @@ export default class Disconnect extends Command {
       if (connErr.body && connErr.body.id === 'record_not_found') {
         ux.error(
           heredoc`
-            Salesforce org ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
+            Salesforce connection ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
             Use ${color.cmd(`heroku applink:connections --app ${app}`)} to list the connections on the app`, {exit: 1})
       } else {
         throw error
@@ -58,7 +59,7 @@ export default class Disconnect extends Command {
 
     const {status, error} = connection
 
-    ux.action.start(`Disconnecting Salesforce org ${color.yellow(connectionName)} from ${color.app(app)}`)
+    ux.action.start(`Disconnecting Salesforce connection ${color.yellow(connectionName)} from ${color.app(app)}`)
 
     if (status !== 'disconnecting') {
       ux.error(

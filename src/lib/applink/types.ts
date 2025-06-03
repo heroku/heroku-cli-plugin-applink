@@ -36,6 +36,12 @@ export type SalesforceConnection = {
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
+  readonly addon_id?: string
+  readonly created_via_app: string
+  readonly created_at: string
+  readonly last_modified_at: string
+  readonly created_by: string
+  readonly last_modified_by: string
 }
 
 /**
@@ -52,9 +58,16 @@ export type DataCloudConnection = {
   /** Data Cloud Org info */
   readonly org: Org
   /** redirect URI for authentication */
+
   readonly redirect_uri?: string | null
   /** connection status */
   readonly status: ConnectionStatus
+  readonly addon_id?: string
+  readonly created_via_app: string
+  readonly created_at: string
+  readonly last_modified_at: string
+  readonly created_by: string
+  readonly last_modified_by: string
 }
 
 export type Connection = SalesforceConnection | DataCloudConnection
@@ -78,8 +91,8 @@ export type ConnectionError = {
   }
 }
 
-export type ConnectionStatus = 'pending' | 'authenticating' | 'authenticated' | 'authentication_failed' | 'connecting' | 'connected' | 'connection_failed' | 'disconnecting' | 'disconnected' | 'disconnection_failed'
-export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected'
+export type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected' | 'error'
+export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected' | 'error'
 
 /**
  * An app publish process.
@@ -110,7 +123,7 @@ export type DataActionTargetCreate = {
   readonly label: string
   readonly id: string
   /** process status */
-  readonly status: 'pending' | 'creating' | 'generating_signing_key' | 'signing_key_generated' | 'created' | 'creation_failed'
+  readonly status: 'pending' | 'creating' | 'generating_signing_key' | 'created' | 'creation_failed'
   readonly target_endpoint: string
   readonly type: string
   readonly error?: {
@@ -125,13 +138,14 @@ export type DataActionTargetCreate = {
 export type Authorization = {
   readonly id: string
   readonly status: AuthorizationStatus
-  readonly redirect_uri: string
+  readonly redirect_uri?: string
   readonly created_at: string
   readonly last_modified_at: string,
   readonly app_name?: string
   readonly org: AuthorizationOrg
   readonly created_by: string
   readonly last_modified_by: string
+  readonly created_via_app: string
   readonly error?: {
     id: string
     message: string
