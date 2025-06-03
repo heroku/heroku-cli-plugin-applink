@@ -6,7 +6,6 @@ import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
 import {humanize} from '../../lib/helpers'
-import heredoc from 'tsheredoc'
 
 export default class Connect extends Command {
   static description = 'connect a Data Cloud org to a Heroku app'
@@ -72,7 +71,7 @@ export default class Connect extends Command {
     })
 
     ux.action.start(`Connecting Data Cloud org to ${color.app(app)} as ${color.yellow(connectionName)}`)
-    let {status, error} = connection
+    let {status} = connection
     ux.action.status = humanize(status)
 
     while (this.isPendingStatus(status)) {
@@ -87,23 +86,11 @@ export default class Connect extends Command {
         }
       ));
 
-      ({status, error} = connection)
+      ({status} = connection)
       ux.action.status = humanize(status)
     }
 
     ux.action.stop(humanize(status))
-
-    if (status !== 'connected') {
-      ux.error(
-        error === undefined
-          ? humanize(status)
-          : heredoc`
-            ${error.id}
-            ${error.message}
-          `,
-        {exit: 1}
-      )
-    }
   }
 
   protected isPendingStatus(status: string): boolean {

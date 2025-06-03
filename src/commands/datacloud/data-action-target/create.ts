@@ -4,7 +4,6 @@ import {flags} from '@heroku-cli/command'
 import * as AppLink from '../../../lib/applink/types'
 import {ux, Args} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
-import heredoc from 'tsheredoc'
 
 export default class Create extends Command {
   static description = 'create a Data Cloud data action target for a Heroku app'
@@ -60,7 +59,7 @@ export default class Create extends Command {
       }
     )
 
-    let {status, error} = createResp
+    let {status} = createResp
 
     while (this.isPendingStatus(status)) {
       await new Promise(resolve => {
@@ -76,22 +75,9 @@ export default class Create extends Command {
       ))
 
       status = createStatus.status
-      error = createStatus.error
       ux.action.status = humanize(status)
     }
 
     ux.action.stop(humanize(status))
-
-    if (status !== 'created') {
-      ux.error(
-        error === undefined
-          ? humanize(status)
-          : heredoc`
-            ${error.id}
-            ${error.message}
-          `,
-        {exit: 1}
-      )
-    }
   }
 }

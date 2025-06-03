@@ -28,7 +28,6 @@ export default class Disconnect extends Command {
     const {connection_name: connectionName} = args
 
     await this.configureAppLinkClient(app, addon)
-    let connection: AppLink.DataCloudConnection
 
     await confirmCommand({
       connectionName,
@@ -39,12 +38,12 @@ export default class Disconnect extends Command {
     })
 
     try {
-      ({body: connection} = await this.applinkClient.delete<AppLink.DataCloudConnection>(
+      await this.applinkClient.delete<AppLink.DataCloudConnection>(
         `/addons/${this.addonId}/connections/${connectionName}`, {
           headers: {authorization: `Bearer ${this._applinkToken}`},
           retryAuth: false,
         }
-      ))
+      )
     } catch (error) {
       const connErr = error as ConnectionError
       if (connErr.body && connErr.body.id === 'record_not_found') {
@@ -57,22 +56,7 @@ export default class Disconnect extends Command {
       }
     }
 
-    const {status, error} = connection
-
     ux.action.start(`Disconnecting Data Cloud connection ${color.yellow(connectionName)} from ${color.app(app)}`)
-
-    if (status !== 'disconnecting') {
-      ux.error(
-        error === undefined
-          ? humanize(status)
-          : heredoc`
-            ${error.id}
-            ${error.message}
-          `,
-        {exit: 1}
-      )
-    }
-
     ux.action.stop(humanize('Disconnected'))
   }
 }

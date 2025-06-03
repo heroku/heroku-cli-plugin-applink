@@ -6,7 +6,6 @@ import {ux, Args} from '@oclif/core'
 import open from 'open'
 import {CLIError} from '@oclif/core/lib/errors'
 import {humanize} from '../../../lib/helpers'
-import heredoc from 'tsheredoc'
 
 export default class Add extends Command {
   static description = 'store a user\'s credentials for connecting a Salesforce Org to a Heroku app'
@@ -72,7 +71,7 @@ export default class Add extends Command {
     })
 
     ux.action.start(`Adding credentials to ${color.app(app)} as ${color.yellow(developerName)}`)
-    let {status, error} = authorization
+    let {status} = authorization
     ux.action.status = humanize(status)
 
     while (this.isPendingStatus(status)) {
@@ -88,23 +87,11 @@ export default class Add extends Command {
         }
       ));
 
-      ({status, error} = authorization)
+      ({status} = authorization)
       ux.action.status = humanize(status)
     }
 
     ux.action.stop(humanize(status))
-
-    if (status !== 'authorized') {
-      ux.error(
-        error === undefined
-          ? humanize(status)
-          : heredoc`
-            ${error.id}
-            ${error.message}
-          `,
-        {exit: 1}
-      )
-    }
   }
 
   protected isPendingStatus(status: string): boolean {
