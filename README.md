@@ -157,7 +157,7 @@ create a Data Cloud data action target for a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [--addon <value>] [-n <value>] [-t WebHook] [-r
+  $ heroku datacloud:data-action-target:create LABEL -a <value> -o <value> -p <value> [--addon <value>] [-n <value>] [-t webhook] [-r
     <value>]
 
 ARGUMENTS
@@ -171,8 +171,8 @@ FLAGS
   -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
   -r, --remote=<value>           git remote of app to use
-  -t, --type=<option>            [default: WebHook] Data action target type
-                                 <options: WebHook>
+  -t, --type=<option>            [default: webhook] Data action target type
+                                 <options: webhook>
       --addon=<value>            unique name or ID of an AppLink add-on
 
 DESCRIPTION

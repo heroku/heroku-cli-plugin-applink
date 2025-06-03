@@ -134,7 +134,7 @@ export const datCreatePending: AppLink.DataActionTargetCreate = {
   label: 'My Data Action Target',
   status: 'pending',
   target_endpoint: '/handleDataCloudDataChangeEvent',
-  type: 'Webhook',
+  type: 'webhook',
 }
 
 export const datCreateSuccess: AppLink.DataActionTargetCreate = {
