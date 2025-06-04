@@ -43,8 +43,12 @@ export default class Index extends Command {
           header: 'Connection Name',
           get: row => row.org.connection_name,
         },
-        status: {get: row => humanize(row.status)},
+        status: {get: row => row.status === 'failed' ? color.red(humanize(row.status)) : humanize(row.status)},
       })
+
+      if (appConnections.some(row => row.status === 'failed')) {
+        ux.log('Some data failed to load. See more information at <devcenter link>')
+      }
     }
   }
 }
