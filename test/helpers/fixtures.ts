@@ -95,6 +95,23 @@ export const connection2_connected: AppLink.SalesforceConnection = {
   last_modified_by: 'user@example.com',
 }
 
+export const connection3_connected_failed: AppLink.SalesforceConnection = {
+  id: '5551fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    connection_name: 'my-org-3',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
+  },
+  status: 'failed',
+  created_via_app: 'my-app',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+}
+
 export const connection2_failed: AppLink.SalesforceConnection = {
   error: {
     id: 'org_connection_failed',
@@ -108,7 +125,7 @@ export const connection2_failed: AppLink.SalesforceConnection = {
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
   },
-  status: 'error',
+  status: 'failed',
   created_via_app: 'my-app',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
@@ -229,7 +246,7 @@ export const connection4_failed: AppLink.DataCloudConnection = {
     message: 'There was a problem connecting your org. Try again later.',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'error',
+  status: 'failed',
   created_via_app: 'my-app',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
@@ -280,7 +297,7 @@ export const connection5_disconnection_failed: AppLink.DataCloudConnection = {
     username: 'admin@applink.org',
   },
   id: '339b373a-5d0c-4056-bfdd-47a06b79f112',
-  status: 'error',
+  status: 'failed',
   created_via_app: 'my-app',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
@@ -308,7 +325,7 @@ export const connection_record_not_found: AppLink.SalesforceConnection = {
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
   },
-  status: 'error',
+  status: 'failed',
   created_via_app: 'my-app',
   created_at: '2021-01-01T00:00:00Z',
   last_modified_at: '2021-01-01T00:00:00Z',
@@ -343,6 +360,18 @@ export const authorization_connected_2: AppLink.Authorization = {
     id: '00DSG000007a3BcA84',
     instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
     developer_name: 'my-developer-name-2',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
+  },
+}
+
+export const authorization_connected_3_failed: AppLink.Authorization = {
+  ...authorization_connected,
+  status: 'failed',
+  org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    developer_name: 'my-developer-name-3',
     type: 'SalesforceOrg',
     username: 'admin@applink.org',
   },
@@ -445,5 +474,5 @@ export const credential_id_connected: AppLink.CredsCredential = {
 
 export const credential_id_failed: AppLink.CredsCredential = {
   ...credential_id_connected,
-  status: 'error',
+  status: 'failed',
 }

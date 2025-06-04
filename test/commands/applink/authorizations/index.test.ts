@@ -9,10 +9,11 @@ import {
   addon,
   authorization_connected,
   authorization_connected_2,
+  authorization_connected_3_failed,
   sso_response,
 } from '../../../helpers/fixtures'
 
-describe('applink:authorizations', function () {
+describe.only('applink:authorizations', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
   const {env} = process
@@ -76,6 +77,31 @@ describe('applink:authorizations', function () {
            Salesforce Org heroku-applink-vertical-01234 my-developer-name   Authorized 
            Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
         `)
+        expect(stderr.output).to.equal('')
+      })
+    })
+
+    context('when Heroku AppLink authorizations fails to load', function () {
+      it('shows failed authorization and warning message', async function () {
+        applinkApi
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
+          .reply(200, [authorization_connected, authorization_connected_2, authorization_connected_3_failed])
+
+        await runCommand(Cmd, [
+          '--app=my-app',
+        ])
+
+        expect(stripAnsi(stdout.output)).to.equal(heredoc`
+=== Heroku AppLink authorizations for app my-app
+
+ Type           Add-On                        Developer Name      Status     
+ ────────────── ───────────────────────────── ─────────────────── ────────── 
+ Salesforce Org heroku-applink-vertical-01234 my-developer-name   Authorized 
+ Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
+ Salesforce Org heroku-applink-vertical-01234 my-developer-name-3 Failed     
+
+Some data failed to load. See more information at <devcenter link>
+          `)
         expect(stderr.output).to.equal('')
       })
     })

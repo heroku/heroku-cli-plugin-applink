@@ -43,7 +43,7 @@ export default class Index extends Command {
       })
 
       if (appAuthorizations.some(row => row.status === 'failed')) {
-        ux.log('Some data failed to load. See more information at <devcenter link>')
+        ux.log('\nSome data failed to load. See more information at <devcenter link>')
       }
     }
   }

@@ -47,7 +47,7 @@ export default class Index extends Command {
       })
 
       if (appConnections.some(row => row.status === 'failed')) {
-        ux.log('Some data failed to load. See more information at <devcenter link>')
+        ux.log('\nSome data failed to load. See more information at <devcenter link>')
       }
     }
   }
