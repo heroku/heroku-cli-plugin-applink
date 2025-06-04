@@ -13,7 +13,7 @@ import {
   sso_response,
 } from '../../../helpers/fixtures'
 
-describe.only('applink:authorizations', function () {
+describe('applink:authorizations', function () {
   let api: nock.Scope
   let applinkApi: nock.Scope
   const {env} = process
