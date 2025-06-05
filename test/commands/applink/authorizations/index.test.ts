@@ -100,7 +100,7 @@ describe('applink:authorizations', function () {
  Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
  Salesforce Org heroku-applink-vertical-01234 my-developer-name-3 Failed     
 
-Some data failed to load. See more information at <devcenter link>
+You have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/heroku-applink#authorization-statuses.
           `)
         expect(stderr.output).to.equal('')
       })
