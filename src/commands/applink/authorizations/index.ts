@@ -39,8 +39,12 @@ export default class Index extends Command {
           header: 'Developer Name',
           get: row => row.org.developer_name,
         },
-        status: {get: row => humanize(row.status)},
+        status: {get: row => row.status === 'failed' ? color.red(humanize(row.status)) : humanize(row.status)},
       })
+
+      if (appAuthorizations.some(row => row.status === 'failed')) {
+        ux.log('\nYou have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/heroku-applink#authorization-statuses.')
+      }
     }
   }
 }

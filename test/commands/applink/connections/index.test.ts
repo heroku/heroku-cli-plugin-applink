@@ -9,6 +9,7 @@ import {
   addon,
   connection1,
   connection2_connected,
+  connection3_connected_failed,
   sso_response,
 } from '../../../helpers/fixtures'
 
@@ -75,6 +76,31 @@ describe('applink:connections', function () {
            ───────────────────────────── ────────────── ─────────────── ───────── 
            heroku-applink-vertical-01234 Salesforce Org my-org-1        Connected 
            heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
+        `)
+        expect(stderr.output).to.equal('')
+      })
+    })
+
+    context('when Heroku AppLink connections fails to load', function () {
+      it('shows failed connection and warning message', async function () {
+        applinkApi
+          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
+          .reply(200, [connection1, connection2_connected, connection3_connected_failed])
+
+        await runCommand(Cmd, [
+          '--app=my-app',
+        ])
+
+        expect(stripAnsi(stdout.output)).to.equal(heredoc`
+          === Heroku AppLink connections for add-on heroku-applink-vertical-01234 on app my-app
+        
+           Add-On                        Type           Connection Name Status    
+           ───────────────────────────── ────────────── ─────────────── ───────── 
+           heroku-applink-vertical-01234 Salesforce Org my-org-1        Connected 
+           heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
+           heroku-applink-vertical-01234 Salesforce Org my-org-3        Failed    
+
+          You have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/heroku-applink#connection-statuses.
         `)
         expect(stderr.output).to.equal('')
       })

@@ -55,7 +55,7 @@ describe('datacloud:disconnect', function () {
         ])
       } catch (error: unknown) {
         const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.equal('Error')
+        expect(stripAnsi(message)).to.equal('Failed')
         expect(oclif.exit).to.equal(1)
       }
     })

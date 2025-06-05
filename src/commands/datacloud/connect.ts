@@ -94,6 +94,6 @@ export default class Connect extends Command {
   }
 
   protected isPendingStatus(status: string): boolean {
-    return status !== 'connected' && status !== 'error' && status !== 'disconnected'
+    return status !== 'connected' && status !== 'failed' && status !== 'disconnected'
   }
 }
