@@ -17,7 +17,7 @@ export default class Create extends Command {
     type: flags.string({
       char: 't',
       description: 'Data action target type',
-      options: ['WebHook'], default: 'WebHook',
+      options: ['webhook'], default: 'webhook',
     }),
     remote: flags.remote(),
   }

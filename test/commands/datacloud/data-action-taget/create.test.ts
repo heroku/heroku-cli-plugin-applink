@@ -58,7 +58,7 @@ describe('datacloud:data-action-target:create', function () {
         '--api-name=MyDataActionTarget',
         '--connection-name=myorg',
         '--target-api-path=/handleDataCloudDataChangeEvent',
-        '--type=WebHook',
+        '--type=webhook',
       ])
 
       expect(stderr.output).to.contain('Created')
