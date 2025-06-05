@@ -43,8 +43,12 @@ export default class Index extends Command {
           header: 'Connection Name',
           get: row => row.org.connection_name,
         },
-        status: {get: row => humanize(row.status)},
+        status: {get: row => row.status === 'failed' ? color.red(humanize(row.status)) : humanize(row.status)},
       })
+
+      if (appConnections.some(row => row.status === 'failed')) {
+        ux.log('\nYou have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/heroku-applink#connection-statuses.')
+      }
     }
   }
 }

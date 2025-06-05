@@ -91,8 +91,8 @@ export type ConnectionError = {
   }
 }
 
-export type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected' | 'error'
-export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected' | 'error'
+export type ConnectionStatus = 'connecting' | 'connected' | 'disconnecting' | 'disconnected' | 'failed'
+export type AuthorizationStatus = 'authorized' | 'authorizing' | 'disconnected' | 'failed'
 
 /**
  * An app publish process.
