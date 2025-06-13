@@ -390,10 +390,6 @@ export const authorization_authenticating: AppLink.Authorization = {
 export const authorization_connection_failed: AppLink.Authorization = {
   ...authorization_connected,
   status: 'disconnected',
-  error: {
-    id: 'org_connection_failed',
-    message: 'There was a problem connecting to your org. Try again later.',
-  },
 }
 
 export const authorization_disconnected: AppLink.Authorization = {
@@ -403,10 +399,6 @@ export const authorization_disconnected: AppLink.Authorization = {
 
 export const authorization_not_found: AppLink.Authorization = {
   ...authorization_connection_failed,
-  error: {
-    id: 'record_not_found',
-    message: 'record not found',
-  },
 }
 
 export const sso_response: HerokuSDK.SSO = {
