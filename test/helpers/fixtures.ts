@@ -404,8 +404,8 @@ export const authorization_disconnected: AppLink.Authorization = {
 export const authorization_not_found: AppLink.Authorization = {
   ...authorization_connection_failed,
   error: {
-    id: 'org_connection_failed',
-    message: 'There was a problem connecting to your org. Try again later.',
+    id: 'record_not_found',
+    message: 'record not found',
   },
 }
 
