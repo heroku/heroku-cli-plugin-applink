@@ -15,7 +15,6 @@ import {
   addonStaging,
   sso_response,
   app,
-  app2,
 } from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
