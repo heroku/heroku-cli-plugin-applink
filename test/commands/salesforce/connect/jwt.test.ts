@@ -10,6 +10,7 @@ import {
   sso_response,
   credential_id_connected,
   credential_id_failed,
+  app,
 } from '../../../helpers/fixtures'
 
 describe('salesforce:connect:jwt', function () {
@@ -20,6 +21,8 @@ describe('salesforce:connect:jwt', function () {
 
   beforeEach(function () {
     api = nock('https://api.heroku.com')
+      .get('/apps/my-app')
+      .reply(200, app)
       .get('/apps/my-app/addons')
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')

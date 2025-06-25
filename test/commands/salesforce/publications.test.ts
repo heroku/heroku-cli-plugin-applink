@@ -14,6 +14,7 @@ import {
   publication1,
   publication2,
   sso_response,
+  app,
 } from '../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -27,7 +28,9 @@ describe('salesforce:publications', function () {
     api = nock('https://api.heroku.com')
     applinkApi = nock('https://applink-api.heroku.com')
 
-    api.get('/apps/my-app/addons')
+    api.get('/apps/my-app')
+      .reply(200, app)
+      .get('/apps/my-app/addons')
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')
       .reply(200, {

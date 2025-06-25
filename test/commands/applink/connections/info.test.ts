@@ -10,6 +10,7 @@ import {
   connection2_connected,
   connection_record_not_found,
   sso_response,
+  app,
 } from '../../../helpers/fixtures'
 import {CLIError} from '@oclif/core/lib/errors'
 
@@ -22,6 +23,8 @@ describe('applink:connections:info', function () {
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
