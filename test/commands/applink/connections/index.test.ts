@@ -11,6 +11,7 @@ import {
   connection2_connected,
   connection3_connected_failed,
   sso_response,
+  app,
 } from '../../../helpers/fixtures'
 
 describe('applink:connections', function () {
@@ -33,7 +34,9 @@ describe('applink:connections', function () {
 
   context('when the --app flag is specified', function () {
     beforeEach(function () {
-      api.get('/apps/my-app/addons')
+      api.get('/apps/my-app')
+        .reply(200, app)
+        .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {

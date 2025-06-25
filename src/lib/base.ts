@@ -45,9 +45,10 @@ export default abstract class extends Command {
     if (this._applink)
       return
 
+    const appInfoRequest = this.heroku.get<Heroku.App>(`/apps/${app}`)
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
-    const [{body: addons}, {body: configVars}] = await Promise.all([addonsRequest, configVarsRequest])
+    const [{body: appInfo}, {body: addons}, {body: configVars}] = await Promise.all([appInfoRequest, addonsRequest, configVarsRequest])
     const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
     let applinkAddon: Heroku.AddOn | undefined
 
@@ -108,13 +109,13 @@ export default abstract class extends Command {
       ...this.heroku.defaults.headers,
       accept: 'application/json',
       'user-agent': `heroku-cli-plugin-applink/${this.config.version} ${this.config.platform}`,
-      'x-app-uuid': applinkAddon?.app?.id || '',
+      'x-app-uuid': appInfo?.id || '',
       'x-addon-sso': encodedSSO,
     }
     this._applinkToken = applinkToken
     this._addonId = applinkAddon.id || ''
     this._addonName = applinkAddon.name || ''
-    this._appId = applinkAddon.app?.id || ''
+    this._appId = appInfo?.id || ''
     this._applink = client
   }
 }

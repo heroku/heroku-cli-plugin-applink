@@ -14,6 +14,7 @@ import {
   addon2,
   addonStaging,
   sso_response,
+  app,
 } from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
@@ -80,9 +81,11 @@ describe('attempt a request using the applink API client', function () {
     })
   })
 
-  context('when the app doesn’t have the Heroku AppLink add-on installed', function () {
+  context('when the app doesn\'t have the Heroku AppLink add-on installed', function () {
     beforeEach(async function () {
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [])
         .get('/apps/my-app/config-vars')
@@ -110,6 +113,8 @@ describe('attempt a request using the applink API client', function () {
   context('when the add-on is not fully provisioned', function () {
     beforeEach(async function () {
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
@@ -137,6 +142,8 @@ describe('attempt a request using the applink API client', function () {
   context('when the add-on is correctly provisioned', function () {
     beforeEach(async function () {
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
@@ -168,6 +175,8 @@ describe('attempt a request using the applink API client', function () {
       }
 
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addonStaging])
         .get('/apps/my-app/config-vars')
@@ -195,6 +204,8 @@ describe('attempt a request using the applink API client', function () {
   context('when the --addon flag is specified', function () {
     beforeEach(async function () {
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
@@ -259,6 +270,8 @@ describe('attempt a request using the applink API client', function () {
   context('when there are multiple AppLink addons', function () {
     beforeEach(async function () {
       api
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon, addon2])
         .get('/apps/my-app/config-vars')

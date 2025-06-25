@@ -6,6 +6,7 @@ import Cmd from '../../../../src/commands/salesforce/authorizations/remove'
 import {
   addon,
   sso_response,
+  app,
 } from '../../../helpers/fixtures'
 import stripAnsi from '../../../helpers/strip-ansi'
 
@@ -17,6 +18,8 @@ describe('salesforce:authorizations:remove', function () {
   beforeEach(function () {
     process.env = {}
     api = nock('https://api.heroku.com')
+      .get('/apps/my-app')
+      .reply(200, app)
       .get('/apps/my-app/addons')
       .reply(200, [addon])
       .get('/apps/my-app/config-vars')

@@ -11,6 +11,7 @@ import {
   authorization_connected_2,
   authorization_connected_3_failed,
   sso_response,
+  app,
 } from '../../../helpers/fixtures'
 
 describe('applink:authorizations', function () {
@@ -33,7 +34,9 @@ describe('applink:authorizations', function () {
 
   context('when the --app flag is specified', function () {
     beforeEach(function () {
-      api.get('/apps/my-app/addons')
+      api.get('/apps/my-app')
+        .reply(200, app)
+        .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
         .reply(200, {

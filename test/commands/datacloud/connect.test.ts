@@ -1,4 +1,3 @@
-
 import {ux} from '@oclif/core'
 import {expect} from 'chai'
 import nock from 'nock'
@@ -15,6 +14,7 @@ import {
   connection4_disconnected,
   connection4_failed,
   sso_response,
+  app,
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -31,6 +31,8 @@ describe('datacloud:connect', function () {
     beforeEach(function () {
       process.env = {}
       api = nock('https://api.heroku.com')
+        .get('/apps/my-app')
+        .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
         .get('/apps/my-app/config-vars')
