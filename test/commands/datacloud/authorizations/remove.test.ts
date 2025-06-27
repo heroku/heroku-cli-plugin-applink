@@ -52,6 +52,6 @@ describe('datacloud:authorizations:remove', function () {
     ])
 
     expect(stdout.output).to.eq('')
-    expect(stripAnsi(stderr.output)).to.contain('Removing credentials authorization my-auth-1 from my-app')
+    expect(stripAnsi(stderr.output)).to.contain('Removing credentials my-auth-1 from my-app')
   })
 })

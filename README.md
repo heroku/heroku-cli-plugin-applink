@@ -136,8 +136,8 @@ USAGE
   <value>]
 
 ARGUMENTS
-  DEVELOPER_NAME  developer name for the authorization. Must begin with a letter, end with a letter or a number, and
-                  between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+  DEVELOPER_NAME  unique developer name for the authorization. Must begin with a letter, end with a letter or a number,
+                  and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
                   allowed.
 
 FLAGS
@@ -266,8 +266,8 @@ USAGE
   [-r <value>]
 
 ARGUMENTS
-  DEVELOPER_NAME  developer name for the authorization. Must begin with a letter, end with a letter or a number, and
-                  between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+  DEVELOPER_NAME  unique developer name for the authorization. Must begin with a letter, end with a letter or a number,
+                  and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
                   allowed.
 
 FLAGS

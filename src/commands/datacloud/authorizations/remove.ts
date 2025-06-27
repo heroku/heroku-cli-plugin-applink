@@ -41,7 +41,7 @@ export default class Remove extends Command {
       message: confirmMessage,
     })
 
-    ux.action.start(`Removing credentials authorization ${color.yellow(developerName)} from ${color.app(app)}`)
+    ux.action.start(`Removing credentials ${color.yellow(developerName)} from ${color.app(app)}`)
     await this.applinkClient.delete<AppLink.Authorization>(
       `/addons/${this.addonId}/authorizations/${developerName}`,
       {

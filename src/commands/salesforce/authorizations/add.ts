@@ -19,7 +19,7 @@ export default class Add extends Command {
   }
 
   static args = {
-    developer_name: Args.string({description: 'developer name for the authorization. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.', required: true}),
+    developer_name: Args.string({description: 'unique developer name for the authorization. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.', required: true}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open
