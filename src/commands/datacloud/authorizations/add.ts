@@ -8,7 +8,7 @@ import {CLIError} from '@oclif/core/lib/errors'
 import {humanize} from '../../../lib/helpers'
 
 export default class Add extends Command {
-  static description = 'store a user\'s credentials for connecting a Salesforce Org to a Heroku app'
+  static description = 'store a user\'s credentials for connecting a Data Cloud org to a Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
@@ -32,7 +32,7 @@ export default class Add extends Command {
     await this.configureAppLinkClient(app, addon)
     let authorization: AppLink.Authorization
     ({body: authorization} = await this.applinkClient.post<AppLink.Authorization>(
-      `/addons/${this.addonId}/authorizations/salesforce`,
+      `/addons/${this.addonId}/authorizations/datacloud`,
       {
         headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
