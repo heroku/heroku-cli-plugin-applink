@@ -84,7 +84,7 @@ export default abstract class extends Command {
       )
     }
 
-    const addonAttachment = addonAttachments.find(a => a.addon.id === applinkAddon.id)
+    const addonAttachment = addonAttachments.find(attachment => attachment.addon.id === applinkAddon.id)
     const {apiUrl, applinkToken} = this.getConfigVars(addonAttachment!, configVars)
 
     if (!apiUrl || !applinkToken) {

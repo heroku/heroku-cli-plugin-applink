@@ -7,6 +7,7 @@ import {
   addon,
   sso_response,
   app,
+  addonAttachment,
 } from '../../helpers/fixtures'
 import stripAnsi from '../../helpers/strip-ansi'
 import {CLIError} from '@oclif/core/lib/errors'
@@ -25,6 +26,8 @@ describe('salesforce:publish', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
