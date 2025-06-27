@@ -15,6 +15,9 @@ import {
   addonStaging,
   sso_response,
   app,
+  addonAttachment,
+  addonAttachment2,
+  addonAttachmentStaging,
 } from '../helpers/fixtures'
 
 class CommandWithoutConfiguration extends BaseCommand {
@@ -90,6 +93,8 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, [])
         .get('/apps/my-app/config-vars')
         .reply(200, {})
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [])
     })
 
     it('returns an error message and exits with a status of 1', async function () {
@@ -100,7 +105,7 @@ describe('attempt a request using the applink API client', function () {
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink add-on isn’t present on my-app.
+          AppLink add-on isn't present on my-app.
           Install the add-on using heroku addons:create heroku-applink -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -117,6 +122,8 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {})
     })
@@ -129,7 +136,7 @@ describe('attempt a request using the applink API client', function () {
       } catch (error) {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink add-on isn’t fully provisioned on my-app.
+          AppLink add-on isn't fully provisioned on my-app.
           Wait for the add-on to finish provisioning with heroku addons:wait ${addon.name} -a my-app.
         `)
         expect(oclif.exit).to.equal(1)
@@ -146,6 +153,8 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
@@ -179,10 +188,12 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addonStaging])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachmentStaging])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: 'token',
+          HEROKU_APPLINK_STAGING_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_STAGING_TOKEN: 'token',
         })
         .get('/apps/my-app/addons/6789abcd-ef01-2345-6789-abcdef012345/sso')
         .reply(200, sso_response)
@@ -208,6 +219,8 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
@@ -274,10 +287,14 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon, addon2])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment, addonAttachment2])
         .get('/apps/my-app/config-vars')
         .reply(200, {
           HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: 'token',
+          HEROKU_APPLINK_COBALT_API_URL: 'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
+          HEROKU_APPLINK_COBALT_TOKEN: 'token',
         })
     })
 

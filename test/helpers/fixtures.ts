@@ -45,6 +45,36 @@ export const addonStaging: Heroku.AddOn = {
   name: 'heroku-applink-staging-01234',
 }
 
+export const addonAttachment: Heroku.AddOnAttachment = {
+  id: '01234567-89ab-cdef-0123-456789abcdef',
+  addon: {
+    id: addon.id!,
+    name: addon.name!,
+    app,
+  },
+  name: 'HEROKU_APPLINK',
+}
+
+export const addonAttachment2: Heroku.AddOnAttachment = {
+  id: '6789abcd-ef01-2345-6789-abcdef012345',
+  addon: {
+    id: addon2.id!,
+    name: addon2.name!,
+    app: app2,
+  },
+  name: 'HEROKU_APPLINK_COBALT',
+}
+
+export const addonAttachmentStaging: Heroku.AddOnAttachment = {
+  id: '6789abcd-ef01-2345-6789-abcdef012345',
+  addon: {
+    id: addonStaging.id!,
+    name: addonStaging.name!,
+    app: app2,
+  },
+  name: 'HEROKU_APPLINK_STAGING',
+}
+
 export const connection1: AppLink.SalesforceConnection = {
   id: '51807d19-9d78-4064-9468-bcdc34611778',
   org: {
