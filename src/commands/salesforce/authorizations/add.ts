@@ -32,7 +32,7 @@ export default class Add extends Command {
     await this.configureAppLinkClient(app, addon)
     let authorization: AppLink.Authorization
     ({body: authorization} = await this.applinkClient.post<AppLink.Authorization>(
-      `/addons/${this.addonId}/authorizations`,
+      `/addons/${this.addonId}/authorizations/salesforce`,
       {
         headers: {authorization: `Bearer ${this._applinkToken}`},
         body: {
