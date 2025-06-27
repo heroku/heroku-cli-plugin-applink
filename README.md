@@ -31,6 +31,8 @@ USAGE
 * [`heroku applink:authorizations:info DEVELOPER_NAME`](#heroku-applinkauthorizationsinfo-developer_name)
 * [`heroku applink:connections`](#heroku-applinkconnections)
 * [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
+* [`heroku datacloud:authorizations:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsadd-developer_name)
+* [`heroku datacloud:authorizations:remove DEVELOPER_NAME`](#heroku-datacloudauthorizationsremove-developer_name)
 * [`heroku datacloud:connect [CONNECTION_NAME]`](#heroku-datacloudconnect-connection_name)
 * [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 * [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
@@ -123,6 +125,56 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.15/src/commands/applink/connections/info.ts)_
+
+## `heroku datacloud:authorizations:add DEVELOPER_NAME`
+
+store a user's credentials for connecting a Data Cloud org to a Heroku app
+
+```
+USAGE
+  $ heroku datacloud:authorizations:add DEVELOPER_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r
+  <value>]
+
+ARGUMENTS
+  DEVELOPER_NAME  developer name for the authorization. Must begin with a letter, end with a letter or a number, and
+                  between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                  allowed.
+
+FLAGS
+  -a, --app=<value>        (required) app to run command against
+  -l, --login-url=<value>  Salesforce login URL
+  -r, --remote=<value>     git remote of app to use
+      --addon=<value>      unique name or ID of an AppLink add-on
+      --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
+
+DESCRIPTION
+  store a user's credentials for connecting a Data Cloud org to a Heroku app
+```
+
+_See code: [src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.15/src/commands/datacloud/authorizations/add.ts)_
+
+## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
+
+remove a Data Cloud authorization from a Heroku app
+
+```
+USAGE
+  $ heroku datacloud:authorizations:remove DEVELOPER_NAME -a <value> [--addon <value>] [-c <value>] [-r <value>]
+
+ARGUMENTS
+  DEVELOPER_NAME  developer name of the Data Cloud authorization
+
+FLAGS
+  -a, --app=<value>      (required) app to run command against
+  -c, --confirm=<value>  set to developer name to bypass confirm prompt
+  -r, --remote=<value>   git remote of app to use
+      --addon=<value>    unique name or ID of an AppLink add-on
+
+DESCRIPTION
+  remove a Data Cloud authorization from a Heroku app
+```
+
+_See code: [src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.15/src/commands/datacloud/authorizations/remove.ts)_
 
 ## `heroku datacloud:connect [CONNECTION_NAME]`
 
