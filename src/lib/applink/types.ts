@@ -37,11 +37,11 @@ export type SalesforceConnection = {
   /** connection status */
   readonly status: ConnectionStatus
   readonly addon_id?: string
-  readonly created_via_app: string
-  readonly created_at: string
-  readonly last_modified_at: string
-  readonly created_by: string
-  readonly last_modified_by: string
+  readonly created_via_app?: string
+  readonly created_at?: string
+  readonly last_modified_at?: string
+  readonly created_by?: string
+  readonly last_modified_by?: string
 }
 
 /**
@@ -139,13 +139,13 @@ export type Authorization = {
   readonly id: string
   readonly status: AuthorizationStatus
   readonly redirect_uri?: string
-  readonly created_at: string
-  readonly last_modified_at: string,
+  readonly created_at?: string
+  readonly last_modified_at?: string,
   readonly app_name?: string
   readonly org: AuthorizationOrg
-  readonly created_by: string
-  readonly last_modified_by: string
-  readonly created_via_app: string
+  readonly created_by?: string
+  readonly last_modified_by?: string
+  readonly created_via_app?: string
   readonly error?: {
     id: string
     message: string
