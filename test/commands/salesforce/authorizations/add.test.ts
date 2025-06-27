@@ -59,7 +59,7 @@ describe('salesforce:authorizations:add', function () {
       } as unknown as ChildProcess)
       sandbox.stub(ux, 'anykey').onFirstCall().resolves()
       applinkApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/salesforce')
         .reply(202, authorization_authenticating)
     })
 
@@ -152,7 +152,7 @@ describe('salesforce:authorizations:add', function () {
       urlOpener = sandbox.stub(Cmd, 'urlOpener')
       sandbox.stub(ux, 'anykey').onFirstCall().rejects(new Error('quit'))
       applinkApi
-        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/salesforce')
         .reply(202, authorization_authenticating)
     })
 
