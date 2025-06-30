@@ -33,11 +33,11 @@ export default abstract class extends Command {
     return this._addonId || ''
   }
 
-  protected getConfigVars(addon: Heroku.AddOn, configVars: Heroku.ConfigVars): {apiUrl: string, applinkToken: string} {
-    const apiConfigVarName = addon.config_vars?.find(v => v.endsWith('API_URL'))
-    const tokenConfigVarName = addon.config_vars?.find(v => v.endsWith('TOKEN'))
-    const apiUrl = apiConfigVarName ? configVars[apiConfigVarName] : ''
-    const applinkToken = tokenConfigVarName ? configVars[tokenConfigVarName] : ''
+  protected getConfigVars(addonAttachment: Heroku.AddOnAttachment, configVars: Heroku.ConfigVars): {apiUrl: string, applinkToken: string} {
+    const apiConfigVarName = addonAttachment.name + '_API_URL'
+    const tokenConfigVarName = addonAttachment.name + '_TOKEN'
+    const apiUrl = configVars[apiConfigVarName]
+    const applinkToken = configVars[tokenConfigVarName]
     return {apiUrl, applinkToken}
   }
 
@@ -47,15 +47,16 @@ export default abstract class extends Command {
 
     const appInfoRequest = this.heroku.get<Heroku.App>(`/apps/${app}`)
     const addonsRequest = this.heroku.get<Required<Heroku.AddOn>[]>(`/apps/${app}/addons`)
+    const addonAttachmentsRequest = this.heroku.get<Required<Heroku.AddOnAttachment>[]>(`/apps/${app}/addon-attachments`)
     const configVarsRequest = this.heroku.get<Heroku.ConfigVars>(`/apps/${app}/config-vars`)
-    const [{body: appInfo}, {body: addons}, {body: configVars}] = await Promise.all([appInfoRequest, addonsRequest, configVarsRequest])
+    const [{body: appInfo}, {body: addons}, {body: addonAttachments}, {body: configVars}] = await Promise.all([appInfoRequest, addonsRequest, addonAttachmentsRequest, configVarsRequest])
     const applinkAddons = addons.filter(addon => addon.addon_service.name === this.addonServiceSlug)
     let applinkAddon: Heroku.AddOn | undefined
 
     if (applinkAddons.length === 0) {
       ux.error(
         heredoc`
-          AppLink add-on isn’t present on ${color.app(app)}.
+          AppLink add-on isn't present on ${color.app(app)}.
           Install the add-on using ${color.cmd(`heroku addons:create ${this.addonServiceSlug} -a ${app}`)}.
         `,
         {exit: 1}
@@ -83,12 +84,13 @@ export default abstract class extends Command {
       )
     }
 
-    const {apiUrl, applinkToken} = this.getConfigVars(applinkAddon, configVars)
+    const addonAttachment = addonAttachments.find(attachment => attachment.addon.id === applinkAddon.id)
+    const {apiUrl, applinkToken} = this.getConfigVars(addonAttachment!, configVars)
 
     if (!apiUrl || !applinkToken) {
       ux.error(
         heredoc`
-          AppLink add-on isn’t fully provisioned on ${color.app(app)}.
+          AppLink add-on isn't fully provisioned on ${color.app(app)}.
           Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${applinkAddon.name} -a ${app}`)}.
         `,
         {exit: 1}
