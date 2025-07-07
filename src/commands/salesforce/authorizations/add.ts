@@ -8,7 +8,7 @@ import {CLIError} from '@oclif/core/lib/errors'
 import {humanize} from '../../../lib/helpers'
 
 export default class Add extends Command {
-  static description = 'store a user\'s credentials for connecting a Salesforce Org to a Heroku app'
+  static description = 'store a user\'s credentials for connecting a Salesforce org to a Heroku app'
 
   static flags = {
     app: flags.app({required: true}),
