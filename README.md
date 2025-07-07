@@ -333,7 +333,7 @@ _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/
 
 ## `heroku salesforce:connect:jwt CONNECTION_NAME`
 
-connect a Salesforce Org to Heroku app using a JWT auth token
+connect a Salesforce org to Heroku app using a JWT auth token
 
 ```
 USAGE
@@ -355,7 +355,7 @@ FLAGS
       --username=<value>      (required) Salesforce username
 
 DESCRIPTION
-  connect a Salesforce Org to Heroku app using a JWT auth token
+  connect a Salesforce org to Heroku app using a JWT auth token
 ```
 
 _See code: [src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.16/src/commands/salesforce/connect/jwt.ts)_

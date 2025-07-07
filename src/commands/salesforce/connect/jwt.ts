@@ -7,7 +7,7 @@ import {ux, Args} from '@oclif/core'
 import {humanize} from '../../../lib/helpers'
 
 export default class JWT extends Command {
-  static description = 'connect a Salesforce Org to Heroku app using a JWT auth token'
+  static description = 'connect a Salesforce org to Heroku app using a JWT auth token'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
