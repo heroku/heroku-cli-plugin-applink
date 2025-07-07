@@ -33,7 +33,7 @@ USAGE
 * [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
 * [`heroku datacloud:authorizations:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsadd-developer_name)
 * [`heroku datacloud:authorizations:remove DEVELOPER_NAME`](#heroku-datacloudauthorizationsremove-developer_name)
-* [`heroku datacloud:connect [CONNECTION_NAME]`](#heroku-datacloudconnect-connection_name)
+* [`heroku datacloud:connect CONNECTION_NAME`](#heroku-datacloudconnect-connection_name)
 * [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 * [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
 * [`heroku salesforce:authorizations:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsadd-developer_name)
@@ -176,14 +176,13 @@ DESCRIPTION
 
 _See code: [src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.16/src/commands/datacloud/authorizations/remove.ts)_
 
-## `heroku datacloud:connect [CONNECTION_NAME]`
+## `heroku datacloud:connect CONNECTION_NAME`
 
 connect a Data Cloud org to a Heroku app
 
 ```
 USAGE
-  $ heroku datacloud:connect [CONNECTION_NAME] -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r
-    <value>]
+  $ heroku datacloud:connect CONNECTION_NAME -a <value> [--addon <value>] [--browser <value>] [-l <value>] [-r <value>]
 
 ARGUMENTS
   CONNECTION_NAME  name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and
@@ -258,7 +257,7 @@ _See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/hero
 
 ## `heroku salesforce:authorizations:add DEVELOPER_NAME`
 
-store a user's credentials for connecting a Salesforce Org to a Heroku app
+store a user's credentials for connecting a Salesforce org to a Heroku app
 
 ```
 USAGE
@@ -278,7 +277,7 @@ FLAGS
       --browser=<value>    browser to open OAuth flow with (example: "firefox", "safari")
 
 DESCRIPTION
-  store a user's credentials for connecting a Salesforce Org to a Heroku app
+  store a user's credentials for connecting a Salesforce org to a Heroku app
 ```
 
 _See code: [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.16/src/commands/salesforce/authorizations/add.ts)_
@@ -334,7 +333,7 @@ _See code: [src/commands/salesforce/connect/index.ts](https://github.com/heroku/
 
 ## `heroku salesforce:connect:jwt CONNECTION_NAME`
 
-connect a Salesforce Org to Heroku app using a JWT auth token
+connect a Salesforce org to Heroku app using a JWT auth token
 
 ```
 USAGE
@@ -356,14 +355,14 @@ FLAGS
       --username=<value>      (required) Salesforce username
 
 DESCRIPTION
-  connect a Salesforce Org to Heroku app using a JWT auth token
+  connect a Salesforce org to Heroku app using a JWT auth token
 ```
 
 _See code: [src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.16/src/commands/salesforce/connect/jwt.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
-disconnect a Salesforce connection from a Heroku app
+disconnect a Salesforce org from a Heroku app
 
 ```
 USAGE
@@ -379,7 +378,7 @@ FLAGS
       --addon=<value>    unique name or ID of an AppLink add-on
 
 DESCRIPTION
-  disconnect a Salesforce connection from a Heroku app
+  disconnect a Salesforce org from a Heroku app
 ```
 
 _See code: [src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v0.0.16/src/commands/salesforce/disconnect.ts)_

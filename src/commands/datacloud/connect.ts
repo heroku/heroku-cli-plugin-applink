@@ -19,7 +19,7 @@ export default class Connect extends Command {
   }
 
   static args = {
-    connection_name: Args.string({description: 'name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.'}),
+    connection_name: Args.string({required: true, description: 'name for the Data Cloud connection. Must begin with a letter, end with a letter or a number, and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores (\'_\') are allowed.'}),
   }
 
   public static urlOpener: (..._args: Parameters<typeof open>) => ReturnType<typeof open> = open

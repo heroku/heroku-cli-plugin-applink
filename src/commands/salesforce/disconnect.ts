@@ -9,7 +9,7 @@ import {ConnectionError} from '../../lib/applink/types'
 import confirmCommand from '../../lib/confirmCommand'
 
 export default class Disconnect extends Command {
-  static description = 'disconnect a Salesforce connection from a Heroku app'
+  static description = 'disconnect a Salesforce org from a Heroku app'
 
   static flags = {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
