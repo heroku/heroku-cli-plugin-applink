@@ -1263,17 +1263,10 @@
   resolved "https://registry.npmjs.org/@oclif/linewrap/-/linewrap-1.0.0.tgz"
   integrity sha512-Ups2dShK52xXa8w6iBWLgcjPJWjais6KPJQq3gQ/88AY6BXoTX+MIGFPrWQO1KLMiQfoTpcLnUwloN4brrVUHw==
 
-"@oclif/plugin-help@^5":
-  version "5.2.20"
-  resolved "https://registry.npmjs.org/@oclif/plugin-help/-/plugin-help-5.2.20.tgz"
-  integrity sha512-u+GXX/KAGL9S10LxAwNUaWdzbEBARJ92ogmM7g3gDVud2HioCmvWQCDohNRVZ9GYV9oKwZ/M8xwd6a1d95rEKQ==
-  dependencies:
-    "@oclif/core" "^2.15.0"
-
-"@oclif/plugin-help@^6.2.10":
-  version "6.2.27"
-  resolved "https://registry.npmjs.org/@oclif/plugin-help/-/plugin-help-6.2.27.tgz"
-  integrity sha512-RWSWtCFVObRmCwgxVOye3lsYbPHTnB7G4He5LEAg2tf600Sil5yXEOL/ULx1TqL/XOQxKqRvmLn/rLQOMT85YA==
+"@oclif/plugin-help@^6", "@oclif/plugin-help@^6.2.10":
+  version "6.2.30"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-help/-/plugin-help-6.2.30.tgz#4ebeee02da21b19b24cbb9426fb27145792a1ca8"
+  integrity sha512-D8qY2F0TYoM1MuLnaYEVo2MQVwdOKJtw7T9MqNrqn4Hh/9cjJxzKKgaesTdRrL5SxjgGBbqftirnje8rNyJ2Kw==
   dependencies:
     "@oclif/core" "^4"
 
