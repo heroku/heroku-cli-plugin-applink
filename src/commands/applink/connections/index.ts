@@ -47,7 +47,7 @@ export default class Index extends Command {
       })
 
       if (appConnections.some(row => row.status === 'failed')) {
-        ux.log('\nYou have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/heroku-applink#connection-statuses.')
+        ux.log('\nYou have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/working-with-heroku-applink#connection-statuses.')
       }
     }
   }

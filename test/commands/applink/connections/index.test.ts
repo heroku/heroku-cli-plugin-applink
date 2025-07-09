@@ -106,7 +106,7 @@ describe('applink:connections', function () {
            heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
            heroku-applink-vertical-01234 Salesforce Org my-org-3        Failed    
 
-          You have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/heroku-applink#connection-statuses.
+          You have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/working-with-heroku-applink#connection-statuses.
         `)
         expect(stderr.output).to.equal('')
       })

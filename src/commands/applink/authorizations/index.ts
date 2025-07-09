@@ -43,7 +43,7 @@ export default class Index extends Command {
       })
 
       if (appAuthorizations.some(row => row.status === 'failed')) {
-        ux.log('\nYou have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/heroku-applink#authorization-statuses.')
+        ux.log('\nYou have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/working-with-heroku-applink#authorization-statuses.')
       }
     }
   }
