@@ -272,7 +272,7 @@ describe('attempt a request using the applink API client', function () {
         const {message, oclif} = error as CLIError
         expect(stripAnsi(message)).to.equal(heredoc`
           AppLink add-on my-addon-2 doesn't exist on my-app.
-          Use heroku addons:list --app my-app to list the add-ons on the app.
+          Use heroku addons --app my-app to list the add-ons on the app.
         `)
         expect(oclif.exit).to.equal(1)
       }
