@@ -67,7 +67,7 @@ export default abstract class extends Command {
         ux.error(
           heredoc`
             AppLink add-on ${color.addon(addon)} doesn't exist on ${color.app(app)}.
-            Use ${color.cmd(`heroku addons:list --app ${app}`)} to list the add-ons on the app.
+            Use ${color.cmd(`heroku addons --app ${app}`)} to list the add-ons on the app.
           `,
           {exit: 1}
         )
