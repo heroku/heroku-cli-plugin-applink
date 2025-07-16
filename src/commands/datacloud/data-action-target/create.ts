@@ -12,7 +12,7 @@ export default class Create extends Command {
     addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
     app: flags.app({required: true}),
     'api-name': flags.string({char: 'n', description: '[default: <LABEL>] API name for the data action target'}),
-    'connection-name': flags.string({char: 'o', required: true, description: 'Data Cloud connection namee to create the data action target'}),
+    'connection-name': flags.string({char: 'o', required: true, description: 'Data Cloud connection name to create the data action target'}),
     'target-api-path': flags.string({char: 'p', required: true, description: 'API path for the data action target excluding app URL, eg "/" or "/handleDataCloudDataChangeEvent"'}),
     type: flags.string({
       char: 't',
