@@ -218,7 +218,7 @@ ARGUMENTS
 FLAGS
   -a, --app=<value>              (required) app to run command against
   -n, --api-name=<value>         [default: <LABEL>] API name for the data action target
-  -o, --connection-name=<value>  (required) Data Cloud connection namee to create the data action target
+  -o, --connection-name=<value>  (required) Data Cloud connection name to create the data action target
   -p, --target-api-path=<value>  (required) API path for the data action target excluding app URL, eg "/" or
                                  "/handleDataCloudDataChangeEvent"
   -r, --remote=<value>           git remote of app to use
