@@ -26,8 +26,39 @@ export default class Disconnect extends Command {
     const {flags, args} = await this.parse(Disconnect)
     const {app, addon, confirm} = flags
     const {connection_name: connectionName} = args
+    let dataActionTargets: AppLink.DataActionTarget[] = []
+    let message: string | undefined
 
     await this.configureAppLinkClient(app, addon)
+
+    try {
+      const {body} = await this.applinkClient.get<AppLink.DataActionTarget[]>(
+        `/addons/${this.addonId}/connections/datacloud/${connectionName}/data_action_targets`,
+        {
+          headers: {authorization: `Bearer ${this._applinkToken}`},
+          retryAuth: false,
+        }
+      )
+      dataActionTargets = body || []
+    } catch {
+      ux.error('Failed to fetch data action targets for connection', {exit: 1})
+    }
+
+    if (dataActionTargets.length > 0) {
+      const lines: string[] = []
+      ux.table(dataActionTargets, {
+        label: {header: 'DAT Name'},
+      }, {
+        printLine: (line: string) => lines.push(line),
+      })
+
+      const tableStr = lines.join('\n')
+      const intro = heredoc`
+          Destructive action
+          This command disconnects the org ${color.bold.red(connectionName)} from add-on ${color.addon(this._addonName)} on app ${color.app(app)} and will delete the following data action targets:`
+
+      message = `${intro}\n${tableStr}`
+    }
 
     await confirmCommand({
       connectionName,
@@ -35,6 +66,7 @@ export default class Disconnect extends Command {
       addon: this._addonName,
       app,
       confirm,
+      message,
     })
 
     try {
