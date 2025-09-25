@@ -162,7 +162,7 @@ describe('datacloud:disconnect', function () {
       stdOutputMockStop()
 
       expect(stderr.output).to.contain('Destructive action')
-      expect(stderr.output).to.contain('DAT Name')
+      expect(stderr.output).to.contain('Data Action Target Name')
       expect(stderr.output).to.contain('Target One')
       expect(stderr.output).to.contain('Target Two')
     })
@@ -187,7 +187,7 @@ describe('datacloud:disconnect', function () {
       expect(stderr.output).to.contain('Destructive action')
       expect(stderr.output).to.contain('This command disconnects the org myorg')
       expect(stderr.output).to.not.contain('data action targets')
-      expect(stderr.output).to.not.contain('DAT Name')
+      expect(stderr.output).to.not.contain('Data Action Target Name')
     })
   })
 })

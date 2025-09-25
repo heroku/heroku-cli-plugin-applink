@@ -47,7 +47,7 @@ export default class Disconnect extends Command {
     if (dataActionTargets.length > 0) {
       const lines: string[] = []
       ux.table(dataActionTargets, {
-        label: {header: 'DAT Name'},
+        label: {header: 'Data Action Target Name'},
       }, {
         printLine: (line: string) => lines.push(line),
       })
@@ -55,7 +55,7 @@ export default class Disconnect extends Command {
       const tableStr = lines.join('\n')
       const intro = heredoc`
           Destructive action
-          This command disconnects the org ${color.bold.red(connectionName)} from add-on ${color.addon(this._addonName)} on app ${color.app(app)} and will delete the following data action targets:`
+          This command disconnects the org ${color.bold.red(connectionName)} from add-on ${color.addon(this._addonName)} on app ${color.app(app)} and deletes the following data action targets:`
 
       message = `${intro}\n${tableStr}`
     }
