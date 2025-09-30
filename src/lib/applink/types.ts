@@ -133,6 +133,20 @@ export type DataActionTargetCreate = {
 }
 
 /**
+ * A Data Action Target.
+ */
+export type DataActionTarget = {
+  readonly id: string
+  readonly type: string
+  readonly label: string
+  readonly api_name: string
+  readonly status: string
+  readonly target_endpoint: string
+  readonly connection_id: string
+  readonly app_id: string
+}
+
+/**
  * Create Authorization process.
  */
 export type Authorization = {

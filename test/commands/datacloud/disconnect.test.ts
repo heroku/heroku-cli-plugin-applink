@@ -15,6 +15,18 @@ import {
 import {CLIError} from '@oclif/core/lib/errors'
 import stripAnsi from '../../helpers/strip-ansi'
 import heredoc from 'tsheredoc'
+import {ux} from '@oclif/core'
+import * as sinon from 'sinon'
+
+const stdOutputMockStart = () => {
+  stderr.start()
+  stdout.start()
+}
+
+const stdOutputMockStop = () => {
+  stderr.stop()
+  stdout.stop()
+}
 
 describe('datacloud:disconnect', function () {
   let api: nock.Scope
@@ -46,10 +58,13 @@ describe('datacloud:disconnect', function () {
       api.done()
       applinkApi.done()
       nock.cleanAll()
+      sinon.restore()
     })
 
     it('shows the expected output after failing', async function () {
       applinkApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [])
         .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
         .reply(202, connection5_disconnection_failed)
 
@@ -68,6 +83,8 @@ describe('datacloud:disconnect', function () {
 
     it('waits for DELETE /connections/orgName status to return "disconnecting" before ending the action successfully', async function () {
       applinkApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [])
         .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
         .reply(202, connection5_disconnecting)
 
@@ -83,6 +100,8 @@ describe('datacloud:disconnect', function () {
 
     it('connection not found', async function () {
       applinkApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [])
         .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
         .replyWithError(ConnectionError_record_not_found)
 
@@ -102,6 +121,9 @@ describe('datacloud:disconnect', function () {
     })
 
     it('errors when the wrong org name is passed to the confirm flag', async function () {
+      applinkApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [])
       try {
         await runCommand(Cmd, [
           'myorg',
@@ -113,6 +135,59 @@ describe('datacloud:disconnect', function () {
         expect(stripAnsi(message)).to.equal('Confirmation myorg2 doesn\'t match myorg. Re-run this command to try again.')
         expect(oclif.exit).to.equal(1)
       }
+    })
+
+    it('prompts with DAT table when data action targets exist (no indent)', async function () {
+      applinkApi
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [
+          {
+            label: 'Target One',
+            api_name: 'TargetOne',
+          },
+          {
+            label: 'Target Two',
+            api_name: 'TargetTwo',
+          },
+        ])
+        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
+        .reply(202, connection5_disconnecting)
+
+      sinon.stub(ux, 'prompt').resolves('myorg')
+      stdOutputMockStart()
+      await runCommand(Cmd, [
+        'myorg',
+        '--app=my-app',
+      ])
+      stdOutputMockStop()
+
+      expect(stderr.output).to.contain('Destructive action')
+      expect(stderr.output).to.contain('Data Action Target Name')
+      expect(stderr.output).to.contain('Target One')
+      expect(stderr.output).to.contain('Target Two')
+    })
+
+    it('prompts without DAT table when no data action targets exist', async function () {
+      applinkApi
+        .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/myorg')
+        .reply(202, connection5_disconnecting)
+        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/datacloud/myorg/data_action_targets')
+        .reply(200, [])
+
+      sinon.stub(ux, 'prompt').resolves('myorg')
+      stdOutputMockStart()
+      await runCommand(Cmd, [
+        'myorg',
+        '--app=my-app',
+      ])
+      stdOutputMockStop()
+
+      console.log(stderr.output)
+
+      expect(stderr.output).to.contain('Destructive action')
+      expect(stderr.output).to.contain('This command disconnects the org myorg')
+      expect(stderr.output).to.not.contain('data action targets')
+      expect(stderr.output).to.not.contain('Data Action Target Name')
     })
   })
 })
