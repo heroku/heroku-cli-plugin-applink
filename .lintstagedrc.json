@@ -1,0 +1,4 @@
+{
+  "**/*.{ts,tsx,cjs,mjs,js}": ["npm run format"],
+  "*.{json,md,yml,yaml}": ["npm run format"]
+}
