@@ -18,9 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node_version }}
-          cache: yarn
-      - run: yarn --immutable --network-timeout 1000000
-      - name: Unit tests
-        run: yarn test
-      - name: Check linting
-        run: yarn lint
+          cache: npm
+      - run: npm ci
+      - name: Runs linting, type-checking, and tests
+        run: npm run ci

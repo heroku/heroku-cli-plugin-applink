@@ -1,10 +1,10 @@
-import {expect} from 'chai'
-import nock from 'nock'
-import {stderr, stdout} from 'stdout-stderr'
-import heredoc from 'tsheredoc'
-import {runCommand} from '../../../run-command'
-import Cmd from '../../../../src/commands/applink/connections/info'
-import stripAnsi from '../../../helpers/strip-ansi'
+import { expect } from 'chai';
+import nock from 'nock';
+import { stderr, stdout } from 'stdout-stderr';
+import heredoc from 'tsheredoc';
+import { runCommand } from '../../../run-command';
+import Cmd from '../../../../src/commands/applink/connections/info';
+import stripAnsi from '../../../helpers/strip-ansi';
 import {
   addon,
   connection2_connected,
@@ -12,17 +12,17 @@ import {
   sso_response,
   app,
   addonAttachment,
-} from '../../../helpers/fixtures'
-import {CLIError} from '@oclif/core/lib/errors'
+} from '../../../helpers/fixtures';
+import { CLIError } from '@oclif/core/lib/errors';
 
 describe('applink:connections:info', function () {
-  let api: nock.Scope
-  let applinkApi: nock.Scope
-  const {env} = process
+  let api: nock.Scope;
+  let applinkApi: nock.Scope;
+  const { env } = process;
 
   context('when config var is set to the HEROKU_APPLINK_API_URL', function () {
     beforeEach(function () {
-      process.env = {}
+      process.env = {};
       api = nock('https://api.heroku.com')
         .get('/apps/my-app')
         .reply(200, app)
@@ -32,30 +32,30 @@ describe('applink:connections:info', function () {
         .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL:
+            'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: 'token',
         })
         .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-      applinkApi = nock('https://applink-api.heroku.com')
-    })
+        .reply(200, sso_response);
+      applinkApi = nock('https://applink-api.heroku.com');
+    });
 
     afterEach(function () {
-      process.env = env
-      api.done()
-      applinkApi.done()
-      nock.cleanAll()
-    })
+      process.env = env;
+      api.done();
+      applinkApi.done();
+      nock.cleanAll();
+    });
 
     it('shows info for the connection', async function () {
       applinkApi
-        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
-        .reply(200, connection2_connected)
+        .get(
+          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2'
+        )
+        .reply(200, connection2_connected);
 
-      await runCommand(Cmd, [
-        'my-org-2',
-        '--app=my-app',
-      ])
+      await runCommand(Cmd, ['my-org-2', '--app=my-app']);
 
       expect(stripAnsi(stdout.output)).to.equal(heredoc`
         === my-org-2 on app my-app
@@ -69,25 +69,26 @@ describe('applink:connections:info', function () {
         Last Modified By: user@example.com
         Org ID:           00DSG000007a3BcA84
         Status:           Connected
-      `)
-      expect(stderr.output).to.equal('')
-    })
+      `);
+      expect(stderr.output).to.equal('');
+    });
 
     it('connection not found', async function () {
       applinkApi
-        .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2')
-        .reply(200, connection_record_not_found)
+        .get(
+          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/my-org-2'
+        )
+        .reply(200, connection_record_not_found);
 
       try {
-        await runCommand(Cmd, [
-          'my-org-2',
-          '--app=my-app',
-        ])
+        await runCommand(Cmd, ['my-org-2', '--app=my-app']);
       } catch (error) {
-        const {message, oclif} = error as CLIError
-        expect(stripAnsi(message)).to.contain('not found or is not connected to')
-        expect(oclif.exit).to.equal(1)
+        const { message, oclif } = error as CLIError;
+        expect(stripAnsi(message)).to.contain(
+          'not found or is not connected to'
+        );
+        expect(oclif.exit).to.equal(1);
       }
-    })
-  })
-})
+    });
+  });
+});

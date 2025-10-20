@@ -1,0 +1,15 @@
+{
+  "all": true,
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "dist/**/*",
+    "**/*.test.ts",
+    "test/**/*",
+    "**/*types.ts",
+    "node_modules/**/*"
+  ],
+  "reporter": ["text", "html", "text-summary"],
+  "clean": true,
+  "temp-directory": "./coverage/tmp",
+  "report-dir": "./coverage"
+}

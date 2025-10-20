@@ -1,22 +1,18 @@
 *-debug.log
 *-error.log
-**/.DS_Store
-/.idea
+*.tgz
+.DS_Store
+*.tsbuildinfo
+/lib
 /dist
 /tmp
-/node_modules
-oclif.manifest.json
+/oclif.manifest.json
+/package
+node_modules
 
-package-lock.json
-pnpm-lock.yaml
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+# Test coverage (c8)
+coverage/
 
-.jshint*
-coverage
-.nyc_output
+# GUS local files
+.gus/sprints/*.json
+.gus/tasks/

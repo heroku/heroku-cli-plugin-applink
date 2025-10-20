@@ -16,13 +16,16 @@ Learn more about [Conventional Commits](https://www.conventionalcommits.org/).
 
 [WI](add work item link here)
 
-Replace this text with a summary of the change(s) including relevant motivations, context, and or links.
+Replace this text with a summary of the change(s) including relevant
+motivations, context, and or links.
 
 ## Testing
 
-**Notes**: Replace this text with any context/setup necessary for testing or type 'N/A'.
+**Notes**: Replace this text with any context/setup necessary for testing or
+type 'N/A'.
 
-1. Replace this text with a list of steps used to validate changes or type 'Passing CI suffices'.
+1. Replace this text with a list of steps used to validate changes or type
+   'Passing CI suffices'.
 2. ...
 
 ## Screenshots (if applicable)

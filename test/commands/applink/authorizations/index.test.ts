@@ -1,10 +1,10 @@
-import {expect} from 'chai'
-import nock from 'nock'
-import {stderr, stdout} from 'stdout-stderr'
-import heredoc from 'tsheredoc'
-import {runCommand} from '../../../run-command'
-import Cmd from '../../../../src/commands/applink/authorizations/index'
-import stripAnsi from '../../../helpers/strip-ansi'
+import { expect } from 'chai';
+import nock from 'nock';
+import { stderr, stdout } from 'stdout-stderr';
+import heredoc from 'tsheredoc';
+import { runCommand } from '../../../run-command';
+import Cmd from '../../../../src/commands/applink/authorizations/index';
+import stripAnsi from '../../../helpers/strip-ansi';
 import {
   addon,
   authorization_connected,
@@ -13,29 +13,30 @@ import {
   sso_response,
   app,
   addonAttachment,
-} from '../../../helpers/fixtures'
+} from '../../../helpers/fixtures';
 
 describe('applink:authorizations', function () {
-  let api: nock.Scope
-  let applinkApi: nock.Scope
-  const {env} = process
+  let api: nock.Scope;
+  let applinkApi: nock.Scope;
+  const { env } = process;
 
   beforeEach(function () {
-    process.env = {}
-    api = nock('https://api.heroku.com')
-    applinkApi = nock('https://applink-api.heroku.com')
-  })
+    process.env = {};
+    api = nock('https://api.heroku.com');
+    applinkApi = nock('https://applink-api.heroku.com');
+  });
 
   afterEach(function () {
-    process.env = env
-    api.done()
-    applinkApi.done()
-    nock.cleanAll()
-  })
+    process.env = env;
+    api.done();
+    applinkApi.done();
+    nock.cleanAll();
+  });
 
   context('when the --app flag is specified', function () {
     beforeEach(function () {
-      api.get('/apps/my-app')
+      api
+        .get('/apps/my-app')
         .reply(200, app)
         .get('/apps/my-app/addons')
         .reply(200, [addon])
@@ -43,59 +44,66 @@ describe('applink:authorizations', function () {
         .reply(200, [addonAttachment])
         .get('/apps/my-app/config-vars')
         .reply(200, {
-          HEROKU_APPLINK_API_URL: 'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_API_URL:
+            'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
           HEROKU_APPLINK_TOKEN: 'token',
         })
         .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
-        .reply(200, sso_response)
-    })
+        .reply(200, sso_response);
+    });
 
-    context('when there are no Heroku AppLink authorizations created on the app', function () {
-      it('displays a notification', async function () {
-        applinkApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
-          .reply(200, [])
+    context(
+      'when there are no Heroku AppLink authorizations created on the app',
+      function () {
+        it('displays a notification', async function () {
+          applinkApi
+            .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
+            .reply(200, []);
 
-        await runCommand(Cmd, [
-          '--app=my-app',
-        ])
+          await runCommand(Cmd, ['--app=my-app']);
 
-        expect(stripAnsi(stdout.output)).to.equal('There are no Heroku AppLink authorizations for add-on heroku-applink-vertical-01234 on app my-app.\n')
-        expect(stderr.output).to.equal('')
-      })
-    })
+          expect(stripAnsi(stdout.output)).to.equal(
+            'There are no Heroku AppLink authorizations for add-on heroku-applink-vertical-01234 on app my-app.\n'
+          );
+          expect(stderr.output).to.equal('');
+        });
+      }
+    );
 
-    context('when there are Heroku AppLink authorizations returned', function () {
-      it('shows the authorizations', async function () {
-        applinkApi
-          .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
-          .reply(200, [authorization_connected, authorization_connected_2])
+    context(
+      'when there are Heroku AppLink authorizations returned',
+      function () {
+        it('shows the authorizations', async function () {
+          applinkApi
+            .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
+            .reply(200, [authorization_connected, authorization_connected_2]);
 
-        await runCommand(Cmd, [
-          '--app=my-app',
-        ])
+          await runCommand(Cmd, ['--app=my-app']);
 
-        expect(stripAnsi(stdout.output)).to.equal(heredoc`
+          expect(stripAnsi(stdout.output)).to.equal(heredoc`
           === Heroku AppLink authorizations for app my-app
   
            Type           Add-On                        Developer Name      Status     
            ────────────── ───────────────────────────── ─────────────────── ────────── 
            Salesforce Org heroku-applink-vertical-01234 my-developer-name   Authorized 
            Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
-        `)
-        expect(stderr.output).to.equal('')
-      })
-    })
+        `);
+          expect(stderr.output).to.equal('');
+        });
+      }
+    );
 
     context('when Heroku AppLink authorizations fails to load', function () {
       it('shows failed authorization and warning message', async function () {
         applinkApi
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
-          .reply(200, [authorization_connected, authorization_connected_2, authorization_connected_3_failed])
+          .reply(200, [
+            authorization_connected,
+            authorization_connected_2,
+            authorization_connected_3_failed,
+          ]);
 
-        await runCommand(Cmd, [
-          '--app=my-app',
-        ])
+        await runCommand(Cmd, ['--app=my-app']);
 
         expect(stripAnsi(stdout.output)).to.equal(heredoc`
 === Heroku AppLink authorizations for app my-app
@@ -107,9 +115,9 @@ describe('applink:authorizations', function () {
  Salesforce Org heroku-applink-vertical-01234 my-developer-name-3 Failed     
 
 You have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/working-with-heroku-applink#authorization-statuses.
-          `)
-        expect(stderr.output).to.equal('')
-      })
-    })
-  })
-})
+          `);
+        expect(stderr.output).to.equal('');
+      });
+    });
+  });
+});

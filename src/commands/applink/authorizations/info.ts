@@ -1,47 +1,57 @@
-import {color} from '@heroku-cli/color'
-import Command from '../../../lib/base'
-import {flags} from '@heroku-cli/command'
-import * as AppLink from '../../../lib/applink/types'
-import {Args, ux} from '@oclif/core'
-import {humanize} from '../../../lib/helpers'
+import { color } from '@heroku-cli/color';
+import Command from '../../../lib/base';
+import { flags } from '@heroku-cli/command';
+import * as AppLink from '../../../lib/applink/types';
+import { Args, ux } from '@oclif/core';
+import { humanize } from '../../../lib/helpers';
 
 export default class Info extends Command {
-  static description = 'show info for a Heroku AppLink authorized user'
+  static description = 'show info for a Heroku AppLink authorized user';
 
   static flags = {
-    addon: flags.string({description: 'unique name or ID of an AppLink add-on'}),
-    app: flags.app({required: true}),
+    addon: flags.string({
+      description: 'unique name or ID of an AppLink add-on',
+    }),
+    app: flags.app({ required: true }),
     remote: flags.remote(),
-  }
+  };
 
   static args = {
-    developer_name: Args.string({description: 'developer name of the authorization', required: true}),
-  }
+    developer_name: Args.string({
+      description: 'developer name of the authorization',
+      required: true,
+    }),
+  };
 
   public async run(): Promise<void> {
-    const {flags, args} = await this.parse(Info)
-    const {app, addon} = flags
-    const {developer_name: developerName} = args
+    const { flags, args } = await this.parse(Info);
+    const { app, addon } = flags;
+    const { developer_name: developerName } = args;
 
-    await this.configureAppLinkClient(app, addon)
-    let authorization: AppLink.Authorization
+    await this.configureAppLinkClient(app, addon);
+    let authorization: AppLink.Authorization;
     try {
-      ({body: authorization} = await this.applinkClient.get<AppLink.Authorization>(
-        `/addons/${this.addonId}/authorizations/${developerName}`, {
-          headers: {authorization: `Bearer ${this._applinkToken}`},
-          retryAuth: false,
-        }
-      ))
+      ({ body: authorization } =
+        await this.applinkClient.get<AppLink.Authorization>(
+          `/addons/${this.addonId}/authorizations/${developerName}`,
+          {
+            headers: { authorization: `Bearer ${this._applinkToken}` },
+            retryAuth: false,
+          }
+        ));
     } catch (error) {
-      const connErr = error as AppLink.ConnectionError
+      const connErr = error as AppLink.ConnectionError;
       if (connErr.body && connErr.body.id === 'record_not_found') {
-        ux.error(`Developer Name ${color.yellow(developerName)} doesn't exist on app ${color.app(app)}. Use ${color.cmd('heroku applink:authorizations')} to list all authorized users on the app.`, {exit: 1})
+        ux.error(
+          `Developer Name ${color.yellow(developerName)} doesn't exist on app ${color.app(app)}. Use ${color.cmd('heroku applink:authorizations')} to list all authorized users on the app.`,
+          { exit: 1 }
+        );
       } else {
-        throw error
+        throw error;
       }
     }
 
-    ux.styledHeader(`${color.yellow(developerName)} on app ${color.app(app)}`)
+    ux.styledHeader(`${color.yellow(developerName)} on app ${color.app(app)}`);
 
     ux.styledObject({
       ID: authorization.id,
@@ -56,6 +66,6 @@ export default class Info extends Command {
       'Created By': authorization.created_by,
       'Last Modified': authorization.last_modified_at,
       'Last Modified By': authorization.last_modified_by,
-    })
+    });
   }
 }
