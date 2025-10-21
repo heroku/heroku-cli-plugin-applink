@@ -20,9 +20,9 @@ export default class Add extends Command {
       description:
         'browser to open OAuth flow with (example: "firefox", "safari")',
     }),
-    json: flags.boolean({
-      char: 'j',
-      description: 'output in JSON format',
+    url: flags.boolean({
+      char: 'u',
+      description: 'only output the redirect URL',
     }),
     'login-url': flags.string({
       char: 'l',
@@ -45,7 +45,7 @@ export default class Add extends Command {
 
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(Add);
-    const { addon, app, browser, json, 'login-url': loginUrl } = flags;
+    const { addon, app, browser, url, 'login-url': loginUrl } = flags;
     const { developer_name: developerName } = args;
 
     await this.configureAppLinkClient(app, addon);
@@ -65,7 +65,7 @@ export default class Add extends Command {
 
     const { id, redirect_uri: redirectUri } = authorization;
 
-    if (flags.json) {
+    if (flags.url) {
       ux.styledJSON(redirectUri);
       return;
     }
