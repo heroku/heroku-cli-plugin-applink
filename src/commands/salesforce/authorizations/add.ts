@@ -21,8 +21,7 @@ export default class Add extends Command {
         'browser to open OAuth flow with (example: "firefox", "safari")',
     }),
     url: flags.boolean({
-      char: 'u',
-      description: 'only output the redirect URL',
+      hidden: true,
     }),
     'login-url': flags.string({
       char: 'l',
