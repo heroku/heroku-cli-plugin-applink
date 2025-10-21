@@ -172,4 +172,47 @@ describe('salesforce:authorizations:add', function () {
       expect(urlOpener.notCalled).to.equal(true);
     });
   });
+
+  context('when the --json flag is provided', function () {
+    let anykeyStub: SinonStub;
+
+    beforeEach(function () {
+      urlOpener = sandbox.stub(Cmd, 'urlOpener');
+      anykeyStub = sandbox.stub(ux, 'anykey');
+      applinkApi
+        .post(
+          '/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/salesforce'
+        )
+        .reply(202, authorization_authenticating);
+    });
+
+    it('outputs the redirect URI in JSON format', async function () {
+      await runCommand(Cmd, ['my-auth-1', '--app=my-app', '--json']);
+
+      expect(stdout.output).to.contain(
+        authorization_authenticating.redirect_uri
+      );
+      expect(stderr.output).to.not.contain('Opening browser to');
+    });
+
+    it("doesn't prompt the user to open the browser", async function () {
+      await runCommand(Cmd, ['my-auth-1', '--app=my-app', '--json']);
+
+      expect(anykeyStub.notCalled).to.equal(true);
+    });
+
+    it("doesn't attempt to open the browser", async function () {
+      await runCommand(Cmd, ['my-auth-1', '--app=my-app', '--json']);
+
+      expect(urlOpener.notCalled).to.equal(true);
+    });
+
+    it("doesn't poll for authorization status", async function () {
+      await runCommand(Cmd, ['my-auth-1', '--app=my-app', '--json']);
+
+      // If it was polling, there would be a GET request to the authorization endpoint
+      expect(applinkApi.isDone()).to.equal(true);
+      expect(stderr.output).to.not.contain('Adding credentials');
+    });
+  });
 });
