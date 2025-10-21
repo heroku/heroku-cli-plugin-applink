@@ -20,6 +20,9 @@ export default class Add extends Command {
       description:
         'browser to open OAuth flow with (example: "firefox", "safari")',
     }),
+    url: flags.boolean({
+      hidden: true,
+    }),
     'login-url': flags.string({
       char: 'l',
       description: 'Salesforce login URL',
@@ -41,7 +44,7 @@ export default class Add extends Command {
 
   public async run(): Promise<void> {
     const { flags, args } = await this.parse(Add);
-    const { addon, app, browser, 'login-url': loginUrl } = flags;
+    const { addon, app, browser, url, 'login-url': loginUrl } = flags;
     const { developer_name: developerName } = args;
 
     await this.configureAppLinkClient(app, addon);
@@ -60,6 +63,11 @@ export default class Add extends Command {
       ));
 
     const { id, redirect_uri: redirectUri } = authorization;
+
+    if (flags.url) {
+      ux.styledJSON(redirectUri);
+      return;
+    }
 
     process.stderr.write(`Opening browser to ${redirectUri}\n`);
     let urlDisplayed = false;
