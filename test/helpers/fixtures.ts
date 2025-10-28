@@ -511,3 +511,37 @@ export const credential_id_failed: AppLink.CredsCredential = {
   ...credential_id_connected,
   status: 'failed',
 };
+
+export const authorization_jwt_authorized: AppLink.Authorization = {
+  id: '7751fe92-c2fb-4ef7-be43-9d927d9a5c53',
+  status: 'authorized',
+  created_at: '2021-01-01T00:00:00Z',
+  last_modified_at: '2021-01-01T00:00:00Z',
+  app_name: app.name!,
+  org: {
+    id: '00DSG000007a3BcA84',
+    instance_url: 'https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com',
+    developer_name: 'my-jwt-auth',
+    type: 'SalesforceOrg',
+    username: 'admin@applink.org',
+    user_id: 'user_id',
+  },
+  created_by: 'user@example.com',
+  last_modified_by: 'user@example.com',
+  created_via_app: app.name!,
+  connection_method: 'JWT',
+};
+
+export const authorization_jwt_failed: AppLink.Authorization = {
+  ...authorization_jwt_authorized,
+  status: 'failed',
+  error: {
+    id: 'authentication_failed',
+    message: 'JWT authentication failed',
+  },
+};
+
+export const authorization_jwt_authorizing: AppLink.Authorization = {
+  ...authorization_jwt_authorized,
+  status: 'authorizing',
+};

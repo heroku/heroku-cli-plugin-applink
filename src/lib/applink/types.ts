@@ -178,6 +178,7 @@ export type Authorization = {
   readonly created_by: string;
   readonly last_modified_by: string;
   readonly created_via_app: string;
+  readonly connection_method?: 'OAuth' | 'JWT';
   readonly error?: {
     id: string;
     message: string;
