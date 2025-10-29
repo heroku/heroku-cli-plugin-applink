@@ -34,6 +34,7 @@ USAGE
 - [`heroku applink:connections`](#heroku-applinkconnections)
 - [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
 - [`heroku datacloud:authorizations:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsadd-developer_name)
+- [`heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`](#heroku-datacloudauthorizationsaddjwt-developer_name)
 - [`heroku datacloud:authorizations:remove DEVELOPER_NAME`](#heroku-datacloudauthorizationsremove-developer_name)
 - [`heroku datacloud:connect CONNECTION_NAME`](#heroku-datacloudconnect-connection_name)
 - [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
@@ -160,6 +161,59 @@ DESCRIPTION
 
 _See code:
 [src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add.ts)_
+
+## `heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`
+
+store credentials for connecting a Data Cloud org to a Heroku app using JWT
+authorization
+
+```
+USAGE
+  $ heroku datacloud:authorizations:add:jwt DEVELOPER_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
+    [--addon <value>] [-l <value>] [-r <value>] [--alias <value>]
+
+ARGUMENTS
+  DEVELOPER_NAME  unique developer name for the authorization. Must begin with a letter, end with a letter or a number,
+                  and between 3-30 characters. Only alphanumeric characters and non-consecutive underscores ('_') are
+                  allowed.
+
+FLAGS
+  -a, --app=<value>           (required) app to run command against
+  -l, --login-url=<value>     Salesforce login URL
+  -r, --remote=<value>        git remote of app to use
+      --addon=<value>         unique name or ID of an AppLink add-on
+      --alias=<value>         alias for the authorization (defaults to applink:{developer_name})
+      --client-id=<value>     (required) ID of consumer key
+      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
+      --username=<value>      (required) Data Cloud username
+
+DESCRIPTION
+  store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization
+
+EXAMPLES
+  $ heroku datacloud:authorizations:add:jwt my-auth \
+    --app my-app \
+    --client-id 3MVG9...NM0ZqZc9aT \
+    --jwt-key-file server.key \
+    --username api.user@mycompany.com
+
+  $ heroku datacloud:authorizations:add:jwt my-sandbox-auth \
+    --app my-app \
+    --client-id 3MVG9...NM0ZqZc9aT \
+    --jwt-key-file server.key \
+    --username api.user@mycompany.com \
+    --login-url https://test.salesforce.com
+
+  $ heroku datacloud:authorizations:add:jwt my-auth \
+    --app my-app \
+    --client-id 3MVG9...NM0ZqZc9aT \
+    --jwt-key-file server.key \
+    --username api.user@mycompany.com \
+    --alias custom-alias
+```
+
+_See code:
+[src/commands/datacloud/authorizations/add/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add/jwt.ts)_
 
 ## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
 
