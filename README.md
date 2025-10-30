@@ -180,17 +180,6 @@ workflows:
           context: production
 ```
 
-## Troubleshooting
-
-| Error                                | Possible Cause                                                  | Solution                                                                                                    |
-| ------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `Authentication failed` (401)        | Private key doesn't match certificate uploaded to Connected App | Verify you uploaded the correct certificate to Salesforce. Regenerate key pair if needed.                   |
-| `User hasn't approved this consumer` | User not pre-authorized for Connected App                       | Add user to a profile/permission set that has access to the Connected App.                                  |
-| `Invalid client_id`                  | Incorrect Consumer Key                                          | Copy the Consumer Key exactly from your Connected App settings (Setup > App Manager).                       |
-| `Invalid username`                   | Username doesn't exist or is inactive                           | Verify the username exists and is active in your Salesforce org.                                            |
-| `Error: ENOENT: no such file`        | JWT key file path is incorrect                                  | Check the file path. Use absolute path or ensure relative path is correct from command execution directory. |
-| `Invalid login URL`                  | Using wrong login URL for org type                              | Use `https://login.salesforce.com` for production, `https://test.salesforce.com` for sandboxes.             |
-
 ## Security Best Practices
 
 1. **Key Rotation**: Rotate JWT key pairs regularly (e.g., every 90 days)
