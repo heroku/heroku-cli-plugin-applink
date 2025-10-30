@@ -56,24 +56,28 @@ export default abstract class JWTAuthCommand extends Command {
     app: flags.app({ required: true }),
     'client-id': flags.string({
       required: true,
-      description: 'ID of consumer key',
+      description:
+        'Consumer Key from your Connected App (found in Setup > App Manager > [Your App] > View). Must match the key used to generate the JWT private key.',
     }),
     'jwt-key-file': flags.file({
       required: true,
-      description: 'path to file containing private key to authorize with',
+      description:
+        'Path to file containing RSA private key in PEM format. Generate with: openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes',
     }),
     'login-url': flags.string({
       char: 'l',
-      description: 'Salesforce login URL',
+      description:
+        'Salesforce login URL (default: https://login.salesforce.com for production, https://test.salesforce.com for sandboxes)',
     }),
     remote: flags.remote(),
     username: flags.string({
       required: true,
-      description: 'username for authorization',
+      description:
+        'Salesforce username that has been authorized for the Connected App. Must be a valid user in the target org.',
     }),
     alias: flags.string({
       description:
-        'alias for the authorization (defaults to applink:{developer_name})',
+        'Alias for the authorization (defaults to applink:{developer_name}). Used to retrieve credentials via SDK.',
     }),
   };
 
