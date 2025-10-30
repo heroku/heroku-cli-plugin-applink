@@ -32,7 +32,7 @@ The AppLink plugin supports JWT (JSON Web Token) authorization for headless
 authentication in CI/CD pipelines and automated workflows. This eliminates the
 need for interactive browser-based OAuth flows.
 
-## Quick Start
+## Step-by-Step Setup Guide
 
 ### 1. Generate RSA Key Pair
 
@@ -46,18 +46,22 @@ openssl x509 -pubkey -noout -in server.crt > server.pub
 
 ### 2. Configure Connected App in Salesforce
 
-1. Navigate to **Setup** > **App Manager** > **New Connected App**
-2. Configure OAuth settings:
-   - Enable OAuth Settings: ✓
-   - Enable for Device Flow: ✓ (optional)
-   - Callback URL: `http://localhost:1717/OauthRedirect` (required but not used
-     for JWT)
-3. Enable **Use digital signatures**
-4. Upload your `server.crt` certificate
-5. Select OAuth scopes (minimum: `api`, `refresh_token`)
-6. Save and note your **Consumer Key** (client ID)
+Follow the official Salesforce documentation to create and configure your
+Connected App:
+
+1. **[Create a Connected App](https://help.salesforce.com/s/articleView?id=sf.connected_app_create.htm)**
+   - Enable OAuth Settings
+   - Enable "Use digital signatures" and upload your certificate
+   - Set Callback URL: `http://localhost:1717/OauthRedirect`
+   - Select OAuth scopes (minimum: `api`, `refresh_token`)
+
+2. **[Authorize an Org Using the JWT Flow](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_auth_jwt_flow.htm)**
+   - Review JWT flow requirements and security considerations
 
 ### 3. Pre-authorize Users
+
+Follow the official guide for
+[Managing Connected App Policies](https://help.salesforce.com/s/articleView?id=sf.connected_app_manage_oauth.htm):
 
 In your Connected App settings, click **Manage** > **Edit Policies**:
 
