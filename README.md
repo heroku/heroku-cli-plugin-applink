@@ -10,6 +10,11 @@ Heroku AppLink plugin
 
 - [@heroku-cli/plugin-applink](#heroku-cliplugin-applink)
 - [Usage](#usage)
+- [JWT Authorization (Headless Authentication)](#jwt-authorization-headless-authentication)
+- [Generate private key and self-signed certificate](#generate-private-key-and-self-signed-certificate)
+- [Extract public key for Connected App](#extract-public-key-for-connected-app)
+- [For Salesforce](#for-salesforce)
+- [For Data Cloud](#for-data-cloud)
 - [Commands](#commands)
 <!-- tocstop -->
 
@@ -24,6 +29,186 @@ USAGE
   $ heroku applink:COMMAND
 ...
 ```
+
+# JWT Authorization (Headless Authentication)
+
+The AppLink plugin supports JWT (JSON Web Token) authorization for headless
+authentication in CI/CD pipelines and automated workflows. This eliminates the
+need for interactive browser-based OAuth flows.
+
+## Quick Start
+
+### 1. Generate RSA Key Pair
+
+```bash
+# Generate private key and self-signed certificate
+openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+
+# Extract public key for Connected App
+openssl x509 -pubkey -noout -in server.crt > server.pub
+```
+
+### 2. Configure Connected App in Salesforce
+
+1. Navigate to **Setup** > **App Manager** > **New Connected App**
+2. Configure OAuth settings:
+   - Enable OAuth Settings: ✓
+   - Enable for Device Flow: ✓ (optional)
+   - Callback URL: `http://localhost:1717/OauthRedirect` (required but not used
+     for JWT)
+3. Enable **Use digital signatures**
+4. Upload your `server.crt` certificate
+5. Select OAuth scopes (minimum: `api`, `refresh_token`)
+6. Save and note your **Consumer Key** (client ID)
+
+### 3. Pre-authorize Users
+
+In your Connected App settings, click **Manage** > **Edit Policies**:
+
+- Admin approved users are pre-authorized: **Admin approved users are
+  pre-authorized**
+- Permitted Users: Select specific profiles or permission sets
+
+### 4. Add JWT Authorization via CLI
+
+```bash
+# For Salesforce
+heroku salesforce:authorizations:add:jwt my-auth \
+  --app my-heroku-app \
+  --client-id 3MVG9...NM0ZqZc9aT \
+  --jwt-key-file server.key \
+  --username api.user@mycompany.com
+
+# For Data Cloud
+heroku datacloud:authorizations:add:jwt my-auth \
+  --app my-heroku-app \
+  --client-id 3MVG9...NM0ZqZc9aT \
+  --jwt-key-file server.key \
+  --username api.user@mycompany.com
+```
+
+### 5. Use in Your Application
+
+Once authorized, your application can retrieve credentials using the AppLink
+SDK:
+
+```javascript
+const Applink = require('@heroku/applink');
+const applink = new Applink();
+
+// Retrieve authorization by developer name
+const auth = await applink.getAuthorization('my-auth');
+console.log('Access Token:', auth.access_token);
+console.log('Instance URL:', auth.instance_url);
+
+// Or retrieve by alias
+const authByAlias = await applink.getAuthorizationByAlias('applink:my-auth');
+```
+
+## CI/CD Integration Examples
+
+### GitHub Actions
+
+```yaml
+name: Deploy with AppLink JWT
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+          heroku plugins:install @heroku-cli/plugin-applink
+
+      - name: Add JWT Authorization
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
+          SF_CLIENT_ID: ${{ secrets.SF_CLIENT_ID }}
+          SF_USERNAME: ${{ secrets.SF_USERNAME }}
+        run: |
+          echo "$JWT_PRIVATE_KEY" > /tmp/jwt.key
+          heroku salesforce:authorizations:add:jwt ci-auth \
+            --app my-app \
+            --client-id $SF_CLIENT_ID \
+            --jwt-key-file /tmp/jwt.key \
+            --username $SF_USERNAME
+          rm /tmp/jwt.key
+
+      - name: Deploy to Heroku
+        run: git push heroku main
+```
+
+### CircleCI
+
+```yaml
+version: 2.1
+
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku
+          command: |
+            curl https://cli-assets.heroku.com/install.sh | sh
+            heroku plugins:install @heroku-cli/plugin-applink
+      - run:
+          name: Add JWT Authorization
+          command: |
+            echo "$JWT_PRIVATE_KEY" > /tmp/jwt.key
+            heroku salesforce:authorizations:add:jwt ci-auth \
+              --app $HEROKU_APP_NAME \
+              --client-id $SF_CLIENT_ID \
+              --jwt-key-file /tmp/jwt.key \
+              --username $SF_USERNAME
+            rm /tmp/jwt.key
+
+workflows:
+  deploy:
+    jobs:
+      - deploy:
+          context: production
+```
+
+## Troubleshooting
+
+| Error                                | Possible Cause                                                  | Solution                                                                                                    |
+| ------------------------------------ | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `Authentication failed` (401)        | Private key doesn't match certificate uploaded to Connected App | Verify you uploaded the correct certificate to Salesforce. Regenerate key pair if needed.                   |
+| `User hasn't approved this consumer` | User not pre-authorized for Connected App                       | Add user to a profile/permission set that has access to the Connected App.                                  |
+| `Invalid client_id`                  | Incorrect Consumer Key                                          | Copy the Consumer Key exactly from your Connected App settings (Setup > App Manager).                       |
+| `Invalid username`                   | Username doesn't exist or is inactive                           | Verify the username exists and is active in your Salesforce org.                                            |
+| `Error: ENOENT: no such file`        | JWT key file path is incorrect                                  | Check the file path. Use absolute path or ensure relative path is correct from command execution directory. |
+| `Invalid login URL`                  | Using wrong login URL for org type                              | Use `https://login.salesforce.com` for production, `https://test.salesforce.com` for sandboxes.             |
+
+## Security Best Practices
+
+1. **Key Rotation**: Rotate JWT key pairs regularly (e.g., every 90 days)
+2. **Key Storage**: Store private keys securely in secret managers (GitHub
+   Secrets, AWS Secrets Manager, etc.)
+3. **Access Control**: Use dedicated service accounts with minimal required
+   permissions
+4. **Audit Logging**: Monitor authorization usage in Salesforce Setup > Login
+   History
+5. **Key Protection**: Never commit private keys to version control (add `*.key`
+   to `.gitignore`)
+
+## SDK Reference
+
+For complete SDK documentation and advanced usage, see:
+
+- [AppLink SDK Documentation](https://devcenter.heroku.com/articles/heroku-applink)
+- [Salesforce JWT Bearer Token Flow](https://help.salesforce.com/s/articleView?id=sf.remoteaccess_oauth_jwt_flow.htm)
 
 # Commands
 
@@ -179,16 +364,26 @@ ARGUMENTS
 
 FLAGS
   -a, --app=<value>           (required) app to run command against
-  -l, --login-url=<value>     Salesforce login URL
+  -l, --login-url=<value>     Salesforce login URL (default: https://login.salesforce.com for production,
+                              https://test.salesforce.com for sandboxes)
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         alias for the authorization (defaults to applink:{developer_name})
-      --client-id=<value>     (required) ID of consumer key
-      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
-      --username=<value>      (required) Data Cloud username
+      --alias=<value>         Alias for the authorization (defaults to applink:{developer_name}). Used to retrieve
+                              credentials via SDK.
+      --client-id=<value>     (required) Consumer Key from your Connected App (found in Setup > App Manager > [Your App]
+                              > View). Must match the key used to generate the JWT private key.
+      --jwt-key-file=<value>  (required) Path to file containing RSA private key in PEM format. Generate with: openssl
+                              req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+      --username=<value>      (required) Salesforce username that has been authorized for the Connected App. Must be a
+                              valid user in the target org.
 
 DESCRIPTION
   store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization
+
+  This command enables headless authentication using JWT Bearer Token Flow, ideal for CI/CD pipelines and automated
+  workflows. Requires a Connected App configured with certificate-based authentication.
+
+  Learn more: https://devcenter.heroku.com/articles/heroku-applink
 
 EXAMPLES
   $ heroku datacloud:authorizations:add:jwt my-auth \
@@ -366,16 +561,26 @@ ARGUMENTS
 
 FLAGS
   -a, --app=<value>           (required) app to run command against
-  -l, --login-url=<value>     Salesforce login URL
+  -l, --login-url=<value>     Salesforce login URL (default: https://login.salesforce.com for production,
+                              https://test.salesforce.com for sandboxes)
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         alias for the authorization (defaults to applink:{developer_name})
-      --client-id=<value>     (required) ID of consumer key
-      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
-      --username=<value>      (required) Salesforce username
+      --alias=<value>         Alias for the authorization (defaults to applink:{developer_name}). Used to retrieve
+                              credentials via SDK.
+      --client-id=<value>     (required) Consumer Key from your Connected App (found in Setup > App Manager > [Your App]
+                              > View). Must match the key used to generate the JWT private key.
+      --jwt-key-file=<value>  (required) Path to file containing RSA private key in PEM format. Generate with: openssl
+                              req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+      --username=<value>      (required) Salesforce username that has been authorized for the Connected App. Must be a
+                              valid user in the target org.
 
 DESCRIPTION
   store credentials for connecting a Salesforce org to a Heroku app using JWT authorization
+
+  This command enables headless authentication using JWT Bearer Token Flow, ideal for CI/CD pipelines and automated
+  workflows. Requires a Connected App configured with certificate-based authentication.
+
+  Learn more: https://devcenter.heroku.com/articles/heroku-applink
 
 EXAMPLES
   $ heroku salesforce:authorizations:add:jwt my-auth \
