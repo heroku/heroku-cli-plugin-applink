@@ -11,10 +11,6 @@ Heroku AppLink plugin
 - [@heroku-cli/plugin-applink](#heroku-cliplugin-applink)
 - [Usage](#usage)
 - [JWT Authorization (Headless Authentication)](#jwt-authorization-headless-authentication)
-- [Generate private key and self-signed certificate](#generate-private-key-and-self-signed-certificate)
-- [Extract public key for Connected App](#extract-public-key-for-connected-app)
-- [For Salesforce](#for-salesforce)
-- [For Data Cloud](#for-data-cloud)
 - [Commands](#commands)
 <!-- tocstop -->
 
