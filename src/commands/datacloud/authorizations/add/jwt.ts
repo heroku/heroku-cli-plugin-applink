@@ -1,7 +1,7 @@
 import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
 
 /**
- * Store JWT credentials for Salesforce org authorization.
+ * Store JWT credentials for Data Cloud org authorization.
  *
  * This command uses JWT Bearer Token Flow for headless authentication,
  * suitable for CI/CD pipelines and automated workflows.
@@ -10,21 +10,21 @@ import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
  */
 export default class JWT extends JWTAuthCommand {
   static description =
-    'store credentials for connecting a Salesforce org to a Heroku app using JWT authorization';
+    'store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization';
 
   protected get providerName(): string {
-    return 'salesforce';
+    return 'datacloud';
   }
 
   protected get providerDisplayName(): string {
-    return 'Salesforce';
+    return 'Data Cloud';
   }
 
   protected get commandName(): string {
-    return 'salesforce:authorizations:add:jwt';
+    return 'datacloud:authorizations:add:jwt';
   }
 
   static examples = JWTAuthCommand.generateExamples(
-    'salesforce:authorizations:add:jwt'
+    'datacloud:authorizations:add:jwt'
   );
 }
