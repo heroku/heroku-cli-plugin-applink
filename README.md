@@ -475,7 +475,7 @@ FLAGS
       --addon=<value>         unique name or ID of an AppLink add-on
       --client-id=<value>     (required) ID of consumer key
       --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
-      --username=<value>      (required) Salesforce username
+      --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
   connect a Salesforce org to Heroku app using a JWT auth token
