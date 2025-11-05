@@ -77,7 +77,7 @@ export default abstract class JWTAuthCommand extends Command {
     }),
     alias: flags.string({
       description:
-        'Alias for the authorization (defaults to applink:{developer_name}). Used to retrieve credentials via SDK.',
+        '[default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK',
     }),
   };
 
