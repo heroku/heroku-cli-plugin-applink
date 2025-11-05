@@ -550,7 +550,7 @@ FLAGS
       --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
-  store credentials for connecting a Salesforce org to a Heroku app using JWT authorization
+  store a user’s credentials for connecting a Salesforce org to a Heroku app using a JWT auth token
 
 EXAMPLES
   $ heroku salesforce:authorizations:add:jwt my-auth \
