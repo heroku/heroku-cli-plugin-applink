@@ -552,11 +552,6 @@ FLAGS
 DESCRIPTION
   store credentials for connecting a Salesforce org to a Heroku app using JWT authorization
 
-  This command enables headless authentication using JWT Bearer Token Flow, ideal for CI/CD pipelines and automated
-  workflows. Requires a Connected App configured with certificate-based authentication.
-
-  Learn more: https://devcenter.heroku.com/articles/heroku-applink
-
 EXAMPLES
   $ heroku salesforce:authorizations:add:jwt my-auth \
     --app my-app \
