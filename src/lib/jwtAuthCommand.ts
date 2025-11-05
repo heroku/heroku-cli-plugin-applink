@@ -73,7 +73,7 @@ export default abstract class JWTAuthCommand extends Command {
     username: flags.string({
       required: true,
       description:
-        'Salesforce username that has been authorized for the Connected App. Must be a valid user in the target org.',
+        'Salesforce username authorized for the connected app',
     }),
     alias: flags.string({
       description:
