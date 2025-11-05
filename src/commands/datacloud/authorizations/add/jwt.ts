@@ -17,11 +17,7 @@ import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
  */
 export default class JWT extends JWTAuthCommand {
   static description =
-    'store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization\n\n' +
-    'This command enables headless authentication using JWT Bearer Token Flow, ' +
-    'ideal for CI/CD pipelines and automated workflows. Requires a Connected App ' +
-    'configured with certificate-based authentication.\n\n' +
-    'Learn more: https://devcenter.heroku.com/articles/heroku-applink';
+    'store a user’s credentials for connecting a Data Cloud org to a Heroku app a JWT auth token'
 
   protected get providerName(): string {
     return 'datacloud';
