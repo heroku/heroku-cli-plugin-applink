@@ -47,7 +47,7 @@ openssl x509 -pubkey -noout -in server.crt > server.pub
 ### 2. Configure Connected App in Salesforce
 
 Follow the official Salesforce documentation to create and configure your
-Connected App:
+connected app:
 
 1. **[Create a Connected App](https://help.salesforce.com/s/articleView?id=sf.connected_app_create.htm)**
    - Enable OAuth Settings
