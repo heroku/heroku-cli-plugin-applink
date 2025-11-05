@@ -8,9 +8,9 @@ import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
  * OAuth isn't possible.
  *
  * Prerequisites:
- * - A Connected App configured in your Salesforce org with OAuth enabled
- * - The Connected App must use digital signatures (certificate-based authentication)
- * - A user with appropriate permissions authorized for the Connected App
+ * - A connected app configured in your Salesforce org with OAuth enabled
+ * - The connected app must use digital signatures (certificate-based authentication)
+ * - A user with appropriate permissions authorized for the connected app
  * - An RSA private/public key pair
  *
  * @see https://devcenter.heroku.com/articles/heroku-applink
