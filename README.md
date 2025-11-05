@@ -89,8 +89,8 @@ heroku datacloud:authorizations:add:jwt my-auth \
 
 ### 5. Use in Your Application
 
-Once authorized, your application can retrieve credentials using the AppLink
-SDK:
+After authorizing, your application can retrieve credentials using the AppLink
+SDKs. For example:
 
 ```javascript
 const Applink = require('@heroku/applink');
