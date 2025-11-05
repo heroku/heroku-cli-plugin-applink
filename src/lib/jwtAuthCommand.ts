@@ -56,8 +56,7 @@ export default abstract class JWTAuthCommand extends Command {
     app: flags.app({ required: true }),
     'client-id': flags.string({
       required: true,
-      description:
-        'ID of consumer key from your connected app',
+      description: 'ID of consumer key from your connected app',
     }),
     'jwt-key-file': flags.file({
       required: true,
@@ -66,14 +65,12 @@ export default abstract class JWTAuthCommand extends Command {
     }),
     'login-url': flags.string({
       char: 'l',
-      description:
-        'Salesforce login URL',
+      description: 'Salesforce login URL',
     }),
     remote: flags.remote(),
     username: flags.string({
       required: true,
-      description:
-        'Salesforce username authorized for the connected app',
+      description: 'Salesforce username authorized for the connected app',
     }),
     alias: flags.string({
       description:

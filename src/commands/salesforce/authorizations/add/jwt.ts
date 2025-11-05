@@ -17,7 +17,7 @@ import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
  */
 export default class JWT extends JWTAuthCommand {
   static description =
-    'store a user’s credentials for connecting a Salesforce org to a Heroku app using a JWT auth token'
+    'store a user’s credentials for connecting a Salesforce org to a Heroku app using a JWT auth token';
 
   protected get providerName(): string {
     return 'salesforce';
