@@ -65,9 +65,9 @@ Follow the official Salesforce documentation for
 
 In your connected app settings, click **Manage** > **Edit Policies**:
 
-- Admin approved users are pre-authorized: **Admin approved users are
+- Permitted Users: Select **Admin approved users are
   pre-authorized**
-- Permitted Users: Select specific profiles or permission sets
+- Select specific profiles or permission sets to give access to your connected app.
 
 ### 4. Add JWT Authorization via CLI
 
