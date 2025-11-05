@@ -63,7 +63,7 @@ connected app:
 Follow the official Salesforce documentation for
 [Managing Connected App Policies](https://help.salesforce.com/s/articleView?id=sf.connected_app_manage_oauth.htm):
 
-In your Connected App settings, click **Manage** > **Edit Policies**:
+In your connected app settings, click **Manage** > **Edit Policies**:
 
 - Admin approved users are pre-authorized: **Admin approved users are
   pre-authorized**
