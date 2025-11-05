@@ -545,8 +545,7 @@ FLAGS
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
       --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK
-      --client-id=<value>     (required) Consumer Key from your Connected App (found in Setup > App Manager > [Your App]
-                              > View). Must match the key used to generate the JWT private key.
+      --client-id=<value>     (required) ID of consumer key from your connected app
       --jwt-key-file=<value>  (required) Path to file containing RSA private key in PEM format. Generate with: openssl
                               req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
       --username=<value>      (required) Salesforce username that has been authorized for the Connected App. Must be a
