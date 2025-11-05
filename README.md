@@ -29,7 +29,7 @@ USAGE
 # JWT Authorization (Headless Authentication)
 
 The AppLink plugin supports JWT (JSON Web Token) authorization for headless
-authentication in CI/CD pipelines and automated workflows. This eliminates the
+authentication in CI/CD pipelines and automated workflows. JWT authorization eliminates the
 need for interactive browser-based OAuth flows.
 
 ## Step-by-Step Setup Guide
