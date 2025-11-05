@@ -67,7 +67,7 @@ export default abstract class JWTAuthCommand extends Command {
     'login-url': flags.string({
       char: 'l',
       description:
-        'Salesforce login URL (default: https://login.salesforce.com for production, https://test.salesforce.com for sandboxes)',
+        'Salesforce login URL',
     }),
     remote: flags.remote(),
     username: flags.string({
