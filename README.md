@@ -182,15 +182,15 @@ workflows:
 
 ## Security Best Practices
 
-1. **Key Rotation**: Rotate JWT key pairs regularly (e.g., every 90 days)
+1. **Key Rotation**: Rotate JWT key pairs regularly (e.g., every 90 days).
 2. **Key Storage**: Store private keys securely in secret managers (GitHub
-   Secrets, AWS Secrets Manager, etc.)
+   Secrets, AWS Secrets Manager, etc.).
 3. **Access Control**: Use dedicated service accounts with minimal required
-   permissions
-4. **Audit Logging**: Monitor authorization usage in Salesforce Setup > Login
-   History
+   permissions.
+4. **Audit Logging**: Monitor authorization usage in [Salesforce Setup > Login
+   History](https://help.salesforce.com/s/articleView?id=xcloud.sso_saml_login_history.htm&type=5).
 5. **Key Protection**: Never commit private keys to version control (add `*.key`
-   to `.gitignore`)
+   to `.gitignore`).
 
 ## SDK Reference
 
