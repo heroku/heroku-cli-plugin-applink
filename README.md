@@ -60,7 +60,7 @@ connected app:
 
 ### 3. Pre-authorize Users
 
-Follow the official guide for
+Follow the official Salesforce documentation for
 [Managing Connected App Policies](https://help.salesforce.com/s/articleView?id=sf.connected_app_manage_oauth.htm):
 
 In your Connected App settings, click **Manage** > **Edit Policies**:
