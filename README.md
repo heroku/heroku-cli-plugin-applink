@@ -546,8 +546,7 @@ FLAGS
       --addon=<value>         unique name or ID of an AppLink add-on
       --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK
       --client-id=<value>     (required) ID of consumer key from your connected app
-      --jwt-key-file=<value>  (required) Path to file containing RSA private key in PEM format. Generate with: openssl
-                              req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+      --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
       --username=<value>      (required) Salesforce username that has been authorized for the Connected App. Must be a
                               valid user in the target org.
 
