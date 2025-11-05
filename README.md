@@ -189,7 +189,7 @@ FLAGS
       --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
-  store a user’s credentials for connecting a Data Cloud org to a Heroku app a JWT auth token
+  store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
 
 EXAMPLES
   $ heroku datacloud:authorizations:add:jwt my-auth \
