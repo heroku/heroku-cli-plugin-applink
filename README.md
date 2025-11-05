@@ -363,7 +363,7 @@ FLAGS
       --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
-  store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization
+  store a user’s credentials for connecting a Data Cloud org to a Heroku app a JWT auth token
 
   This command enables headless authentication using JWT Bearer Token Flow, ideal for CI/CD pipelines and automated
   workflows. Requires a Connected App configured with certificate-based authentication.
