@@ -547,8 +547,7 @@ FLAGS
       --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK
       --client-id=<value>     (required) ID of consumer key from your connected app
       --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
-      --username=<value>      (required) Salesforce username that has been authorized for the Connected App. Must be a
-                              valid user in the target org.
+      --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
   store credentials for connecting a Salesforce org to a Heroku app using JWT authorization
