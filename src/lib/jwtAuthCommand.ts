@@ -57,7 +57,7 @@ export default abstract class JWTAuthCommand extends Command {
     'client-id': flags.string({
       required: true,
       description:
-        'Consumer Key from your Connected App (found in Setup > App Manager > [Your App] > View). Must match the key used to generate the JWT private key.',
+        'ID of consumer key from your connected app',
     }),
     'jwt-key-file': flags.file({
       required: true,
