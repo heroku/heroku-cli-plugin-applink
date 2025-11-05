@@ -62,7 +62,7 @@ export default abstract class JWTAuthCommand extends Command {
     'jwt-key-file': flags.file({
       required: true,
       description:
-        'Path to file containing RSA private key in PEM format. Generate with: openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes',
+        'path to file containing RSA private key in PEM format to authorize with',
     }),
     'login-url': flags.string({
       char: 'l',
