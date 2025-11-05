@@ -5,7 +5,7 @@ import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
  *
  * This command uses JWT Bearer Token Flow for headless authentication,
  * suitable for CI/CD pipelines and automated workflows where browser-based
- * OAuth is not possible.
+ * OAuth isn't possible.
  *
  * Prerequisites:
  * - A Connected App configured in your Salesforce org with OAuth enabled
