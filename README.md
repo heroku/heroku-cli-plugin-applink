@@ -40,7 +40,7 @@ need for interactive browser-based OAuth flows.
 # Generate private key and self-signed certificate
 openssl req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
 
-# Extract public key for Connected App
+# Extract public key for connected app
 openssl x509 -pubkey -noout -in server.crt > server.pub
 ```
 
