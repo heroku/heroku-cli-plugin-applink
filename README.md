@@ -352,8 +352,8 @@ _See code:
 
 ## `heroku salesforce:authorizations:add:jwt DEVELOPER_NAME`
 
-store credentials for connecting a Salesforce org to a Heroku app using JWT
-authorization
+store a user’s credentials for connecting a Salesforce org to a Heroku 
+app using a JWT auth token
 
 ```
 USAGE
