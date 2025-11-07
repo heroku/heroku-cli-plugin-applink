@@ -164,8 +164,7 @@ _See code:
 
 ## `heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`
 
-store credentials for connecting a Data Cloud org to a Heroku app using JWT
-authorization
+store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
 
 ```
 USAGE
