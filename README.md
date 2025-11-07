@@ -164,8 +164,7 @@ _See code:
 
 ## `heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`
 
-store credentials for connecting a Data Cloud org to a Heroku app using JWT
-authorization
+store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
 
 ```
 USAGE
@@ -182,13 +181,14 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         alias for the authorization (defaults to applink:{developer_name})
-      --client-id=<value>     (required) ID of consumer key
-      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
-      --username=<value>      (required) Data Cloud username
+      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve
+                                          credentials via SDK
+      --client-id=<value>     (required) ID of consumer key from your connected app
+      --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
+      --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
-  store credentials for connecting a Data Cloud org to a Heroku app using JWT authorization
+  store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
 
 EXAMPLES
   $ heroku datacloud:authorizations:add:jwt my-auth \
@@ -351,8 +351,8 @@ _See code:
 
 ## `heroku salesforce:authorizations:add:jwt DEVELOPER_NAME`
 
-store credentials for connecting a Salesforce org to a Heroku app using JWT
-authorization
+store a user’s credentials for connecting a Salesforce org to a Heroku 
+app using a JWT auth token
 
 ```
 USAGE
@@ -369,13 +369,13 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         alias for the authorization (defaults to applink:{developer_name})
-      --client-id=<value>     (required) ID of consumer key
-      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
-      --username=<value>      (required) Salesforce username
+      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK
+      --client-id=<value>     (required) ID of consumer key from your connected app
+      --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
+      --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
-  store credentials for connecting a Salesforce org to a Heroku app using JWT authorization
+  store a user’s credentials for connecting a Salesforce org to a Heroku app using a JWT auth token
 
 EXAMPLES
   $ heroku salesforce:authorizations:add:jwt my-auth \
@@ -472,9 +472,9 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --client-id=<value>     (required) ID of consumer key
-      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
-      --username=<value>      (required) Salesforce username
+      --client-id=<value>     (required) ID of consumer key from your connected app
+      --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
+      --username=<value>      (required) Salesforce username authorized for the connected app
 
 DESCRIPTION
   connect a Salesforce org to Heroku app using a JWT auth token
