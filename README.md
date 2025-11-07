@@ -472,7 +472,7 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --client-id=<value>     (required) ID of consumer key
+      --client-id=<value>     (required) ID of consumer key from your connected app
       --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
       --username=<value>      (required) Salesforce username authorized for the connected app
 
