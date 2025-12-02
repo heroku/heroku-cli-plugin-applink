@@ -28,10 +28,10 @@ export default class JWT extends JWTAuthCommand {
   }
 
   protected get commandName(): string {
-    return 'datacloud:authorizations:add:jwt';
+    return 'datacloud:authorizations:jwt:add';
   }
 
   static examples = JWTAuthCommand.generateExamples(
-    'datacloud:authorizations:add:jwt'
+    'datacloud:authorizations:jwt:add'
   );
 }

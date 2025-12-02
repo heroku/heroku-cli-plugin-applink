@@ -62,7 +62,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
   const { commandClass: Cmd, providerName, fixtures } = config;
   const filePath = `${__dirname}/jwt.key`;
 
-  describe(`${providerName}:authorizations:add:jwt`, function () {
+  describe(`${providerName}:authorizations:jwt:add`, function () {
     let applinkApi: nock.Scope;
     let api: nock.Scope;
 

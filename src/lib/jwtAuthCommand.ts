@@ -25,7 +25,7 @@ import { color } from '@heroku-cli/color';
  *   static description = 'store credentials for MyProvider...';
  *   protected get providerName(): string { return 'myprovider'; }
  *   protected get providerDisplayName(): string { return 'MyProvider'; }
- *   protected get commandName(): string { return 'myprovider:authorizations:add:jwt'; }
+ *   protected get commandName(): string { return 'myprovider:authorizations:jwt:add'; }
  *   static examples = new JWT().getExamples();
  * }
  * ```
@@ -44,7 +44,7 @@ export default abstract class JWTAuthCommand extends Command {
   protected abstract get providerDisplayName(): string;
 
   /**
-   * Command name for examples (e.g., 'salesforce:authorizations:add:jwt')
+   * Command name for examples (e.g., 'salesforce:authorizations:jwt:add')
    * Used to generate provider-specific example commands
    */
   protected abstract get commandName(): string;

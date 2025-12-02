@@ -28,10 +28,10 @@ export default class JWT extends JWTAuthCommand {
   }
 
   protected get commandName(): string {
-    return 'salesforce:authorizations:add:jwt';
+    return 'salesforce:authorizations:jwt:add';
   }
 
   static examples = JWTAuthCommand.generateExamples(
-    'salesforce:authorizations:add:jwt'
+    'salesforce:authorizations:jwt:add'
   );
 }
