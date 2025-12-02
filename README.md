@@ -214,7 +214,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/datacloud/authorizations/add/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add/jwt.ts)_
+[src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/jwt/add.ts)_
 
 ## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
 
@@ -401,7 +401,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/salesforce/authorizations/add/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/add/jwt.ts)_
+[src/commands/salesforce/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/jwt/add.ts)_
 
 ## `heroku salesforce:authorizations:remove DEVELOPER_NAME`
 
