@@ -1,4 +1,4 @@
-import Cmd from '../../../../../src/commands/datacloud/authorizations/add/jwt';
+import Cmd from '../../../../../src/commands/datacloud/authorizations/jwt/add';
 import {
   authorization_datacloud_jwt_authorized,
   authorization_datacloud_jwt_failed,

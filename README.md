@@ -34,13 +34,13 @@ USAGE
 - [`heroku applink:connections`](#heroku-applinkconnections)
 - [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
 - [`heroku datacloud:authorizations:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsadd-developer_name)
-- [`heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`](#heroku-datacloudauthorizationsaddjwt-developer_name)
+- [`heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsaddjwt-developer_name)
 - [`heroku datacloud:authorizations:remove DEVELOPER_NAME`](#heroku-datacloudauthorizationsremove-developer_name)
 - [`heroku datacloud:connect CONNECTION_NAME`](#heroku-datacloudconnect-connection_name)
 - [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 - [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
 - [`heroku salesforce:authorizations:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsadd-developer_name)
-- [`heroku salesforce:authorizations:add:jwt DEVELOPER_NAME`](#heroku-salesforceauthorizationsaddjwt-developer_name)
+- [`heroku salesforce:authorizations:jwt:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsaddjwt-developer_name)
 - [`heroku salesforce:authorizations:remove DEVELOPER_NAME`](#heroku-salesforceauthorizationsremove-developer_name)
 - [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
 - [`heroku salesforce:connect:jwt CONNECTION_NAME`](#heroku-salesforceconnectjwt-connection_name)
@@ -162,13 +162,14 @@ DESCRIPTION
 _See code:
 [src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add.ts)_
 
-## `heroku datacloud:authorizations:add:jwt DEVELOPER_NAME`
+## `heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`
 
-store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
+store a user’s credentials for connecting a Data Cloud org to a Heroku app using
+a JWT auth token
 
 ```
 USAGE
-  $ heroku datacloud:authorizations:add:jwt DEVELOPER_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
+  $ heroku datacloud:authorizations:jwt:add DEVELOPER_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
     [--addon <value>] [-l <value>] [-r <value>] [--alias <value>]
 
 ARGUMENTS
@@ -191,20 +192,20 @@ DESCRIPTION
   store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token
 
 EXAMPLES
-  $ heroku datacloud:authorizations:add:jwt my-auth \
+  $ heroku datacloud:authorizations:jwt:add my-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
     --username api.user@mycompany.com
 
-  $ heroku datacloud:authorizations:add:jwt my-sandbox-auth \
+  $ heroku datacloud:authorizations:jwt:add my-sandbox-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
     --username api.user@mycompany.com \
     --login-url https://test.salesforce.com
 
-  $ heroku datacloud:authorizations:add:jwt my-auth \
+  $ heroku datacloud:authorizations:jwt:add my-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
@@ -213,7 +214,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/datacloud/authorizations/add/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add/jwt.ts)_
+[src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/jwt/add.ts)_
 
 ## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
 
@@ -349,14 +350,14 @@ DESCRIPTION
 _See code:
 [src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/add.ts)_
 
-## `heroku salesforce:authorizations:add:jwt DEVELOPER_NAME`
+## `heroku salesforce:authorizations:jwt:add DEVELOPER_NAME`
 
-store a user’s credentials for connecting a Salesforce org to a Heroku 
-app using a JWT auth token
+store a user’s credentials for connecting a Salesforce org to a Heroku app using
+a JWT auth token
 
 ```
 USAGE
-  $ heroku salesforce:authorizations:add:jwt DEVELOPER_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
+  $ heroku salesforce:authorizations:jwt:add DEVELOPER_NAME -a <value> --client-id <value> --jwt-key-file <value> --username <value>
     [--addon <value>] [-l <value>] [-r <value>] [--alias <value>]
 
 ARGUMENTS
@@ -378,20 +379,20 @@ DESCRIPTION
   store a user’s credentials for connecting a Salesforce org to a Heroku app using a JWT auth token
 
 EXAMPLES
-  $ heroku salesforce:authorizations:add:jwt my-auth \
+  $ heroku salesforce:authorizations:jwt:add my-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
     --username api.user@mycompany.com
 
-  $ heroku salesforce:authorizations:add:jwt my-sandbox-auth \
+  $ heroku salesforce:authorizations:jwt:add my-sandbox-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
     --username api.user@mycompany.com \
     --login-url https://test.salesforce.com
 
-  $ heroku salesforce:authorizations:add:jwt my-auth \
+  $ heroku salesforce:authorizations:jwt:add my-auth \
     --app my-app \
     --client-id 3MVG9...NM0ZqZc9aT \
     --jwt-key-file server.key \
@@ -400,7 +401,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/salesforce/authorizations/add/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/add/jwt.ts)_
+[src/commands/salesforce/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/jwt/add.ts)_
 
 ## `heroku salesforce:authorizations:remove DEVELOPER_NAME`
 

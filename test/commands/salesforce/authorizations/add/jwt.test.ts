@@ -1,4 +1,4 @@
-import Cmd from '../../../../../src/commands/salesforce/authorizations/add/jwt';
+import Cmd from '../../../../../src/commands/salesforce/authorizations/jwt/add';
 import {
   authorization_jwt_authorized,
   authorization_jwt_failed,
