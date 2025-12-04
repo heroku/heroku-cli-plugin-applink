@@ -34,13 +34,13 @@ USAGE
 - [`heroku applink:connections`](#heroku-applinkconnections)
 - [`heroku applink:connections:info CONNECTION_NAME`](#heroku-applinkconnectionsinfo-connection_name)
 - [`heroku datacloud:authorizations:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsadd-developer_name)
-- [`heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsaddjwt-developer_name)
+- [`heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`](#heroku-datacloudauthorizationsjwtadd-developer_name)
 - [`heroku datacloud:authorizations:remove DEVELOPER_NAME`](#heroku-datacloudauthorizationsremove-developer_name)
 - [`heroku datacloud:connect CONNECTION_NAME`](#heroku-datacloudconnect-connection_name)
 - [`heroku datacloud:data-action-target:create LABEL`](#heroku-dataclouddata-action-targetcreate-label)
 - [`heroku datacloud:disconnect CONNECTION_NAME`](#heroku-dataclouddisconnect-connection_name)
 - [`heroku salesforce:authorizations:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsadd-developer_name)
-- [`heroku salesforce:authorizations:jwt:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsaddjwt-developer_name)
+- [`heroku salesforce:authorizations:jwt:add DEVELOPER_NAME`](#heroku-salesforceauthorizationsjwtadd-developer_name)
 - [`heroku salesforce:authorizations:remove DEVELOPER_NAME`](#heroku-salesforceauthorizationsremove-developer_name)
 - [`heroku salesforce:connect CONNECTION_NAME`](#heroku-salesforceconnect-connection_name)
 - [`heroku salesforce:connect:jwt CONNECTION_NAME`](#heroku-salesforceconnectjwt-connection_name)
@@ -66,7 +66,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/applink/authorizations/index.ts)_
+[src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/applink/authorizations/index.ts)_
 
 ## `heroku applink:authorizations:info DEVELOPER_NAME`
 
@@ -89,7 +89,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/applink/authorizations/info.ts)_
+[src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
@@ -109,7 +109,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/applink/connections/index.ts)_
+[src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/applink/connections/index.ts)_
 
 ## `heroku applink:connections:info CONNECTION_NAME`
 
@@ -132,7 +132,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/applink/connections/info.ts)_
+[src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/applink/connections/info.ts)_
 
 ## `heroku datacloud:authorizations:add DEVELOPER_NAME`
 
@@ -160,7 +160,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/add.ts)_
+[src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/authorizations/add.ts)_
 
 ## `heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`
 
@@ -182,8 +182,8 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve
-                                          credentials via SDK
+      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via
+                              SDK
       --client-id=<value>     (required) ID of consumer key from your connected app
       --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
       --username=<value>      (required) Salesforce username authorized for the connected app
@@ -214,7 +214,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/jwt/add.ts)_
+[src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/authorizations/jwt/add.ts)_
 
 ## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
 
@@ -238,7 +238,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/authorizations/remove.ts)_
+[src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/authorizations/remove.ts)_
 
 ## `heroku datacloud:connect CONNECTION_NAME`
 
@@ -265,7 +265,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/connect.ts)_
+[src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -296,7 +296,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/data-action-target/create.ts)_
+[src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
@@ -320,7 +320,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/datacloud/disconnect.ts)_
+[src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/datacloud/disconnect.ts)_
 
 ## `heroku salesforce:authorizations:add DEVELOPER_NAME`
 
@@ -348,7 +348,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/add.ts)_
+[src/commands/salesforce/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/authorizations/add.ts)_
 
 ## `heroku salesforce:authorizations:jwt:add DEVELOPER_NAME`
 
@@ -370,7 +370,8 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via SDK
+      --alias=<value>         [default: applink:{developer_name}] alias for authorization to retrieve credentials via
+                              SDK
       --client-id=<value>     (required) ID of consumer key from your connected app
       --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
       --username=<value>      (required) Salesforce username authorized for the connected app
@@ -401,7 +402,7 @@ EXAMPLES
 ```
 
 _See code:
-[src/commands/salesforce/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/jwt/add.ts)_
+[src/commands/salesforce/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/authorizations/jwt/add.ts)_
 
 ## `heroku salesforce:authorizations:remove DEVELOPER_NAME`
 
@@ -425,7 +426,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/authorizations/remove.ts)_
+[src/commands/salesforce/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/authorizations/remove.ts)_
 
 ## `heroku salesforce:connect CONNECTION_NAME`
 
@@ -452,7 +453,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/connect/index.ts)_
+[src/commands/salesforce/connect/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/connect/index.ts)_
 
 ## `heroku salesforce:connect:jwt CONNECTION_NAME`
 
@@ -473,16 +474,16 @@ FLAGS
   -l, --login-url=<value>     Salesforce login URL
   -r, --remote=<value>        git remote of app to use
       --addon=<value>         unique name or ID of an AppLink add-on
-      --client-id=<value>     (required) ID of consumer key from your connected app
-      --jwt-key-file=<value>  (required) path to file containing RSA private key in PEM format to authorize with
-      --username=<value>      (required) Salesforce username authorized for the connected app
+      --client-id=<value>     (required) ID of consumer key
+      --jwt-key-file=<value>  (required) path to file containing private key to authorize with
+      --username=<value>      (required) Salesforce username
 
 DESCRIPTION
   connect a Salesforce org to Heroku app using a JWT auth token
 ```
 
 _See code:
-[src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/connect/jwt.ts)_
+[src/commands/salesforce/connect/jwt.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/connect/jwt.ts)_
 
 ## `heroku salesforce:disconnect CONNECTION_NAME`
 
@@ -506,7 +507,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/disconnect.ts)_
+[src/commands/salesforce/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/disconnect.ts)_
 
 ## `heroku salesforce:publications`
 
@@ -527,7 +528,7 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/publications.ts)_
+[src/commands/salesforce/publications.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/publications.ts)_
 
 ## `heroku salesforce:publish API_SPEC_FILE_DIR`
 
@@ -557,6 +558,6 @@ DESCRIPTION
 ```
 
 _See code:
-[src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.1.0/src/commands/salesforce/publish.ts)_
+[src/commands/salesforce/publish.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v1.2.0/src/commands/salesforce/publish.ts)_
 
 <!-- commandsstop -->
