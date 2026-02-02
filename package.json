@@ -41,7 +41,7 @@
     "sinon": "^21.0.0",
     "stdout-stderr": "^0.1.13",
     "strip-ansi": "^6.0.1",
-    "ts-node": "^10.9.2",
+    "tsx": "^4",
     "typescript": "^5.9.3"
   },
   "engines": {
@@ -132,5 +132,8 @@
     "**/*.{json,md,yaml,yml}": [
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "diff": "^8.0.3"
   }
 }
