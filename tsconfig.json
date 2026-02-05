@@ -10,5 +10,12 @@
     "target": "ESNext",
     "skipLibCheck": true
   },
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": false,
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "include": ["src/**/*"]
 }
