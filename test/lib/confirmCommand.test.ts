@@ -1,9 +1,8 @@
 /* eslint-disable mocha/no-setup-in-describe */
 import { ux } from '@oclif/core';
 import { expect, test } from '@oclif/test';
+import stripAnsi from 'strip-ansi';
 import confirmCommand from '../../src/lib/confirmCommand';
-
-const stripAnsi = require('strip-ansi');
 
 describe('confirmApp', function () {
   test

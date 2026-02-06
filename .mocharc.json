@@ -1,7 +1,7 @@
 {
   "extension": ["ts"],
   "spec": "test/**/*.test.ts",
-  "require": ["ts-node/register", "test/helpers.mjs"],
+  "require": ["tsx", "test/helpers.mjs"],
   "package": "../package.json",
   "reporter": "spec",
   "timeout": 5000,
