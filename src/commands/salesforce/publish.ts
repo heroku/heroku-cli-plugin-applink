@@ -33,8 +33,7 @@ export default class Publish extends Command {
       description: 'name of permission set to create from our template',
     }),
     'authorization-external-client-app-name': flags.string({
-      description:
-        'specifies the external client connected app name for OAuth authentication',
+      description: 'specifies the external client connected app name',
     }),
     'metadata-dir': flags.string({
       description:
