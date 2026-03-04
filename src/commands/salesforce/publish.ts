@@ -32,7 +32,7 @@ export default class Publish extends Command {
     'authorization-permission-set-name': flags.string({
       description: 'name of permission set to create from our template',
     }),
-    'auth-external-client-app-name': flags.string({
+    'authorization-external-client-app-name': flags.string({
       description:
         'specifies the external client connected app name for OAuth authentication',
     }),
@@ -65,7 +65,7 @@ export default class Publish extends Command {
       'connection-name': connectionName,
       'authorization-connected-app-name': authorizationConnectedAppName,
       'authorization-permission-set-name': authorizationPermissionSetName,
-      'auth-external-client-app-name': authExternalClientAppName,
+      'authorization-external-client-app-name': authExternalClientAppName,
       'metadata-dir': metadataDir,
     } = flags;
     const { api_spec_file_dir: apiSpecFileDir } = args;

@@ -69,7 +69,7 @@ describe('salesforce:publish', function () {
       expect(stdout.output).to.equal('');
     });
 
-    it('successfully publishes with auth-external-client-app-name flag', async function () {
+    it('successfully publishes with authorization-external-client-app-name flag', async function () {
       let capturedBody: string | undefined;
 
       applinkApi
@@ -93,7 +93,7 @@ describe('salesforce:publish', function () {
         '--addon=heroku-applink-vertical-01234',
         '--client-name=AccountAPI',
         '--connection-name=myorg',
-        '--auth-external-client-app-name=ExternalOAuthApp',
+        '--authorization-external-client-app-name=ExternalOAuthApp',
       ]);
 
       expect(stripAnsi(stderr.output)).to.contain(
