@@ -28,6 +28,7 @@ export default class Publish extends Command {
     }),
     'authorization-connected-app-name': flags.string({
       description: 'name of connected app to create from our template',
+      deprecated: true,
     }),
     'authorization-permission-set-name': flags.string({
       description: 'name of permission set to create from our template',
@@ -73,6 +74,12 @@ export default class Publish extends Command {
     let hasPermissionSetMetadata = false;
 
     const files: AppLink.FileEntry[] = [];
+
+    if (authorizationConnectedAppName) {
+      ux.warn(
+        `${color.cmd('--authorization-connected-app-name')} is a deprecated flag. Use ${color.cmd('--authorization-external-client-app-name')} instead.`
+      );
+    }
 
     if (!fs.existsSync(apiSpecFileDir)) {
       ux.error(
