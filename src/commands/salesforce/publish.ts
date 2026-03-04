@@ -28,7 +28,6 @@ export default class Publish extends Command {
     }),
     'authorization-connected-app-name': flags.string({
       description: 'name of connected app to create from our template',
-      deprecated: true,
     }),
     'authorization-permission-set-name': flags.string({
       description: 'name of permission set to create from our template',
