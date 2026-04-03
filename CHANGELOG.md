@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.2.2](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.2.1...plugin-applink-v1.2.2) (2026-04-03)
+
+
+### Miscellaneous Chores
+
+* release 1.2.2 ([#226](https://github.com/heroku/heroku-cli-plugin-applink/issues/226)) ([44c2258](https://github.com/heroku/heroku-cli-plugin-applink/commit/44c2258b09731a2463b200a3a29c6fbb3be6580a))
+
 ## [1.2.1](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.2.0...plugin-applink-v1.2.1) (2026-03-10)
 
 ### Bug Fixes
