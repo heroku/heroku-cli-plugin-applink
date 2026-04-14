@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.2.3](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.2.2...plugin-applink-v1.2.3) (2026-04-14)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.13.6 to 1.15.0 ([#230](https://github.com/heroku/heroku-cli-plugin-applink/issues/230)) ([3d8331e](https://github.com/heroku/heroku-cli-plugin-applink/commit/3d8331e075fa46b6e777c580b0ff93892146d655))
+* **deps:** bump follow-redirects from 1.15.11 to 1.16.0 ([#234](https://github.com/heroku/heroku-cli-plugin-applink/issues/234)) ([649813d](https://github.com/heroku/heroku-cli-plugin-applink/commit/649813d51494f02c58f3843b7923a19ccb2fefc3))
+* **deps:** bump lodash from 4.17.23 to 4.18.1 ([#225](https://github.com/heroku/heroku-cli-plugin-applink/issues/225)) ([2fd5f3a](https://github.com/heroku/heroku-cli-plugin-applink/commit/2fd5f3a6e027583375b20f397294abf6dbfd2ccc))
+
 ## [1.2.2](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.2.1...plugin-applink-v1.2.2) (2026-04-03)
 
 
