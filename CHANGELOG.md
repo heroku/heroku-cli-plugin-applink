@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.3.1](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.3.0...plugin-applink-v1.3.1) (2026-05-08)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.15.0 to 1.15.2 ([#239](https://github.com/heroku/heroku-cli-plugin-applink/issues/239)) ([9facc16](https://github.com/heroku/heroku-cli-plugin-applink/commit/9facc165babc5900765aeb474d49406c3310bd4d))
+* **deps:** bump fast-xml-parser and @aws-sdk/xml-builder ([#237](https://github.com/heroku/heroku-cli-plugin-applink/issues/237)) ([343ac9d](https://github.com/heroku/heroku-cli-plugin-applink/commit/343ac9d828e4be4ec25c368e343692cfa53ddaee))
+* **deps:** bump the patch-dependencies group across 1 directory with 4 updates ([#238](https://github.com/heroku/heroku-cli-plugin-applink/issues/238)) ([83b1a96](https://github.com/heroku/heroku-cli-plugin-applink/commit/83b1a96599bb4bc650f517c1d12763ec0d7c3952))
+
 ## [1.3.0](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.2.2...plugin-applink-v1.3.0) (2026-04-29)
 
 
