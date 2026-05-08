@@ -32,6 +32,9 @@ export default class Publish extends Command {
     'authorization-permission-set-name': flags.string({
       description: 'name of permission set to create from our template',
     }),
+    'authorization-external-client-app-name': flags.string({
+      description: 'specifies the external client connected app name',
+    }),
     'metadata-dir': flags.string({
       description:
         'directory containing connected app, permission set, or API spec',
@@ -61,6 +64,7 @@ export default class Publish extends Command {
       'connection-name': connectionName,
       'authorization-connected-app-name': authorizationConnectedAppName,
       'authorization-permission-set-name': authorizationPermissionSetName,
+      'authorization-external-client-app-name': authExternalClientAppName,
       'metadata-dir': metadataDir,
     } = flags;
     const { api_spec_file_dir: apiSpecFileDir } = args;
@@ -69,6 +73,12 @@ export default class Publish extends Command {
     let hasPermissionSetMetadata = false;
 
     const files: AppLink.FileEntry[] = [];
+
+    if (authorizationConnectedAppName) {
+      ux.warn(
+        `${color.cmd('--authorization-connected-app-name')} is a deprecated flag. Use ${color.cmd('--authorization-external-client-app-name')} instead.`
+      );
+    }
 
     if (!fs.existsSync(apiSpecFileDir)) {
       ux.error(
@@ -139,6 +149,7 @@ export default class Publish extends Command {
       client_name: clientName,
       authorization_connected_app_name: authorizationConnectedAppName,
       authorization_permission_set_name: authorizationPermissionSetName,
+      authorization_external_client_app_name: authExternalClientAppName,
     };
     const formData = new FormData();
     formData.append(

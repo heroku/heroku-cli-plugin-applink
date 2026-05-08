@@ -68,6 +68,66 @@ describe('salesforce:publish', function () {
       );
       expect(stdout.output).to.equal('');
     });
+
+    it('shows deprecation warning when using authorization-connected-app-name flag', async function () {
+      applinkApi
+        .post(
+          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps'
+        )
+        .reply(201, []);
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`;
+
+      await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-applink-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--authorization-connected-app-name=TestApp',
+      ]);
+
+      expect(stripAnsi(stderr.output)).to.contain(
+        '--authorization-connected-app-name is a deprecated flag'
+      );
+      expect(stripAnsi(stderr.output)).to.contain(
+        '--authorization-external-client-app-name'
+      );
+    });
+
+    it('successfully publishes with authorization-external-client-app-name flag', async function () {
+      let capturedBody: string | undefined;
+
+      applinkApi
+        .post(
+          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps'
+        )
+        .reply(function (_uri, requestBody) {
+          if (typeof requestBody === 'string') {
+            capturedBody = Buffer.from(requestBody, 'hex').toString('utf8');
+          } else {
+            capturedBody = JSON.stringify(requestBody);
+          }
+          return [201, []];
+        });
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`;
+
+      await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-applink-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--authorization-external-client-app-name=ExternalOAuthApp',
+      ]);
+
+      expect(stripAnsi(stderr.output)).to.contain(
+        'Publishing my-app to myorg as AccountAPI'
+      );
+      expect(capturedBody).to.contain('authorization_external_client_app_name');
+      expect(capturedBody).to.contain('ExternalOAuthApp');
+    });
   });
 
   it('throws an error when API spec file is not found', async function () {
