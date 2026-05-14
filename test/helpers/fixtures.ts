@@ -1,6 +1,6 @@
 import * as Heroku from '@heroku-cli/schema';
-import * as AppLink from '../../src/lib/applink/types';
-import * as HerokuSDK from '../../src/lib/types';
+import * as AppLink from '../../src/lib/applink/types.js';
+import * as HerokuSDK from '../../src/lib/types.js';
 
 export const app: Heroku.App = {
   id: '89abcdef-0123-4567-89ab-cdef01234567',

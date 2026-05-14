@@ -1,10 +1,12 @@
-import { color } from '@heroku-cli/color';
+import * as color from '@heroku/heroku-cli-util/color';
 import { APIClient, Command } from '@heroku-cli/command';
 import * as Heroku from '@heroku-cli/schema';
-import * as HerokuSDK from '../lib/types';
-import { ux } from '@oclif/core';
-import heredoc from 'tsheredoc';
+import * as HerokuSDK from './types.js';
+import { ux } from '@oclif/core/ux';
+import tsheredoc from 'tsheredoc';
 import { OutgoingHttpHeaders } from 'node:http';
+
+const heredoc = tsheredoc.default ?? tsheredoc;
 
 export default abstract class extends Command {
   private _addonId!: string;
@@ -80,7 +82,7 @@ export default abstract class extends Command {
       ux.error(
         heredoc`
           AppLink add-on isn't present on ${color.app(app)}.
-          Install the add-on using ${color.cmd(`heroku addons:create ${this.addonServiceSlug} -a ${app}`)}.
+          Install the add-on using ${color.command(`heroku addons:create ${this.addonServiceSlug} -a ${app}`)}.
         `,
         { exit: 1 }
       );
@@ -92,7 +94,7 @@ export default abstract class extends Command {
         ux.error(
           heredoc`
             AppLink add-on ${color.addon(addon)} doesn't exist on ${color.app(app)}.
-            Use ${color.cmd(`heroku addons --app ${app}`)} to list the add-ons on the app.
+            Use ${color.command(`heroku addons --app ${app}`)} to list the add-ons on the app.
           `,
           { exit: 1 }
         );
@@ -103,7 +105,7 @@ export default abstract class extends Command {
       ux.error(
         heredoc`
           Your app ${color.app(app)} has multiple AppLink add-ons.
-          Rerun the command with the ${color.cmd('--addon')} flag to specify which one to use.
+          Rerun the command with the ${color.command('--addon')} flag to specify which one to use.
         `,
         { exit: 1 }
       );
@@ -121,7 +123,7 @@ export default abstract class extends Command {
       ux.error(
         heredoc`
           AppLink add-on isn't fully provisioned on ${color.app(app)}.
-          Wait for the add-on to finish provisioning with ${color.cmd(`heroku addons:wait ${applinkAddon.name} -a ${app}`)}.
+          Wait for the add-on to finish provisioning with ${color.command(`heroku addons:wait ${applinkAddon.name} -a ${app}`)}.
         `,
         { exit: 1 }
       );

@@ -1,6 +1,2 @@
 #!/usr/bin/env node
-
-const oclif = require('@oclif/core');
-oclif.run().catch(async (error) => {
-  return require('@oclif/core/handle')(error);
-});
+import './run.js'

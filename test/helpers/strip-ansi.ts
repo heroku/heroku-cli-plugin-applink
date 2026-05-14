@@ -1,5 +1,5 @@
-import stripAnsi from 'strip-ansi';
+import ansis from 'ansis';
 
 export default function (text: string): string {
-  return stripAnsi(text).replace(/[»›▸⬢]\s*/gm, '');
+  return ansis.strip(text).replace(/[»›▸⬢]\s*/gm, '');
 }

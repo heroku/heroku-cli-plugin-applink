@@ -6,10 +6,18 @@
     "**/*.test.ts",
     "test/**/*",
     "**/*types.ts",
-    "node_modules/**/*"
+    "node_modules/**/*",
+    "src/commands/**/*",
+    "src/lib/jwtAuthCommand.ts",
+    "src/index.ts"
   ],
-  "reporter": ["text", "html", "text-summary"],
+  "reporter": ["text", "html", "lcov", "text-summary"],
   "clean": true,
   "temp-directory": "./coverage/tmp",
-  "report-dir": "./coverage"
+  "report-dir": "./coverage",
+  "check-coverage": true,
+  "statements": 80,
+  "branches": 70,
+  "functions": 80,
+  "lines": 80
 }

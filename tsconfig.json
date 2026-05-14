@@ -2,20 +2,16 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
-    "module": "CommonJS",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "dist",
     "rootDirs": ["src"],
     "strict": true,
-    "target": "ESNext",
+    "target": "ES2022",
     "skipLibCheck": true
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "esm": false,
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "ts-node": { "esm": true }
 }

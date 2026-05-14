@@ -1,11 +1,14 @@
-import Command from './base';
+import Command from './base.js';
 import { flags } from '@heroku-cli/command';
-import * as AppLink from './applink/types';
-import fs from 'fs';
-import { ux, Args } from '@oclif/core';
-import { humanize } from './helpers';
-import heredoc from 'tsheredoc';
-import { color } from '@heroku-cli/color';
+import * as AppLink from './applink/types.js';
+import fs from 'node:fs';
+import { Args } from '@oclif/core';
+import { ux } from '@oclif/core/ux';
+import { humanize } from './helpers.js';
+import tsheredoc from 'tsheredoc';
+import * as color from '@heroku/heroku-cli-util/color';
+
+const heredoc = tsheredoc.default ?? tsheredoc;
 
 /**
  * Base class for JWT authorization commands across providers.
@@ -162,10 +165,6 @@ export default abstract class JWTAuthCommand extends Command {
       ux.action.stop(humanize(authorization.status));
     } catch (error: unknown) {
       ux.action.stop('Failed');
-
-      // Note: Enhanced error handling with user-friendly messages will be
-      // implemented in Work Item 2.2 (Common Error Handling Utility).
-      // For now, we re-throw the error to let oclif handle it.
       throw error;
     }
   }

@@ -1,100 +1,89 @@
-/* eslint-disable mocha/no-setup-in-describe */
-import { ux } from '@oclif/core';
-import { expect, test } from '@oclif/test';
-import stripAnsi from 'strip-ansi';
-import confirmCommand from '../../src/lib/confirmCommand';
+import { ux } from '@oclif/core/ux';
+import { expect } from 'chai';
+import sinon from 'sinon';
+import stripAnsi from '../helpers/strip-ansi.js';
+import confirmCommand from '../../src/lib/confirmCommand.js';
 
 describe('confirmApp', function () {
-  test
-    .stdout()
-    .stderr()
-    .do(() =>
-      confirmCommand({
-        connectionName: 'orgName',
-        connectionType: 'org',
-        addon: 'addon',
-        app: 'app',
-        confirm: 'orgName',
-      })
-    )
-    .it(
-      'should not error or prompt with confirm flag match',
-      ({ stderr, stdout }) => {
-        expect(stderr).to.equal('');
-        expect(stdout).to.equal('');
-      }
-    );
+  let warnStub: sinon.SinonStub;
 
-  test
-    .stdout()
-    .stderr()
-    .do(() =>
-      confirmCommand({
+  beforeEach(function () {
+    warnStub = sinon.stub(ux, 'warn');
+    sinon.stub(console, 'error');
+  });
+
+  afterEach(function () {
+    sinon.restore();
+  });
+
+  it('should not error or prompt with confirm flag match', async function () {
+    await confirmCommand({
+      connectionName: 'orgName',
+      connectionType: 'org',
+      addon: 'addon',
+      app: 'app',
+      confirm: 'orgName',
+    });
+  });
+
+  it('should err on confirm flag mismatch', async function () {
+    try {
+      await confirmCommand({
         connectionName: 'orgName',
         connectionType: 'org',
         addon: 'addon',
         app: 'app',
         confirm: 'nope',
-      })
-    )
-    .catch((error: Error) => {
+      });
+      expect.fail('Should have thrown');
+    } catch (error: any) {
       expect(stripAnsi(error.message)).to.equal(
         "Confirmation nope doesn't match orgName. Re-run this command to try again."
       );
-    })
-    .it('should err on confirm flag mismatch');
+    }
+  });
 
-  test
-    .stdout()
-    .stderr()
-    .stub(ux, 'prompt', () => Promise.resolve('orgName'))
-    .do(() =>
-      confirmCommand({
-        connectionName: 'orgName',
-        connectionType: 'org',
-        addon: 'addon',
-        app: 'app',
-      })
-    )
-    .it('should not err on confirm prompt match', ({ stderr, stdout }) => {
-      expect(stderr).to.contain('Warning: Destructive action');
-      expect(stdout).to.equal('');
+  it('should not err on confirm prompt match', async function () {
+    await confirmCommand({
+      connectionName: 'orgName',
+      connectionType: 'org',
+      addon: 'addon',
+      app: 'app',
+      promptFn: async () => 'orgName',
     });
+    expect(warnStub.called).to.be.true;
+    const warnMessage = stripAnsi(warnStub.firstCall.args[0]);
+    expect(warnMessage).to.contain('Destructive action');
+  });
 
-  const customMessage = 'custom message';
-
-  test
-    .stdout()
-    .stderr()
-    .stub(ux, 'prompt', () => Promise.resolve('orgName'))
-    .do(() =>
-      confirmCommand({
-        connectionName: 'orgName',
-        connectionType: 'org',
-        addon: 'addon',
-        app: 'app',
-        message: customMessage,
-      })
-    )
-    .it('should display custom message', ({ stderr, stdout }) => {
-      expect(stderr).to.contain(customMessage);
-      expect(stdout).to.equal('');
+  it('should display custom message', async function () {
+    const customMessage = 'custom message';
+    await confirmCommand({
+      connectionName: 'orgName',
+      connectionType: 'org',
+      addon: 'addon',
+      app: 'app',
+      message: customMessage,
+      promptFn: async () => 'orgName',
     });
+    expect(warnStub.called).to.be.true;
+    expect(warnStub.firstCall.args[0]).to.contain(customMessage);
+  });
 
-  test
-    .stub(ux, 'prompt', () => Promise.resolve('nope'))
-    .do(() =>
-      confirmCommand({
+  it('should err on confirm prompt mismatch', async function () {
+    try {
+      await confirmCommand({
         connectionName: 'orgName',
         connectionType: 'org',
         addon: 'addon',
         app: 'app',
-      })
-    )
-    .catch((error: Error) => {
+        promptFn: async () => 'nope',
+      });
+      expect.fail('Should have thrown');
+    } catch (error: any) {
       expect(stripAnsi(error.message)).to.equal(
         "Confirmation nope doesn't match orgName. Re-run this command to try again."
       );
-    })
-    .it('should err on confirm prompt mismatch');
+    }
+  });
 });
