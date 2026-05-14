@@ -12,7 +12,7 @@ export default async function confirmCommand({
   app,
   confirm,
   message,
-  promptFn,
+  promptFunction,
 }: {
   connectionName: string;
   connectionType: string;
@@ -20,7 +20,7 @@ export default async function confirmCommand({
   app: string;
   confirm?: string;
   message?: string;
-  promptFn?: (
+  promptFunction?: (
     name: string,
     options?: { required?: boolean }
   ) => Promise<string>;
@@ -42,7 +42,7 @@ export default async function confirmCommand({
 
   ux.warn(message);
   console.error();
-  const doPrompt = promptFn || hux.prompt;
+  const doPrompt = promptFunction || hux.prompt;
   const entered = await doPrompt(
     `To proceed, type ${color.red(connectionName)} or re-run this command with ${color.red('--confirm ' + connectionName)}`,
     { required: true }

@@ -49,7 +49,7 @@ describe('confirmApp', function () {
       connectionType: 'org',
       addon: 'addon',
       app: 'app',
-      promptFn: async () => 'orgName',
+      promptFunction: async () => 'orgName',
     });
     expect(warnStub.called).to.be.true;
     const warnMessage = stripAnsi(warnStub.firstCall.args[0]);
@@ -64,7 +64,7 @@ describe('confirmApp', function () {
       addon: 'addon',
       app: 'app',
       message: customMessage,
-      promptFn: async () => 'orgName',
+      promptFunction: async () => 'orgName',
     });
     expect(warnStub.called).to.be.true;
     expect(warnStub.firstCall.args[0]).to.contain(customMessage);
@@ -77,7 +77,7 @@ describe('confirmApp', function () {
         connectionType: 'org',
         addon: 'addon',
         app: 'app',
-        promptFn: async () => 'nope',
+        promptFunction: async () => 'nope',
       });
       expect.fail('Should have thrown');
     } catch (error: any) {
