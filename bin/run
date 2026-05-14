@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import './run.js'
+import './run.js';
