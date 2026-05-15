@@ -1,84 +1,20 @@
-import typescriptParser from '@typescript-eslint/parser';
-import typescriptPlugin from '@typescript-eslint/eslint-plugin';
-import importPlugin from 'eslint-plugin-import';
-import mochaPlugin from 'eslint-plugin-mocha';
+import herokuConfig from '@heroku-cli/test-utils/eslint-config';
 
 export default [
+  ...herokuConfig,
   {
-    ignores: [
-      'dist/**',
-      'coverage/**',
-      'node_modules/**',
-      '**/*.js',
-      '**/*.mjs',
-      'scripts/**',
-    ],
-  },
-  {
-    files: ['src/**/*.ts'],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        project: './tsconfig.json',
-      },
-      globals: {
-        console: 'readonly',
-        process: 'readonly',
-        Buffer: 'readonly',
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
-    },
     rules: {
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-empty-function': 'off',
-      camelcase: 'off',
-      indent: ['error', 2, { MemberExpression: 1 }],
-      'no-await-in-loop': 'off',
-      'no-constant-condition': ['error', { checkLoops: false }],
-      'prefer-arrow-callback': 'warn',
+      camelcase: ['error', {allow: ['^_'], properties: 'never'}],
+      'unicorn/filename-case': 'off',
     },
   },
   {
     files: ['test/**/*.ts'],
-    languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-      },
-      globals: {
-        console: 'readonly',
-        process: 'readonly',
-        Buffer: 'readonly',
-        describe: 'readonly',
-        it: 'readonly',
-        before: 'readonly',
-        after: 'readonly',
-        beforeEach: 'readonly',
-        afterEach: 'readonly',
-      },
-    },
-    plugins: {
-      '@typescript-eslint': typescriptPlugin,
-      import: importPlugin,
-      mocha: mochaPlugin,
-    },
     rules: {
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
       camelcase: 'off',
-      indent: ['error', 2, { MemberExpression: 1 }],
-      'mocha/no-mocha-arrows': 'warn',
-      'mocha/no-exports': 'warn',
-      'mocha/no-setup-in-describe': 'warn',
-      'no-await-in-loop': 'off',
-      'no-constant-condition': ['error', { checkLoops: false }],
-      'prefer-arrow-callback': 'off',
+      'import/no-named-as-default-member': 'off',
     },
   },
 ];

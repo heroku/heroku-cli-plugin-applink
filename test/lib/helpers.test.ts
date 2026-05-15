@@ -1,5 +1,6 @@
-import { expect } from 'chai';
-import { humanize, humanizeKeys } from '../../src/lib/helpers.js';
+import {expect} from 'chai';
+
+import {humanize, humanizeKeys} from '../../src/lib/helpers.js';
 
 describe('helpers', function () {
   describe('humanize', function () {
@@ -12,7 +13,7 @@ describe('helpers', function () {
     });
 
     it('handles undefined', function () {
-      expect(humanize(undefined)).to.equal('');
+      expect(humanize()).to.equal('');
     });
 
     it('handles null', function () {
@@ -38,7 +39,7 @@ describe('helpers', function () {
     });
 
     it('returns empty object for all-null values', function () {
-      const result = humanizeKeys({ foo: null, bar: null });
+      const result = humanizeKeys({bar: null, foo: null});
       expect(result).to.deep.equal({});
     });
   });

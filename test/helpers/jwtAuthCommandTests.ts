@@ -1,35 +1,36 @@
 /* eslint-disable mocha/no-exports */
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { runCommand } from '@heroku-cli/test-utils';
-import { expect } from 'chai';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
 import * as AppLink from '../../src/lib/applink/types.js';
 import {
   addon,
   addon2,
-  sso_response,
-  app,
-  app2,
   addonAttachment,
   addonAttachment2,
+  app,
+  app2,
+  sso_response,
 } from './fixtures.js';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export interface JWTAuthTestConfig {
   commandClass: any;
-  providerName: string;
   fixtures: {
     authorized: AppLink.Authorization;
-    failed: AppLink.Authorization;
     authorizing: AppLink.Authorization;
+    failed: AppLink.Authorization;
   };
+  providerName: string;
 }
 
 export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
-  const { commandClass: Cmd, providerName, fixtures } = config;
+  const {commandClass: Cmd, fixtures, providerName} = config;
   const filePath = `${__dirname}/jwt.key`;
 
   describe(`${providerName}:authorizations:jwt:add`, function () {
@@ -70,11 +71,11 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
             (body: unknown) => {
               requestBody = body;
               return true;
-            }
+            },
           )
           .reply(202, fixtures.authorized);
 
-        const { stderr } = await runCommand(Cmd, [
+        const {stderr} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -82,18 +83,16 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain(
-          'Adding credentials for admin@applink.org to my-app as my-jwt-auth'
-        );
+        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
         expect(stderr).to.contain('Authorized');
 
         const body = requestBody as {
-          developer_name: string;
-          client_id: string;
-          jwt_private_key: string;
-          username: string;
           alias: string;
+          client_id: string;
+          developer_name: string;
+          jwt_private_key: string;
           login_url?: string;
+          username: string;
         };
         expect(body.developer_name).to.eq('my-jwt-auth');
         expect(body.client_id).to.eq('test-client-id');
@@ -104,12 +103,10 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
 
       it('successfully creates JWT authorization with failed status', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.failed);
 
-        const { stderr } = await runCommand(Cmd, [
+        const {stderr} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -117,20 +114,16 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain(
-          'Adding credentials for admin@applink.org to my-app as my-jwt-auth'
-        );
+        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
         expect(stderr).to.contain('Failed');
       });
 
       it('successfully creates JWT authorization with authorizing status', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.authorizing);
 
-        const { stderr } = await runCommand(Cmd, [
+        const {stderr} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -138,9 +131,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain(
-          'Adding credentials for admin@applink.org to my-app as my-jwt-auth'
-        );
+        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
         expect(stderr).to.contain('Authorizing');
       });
     });
@@ -154,11 +145,11 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
             (body: unknown) => {
               requestBody = body;
               return true;
-            }
+            },
           )
           .reply(202, fixtures.authorized);
 
-        const { stderr } = await runCommand(Cmd, [
+        const {stderr} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -167,12 +158,10 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--login-url=https://test.salesforce.com',
         ]);
 
-        expect(stderr).to.contain(
-          'Adding credentials for admin@applink.org to my-app as my-jwt-auth'
-        );
+        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
         expect(stderr).to.contain('Authorized');
 
-        const body = requestBody as { login_url?: string };
+        const body = requestBody as {login_url?: string};
         expect(body.login_url).to.eq('https://test.salesforce.com');
       });
     });
@@ -186,7 +175,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
             (body: unknown) => {
               requestBody = body;
               return true;
-            }
+            },
           )
           .reply(202, fixtures.authorized);
 
@@ -198,7 +187,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        const body = requestBody as { alias: string };
+        const body = requestBody as {alias: string};
         expect(body.alias).to.eq('applink:my-jwt-auth');
       });
 
@@ -210,7 +199,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
             (body: unknown) => {
               requestBody = body;
               return true;
-            }
+            },
           )
           .reply(202, fixtures.authorized);
 
@@ -223,7 +212,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--alias=custom-alias',
         ]);
 
-        const body = requestBody as { alias: string };
+        const body = requestBody as {alias: string};
         expect(body.alias).to.eq('custom-alias');
       });
     });
@@ -247,21 +236,17 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
               'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
             HEROKU_APPLINK_COBALT_API_URL:
               'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
-            HEROKU_APPLINK_TOKEN: 'token',
             HEROKU_APPLINK_COBALT_TOKEN: 'token2',
+            HEROKU_APPLINK_TOKEN: 'token',
           })
-          .get(
-            '/apps/my-other-app/addons/6789abcd-ef01-2345-6789-abcdef012345/sso'
-          )
+          .get('/apps/my-other-app/addons/6789abcd-ef01-2345-6789-abcdef012345/sso')
           .reply(200, sso_response);
 
         const multiAddonApplinkApi = nock('https://applink-api.heroku.com')
-          .post(
-            `/addons/6789abcd-ef01-2345-6789-abcdef012345/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/6789abcd-ef01-2345-6789-abcdef012345/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.authorized);
 
-        const { stderr } = await runCommand(Cmd, [
+        const {stderr} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-other-app',
           '--addon=heroku-applink-horizontal-01234',
@@ -270,9 +255,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain(
-          'Adding credentials for admin@applink.org to my-other-app as my-jwt-auth'
-        );
+        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-other-app as my-jwt-auth');
         expect(stderr).to.contain('Authorized');
 
         multiAddonApi.done();
@@ -283,15 +266,13 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
     describe('error handling', function () {
       it('handles 401 authentication failure', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(401, {
-            message: 'Authentication failed',
             id: 'unauthorized',
+            message: 'Authentication failed',
           });
 
-        const { error } = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -305,15 +286,13 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
 
       it('handles 409 duplicate name conflict', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(409, {
-            message: 'Authorization already exists',
             id: 'conflict',
+            message: 'Authorization already exists',
           });
 
-        const { error } = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -327,15 +306,13 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
 
       it('handles 422 validation error', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(422, {
-            message: 'Invalid developer name format',
             id: 'validation_failed',
+            message: 'Invalid developer name format',
           });
 
-        const { error } = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -349,15 +326,13 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
 
       it('handles 500 server error', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(500, {
-            message: 'Internal server error',
             id: 'server_error',
+            message: 'Internal server error',
           });
 
-        const { error } = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -379,7 +354,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
             (body: unknown) => {
               requestBody = body;
               return true;
-            }
+            },
           )
           .reply(202, fixtures.authorized);
 
@@ -393,12 +368,12 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
         ]);
 
         const body = requestBody as {
-          developer_name: string;
-          client_id: string;
-          jwt_private_key: string;
-          username: string;
           alias: string;
+          client_id: string;
+          developer_name: string;
+          jwt_private_key: string;
           login_url: string;
+          username: string;
         };
 
         expect(body).to.have.property('developer_name');
@@ -421,9 +396,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
     describe('response type validation', function () {
       it('correctly handles provider org response type', async function () {
         applinkApi
-          .post(
-            `/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`
-          )
+          .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.authorized);
 
         await runCommand(Cmd, [

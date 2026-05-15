@@ -1,5 +1,5 @@
 import ansis from 'ansis';
 
-export default function (text: string): string {
-  return ansis.strip(text).replace(/[»›▸⬢]\s*/gm, '');
+export default function stripAnsi(text: string): string {
+  return ansis.strip(text).replaceAll(/[»›▸⬢]\s*/gm, '');
 }
