@@ -57,19 +57,6 @@
     ],
     "topicSeparator": ":",
     "topics": {
-      "datacloud": {
-        "description": "manage Heroku app connections to a Data Cloud Org",
-        "subtopics": {
-          "authorizations": {
-            "description": "manage authorizations for connecting Data Cloud orgs to Heroku apps",
-            "subtopics": {
-              "jwt": {
-                "description": "manage JWT-based authorizations for Data Cloud connections"
-              }
-            }
-          }
-        }
-      },
       "applink": {
         "description": "access information and generate Heroku AppLink projects",
         "subtopics": {
@@ -78,22 +65,6 @@
           },
           "connections": {
             "description": "list and view AppLink connections"
-          }
-        }
-      },
-      "salesforce": {
-        "description": "manage Heroku app connections to a Salesforce Org",
-        "subtopics": {
-          "authorizations": {
-            "description": "manage authorizations for connecting Salesforce orgs to Heroku apps",
-            "subtopics": {
-              "jwt": {
-                "description": "manage JWT-based authorizations for Salesforce connections"
-              }
-            }
-          },
-          "connect": {
-            "description": "manage connections between Salesforce orgs and Heroku apps"
           }
         }
       }
