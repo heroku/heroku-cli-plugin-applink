@@ -5,10 +5,8 @@
     "**/*.test.ts",
     "test/**/*",
     "dist/**/*",
-    "src/commands/**/*",
-    "src/lib/base.ts",
-    "src/lib/jwtAuthCommand.ts",
-    "src/index.ts"
+    "src/index.ts",
+    "src/lib/types.ts"
   ],
   "extension": [".ts"],
   "reporter": ["text", "text-summary", "html", "lcov"],
