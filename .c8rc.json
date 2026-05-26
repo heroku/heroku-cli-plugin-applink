@@ -6,6 +6,7 @@
     "test/**/*",
     "dist/**/*",
     "src/commands/**/*",
+    "src/lib/base.ts",
     "src/lib/jwtAuthCommand.ts",
     "src/index.ts"
   ],

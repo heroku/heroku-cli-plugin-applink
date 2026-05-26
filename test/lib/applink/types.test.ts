@@ -1,6 +1,11 @@
 import {expect} from 'chai';
 
-import {adjustOrgType} from '../../../src/lib/applink/types.js';
+import {
+  adjustOrgType,
+  isDataCloudConnection,
+  isSalesforceConnection,
+} from '../../../src/lib/applink/types.js';
+import {connection1} from '../../helpers/fixtures.js';
 
 describe('applink/types', function () {
   describe('adjustOrgType', function () {
@@ -18,6 +23,18 @@ describe('applink/types', function () {
 
     it('handles undefined', function () {
       expect(adjustOrgType()).to.equal(undefined);
+    });
+  });
+
+  describe('isSalesforceConnection', function () {
+    it('returns true for a SalesforceConnection', function () {
+      expect(isSalesforceConnection(connection1)).to.equal(true);
+    });
+  });
+
+  describe('isDataCloudConnection', function () {
+    it('returns false for a SalesforceConnection', function () {
+      expect(isDataCloudConnection(connection1)).to.equal(false);
     });
   });
 });
