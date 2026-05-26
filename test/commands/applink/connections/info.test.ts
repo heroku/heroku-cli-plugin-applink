@@ -54,7 +54,7 @@ describe('applink:connections:info', function () {
 
       const output = stripAnsi(stdout);
       expect(output).to.contain('my-org-2 on app my-app');
-      expect(output).to.contain('Id');
+      expect(output).to.contain('ID');
       expect(output).to.contain('5551fe92-c2fb-4ef7-be43-9d927d9a5c53');
       expect(output).to.contain('Instance URL');
       expect(output).to.contain('https://dsg000007a3bca84.test1.my.pc-rnd.salesforce.com');

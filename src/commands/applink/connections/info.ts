@@ -59,7 +59,7 @@ export default class Info extends AppLinkCommand {
       'Connection Type': humanize(AppLink.adjustOrgType(connection!.org.type)),
       'Created By': connection!.created_by,
       'Created Date': connection!.created_at,
-      Id: connection!.id,
+      ID: connection!.id,
       'Instance URL': orgInfo.instance_url,
       'Last Modified': connection!.last_modified_at,
       'Last Modified By': connection!.last_modified_by,

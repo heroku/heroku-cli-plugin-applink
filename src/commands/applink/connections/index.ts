@@ -1,5 +1,4 @@
 import {flags} from '@heroku-cli/command';
-import * as Heroku from '@heroku-cli/schema';
 import * as color from '@heroku/heroku-cli-util/color';
 import {styledHeader, table} from '@heroku/heroku-cli-util/hux';
 import {ux} from '@oclif/core/ux';
@@ -7,8 +6,6 @@ import {ux} from '@oclif/core/ux';
 import * as AppLink from '../../../lib/applink/types.js';
 import AppLinkCommand from '../../../lib/base.js';
 import {humanize} from '../../../lib/helpers.js';
-
-type AppConnection = AppLink.Connection & Pick<Heroku.AddOn, 'app'>;
 
 export default class Index extends AppLinkCommand {
   static description = 'list Heroku AppLink connections';
@@ -23,7 +20,7 @@ export default class Index extends AppLinkCommand {
   public async run(): Promise<void> {
     const {flags} = await this.parse(Index);
     const {addon, app} = flags;
-    let appConnections: AppConnection[] = [];
+    let appConnections: AppLink.Connection[] = [];
 
     await this.configureAppLinkClient(app, addon);
     ({body: appConnections} = await this.applinkClient.get<
