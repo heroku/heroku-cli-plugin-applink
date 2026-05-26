@@ -80,7 +80,7 @@ export function isDataCloudConnection(connection: Connection): connection is Dat
   return !isSalesforceConnection(connection);
 }
 
-export function adjustOrgType(type: string | undefined): string | undefined {
+export function adjustOrgType(type?: string): string | undefined {
   return type === 'DatacloudOrg' ? 'DataCloudOrg' : type;
 }
 
