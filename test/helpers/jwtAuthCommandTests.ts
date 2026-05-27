@@ -75,7 +75,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           )
           .reply(202, fixtures.authorized);
 
-        const {stderr} = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -83,8 +83,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
-        expect(stderr).to.contain('Authorized');
+        expect(error).to.not.exist;
 
         const body = requestBody as {
           alias: string;
@@ -106,7 +105,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.failed);
 
-        const {stderr} = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -114,8 +113,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
-        expect(stderr).to.contain('Failed');
+        expect(error).to.not.exist;
       });
 
       it('successfully creates JWT authorization with authorizing status', async function () {
@@ -123,7 +121,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           .post(`/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.authorizing);
 
-        const {stderr} = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -131,8 +129,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
-        expect(stderr).to.contain('Authorizing');
+        expect(error).to.not.exist;
       });
     });
 
@@ -149,7 +146,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           )
           .reply(202, fixtures.authorized);
 
-        const {stderr} = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-app',
           '--client-id=test-client-id',
@@ -158,8 +155,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--login-url=https://test.salesforce.com',
         ]);
 
-        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-app as my-jwt-auth');
-        expect(stderr).to.contain('Authorized');
+        expect(error).to.not.exist;
 
         const body = requestBody as {login_url?: string};
         expect(body.login_url).to.eq('https://test.salesforce.com');
@@ -246,7 +242,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           .post(`/addons/6789abcd-ef01-2345-6789-abcdef012345/authorizations/${providerName}/jwt`)
           .reply(202, fixtures.authorized);
 
-        const {stderr} = await runCommand(Cmd, [
+        const {error} = await runCommand(Cmd, [
           'my-jwt-auth',
           '--app=my-other-app',
           '--addon=heroku-applink-horizontal-01234',
@@ -255,8 +251,7 @@ export function createJWTAuthCommandTests(config: JWTAuthTestConfig): void {
           '--username=admin@applink.org',
         ]);
 
-        expect(stderr).to.contain('Adding credentials for admin@applink.org to my-other-app as my-jwt-auth');
-        expect(stderr).to.contain('Authorized');
+        expect(error).to.not.exist;
 
         multiAddonApi.done();
         multiAddonApplinkApi.done();

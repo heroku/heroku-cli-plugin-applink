@@ -67,6 +67,22 @@
             "description": "list and view AppLink connections"
           }
         }
+      },
+      "salesforce": {
+        "description": "manage Heroku app connections to a Salesforce Org",
+        "subtopics": {
+          "authorizations": {
+            "description": "manage authorizations for connecting Salesforce orgs to Heroku apps",
+            "subtopics": {
+              "jwt": {
+                "description": "manage JWT-based authorizations for Salesforce connections"
+              }
+            }
+          },
+          "connect": {
+            "description": "manage connections between Salesforce orgs and Heroku apps"
+          }
+        }
       }
     }
   },

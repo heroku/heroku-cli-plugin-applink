@@ -1,2 +1,217 @@
-// This test will be migrated in a subsequent PR.
-export {};
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
+import nock from 'nock';
+import fs from 'node:fs';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+import Cmd from '../../../src/commands/salesforce/publish.js';
+import {
+  addon,
+  addonAttachment,
+  app,
+  sso_response,
+} from '../../helpers/fixtures.js';
+import stripAnsi from '../../helpers/strip-ansi.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+describe('salesforce:publish', function () {
+  let api: nock.Scope;
+  let applinkApi: nock.Scope;
+  const {env} = process;
+
+  context('when config var is set to HEROKU_APPLINK_API_URL', function () {
+    beforeEach(function () {
+      process.env = {};
+      api = nock('https://api.heroku.com')
+        .get('/apps/my-app')
+        .reply(200, app)
+        .get('/apps/my-app/addons')
+        .reply(200, [addon])
+        .get('/apps/my-app/addon-attachments')
+        .reply(200, [addonAttachment])
+        .get('/apps/my-app/config-vars')
+        .reply(200, {
+          HEROKU_APPLINK_API_URL:
+            'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+          HEROKU_APPLINK_TOKEN: 'token',
+        })
+        .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+        .reply(200, sso_response);
+      applinkApi = nock('https://applink-api.heroku.com');
+    });
+
+    afterEach(function () {
+      process.env = env;
+      api.done();
+      applinkApi.done();
+      nock.cleanAll();
+    });
+
+    it('successfully publishes an API spec file', async function () {
+      applinkApi
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
+        .reply(201, []);
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`;
+
+      const {error} = await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-applink-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+      ]);
+
+      expect(error).to.not.exist;
+    });
+
+    it('shows deprecation warning when using authorization-connected-app-name flag', async function () {
+      applinkApi
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
+        .reply(201, []);
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`;
+
+      const {stderr} = await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-applink-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--authorization-connected-app-name=TestApp',
+      ]);
+
+      expect(stderr).to.contain('--authorization-connected-app-name');
+      expect(stderr).to.contain('deprecated');
+      expect(stderr).to.contain('--authorization-external-client-app-name');
+    });
+
+    it('successfully publishes with authorization-external-client-app-name flag', async function () {
+      let capturedBody: string | undefined;
+
+      applinkApi
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
+        .reply(function (_uri, requestBody) {
+          capturedBody
+            = typeof requestBody === 'string'
+              ? Buffer.from(requestBody, 'hex').toString('utf8')
+              : JSON.stringify(requestBody);
+
+          return [201, []];
+        });
+
+      const filePath = `${__dirname}/../../helpers/openapi.json`;
+
+      const {error} = await runCommand(Cmd, [
+        filePath,
+        '--app=my-app',
+        '--addon=heroku-applink-vertical-01234',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--authorization-external-client-app-name=ExternalOAuthApp',
+      ]);
+
+      expect(error).to.not.exist;
+      expect(capturedBody).to.contain('authorization_external_client_app_name');
+      expect(capturedBody).to.contain('ExternalOAuthApp');
+    });
+  });
+
+  it('throws an error when API spec file is not found', async function () {
+    const nonExistentPath = `${__dirname}/non-existent-file.json`;
+
+    const {error} = await runCommand(Cmd, [
+      nonExistentPath,
+      '--app=my-app',
+      '--addon=my-addon',
+      '--client-name=AccountAPI',
+      '--connection-name=myorg',
+    ]);
+
+    expect(error).to.exist;
+    expect(stripAnsi(error!.message)).to.contain(`The API spec file path ${nonExistentPath} doesn't exist.`);
+  });
+
+  it('throws an error when API spec file has invalid format', async function () {
+    const invalidFormatPath = `${__dirname}/../../helpers/invalid.txt`;
+
+    fs.writeFileSync(invalidFormatPath, 'test content');
+
+    try {
+      const {error} = await runCommand(Cmd, [
+        invalidFormatPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+      ]);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format.');
+    } finally {
+      fs.unlinkSync(invalidFormatPath);
+    }
+  });
+
+  it('throws an error when both connectedapp-meta.xml exists and authorization-connected-app-name is provided', async function () {
+    const metadataDir = `${__dirname}/../../helpers/metadata`;
+    const apiSpecPath = `${__dirname}/../../helpers/openapi.json`;
+
+    fs.mkdirSync(metadataDir, {recursive: true});
+    fs.writeFileSync(`${metadataDir}/connectedapp-meta.xml`, '<xml>test</xml>');
+
+    try {
+      const {error} = await runCommand(Cmd, [
+        apiSpecPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--metadata-dir',
+        metadataDir,
+        '--authorization-connected-app-name=TestApp',
+      ]);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('You can only specify the connected app name with connectedapp-meta.xml in the metadata directory'
+          + ' or with the --authorization-connected-app-name flag, not both.');
+    } finally {
+      fs.unlinkSync(`${metadataDir}/connectedapp-meta.xml`);
+      fs.rmdirSync(metadataDir);
+    }
+  });
+
+  it('throws an error when both permissionset-meta.xml exists and authorization-permission-set-name is provided', async function () {
+    const metadataDir = `${__dirname}/../../helpers/metadata`;
+    const apiSpecPath = `${__dirname}/../../helpers/openapi.json`;
+
+    fs.mkdirSync(metadataDir, {recursive: true});
+    fs.writeFileSync(
+      `${metadataDir}/permissionset-meta.xml`,
+      '<xml>test</xml>',
+    );
+
+    try {
+      const {error} = await runCommand(Cmd, [
+        apiSpecPath,
+        '--app=my-app',
+        '--addon=my-addon',
+        '--client-name=AccountAPI',
+        '--connection-name=myorg',
+        '--metadata-dir',
+        metadataDir,
+        '--authorization-permission-set-name=TestPermSet',
+      ]);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('You can only specify the permission set name with permissionset-meta.xml in the metadata directory'
+          + ' or with the --authorization-permission-set-name flag, not both.');
+    } finally {
+      fs.unlinkSync(`${metadataDir}/permissionset-meta.xml`);
+      fs.rmdirSync(metadataDir);
+    }
+  });
+});

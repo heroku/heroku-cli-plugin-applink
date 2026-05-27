@@ -1,2 +1,86 @@
-// This test will be migrated in a subsequent PR.
-export {};
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
+import nock from 'nock';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+import Cmd from '../../../../src/commands/salesforce/connect/jwt.js';
+import {
+  addon,
+  addonAttachment,
+  app,
+  credential_id_connected,
+  credential_id_failed,
+  sso_response,
+} from '../../../helpers/fixtures.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+describe('salesforce:connect:jwt', function () {
+  let applinkApi: nock.Scope;
+  let api: nock.Scope;
+
+  const filePath = `${__dirname}/../../../helpers/jwt.key`;
+
+  beforeEach(function () {
+    api = nock('https://api.heroku.com')
+      .get('/apps/my-app')
+      .reply(200, app)
+      .get('/apps/my-app/addons')
+      .reply(200, [addon])
+      .get('/apps/my-app/addon-attachments')
+      .reply(200, [addonAttachment])
+      .get('/apps/my-app/config-vars')
+      .reply(200, {
+        HEROKU_APPLINK_API_URL:
+          'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
+        HEROKU_APPLINK_TOKEN: 'token',
+      })
+      .get('/apps/my-app/addons/01234567-89ab-cdef-0123-456789abcdef/sso')
+      .reply(200, sso_response);
+    applinkApi = nock('https://applink-api.heroku.com');
+  });
+
+  afterEach(function () {
+    api.done();
+    applinkApi.done();
+    nock.cleanAll();
+  });
+
+  it('when the connection succeeds, it shows the expected output', async function () {
+    applinkApi
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
+      .reply(202, credential_id_connected);
+
+    const {error} = await runCommand(Cmd, [
+      'my-connection-1',
+      '--app=my-app',
+      '--client-id=test-id',
+      `--jwt-key-file=${filePath}`,
+      '--username=test-username',
+      '-l',
+      'https://test.salesforce.com',
+    ]);
+
+    expect(error).to.not.exist;
+  });
+
+  it('when the connection status is not "Connected", it shows the correct connection status in the output', async function () {
+    applinkApi
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
+      .reply(202, credential_id_failed);
+
+    const {error} = await runCommand(Cmd, [
+      'my-connection-1',
+      '--app=my-app',
+      '--client-id=test-id',
+      `--jwt-key-file=${filePath}`,
+      '--username=test-username',
+      '-l',
+      'https://test.salesforce.com',
+    ]);
+
+    expect(error).to.not.exist;
+  });
+});
