@@ -68,6 +68,22 @@
           }
         }
       },
+      "datacloud": {
+        "description": "manage Heroku app connections to a Data Cloud Org",
+        "subtopics": {
+          "authorizations": {
+            "description": "manage authorizations for connecting Data Cloud orgs to Heroku apps",
+            "subtopics": {
+              "jwt": {
+                "description": "manage JWT-based authorizations for Data Cloud connections"
+              }
+            }
+          },
+          "data-action-target": {
+            "description": "manage data action targets for Data Cloud connections"
+          }
+        }
+      },
       "salesforce": {
         "description": "manage Heroku app connections to a Salesforce Org",
         "subtopics": {
