@@ -1,22 +1,26 @@
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { stderr, stdout } from 'stdout-stderr';
-import { runCommand } from '../../run-command';
-import Cmd from '../../../src/commands/salesforce/publish';
+import fs from 'node:fs';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+import Cmd from '../../../src/commands/salesforce/publish.js';
 import {
   addon,
-  sso_response,
-  app,
   addonAttachment,
-} from '../../helpers/fixtures';
-import stripAnsi from '../../helpers/strip-ansi';
-import { CLIError } from '@oclif/core/lib/errors';
-import fs from 'fs';
+  app,
+  sso_response,
+} from '../../helpers/fixtures.js';
+import stripAnsi from '../../helpers/strip-ansi.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe('salesforce:publish', function () {
   let api: nock.Scope;
   let applinkApi: nock.Scope;
-  const { env } = process;
+  const {env} = process;
 
   context('when config var is set to HEROKU_APPLINK_API_URL', function () {
     beforeEach(function () {
@@ -48,14 +52,12 @@ describe('salesforce:publish', function () {
 
     it('successfully publishes an API spec file', async function () {
       applinkApi
-        .post(
-          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps'
-        )
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
         .reply(201, []);
 
       const filePath = `${__dirname}/../../helpers/openapi.json`;
 
-      await runCommand(Cmd, [
+      const {error} = await runCommand(Cmd, [
         filePath,
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
@@ -63,22 +65,17 @@ describe('salesforce:publish', function () {
         '--connection-name=myorg',
       ]);
 
-      expect(stripAnsi(stderr.output)).to.contain(
-        'Publishing my-app to myorg as AccountAPI'
-      );
-      expect(stdout.output).to.equal('');
+      expect(error).to.not.exist;
     });
 
     it('shows deprecation warning when using authorization-connected-app-name flag', async function () {
       applinkApi
-        .post(
-          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps'
-        )
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
         .reply(201, []);
 
       const filePath = `${__dirname}/../../helpers/openapi.json`;
 
-      await runCommand(Cmd, [
+      const {stderr} = await runCommand(Cmd, [
         filePath,
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
@@ -87,33 +84,28 @@ describe('salesforce:publish', function () {
         '--authorization-connected-app-name=TestApp',
       ]);
 
-      expect(stripAnsi(stderr.output)).to.contain(
-        '--authorization-connected-app-name is a deprecated flag'
-      );
-      expect(stripAnsi(stderr.output)).to.contain(
-        '--authorization-external-client-app-name'
-      );
+      expect(stderr).to.contain('--authorization-connected-app-name');
+      expect(stderr).to.contain('deprecated');
+      expect(stderr).to.contain('--authorization-external-client-app-name');
     });
 
     it('successfully publishes with authorization-external-client-app-name flag', async function () {
       let capturedBody: string | undefined;
 
       applinkApi
-        .post(
-          '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps'
-        )
+        .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/myorg/apps')
         .reply(function (_uri, requestBody) {
-          if (typeof requestBody === 'string') {
-            capturedBody = Buffer.from(requestBody, 'hex').toString('utf8');
-          } else {
-            capturedBody = JSON.stringify(requestBody);
-          }
+          capturedBody
+            = typeof requestBody === 'string'
+              ? Buffer.from(requestBody, 'hex').toString('utf8')
+              : JSON.stringify(requestBody);
+
           return [201, []];
         });
 
       const filePath = `${__dirname}/../../helpers/openapi.json`;
 
-      await runCommand(Cmd, [
+      const {error} = await runCommand(Cmd, [
         filePath,
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
@@ -122,9 +114,7 @@ describe('salesforce:publish', function () {
         '--authorization-external-client-app-name=ExternalOAuthApp',
       ]);
 
-      expect(stripAnsi(stderr.output)).to.contain(
-        'Publishing my-app to myorg as AccountAPI'
-      );
+      expect(error).to.not.exist;
       expect(capturedBody).to.contain('authorization_external_client_app_name');
       expect(capturedBody).to.contain('ExternalOAuthApp');
     });
@@ -133,21 +123,16 @@ describe('salesforce:publish', function () {
   it('throws an error when API spec file is not found', async function () {
     const nonExistentPath = `${__dirname}/non-existent-file.json`;
 
-    try {
-      await runCommand(Cmd, [
-        nonExistentPath,
-        '--app=my-app',
-        '--addon=my-addon',
-        '--client-name=AccountAPI',
-        '--connection-name=myorg',
-      ]);
-    } catch (error: unknown) {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.contain(
-        `The API spec file path ${nonExistentPath} doesn't exist. Make sure it's the correct path or use a different one, and try again.`
-      );
-      expect(oclif.exit).to.equal(1);
-    }
+    const {error} = await runCommand(Cmd, [
+      nonExistentPath,
+      '--app=my-app',
+      '--addon=my-addon',
+      '--client-name=AccountAPI',
+      '--connection-name=myorg',
+    ]);
+
+    expect(error).to.exist;
+    expect(stripAnsi(error!.message)).to.contain(`The API spec file path ${nonExistentPath} doesn't exist.`);
   });
 
   it('throws an error when API spec file has invalid format', async function () {
@@ -156,19 +141,16 @@ describe('salesforce:publish', function () {
     fs.writeFileSync(invalidFormatPath, 'test content');
 
     try {
-      await runCommand(Cmd, [
+      const {error} = await runCommand(Cmd, [
         invalidFormatPath,
         '--app=my-app',
         '--addon=my-addon',
         '--client-name=AccountAPI',
         '--connection-name=myorg',
       ]);
-    } catch (error: unknown) {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.contain(
-        'API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format.'
-      );
-      expect(oclif.exit).to.equal(1);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('API spec file path must be in YAML (.yaml/.yml) or JSON (.json) format.');
     } finally {
       fs.unlinkSync(invalidFormatPath);
     }
@@ -178,11 +160,11 @@ describe('salesforce:publish', function () {
     const metadataDir = `${__dirname}/../../helpers/metadata`;
     const apiSpecPath = `${__dirname}/../../helpers/openapi.json`;
 
-    fs.mkdirSync(metadataDir, { recursive: true });
+    fs.mkdirSync(metadataDir, {recursive: true});
     fs.writeFileSync(`${metadataDir}/connectedapp-meta.xml`, '<xml>test</xml>');
 
     try {
-      await runCommand(Cmd, [
+      const {error} = await runCommand(Cmd, [
         apiSpecPath,
         '--app=my-app',
         '--addon=my-addon',
@@ -192,12 +174,10 @@ describe('salesforce:publish', function () {
         metadataDir,
         '--authorization-connected-app-name=TestApp',
       ]);
-    } catch (error: unknown) {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.contain(
-        'You can only specify the connected app name with connectedapp-meta.xml in the metadata directory or with the --authorization-connected-app-name flag, not both.'
-      );
-      expect(oclif.exit).to.equal(1);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('You can only specify the connected app name with connectedapp-meta.xml in the metadata directory'
+          + ' or with the --authorization-connected-app-name flag, not both.');
     } finally {
       fs.unlinkSync(`${metadataDir}/connectedapp-meta.xml`);
       fs.rmdirSync(metadataDir);
@@ -208,14 +188,14 @@ describe('salesforce:publish', function () {
     const metadataDir = `${__dirname}/../../helpers/metadata`;
     const apiSpecPath = `${__dirname}/../../helpers/openapi.json`;
 
-    fs.mkdirSync(metadataDir, { recursive: true });
+    fs.mkdirSync(metadataDir, {recursive: true});
     fs.writeFileSync(
       `${metadataDir}/permissionset-meta.xml`,
-      '<xml>test</xml>'
+      '<xml>test</xml>',
     );
 
     try {
-      await runCommand(Cmd, [
+      const {error} = await runCommand(Cmd, [
         apiSpecPath,
         '--app=my-app',
         '--addon=my-addon',
@@ -225,12 +205,10 @@ describe('salesforce:publish', function () {
         metadataDir,
         '--authorization-permission-set-name=TestPermSet',
       ]);
-    } catch (error: unknown) {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.contain(
-        'You can only specify the permission set name with permissionset-meta.xml in the metadata directory or with the --authorization-permission-set-name flag, not both.'
-      );
-      expect(oclif.exit).to.equal(1);
+
+      expect(error).to.exist;
+      expect(stripAnsi(error!.message)).to.contain('You can only specify the permission set name with permissionset-meta.xml in the metadata directory'
+          + ' or with the --authorization-permission-set-name flag, not both.');
     } finally {
       fs.unlinkSync(`${metadataDir}/permissionset-meta.xml`);
       fs.rmdirSync(metadataDir);

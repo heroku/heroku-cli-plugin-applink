@@ -1,18 +1,17 @@
-import Cmd from '../../../../../src/commands/datacloud/authorizations/jwt/add';
+import Cmd from '../../../../../src/commands/datacloud/authorizations/jwt/add.js';
 import {
   authorization_datacloud_jwt_authorized,
-  authorization_datacloud_jwt_failed,
   authorization_datacloud_jwt_authorizing,
-} from '../../../../helpers/fixtures';
-import { createJWTAuthCommandTests } from '../../../../helpers/jwtAuthCommandTests';
+  authorization_datacloud_jwt_failed,
+} from '../../../../helpers/fixtures.js';
+import {createJWTAuthCommandTests} from '../../../../helpers/jwtAuthCommandTests.js';
 
-// Use shared test suite with Data Cloud-specific configuration
 createJWTAuthCommandTests({
   commandClass: Cmd,
-  providerName: 'datacloud',
   fixtures: {
     authorized: authorization_datacloud_jwt_authorized,
-    failed: authorization_datacloud_jwt_failed,
     authorizing: authorization_datacloud_jwt_authorizing,
+    failed: authorization_datacloud_jwt_failed,
   },
+  providerName: 'datacloud',
 });

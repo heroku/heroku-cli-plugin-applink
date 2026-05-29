@@ -1,17 +1,18 @@
-import { color } from '@heroku-cli/color';
-import Command from '../../lib/base';
-import { flags } from '@heroku-cli/command';
-import * as AppLink from '../../lib/applink/types';
-import { ux } from '@oclif/core';
+import {flags} from '@heroku-cli/command';
+import * as color from '@heroku/heroku-cli-util/color';
+import {styledHeader, table} from '@heroku/heroku-cli-util/hux';
+import {ux} from '@oclif/core/ux';
 
-export default class Publications extends Command {
+import * as AppLink from '../../lib/applink/types.js';
+import AppLinkCommand from '../../lib/base.js';
+
+export default class Publications extends AppLinkCommand {
   static description = 'list Salesforce orgs the app is published to';
-
   static flags = {
     addon: flags.string({
       description: 'unique name or ID of an AppLink add-on',
     }),
-    app: flags.app({ required: true }),
+    app: flags.app({required: true}),
     connection_name: flags.string({
       description: 'name of the Salesforce connection',
     }),
@@ -19,28 +20,28 @@ export default class Publications extends Command {
   };
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Publications);
-    const { addon, app, connection_name } = flags;
+    const {flags} = await this.parse(Publications);
+    const {addon, app, connection_name: connectionName} = flags;
     const connections: AppLink.SalesforceConnection[] = [];
     const publications: AppLink.Publication[] = [];
 
     await this.configureAppLinkClient(app, addon);
 
-    if (connection_name) {
-      const { body: connectionResponse } =
-        await this.applinkClient.get<AppLink.SalesforceConnection>(
-          `/addons/${this.addonId}/connections/${connection_name}`,
+    if (connectionName) {
+      const {body: connectionResponse}
+        = await this.applinkClient.get<AppLink.SalesforceConnection>(
+          `/addons/${this.addonId}/connections/${connectionName}`,
           {
-            headers: { authorization: `Bearer ${this._applinkToken}` },
+            headers: {authorization: `Bearer ${this._applinkToken}`},
             retryAuth: false,
-          }
+          },
         );
       connections.push(connectionResponse);
     } else {
-      const { body: connectionResponse } = await this.applinkClient.get<
+      const {body: connectionResponse} = await this.applinkClient.get<
         AppLink.SalesforceConnection[]
       >(`/addons/${this.addonId}/connections`, {
-        headers: { authorization: `Bearer ${this._applinkToken}` },
+        headers: {authorization: `Bearer ${this._applinkToken}`},
         retryAuth: false,
       });
       connections.push(...connectionResponse);
@@ -49,66 +50,63 @@ export default class Publications extends Command {
     if (connections.length === 0) {
       ux.error(
         `There are no Heroku AppLink connections for ${color.app(app)}.`,
-        { exit: 1 }
+        {exit: 1},
       );
     }
 
-    const activeSFConnections = connections.filter(
-      (connection) =>
-        connection.org.type === 'SalesforceOrg' &&
-        connection.status === 'connected'
-    );
+    const activeSFConnections = connections.filter(connection =>
+      connection.org.type === 'SalesforceOrg'
+        && connection.status === 'connected');
     if (activeSFConnections.length === 0) {
       ux.error(
         `There are no active Heroku AppLink connections for ${color.app(app)}.`,
-        { exit: 1 }
+        {exit: 1},
       );
     }
 
     for (const connection of activeSFConnections) {
-      const { body: pubs } = await this.applinkClient.get<
+      // eslint-disable-next-line no-await-in-loop
+      const {body: pubs} = await this.applinkClient.get<
         AppLink.Publication[]
       >(
         `/addons/${this.addonId}/connections/salesforce/${connection.org.connection_name}/apps/${this._appId}`,
         {
-          headers: { authorization: `Bearer ${this._applinkToken}` },
+          headers: {authorization: `Bearer ${this._applinkToken}`},
           retryAuth: false,
-        }
+        },
       );
       publications.push(...pubs);
     }
 
     if (publications.length === 0) {
-      ux.log(
-        `You haven't published ${color.app(app)} to a Salesforce org yet.`
-      );
+      ux.stdout(`You haven't published ${color.app(app)} to a Salesforce org yet.`);
     } else {
-      ux.styledHeader(`Salesforce publications for app ${color.app(app)}`);
+      styledHeader(`Salesforce publications for app ${color.app(app)}`);
 
-      ux.table(publications, {
+      table(publications, {
         connectionName: {
+          get: row => row.connection_name,
           header: 'Connection Name',
-          get: (row) => row.connection_name,
-        },
-        orgId: {
-          header: 'Org ID',
-          get: (row) => row.org_id,
-        },
-        createdDate: {
-          header: 'Created Date',
-          get: (row) => row.created_at,
         },
         createdBy: {
+          get: row => row.created_by,
           header: 'Created By',
-          get: (row) => row.created_by,
+        },
+        createdDate: {
+          get: row => row.created_at,
+          header: 'Created Date',
         },
         lastModified: {
+          get: row => row.last_modified_at,
           header: 'Last Modified',
-          get: (row) => row.last_modified_at,
         },
         lastModifiedBy: {
+          get: row => row.last_modified_by,
           header: 'Last Modified By',
-          get: (row) => row.last_modified_by,
+        },
+        orgId: {
+          get: row => row.org_id,
+          header: 'Org ID',
         },
       });
     }

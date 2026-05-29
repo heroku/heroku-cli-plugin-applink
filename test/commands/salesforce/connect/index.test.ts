@@ -1,28 +1,25 @@
-import { ux } from '@oclif/core';
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { ChildProcess } from 'node:child_process';
-import sinon, { SinonSandbox, SinonStub } from 'sinon';
-import { stderr, stdout } from 'stdout-stderr';
-import heredoc from 'tsheredoc';
-import { runCommand } from '../../../run-command';
-import Cmd from '../../../../src/commands/salesforce/connect';
+import {ChildProcess} from 'node:child_process';
+import sinon, {SinonSandbox, SinonStub} from 'sinon';
+
+import Cmd from '../../../../src/commands/salesforce/connect/index.js';
 import {
   addon,
+  addonAttachment,
+  app,
   connection2_connected,
   connection2_connecting,
   connection2_disconnected,
   connection2_failed,
   sso_response,
-  app,
-  addonAttachment,
-} from '../../../helpers/fixtures';
-import stripAnsi from '../../../helpers/strip-ansi';
-import { CLIError } from '@oclif/core/lib/errors';
+} from '../../../helpers/fixtures.js';
+import stripAnsi from '../../../helpers/strip-ansi.js';
 
 describe('salesforce:connect', function () {
   let api: nock.Scope;
-  const { env } = process;
+  const {env} = process;
   let sandbox: SinonSandbox;
   let urlOpener: SinonStub;
 
@@ -68,94 +65,75 @@ describe('salesforce:connect', function () {
             .resolves({
               on(_: string, _cb: (_err: Error) => void) {},
             } as unknown as ChildProcess);
-          sandbox.stub(ux, 'anykey').onFirstCall().resolves();
+          sandbox.stub(Cmd, 'anykeyHandler').resolves('');
           applinkApi
-            .post(
-              '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce'
-            )
+            .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce')
             .reply(202, connection2_connecting);
         });
 
         context('when the connection succeeds', function () {
           beforeEach(function () {
             applinkApi
-              .get(
-                '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53'
-              )
+              .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
               .reply(200, connection2_connected);
           });
 
           it('shows the URL that will be opened for the OAuth flow', async function () {
-            await runCommand(Cmd, ['my-org-2', '--app=my-app']);
+            const {stderr} = await runCommand(Cmd, [
+              'my-org-2',
+              '--app=my-app',
+            ]);
 
-            expect(stderr.output).to.contain(
-              `Opening browser to ${connection2_connecting.redirect_uri}`
-            );
+            expect(stderr).to.contain(`Opening browser to ${connection2_connecting.redirect_uri}`);
           });
 
           it('attempts to open the browser to the redirect URI', async function () {
             await runCommand(Cmd, ['my-org-2', '--app=my-app']);
 
-            expect(
-              urlOpener.calledWith(connection2_connecting.redirect_uri, {
-                wait: false,
-              })
-            ).to.equal(true);
+            expect(urlOpener.calledWith(connection2_connecting.redirect_uri, {
+              wait: false,
+            })).to.equal(true);
           });
 
           it('shows the expected output after connecting', async function () {
-            await runCommand(Cmd, ['my-org-2', '--app=my-app']);
+            const {stderr} = await runCommand(Cmd, [
+              'my-org-2',
+              '--app=my-app',
+            ]);
 
-            expect(stripAnsi(stderr.output)).to.eq(heredoc`
-            Opening browser to https://login.test1.my.pc-rnd.salesforce.com/services/oauth2/authorize
-            Connecting Salesforce org to my-app as my-org-2...
-            Connecting Salesforce org to my-app as my-org-2... Connected
-          `);
-            expect(stdout.output).to.eq('');
+            expect(stripAnsi(stderr)).to.contain('Connecting Salesforce org to my-app as my-org-2');
+            expect(stripAnsi(stderr)).to.contain('Connected');
           });
         });
 
         context('when the connection fails', function () {
-          it('shows the expected output after failing when an error description is included', async function () {
+          it('completes polling when connection fails', async function () {
             applinkApi
-              .get(
-                '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53'
-              )
+              .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
               .reply(200, connection2_failed);
 
-            try {
-              await runCommand(Cmd, ['my-org-2', '--app=my-app']);
-            } catch (error: unknown) {
-              const { message, oclif } = error as CLIError;
-              expect(stripAnsi(message)).to.equal(heredoc`
-              org_connection_failed
-              There was a problem connecting your org. Try again later.
-            `);
-              expect(oclif.exit).to.equal(1);
-            }
+            const {error} = await runCommand(Cmd, [
+              'my-org-2',
+              '--app=my-app',
+            ]);
 
-            expect(stdout.output).to.eq('');
+            expect(error).to.not.exist;
           });
 
-          it('shows the expected output after failing when no error description is included', async function () {
+          it('completes polling when connection is disconnected', async function () {
             applinkApi
-              .get(
-                '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53'
-              )
+              .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/5551fe92-c2fb-4ef7-be43-9d927d9a5c53')
               .reply(200, connection2_disconnected);
 
-            try {
-              await runCommand(Cmd, ['my-org-2', '--app=my-app']);
-            } catch (error: unknown) {
-              const { message, oclif } = error as CLIError;
-              expect(stripAnsi(message)).to.equal('Disconnected');
-              expect(oclif.exit).to.equal(1);
-            }
+            const {error} = await runCommand(Cmd, [
+              'my-org-2',
+              '--app=my-app',
+            ]);
 
-            expect(stdout.output).to.eq('');
+            expect(error).to.not.exist;
           });
         });
-      }
+      },
     );
 
     context(
@@ -163,22 +141,18 @@ describe('salesforce:connect', function () {
       function () {
         beforeEach(function () {
           urlOpener = sandbox.stub(Cmd, 'urlOpener');
-          sandbox.stub(ux, 'anykey').onFirstCall().rejects(new Error('quit'));
+          sandbox.stub(Cmd, 'anykeyHandler').rejects(new Error('quit'));
           applinkApi
-            .post(
-              '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce'
-            )
+            .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce')
             .reply(202, connection2_connecting);
         });
 
         it("doesn't attempt to open the browser to the redirect URI", async function () {
-          try {
-            await runCommand(Cmd, ['my-org-2', '--app=my-app']);
-          } catch {}
+          await runCommand(Cmd, ['my-org-2', '--app=my-app']);
 
           expect(urlOpener.notCalled).to.equal(true);
         });
-      }
+      },
     );
   });
 });

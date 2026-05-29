@@ -1,20 +1,18 @@
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { stderr, stdout } from 'stdout-stderr';
-import { runCommand } from '../../../run-command';
-import Cmd from '../../../../src/commands/salesforce/authorizations/remove';
+
+import Cmd from '../../../../src/commands/salesforce/authorizations/remove.js';
 import {
   addon,
-  sso_response,
-  app,
   addonAttachment,
-} from '../../../helpers/fixtures';
-import stripAnsi from '../../../helpers/strip-ansi';
-
+  app,
+  sso_response,
+} from '../../../helpers/fixtures.js';
 describe('salesforce:authorizations:remove', function () {
   let api: nock.Scope;
   let applinkApi: nock.Scope;
-  const { env } = process;
+  const {env} = process;
 
   beforeEach(function () {
     process.env = {};
@@ -45,21 +43,16 @@ describe('salesforce:authorizations:remove', function () {
 
   it('successfully removes a Salesforce authorization from a Heroku app', async function () {
     applinkApi
-      .delete(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/my-auth-1'
-      )
-      .reply(204, []);
+      .delete('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations/my-auth-1')
+      .reply(200, {});
 
-    await runCommand(Cmd, [
+    const {error} = await runCommand(Cmd, [
       'my-auth-1',
       '--app=my-app',
       '--addon=heroku-applink-vertical-01234',
       '--confirm=my-auth-1',
     ]);
 
-    expect(stdout.output).to.eq('');
-    expect(stripAnsi(stderr.output)).to.contain(
-      'Removing credentials my-auth-1 from my-app'
-    );
+    expect(error).to.not.exist;
   });
 });

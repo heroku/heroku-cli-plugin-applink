@@ -1,24 +1,24 @@
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { stderr, stdout } from 'stdout-stderr';
-import heredoc from 'tsheredoc';
-import { runCommand } from '../../../run-command';
-import Cmd from '../../../../src/commands/applink/authorizations/index';
-import stripAnsi from '../../../helpers/strip-ansi';
+
+import Cmd from '../../../../src/commands/applink/authorizations/index.js';
 import {
   addon,
+  addonAttachment,
+  app,
   authorization_connected,
   authorization_connected_2,
   authorization_connected_3_failed,
   sso_response,
-  app,
-  addonAttachment,
-} from '../../../helpers/fixtures';
+} from '../../../helpers/fixtures.js';
+import stripAnsi from '../../../helpers/strip-ansi.js';
+import removeAllWhitespace from '../../../helpers/utils/remove-whitespaces.js';
 
 describe('applink:authorizations', function () {
   let api: nock.Scope;
   let applinkApi: nock.Scope;
-  const { env } = process;
+  const {env} = process;
 
   beforeEach(function () {
     process.env = {};
@@ -60,14 +60,11 @@ describe('applink:authorizations', function () {
             .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
             .reply(200, []);
 
-          await runCommand(Cmd, ['--app=my-app']);
+          const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-          expect(stripAnsi(stdout.output)).to.equal(
-            'There are no Heroku AppLink authorizations for add-on heroku-applink-vertical-01234 on app my-app.\n'
-          );
-          expect(stderr.output).to.equal('');
+          expect(stripAnsi(stdout)).to.contain('There are no Heroku AppLink authorizations for add-on heroku-applink-vertical-01234 on app my-app.');
         });
-      }
+      },
     );
 
     context(
@@ -78,19 +75,14 @@ describe('applink:authorizations', function () {
             .get('/addons/01234567-89ab-cdef-0123-456789abcdef/authorizations')
             .reply(200, [authorization_connected, authorization_connected_2]);
 
-          await runCommand(Cmd, ['--app=my-app']);
+          const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-          expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku AppLink authorizations for app my-app
-  
-           Type           Add-On                        Developer Name      Status     
-           ────────────── ───────────────────────────── ─────────────────── ────────── 
-           Salesforce Org heroku-applink-vertical-01234 my-developer-name   Authorized 
-           Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
-        `);
-          expect(stderr.output).to.equal('');
+          const actual = removeAllWhitespace(stdout);
+          expect(actual).to.include(removeAllWhitespace('Heroku AppLink authorizations for app'));
+          expect(actual).to.include(removeAllWhitespace('heroku-applink-vertical-01234 my-developer-name Authorized Salesforce Org'));
+          expect(actual).to.include(removeAllWhitespace('heroku-applink-vertical-01234 my-developer-name-2 Authorized Salesforce Org'));
         });
-      }
+      },
     );
 
     context('when Heroku AppLink authorizations fails to load', function () {
@@ -103,20 +95,13 @@ describe('applink:authorizations', function () {
             authorization_connected_3_failed,
           ]);
 
-        await runCommand(Cmd, ['--app=my-app']);
+        const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-        expect(stripAnsi(stdout.output)).to.equal(heredoc`
-=== Heroku AppLink authorizations for app my-app
-
- Type           Add-On                        Developer Name      Status     
- ────────────── ───────────────────────────── ─────────────────── ────────── 
- Salesforce Org heroku-applink-vertical-01234 my-developer-name   Authorized 
- Salesforce Org heroku-applink-vertical-01234 my-developer-name-2 Authorized 
- Salesforce Org heroku-applink-vertical-01234 my-developer-name-3 Failed     
-
-You have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/working-with-heroku-applink#authorization-statuses.
-          `);
-        expect(stderr.output).to.equal('');
+        const actual = removeAllWhitespace(stdout);
+        expect(actual).to.include(removeAllWhitespace('my-developer-name Authorized'));
+        expect(actual).to.include(removeAllWhitespace('my-developer-name-2 Authorized'));
+        expect(actual).to.include(removeAllWhitespace('my-developer-name-3 Failed'));
+        expect(stripAnsi(stdout)).to.contain('You have one or more failed authorizations.');
       });
     });
   });

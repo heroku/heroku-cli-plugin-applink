@@ -1,24 +1,24 @@
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { stderr, stdout } from 'stdout-stderr';
-import heredoc from 'tsheredoc';
-import { runCommand } from '../../../run-command';
-import Cmd from '../../../../src/commands/applink/connections';
-import stripAnsi from '../../../helpers/strip-ansi';
+
+import Cmd from '../../../../src/commands/applink/connections/index.js';
 import {
   addon,
+  addonAttachment,
+  app,
   connection1,
   connection2_connected,
   connection3_connected_failed,
   sso_response,
-  app,
-  addonAttachment,
-} from '../../../helpers/fixtures';
+} from '../../../helpers/fixtures.js';
+import stripAnsi from '../../../helpers/strip-ansi.js';
+import removeAllWhitespace from '../../../helpers/utils/remove-whitespaces.js';
 
 describe('applink:connections', function () {
   let api: nock.Scope;
   let applinkApi: nock.Scope;
-  const { env } = process;
+  const {env} = process;
 
   beforeEach(function () {
     process.env = {};
@@ -60,14 +60,11 @@ describe('applink:connections', function () {
             .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
             .reply(200, []);
 
-          await runCommand(Cmd, ['--app=my-app']);
+          const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-          expect(stripAnsi(stdout.output)).to.equal(
-            'There are no Heroku AppLink connections for app my-app.\n'
-          );
-          expect(stderr.output).to.equal('');
+          expect(stripAnsi(stdout)).to.contain('There are no Heroku AppLink connections for app my-app.');
         });
-      }
+      },
     );
 
     context('when there are Heroku AppLink connections returned', function () {
@@ -76,17 +73,12 @@ describe('applink:connections', function () {
           .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
           .reply(200, [connection1, connection2_connected]);
 
-        await runCommand(Cmd, ['--app=my-app']);
+        const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-        expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku AppLink connections for add-on heroku-applink-vertical-01234 on app my-app
-        
-           Add-On                        Type           Connection Name Status    
-           ───────────────────────────── ────────────── ─────────────── ───────── 
-           heroku-applink-vertical-01234 Salesforce Org my-org-1        Connected 
-           heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
-        `);
-        expect(stderr.output).to.equal('');
+        const actual = removeAllWhitespace(stdout);
+        expect(actual).to.include(removeAllWhitespace('Heroku AppLink connections for add-on'));
+        expect(actual).to.include(removeAllWhitespace('heroku-applink-vertical-01234 my-org-1 Connected Salesforce Org'));
+        expect(actual).to.include(removeAllWhitespace('heroku-applink-vertical-01234 my-org-2 Connected Salesforce Org'));
       });
     });
 
@@ -100,20 +92,13 @@ describe('applink:connections', function () {
             connection3_connected_failed,
           ]);
 
-        await runCommand(Cmd, ['--app=my-app']);
+        const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-        expect(stripAnsi(stdout.output)).to.equal(heredoc`
-          === Heroku AppLink connections for add-on heroku-applink-vertical-01234 on app my-app
-        
-           Add-On                        Type           Connection Name Status    
-           ───────────────────────────── ────────────── ─────────────── ───────── 
-           heroku-applink-vertical-01234 Salesforce Org my-org-1        Connected 
-           heroku-applink-vertical-01234 Salesforce Org my-org-2        Connected 
-           heroku-applink-vertical-01234 Salesforce Org my-org-3        Failed    
-
-          You have one or more failed connections. For more information on how to fix connections, see https://devcenter.heroku.com/articles/working-with-heroku-applink#connection-statuses.
-        `);
-        expect(stderr.output).to.equal('');
+        const actual = removeAllWhitespace(stdout);
+        expect(actual).to.include(removeAllWhitespace('my-org-1 Connected'));
+        expect(actual).to.include(removeAllWhitespace('my-org-2 Connected'));
+        expect(actual).to.include(removeAllWhitespace('my-org-3 Failed'));
+        expect(stripAnsi(stdout)).to.contain('You have one or more failed connections.');
       });
     });
   });
