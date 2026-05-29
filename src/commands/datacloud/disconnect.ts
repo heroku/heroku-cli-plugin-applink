@@ -1,29 +1,21 @@
-import {flags} from '@heroku-cli/command';
-import * as color from '@heroku/heroku-cli-util/color';
-import {confirmCommand} from '@heroku/heroku-cli-util/hux';
-import {Args} from '@oclif/core';
-import {ux} from '@oclif/core/ux';
-import tsheredoc from 'tsheredoc';
+import { color } from '@heroku-cli/color';
+import Command from '../../lib/base';
+import { flags } from '@heroku-cli/command';
+import * as AppLink from '../../lib/applink/types';
+import { ux, Args } from '@oclif/core';
+import { humanize } from '../../lib/helpers';
+import heredoc from 'tsheredoc';
+import { ConnectionError } from '../../lib/applink/types';
+import confirmCommand from '../../lib/confirmCommand';
 
-import * as AppLink from '../../lib/applink/types.js';
-import AppLinkCommand from '../../lib/base.js';
-import {humanize} from '../../lib/helpers.js';
-
-const heredoc = tsheredoc.default ?? tsheredoc;
-
-export default class Disconnect extends AppLinkCommand {
-  static args = {
-    connection_name: Args.string({
-      description: 'name of the Data Cloud connection',
-      required: true,
-    }),
-  };
+export default class Disconnect extends Command {
   static description = 'disconnect a Data Cloud org from a Heroku app';
+
   static flags = {
     addon: flags.string({
       description: 'unique name or ID of an AppLink add-on',
     }),
-    app: flags.app({required: true}),
+    app: flags.app({ required: true }),
     confirm: flags.string({
       char: 'c',
       description:
@@ -32,22 +24,29 @@ export default class Disconnect extends AppLinkCommand {
     remote: flags.remote(),
   };
 
+  static args = {
+    connection_name: Args.string({
+      description: 'name of the Data Cloud connection',
+      required: true,
+    }),
+  };
+
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(Disconnect);
-    const {addon, app, confirm} = flags;
-    const {connection_name: connectionName} = args;
+    const { flags, args } = await this.parse(Disconnect);
+    const { app, addon, confirm } = flags;
+    const { connection_name: connectionName } = args;
+    let dataActionTargets: AppLink.DataActionTarget[] = [];
+    let message: string | undefined;
 
     await this.configureAppLinkClient(app, addon);
 
-    let dataActionTargets: AppLink.DataActionTarget[] = [];
-
     try {
-      const {body} = await this.applinkClient.get<AppLink.DataActionTarget[]>(
+      const { body } = await this.applinkClient.get<AppLink.DataActionTarget[]>(
         `/addons/${this.addonId}/connections/datacloud/${connectionName}/data_action_targets`,
         {
-          headers: {authorization: `Bearer ${this._applinkToken}`},
+          headers: { authorization: `Bearer ${this._applinkToken}` },
           retryAuth: false,
-        },
+        }
       );
       dataActionTargets = body || [];
     } catch {
@@ -56,43 +55,60 @@ export default class Disconnect extends AppLinkCommand {
       });
     }
 
-    let warningMessage: string | undefined;
     if (dataActionTargets.length > 0) {
-      const targetNames = dataActionTargets.map(t => t.label).join('\n  ');
-      warningMessage = heredoc`
-        This command disconnects the org ${connectionName} from add-on ${this._addonName} on app ${app} and deletes the following data action targets:
-          ${targetNames}`;
+      const lines: string[] = [];
+      ux.table(
+        dataActionTargets,
+        {
+          label: { header: 'Data Action Target Name' },
+        },
+        {
+          printLine: (line: string) => lines.push(line),
+        }
+      );
+
+      const tableStr = lines.join('\n');
+      const intro = heredoc`
+          Destructive action
+          This command disconnects the org ${color.bold.red(connectionName)} from add-on ${color.addon(this._addonName)} on app ${color.app(app)} and deletes the following data action targets:`;
+
+      message = `${intro}\n${tableStr}`;
     }
 
     await confirmCommand({
-      comparison: connectionName,
-      confirmation: confirm,
-      warningMessage,
+      connectionName,
+      connectionType: 'org',
+      addon: this._addonName,
+      app,
+      confirm,
+      message,
     });
 
     try {
       await this.applinkClient.delete<AppLink.DataCloudConnection>(
         `/addons/${this.addonId}/connections/${connectionName}`,
         {
-          headers: {authorization: `Bearer ${this._applinkToken}`},
+          headers: { authorization: `Bearer ${this._applinkToken}` },
           retryAuth: false,
-        },
+        }
       );
     } catch (error) {
-      const connErr = error as AppLink.ConnectionError;
+      const connErr = error as ConnectionError;
       if (connErr.body && connErr.body.id === 'record_not_found') {
         ux.error(
           heredoc`
-            Data Cloud connection ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
-            Use ${color.command(`heroku applink:connections --app ${app}`)} to list the connections on the app.`,
-          {exit: 1},
+          Data Cloud org ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
+          Use ${color.cmd('heroku applink:connections')} to list the connections on the app.`,
+          { exit: 1 }
         );
       } else {
         throw error;
       }
     }
 
-    ux.action.start(`Disconnecting Data Cloud connection ${color.yellow(connectionName)} from ${color.app(app)}`);
+    ux.action.start(
+      `Disconnecting Data Cloud connection ${color.yellow(connectionName)} from ${color.app(app)}`
+    );
     ux.action.stop(humanize('Disconnected'));
   }
 }

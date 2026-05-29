@@ -1,9 +1,9 @@
 {
-  "extends": "../tsconfig",
   "compilerOptions": {
-    "sourceMap": true,
-    "rootDirs": ["./", "../src"]
+    "rootDirs": ["./", "../src"],
+    "sourceMap": true
   },
-  "include": ["./**/*", "../src/**/*"],
-  "ts-node": { "transpileOnly": true }
+  "declaration": false,
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.test.ts"]
 }
