@@ -84,7 +84,7 @@ export default class Disconnect extends AppLinkCommand {
         ux.error(
           heredoc`
             Data Cloud connection ${color.yellow(connectionName)} doesn't exist on app ${color.app(app)}.
-            Use ${color.command(`heroku applink:connections --app ${app}`)} to list the connections on the app`,
+            Use ${color.command(`heroku applink:connections --app ${app}`)} to list the connections on the app.`,
           {exit: 1},
         );
       } else {
