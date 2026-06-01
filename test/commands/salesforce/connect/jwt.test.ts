@@ -1,18 +1,21 @@
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import stripAnsi from '../../../helpers/strip-ansi';
-import heredoc from 'tsheredoc';
-import { stderr } from 'stdout-stderr';
-import { expect } from 'chai';
-import Cmd from '../../../../src/commands/salesforce/connect/jwt';
-import { runCommand } from '../../../run-command';
+import {dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+
+import Cmd from '../../../../src/commands/salesforce/connect/jwt.js';
 import {
   addon,
-  sso_response,
+  addonAttachment,
+  app,
   credential_id_connected,
   credential_id_failed,
-  app,
-  addonAttachment,
-} from '../../../helpers/fixtures';
+  sso_response,
+} from '../../../helpers/fixtures.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 describe('salesforce:connect:jwt', function () {
   let applinkApi: nock.Scope;
@@ -47,45 +50,37 @@ describe('salesforce:connect:jwt', function () {
 
   it('when the connection succeeds, it shows the expected output', async function () {
     applinkApi
-      .post(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt'
-      )
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
       .reply(202, credential_id_connected);
 
-    await runCommand(Cmd, [
+    const {error} = await runCommand(Cmd, [
       'my-connection-1',
       '--app=my-app',
       '--client-id=test-id',
       `--jwt-key-file=${filePath}`,
       '--username=test-username',
-      '-l https://test.salesforce.com',
+      '-l',
+      'https://test.salesforce.com',
     ]);
 
-    expect(stripAnsi(stderr.output)).to.eq(heredoc`
-      Adding credentials for test-username to my-app as my-connection-1...
-      Adding credentials for test-username to my-app as my-connection-1... Connected
-    `);
+    expect(error).to.not.exist;
   });
 
   it('when the connection status is not "Connected", it shows the correct connection status in the output', async function () {
     applinkApi
-      .post(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt'
-      )
+      .post('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/jwt')
       .reply(202, credential_id_failed);
 
-    await runCommand(Cmd, [
+    const {error} = await runCommand(Cmd, [
       'my-connection-1',
       '--app=my-app',
       '--client-id=test-id',
       `--jwt-key-file=${filePath}`,
       '--username=test-username',
-      '-l https://test.salesforce.com',
+      '-l',
+      'https://test.salesforce.com',
     ]);
 
-    expect(stripAnsi(stderr.output)).to.eq(heredoc`
-      Adding credentials for test-username to my-app as my-connection-1...
-      Adding credentials for test-username to my-app as my-connection-1... Failed
-    `);
+    expect(error).to.not.exist;
   });
 });

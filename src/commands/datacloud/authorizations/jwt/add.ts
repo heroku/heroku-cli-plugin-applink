@@ -1,37 +1,21 @@
-import JWTAuthCommand from '../../../../lib/jwtAuthCommand';
+import JWTAuthCommand from '../../../../lib/jwtAuthCommand.js';
 
-/**
- * Store JWT credentials for Data Cloud org authorization.
- *
- * This command uses JWT Bearer Token Flow for headless authentication,
- * suitable for CI/CD pipelines and automated workflows where browser-based
- * OAuth isn't possible.
- *
- * Prerequisites:
- * - A connected app configured in your Data Cloud org with OAuth enabled
- * - The connected app must use digital signatures (certificate-based authentication)
- * - A user with appropriate permissions authorized for the connected app
- * - An RSA private/public key pair
- *
- * @see https://devcenter.heroku.com/articles/heroku-applink
- */
 export default class JWT extends JWTAuthCommand {
-  static description =
-    'store a user’s credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token';
+  static args = JWTAuthCommand.args;
+  static description
+    = "store a user's credentials for connecting a Data Cloud org to a Heroku app using a JWT auth token";
+  static examples = JWTAuthCommand.generateExamples('datacloud:authorizations:jwt:add');
+  static flags = JWTAuthCommand.flags;
 
-  protected get providerName(): string {
-    return 'datacloud';
+  protected get commandName(): string {
+    return 'datacloud:authorizations:jwt:add';
   }
 
   protected get providerDisplayName(): string {
     return 'Data Cloud';
   }
 
-  protected get commandName(): string {
-    return 'datacloud:authorizations:jwt:add';
+  protected get providerName(): string {
+    return 'datacloud';
   }
-
-  static examples = JWTAuthCommand.generateExamples(
-    'datacloud:authorizations:jwt:add'
-  );
 }

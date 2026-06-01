@@ -1,64 +1,59 @@
-import { color } from '@heroku-cli/color';
-import Command from '../../../lib/base';
-import { flags } from '@heroku-cli/command';
-import * as AppLink from '../../../lib/applink/types';
-import { ux } from '@oclif/core';
-import { humanize } from '../../../lib/helpers';
+import {flags} from '@heroku-cli/command';
+import * as color from '@heroku/heroku-cli-util/color';
+import {styledHeader, table} from '@heroku/heroku-cli-util/hux';
+import {ux} from '@oclif/core/ux';
 
-export default class Index extends Command {
+import * as AppLink from '../../../lib/applink/types.js';
+import AppLinkCommand from '../../../lib/base.js';
+import {humanize} from '../../../lib/helpers.js';
+
+export default class Index extends AppLinkCommand {
   static description = 'list Heroku AppLink authorized users';
-
   static flags = {
     addon: flags.string({
       description: 'unique name or ID of an AppLink add-on',
     }),
-    app: flags.app({ required: true }),
+    app: flags.app({required: true}),
     remote: flags.remote(),
   };
 
   public async run(): Promise<void> {
-    const { flags } = await this.parse(Index);
-    const { addon, app } = flags;
+    const {flags} = await this.parse(Index);
+    const {addon, app} = flags;
 
     await this.configureAppLinkClient(app, addon);
-    const { body: appAuthorizations } = await this.applinkClient.get<
+    const {body: appAuthorizations} = await this.applinkClient.get<
       AppLink.Authorization[]
     >(`/addons/${this.addonId}/authorizations`, {
-      headers: { authorization: `Bearer ${this._applinkToken}` },
+      headers: {authorization: `Bearer ${this._applinkToken}`},
       retryAuth: false,
     });
 
     if (appAuthorizations.length === 0) {
-      ux.log(
-        `There are no Heroku AppLink authorizations for add-on ${this._addonName} on app ${color.app(app)}.`
-      );
+      ux.stdout(`There are no Heroku AppLink authorizations for add-on ${this._addonName} on app ${color.app(app)}.`);
     } else {
-      ux.styledHeader(
-        `Heroku AppLink authorizations for app ${color.app(app)}`
-      );
+      styledHeader(`Heroku AppLink authorizations for app ${color.app(app)}`);
 
-      ux.table(appAuthorizations, {
-        type: { get: (row) => humanize(AppLink.adjustOrgType(row.org.type)) },
+      table(appAuthorizations, {
         addon: {
-          header: 'Add-On',
           get: () => this._addonName,
+          header: 'Add-On',
         },
         developerName: {
+          get: row => row.org.developer_name,
           header: 'Developer Name',
-          get: (row) => row.org.developer_name,
         },
         status: {
-          get: (row) =>
+          get: row =>
             row.status === 'failed'
-              ? color.red(humanize(row.status))
+              ? color.failure(humanize(row.status))
               : humanize(row.status),
         },
+        type: {get: row => humanize(AppLink.adjustOrgType(row.org.type))},
       });
 
-      if (appAuthorizations.some((row) => row.status === 'failed')) {
-        ux.log(
-          '\nYou have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/working-with-heroku-applink#authorization-statuses.'
-        );
+      if (appAuthorizations.some(row => row.status === 'failed')) {
+        ux.stdout('\nYou have one or more failed authorizations. For more information on how to fix authorizations, see https://devcenter.heroku.com/articles/working-with-heroku-applink#authorization-statuses.');
       }
     }
   }

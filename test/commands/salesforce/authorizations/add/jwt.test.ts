@@ -1,18 +1,17 @@
-import Cmd from '../../../../../src/commands/salesforce/authorizations/jwt/add';
+import Cmd from '../../../../../src/commands/salesforce/authorizations/jwt/add.js';
 import {
   authorization_jwt_authorized,
-  authorization_jwt_failed,
   authorization_jwt_authorizing,
-} from '../../../../helpers/fixtures';
-import { createJWTAuthCommandTests } from '../../../../helpers/jwtAuthCommandTests';
+  authorization_jwt_failed,
+} from '../../../../helpers/fixtures.js';
+import {createJWTAuthCommandTests} from '../../../../helpers/jwtAuthCommandTests.js';
 
-// Use shared test suite with Salesforce-specific configuration
 createJWTAuthCommandTests({
   commandClass: Cmd,
-  providerName: 'salesforce',
   fixtures: {
     authorized: authorization_jwt_authorized,
-    failed: authorization_jwt_failed,
     authorizing: authorization_jwt_authorizing,
+    failed: authorization_jwt_failed,
   },
+  providerName: 'salesforce',
 });
