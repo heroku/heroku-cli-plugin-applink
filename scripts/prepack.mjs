@@ -1,7 +1,8 @@
-import pjson from '../package.json' assert { type: 'json' };
 import * as fs from 'node:fs/promises';
 
-const minimalPjson = { ...pjson };
+import pjson from '../package.json' assert {type: 'json'};
+
+const minimalPjson = {...pjson};
 // Removes unnecessary entries since
 // devDependencies are installed with
 // @oclif/plugin-plugins versions older

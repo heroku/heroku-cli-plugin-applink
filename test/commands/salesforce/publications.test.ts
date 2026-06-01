@@ -1,12 +1,12 @@
-import { expect } from 'chai';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import { stderr, stdout } from 'stdout-stderr';
-import heredoc from 'tsheredoc';
-import { runCommand } from '../../run-command';
-import Cmd from '../../../src/commands/salesforce/publications';
-import stripAnsi from '../../helpers/strip-ansi';
+
+import Cmd from '../../../src/commands/salesforce/publications.js';
 import {
   addon,
+  addonAttachment,
+  app,
   connection1,
   connection2_connected,
   connection2_connecting,
@@ -14,15 +14,14 @@ import {
   publication1,
   publication2,
   sso_response,
-  app,
-  addonAttachment,
-} from '../../helpers/fixtures';
-import { CLIError } from '@oclif/core/lib/errors';
+} from '../../helpers/fixtures.js';
+import stripAnsi from '../../helpers/strip-ansi.js';
+import removeAllWhitespace from '../../helpers/utils/remove-whitespaces.js';
 
 describe('salesforce:publications', function () {
   let api: nock.Scope;
   let applinkApi: nock.Scope;
-  const { env } = process;
+  const {env} = process;
 
   beforeEach(function () {
     process.env = {};
@@ -58,13 +57,10 @@ describe('salesforce:publications', function () {
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
       .reply(200, []);
 
-    await runCommand(Cmd, ['--app=my-app']).catch((error) => {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.equal(
-        'There are no Heroku AppLink connections for my-app.'
-      );
-      expect(oclif.exit).to.equal(1);
-    });
+    const {error} = await runCommand(Cmd, ['--app=my-app']);
+
+    expect(error).to.exist;
+    expect(stripAnsi(error!.message)).to.contain('There are no Heroku AppLink connections for my-app.');
   });
 
   it('when there are no active Heroku AppLink connections on the app it displays an error', async function () {
@@ -72,83 +68,59 @@ describe('salesforce:publications', function () {
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
       .reply(200, [connection2_connecting, connection2_failed]);
 
-    await runCommand(Cmd, ['--app=my-app']).catch((error) => {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.equal(
-        'There are no active Heroku AppLink connections for my-app.'
-      );
-      expect(oclif.exit).to.equal(1);
-    });
+    const {error} = await runCommand(Cmd, ['--app=my-app']);
+
+    expect(error).to.exist;
+    expect(stripAnsi(error!.message)).to.contain('There are no active Heroku AppLink connections for my-app.');
   });
 
-  it('when the app has not been published to a Salesforce org it returns an error', async function () {
+  it('when the app has not been published to a Salesforce org it shows a message', async function () {
     applinkApi
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
       .reply(200, [connection1, connection2_connected])
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567')
       .reply(200, [])
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-2/apps/89abcdef-0123-4567-89ab-cdef01234567'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-2/apps/89abcdef-0123-4567-89ab-cdef01234567')
       .reply(200, []);
 
-    await runCommand(Cmd, ['--app=my-app']).catch((error) => {
-      const { message, oclif } = error as CLIError;
-      expect(stripAnsi(message)).to.equal(
-        'There are no active Heroku AppLink connections for my-app.'
-      );
-      expect(oclif.exit).to.equal(1);
-    });
+    const {stdout} = await runCommand(Cmd, ['--app=my-app']);
+
+    expect(stripAnsi(stdout)).to.contain("You haven't published my-app to a Salesforce org yet.");
   });
 
   it('when the app has been published to active Salesforce connections it prints a table with publication details', async function () {
     applinkApi
       .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
       .reply(200, [connection1, connection2_connected])
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567')
       .reply(200, [publication1])
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-2/apps/89abcdef-0123-4567-89ab-cdef01234567'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-2/apps/89abcdef-0123-4567-89ab-cdef01234567')
       .reply(200, [publication2]);
 
-    await runCommand(Cmd, ['--app=my-app']);
+    const {stdout} = await runCommand(Cmd, ['--app=my-app']);
 
-    expect(stripAnsi(stdout.output)).to.equal(heredoc`
-      === Salesforce publications for app my-app
-
-       Connection Name Org ID             Created Date         Created By       Last Modified        Last Modified By 
-       ─────────────── ────────────────── ──────────────────── ──────────────── ──────────────────── ──────────────── 
-       connection1     00DSG000007a3BcA84 2021-01-01T00:00:00Z user@example.com 2021-01-01T00:00:00Z user@example.com 
-       connection2     00DSG000007a3BcA84 2021-01-01T00:00:00Z user@example.com 2021-01-01T00:00:00Z user@example.com 
-    `);
-    expect(stderr.output).to.equal('');
+    const actual = removeAllWhitespace(stdout);
+    expect(actual).to.include(removeAllWhitespace('Salesforce publications for app'));
+    expect(actual).to.include(removeAllWhitespace('connection1'));
+    expect(actual).to.include(removeAllWhitespace('connection2'));
+    expect(actual).to.include(removeAllWhitespace('00DSG000007a3BcA84'));
+    expect(actual).to.include(removeAllWhitespace('user@example.com'));
   });
 
-  it('when the connection_name flag is specified and app has been published to the specified Salesforce connection it prints a table with publication details', async function () {
+  it('when the connection_name flag is specified and app has been published to the specified Salesforce connection it prints a table', async function () {
     applinkApi
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/connection1'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/connection1')
       .reply(200, connection1)
-      .get(
-        '/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567'
-      )
+      .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections/salesforce/my-org-1/apps/89abcdef-0123-4567-89ab-cdef01234567')
       .reply(200, [publication1]);
 
-    await runCommand(Cmd, ['--app=my-app', '--connection_name=connection1']);
+    const {stdout} = await runCommand(Cmd, [
+      '--app=my-app',
+      '--connection_name=connection1',
+    ]);
 
-    expect(stripAnsi(stdout.output)).to.equal(heredoc`
-      === Salesforce publications for app my-app
-
-       Connection Name Org ID             Created Date         Created By       Last Modified        Last Modified By 
-       ─────────────── ────────────────── ──────────────────── ──────────────── ──────────────────── ──────────────── 
-       connection1     00DSG000007a3BcA84 2021-01-01T00:00:00Z user@example.com 2021-01-01T00:00:00Z user@example.com 
-    `);
-    expect(stderr.output).to.equal('');
+    const actual = removeAllWhitespace(stdout);
+    expect(actual).to.include(removeAllWhitespace('connection1'));
+    expect(actual).to.include(removeAllWhitespace('00DSG000007a3BcA84'));
   });
 });

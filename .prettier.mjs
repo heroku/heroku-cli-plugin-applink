@@ -1,10 +1,10 @@
 export default {
-  semi: true,
-  trailingComma: 'es5',
-  singleQuote: true,
+  endOfLine: 'lf',
   printWidth: 80,
   proseWrap: 'always',
+  semi: true,
+  singleQuote: true,
   tabWidth: 2,
+  trailingComma: 'es5',
   useTabs: false,
-  endOfLine: 'lf',
 };

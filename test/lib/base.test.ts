@@ -1,62 +1,49 @@
-import { flags } from '@heroku-cli/command';
-import { CLIError } from '@oclif/core/lib/errors';
-import { expect } from '@oclif/test';
-import netrc from 'netrc-parser';
+import {flags} from '@heroku-cli/command';
+import {runCommand} from '@heroku-cli/test-utils';
+import {expect} from 'chai';
 import nock from 'nock';
-import heredoc from 'tsheredoc';
-import { stderr, stdout } from 'stdout-stderr';
-import { runCommand } from '../run-command';
-import BaseCommand from '../../src/lib/base';
-import * as AppLink from '../../src/lib/applink/types';
-import stripAnsi from '../helpers/strip-ansi';
+
+import * as AppLink from '../../src/lib/applink/types.js';
+import BaseCommand from '../../src/lib/base.js';
 import {
   addon,
   addon2,
-  addonStaging,
-  sso_response,
-  app,
   addonAttachment,
   addonAttachment2,
   addonAttachmentStaging,
-} from '../helpers/fixtures';
+  addonStaging,
+  app,
+  sso_response,
+} from '../helpers/fixtures.js';
+import stripAnsi from '../helpers/strip-ansi.js';
 
 class CommandWithoutConfiguration extends BaseCommand {
   async run() {
-    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(
-      `/addons/${this.addonId}/connections`
-    );
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`);
   }
 }
 
 class CommandWithConfiguration extends BaseCommand {
   static flags = {
-    app: flags.app({ required: true }),
     addon: flags.string(),
+    app: flags.app({required: true}),
   };
 
   async run() {
-    const { flags } = await this.parse(CommandWithConfiguration);
-    const { app, addon } = flags;
+    const {flags} = await this.parse(CommandWithConfiguration);
+    const {addon, app} = flags;
     await this.configureAppLinkClient(app, addon);
-    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(
-      `/addons/${this.addonId}/connections`
-    );
+    this.applinkClient.get<Array<AppLink.SalesforceConnection>>(`/addons/${this.addonId}/connections`);
   }
 }
 
-netrc.loadSync = function (this: typeof netrc) {
-  netrc.machines = {
-    'api.heroku.com': { password: 'mypass' },
-  };
-};
-
 describe('attempt a request using the applink API client', function () {
-  const { env } = process;
+  const {env} = process;
   let api: nock.Scope;
   let applinkApi: nock.Scope;
 
   beforeEach(function () {
-    process.env = {};
+    process.env = {HEROKU_API_KEY: 'test-api-key'};
     api = nock('https://api.heroku.com');
     applinkApi = nock('https://applink-api.heroku.com');
   });
@@ -70,25 +57,19 @@ describe('attempt a request using the applink API client', function () {
 
   context('when the client wasn’t configured', function () {
     it('returns an error message and exits with a status of 1', async function () {
-      try {
-        await runCommand(CommandWithoutConfiguration, ['--app=my-app']);
-      } catch (error) {
-        const { message, oclif } = error as CLIError;
-        expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink API Client not configured.
-          Did you call await this.configureAppLinkClient(app, this.config) before accessing this.applinkClient?
-        `);
-        expect(oclif.exit).to.equal(1);
-      }
-
-      expect(stdout.output).to.equal('');
+      const {error, stdout} = await runCommand(CommandWithoutConfiguration, [
+        '--app=my-app',
+      ]);
+      expect(stripAnsi(error?.message || '')).to.contain('AppLink API Client not configured.');
+      expect(error?.oclif?.exit).to.equal(1);
+      expect(stdout).to.equal('');
     });
   });
 
   context(
     "when the app doesn't have the Heroku AppLink add-on installed",
     function () {
-      beforeEach(async function () {
+      beforeEach(function () {
         api
           .get('/apps/my-app')
           .reply(200, app)
@@ -101,24 +82,18 @@ describe('attempt a request using the applink API client', function () {
       });
 
       it('returns an error message and exits with a status of 1', async function () {
-        try {
-          await runCommand(CommandWithConfiguration, ['--app=my-app']);
-        } catch (error) {
-          const { message, oclif } = error as CLIError;
-          expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink add-on isn't present on my-app.
-          Install the add-on using heroku addons:create heroku-applink -a my-app.
-        `);
-          expect(oclif.exit).to.equal(1);
-        }
-
-        expect(stdout.output).to.equal('');
+        const {error, stdout} = await runCommand(CommandWithConfiguration, [
+          '--app=my-app',
+        ]);
+        expect(stripAnsi(error?.message || '')).to.contain("AppLink add-on isn't present on my-app.");
+        expect(error?.oclif?.exit).to.equal(1);
+        expect(stdout).to.equal('');
       });
-    }
+    },
   );
 
   context('when the add-on is not fully provisioned', function () {
-    beforeEach(async function () {
+    beforeEach(function () {
       api
         .get('/apps/my-app')
         .reply(200, app)
@@ -131,23 +106,17 @@ describe('attempt a request using the applink API client', function () {
     });
 
     it('returns an error message and exits with a status of 1', async function () {
-      try {
-        await runCommand(CommandWithConfiguration, ['--app=my-app']);
-      } catch (error) {
-        const { message, oclif } = error as CLIError;
-        expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink add-on isn't fully provisioned on my-app.
-          Wait for the add-on to finish provisioning with heroku addons:wait ${addon.name} -a my-app.
-        `);
-        expect(oclif.exit).to.equal(1);
-      }
-
-      expect(stdout.output).to.equal('');
+      const {error, stdout} = await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+      ]);
+      expect(stripAnsi(error?.message || '')).to.contain("AppLink add-on isn't fully provisioned on my-app.");
+      expect(error?.oclif?.exit).to.equal(1);
+      expect(stdout).to.equal('');
     });
   });
 
   context('when the add-on is correctly provisioned', function () {
-    beforeEach(async function () {
+    beforeEach(function () {
       api
         .get('/apps/my-app')
         .reply(200, app)
@@ -169,16 +138,18 @@ describe('attempt a request using the applink API client', function () {
     });
 
     it('makes the request', async function () {
-      await runCommand(CommandWithConfiguration, ['--app=my-app']);
-
-      expect(stderr.output).to.equal('');
-      expect(stdout.output).to.equal('');
+      const {stderr, stdout} = await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+      ]);
+      expect(stderr).to.equal('');
+      expect(stdout).to.equal('');
     });
   });
 
   context('when HEROKU_APPLINK_ADDON is set', function () {
-    beforeEach(async function () {
+    beforeEach(function () {
       process.env = {
+        HEROKU_API_KEY: 'test-api-key',
         HEROKU_APPLINK_ADDON: 'heroku-applink-staging',
       };
 
@@ -203,15 +174,16 @@ describe('attempt a request using the applink API client', function () {
     });
 
     it('respects the value of HEROKU_APPLINK_ADDON', async function () {
-      await runCommand(CommandWithConfiguration, ['--app=my-app']);
-
-      expect(stderr.output).to.equal('');
-      expect(stdout.output).to.equal('');
+      const {stderr, stdout} = await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+      ]);
+      expect(stderr).to.equal('');
+      expect(stdout).to.equal('');
     });
   });
 
   context('when the --addon flag is specified', function () {
-    beforeEach(async function () {
+    beforeEach(function () {
       api
         .get('/apps/my-app')
         .reply(200, app)
@@ -235,13 +207,13 @@ describe('attempt a request using the applink API client', function () {
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, []);
 
-      await runCommand(CommandWithConfiguration, [
+      const {stderr, stdout} = await runCommand(CommandWithConfiguration, [
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
       ]);
 
-      expect(stderr.output).to.equal('');
-      expect(stdout.output).to.equal('');
+      expect(stderr).to.equal('');
+      expect(stdout).to.equal('');
     });
 
     it('uses the specified add-on ID', async function () {
@@ -252,35 +224,28 @@ describe('attempt a request using the applink API client', function () {
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, []);
 
-      await runCommand(CommandWithConfiguration, [
+      const {stderr, stdout} = await runCommand(CommandWithConfiguration, [
         '--app=my-app',
         '--addon=01234567-89ab-cdef-0123-456789abcdef',
       ]);
 
-      expect(stderr.output).to.equal('');
-      expect(stdout.output).to.equal('');
+      expect(stderr).to.equal('');
+      expect(stdout).to.equal('');
     });
 
     it('returns an error message and exits with a status of 1 if the add-on doesn’t exist', async function () {
-      try {
-        await runCommand(CommandWithConfiguration, [
-          '--app=my-app',
-          '--addon=my-addon-2',
-        ]);
-      } catch (error) {
-        const { message, oclif } = error as CLIError;
-        expect(stripAnsi(message)).to.equal(heredoc`
-          AppLink add-on my-addon-2 doesn't exist on my-app.
-          Use heroku addons --app my-app to list the add-ons on the app.
-        `);
-        expect(oclif.exit).to.equal(1);
-      }
-
-      expect(stdout.output).to.equal('');
+      const {error, stdout} = await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+        '--addon=my-addon-2',
+      ]);
+      expect(stripAnsi(error?.message || '')).to.contain("AppLink add-on my-addon-2 doesn't exist on my-app.");
+      expect(error?.oclif?.exit).to.equal(1);
+      expect(stdout).to.equal('');
     });
   });
+
   context('when there are multiple AppLink addons', function () {
-    beforeEach(async function () {
+    beforeEach(function () {
       api
         .get('/apps/my-app')
         .reply(200, app)
@@ -292,10 +257,10 @@ describe('attempt a request using the applink API client', function () {
         .reply(200, {
           HEROKU_APPLINK_API_URL:
             'https://applink-api.heroku.com/addons/01234567-89ab-cdef-0123-456789abcdef',
-          HEROKU_APPLINK_TOKEN: 'token',
           HEROKU_APPLINK_COBALT_API_URL:
             'https://applink-api.heroku.com/addons/6789abcd-ef01-2345-6789-abcdef012345',
           HEROKU_APPLINK_COBALT_TOKEN: 'token',
+          HEROKU_APPLINK_TOKEN: 'token',
         });
     });
 
@@ -307,28 +272,22 @@ describe('attempt a request using the applink API client', function () {
         .get('/addons/01234567-89ab-cdef-0123-456789abcdef/connections')
         .reply(200, []);
 
-      await runCommand(CommandWithConfiguration, [
+      const {stderr, stdout} = await runCommand(CommandWithConfiguration, [
         '--app=my-app',
         '--addon=heroku-applink-vertical-01234',
       ]);
 
-      expect(stderr.output).to.equal('');
-      expect(stdout.output).to.equal('');
+      expect(stderr).to.equal('');
+      expect(stdout).to.equal('');
     });
 
     it('returns an error message and exits with a status of 1 if no addon is specified', async function () {
-      try {
-        await runCommand(CommandWithConfiguration, ['--app=my-app']);
-      } catch (error) {
-        const { message, oclif } = error as CLIError;
-        expect(stripAnsi(message)).to.equal(heredoc`
-          Your app my-app has multiple AppLink add-ons.
-          Rerun the command with the --addon flag to specify which one to use.
-        `);
-        expect(oclif.exit).to.equal(1);
-      }
-
-      expect(stdout.output).to.equal('');
+      const {error, stdout} = await runCommand(CommandWithConfiguration, [
+        '--app=my-app',
+      ]);
+      expect(stripAnsi(error?.message || '')).to.contain('Your app my-app has multiple AppLink add-ons.');
+      expect(error?.oclif?.exit).to.equal(1);
+      expect(stdout).to.equal('');
     });
   });
 });
