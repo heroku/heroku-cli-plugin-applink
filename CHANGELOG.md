@@ -1,5 +1,21 @@
 # Change Log
 
+## [2.0.0](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.3.1...plugin-applink-v2.0.0) (2026-06-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Migrate Applink CLI Command to oclif v4 ([#255](https://github.com/heroku/heroku-cli-plugin-applink/issues/255))
+
+### Features
+
+* Migrate Applink CLI Command to oclif v4 ([#255](https://github.com/heroku/heroku-cli-plugin-applink/issues/255)) ([4b8ecb7](https://github.com/heroku/heroku-cli-plugin-applink/commit/4b8ecb782ef2f8afa8ebdd66d9cd62315d0c0710))
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.15.2 to 1.16.0 ([#256](https://github.com/heroku/heroku-cli-plugin-applink/issues/256)) ([0b8b56d](https://github.com/heroku/heroku-cli-plugin-applink/commit/0b8b56dd6a48276c3b88bd69a2498178763f1dbc))
+
 ## [1.3.1](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.3.0...plugin-applink-v1.3.1) (2026-05-08)
 
 
