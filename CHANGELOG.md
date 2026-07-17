@@ -1,5 +1,14 @@
 # Change Log
 
+## [2.0.1](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.0...plugin-applink-v2.0.1) (2026-07-17)
+
+
+### Dependencies
+
+* bump esbuild and tsx ([#268](https://github.com/heroku/heroku-cli-plugin-applink/issues/268)) ([46c5fca](https://github.com/heroku/heroku-cli-plugin-applink/commit/46c5fcaffbc46c6a5974e2cb8ebc3d71c9f8e078))
+* bump form-data from 4.0.5 to 4.0.6 ([#270](https://github.com/heroku/heroku-cli-plugin-applink/issues/270)) ([0a28d76](https://github.com/heroku/heroku-cli-plugin-applink/commit/0a28d766761a4c6389f1b720a063e16889c23d94))
+* bump ws from 8.20.1 to 8.21.1 ([#271](https://github.com/heroku/heroku-cli-plugin-applink/issues/271)) ([c3ca5b3](https://github.com/heroku/heroku-cli-plugin-applink/commit/c3ca5b3ff43a14e929cc42798fbf65ee5b0c0945))
+
 ## [2.0.0](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v1.3.1...plugin-applink-v2.0.0) (2026-06-11)
 
 
