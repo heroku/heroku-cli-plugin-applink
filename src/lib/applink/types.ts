@@ -24,9 +24,9 @@ export type Org = ConnectionOrg;
  */
 export type SalesforceConnection = {
   readonly addon_id?: string;
-  readonly created_at: string;
-  readonly created_by: string;
-  readonly created_via_app: string;
+  readonly created_at?: string;
+  readonly created_by?: string;
+  readonly created_via_app?: string;
   /** last error on connection */
   readonly error?: {
     id: string;
@@ -34,8 +34,8 @@ export type SalesforceConnection = {
   };
   /** connection ID */
   readonly id: string;
-  readonly last_modified_at: string;
-  readonly last_modified_by: string;
+  readonly last_modified_at?: string;
+  readonly last_modified_by?: string;
   /** Salesforce Org info */
   readonly org: Org;
   /** redirect URI for authentication */
@@ -166,16 +166,16 @@ export type DataActionTarget = {
 export type Authorization = {
   readonly app_name?: string;
   readonly connection_method?: 'JWT' | 'OAuth';
-  readonly created_at: string;
-  readonly created_by: string;
-  readonly created_via_app: string;
+  readonly created_at?: string;
+  readonly created_by?: string;
+  readonly created_via_app?: string;
   readonly error?: {
     id: string;
     message: string;
   };
   readonly id: string;
-  readonly last_modified_at: string;
-  readonly last_modified_by: string;
+  readonly last_modified_at?: string;
+  readonly last_modified_by?: string;
   readonly org: AuthorizationOrg;
   readonly redirect_uri?: string;
   readonly status: AuthorizationStatus;
