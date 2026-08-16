@@ -17,7 +17,7 @@
     "tsheredoc": "^1"
   },
   "devDependencies": {
-    "@heroku-cli/test-utils": "^0.2.0",
+    "@heroku-cli/test-utils": "^1.0.1",
     "@types/adm-zip": "^0.5.7",
     "@types/mocha": "^10.0.10",
     "@types/node": "^24.7.0",
