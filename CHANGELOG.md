@@ -1,5 +1,20 @@
 # Change Log
 
+## [2.0.3](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.2...plugin-applink-v2.0.3) (2026-08-21)
+
+
+### Dependencies
+
+* bump @heroku-cli/command from 13.0.0 to 13.1.0 ([#284](https://github.com/heroku/heroku-cli-plugin-applink/issues/284)) ([e8a0686](https://github.com/heroku/heroku-cli-plugin-applink/commit/e8a068654abbfd63b4ec0c6c689ef2438e3f6138))
+* bump @heroku-cli/schema from 1.0.25 to 2.0.1 ([#197](https://github.com/heroku/heroku-cli-plugin-applink/issues/197)) ([e397bbf](https://github.com/heroku/heroku-cli-plugin-applink/commit/e397bbfa26496835bf37d5bc96d49d5c46823b3a))
+* bump adm-zip from 0.5.17 to 0.6.0 ([#282](https://github.com/heroku/heroku-cli-plugin-applink/issues/282)) ([5a10cae](https://github.com/heroku/heroku-cli-plugin-applink/commit/5a10cae8df6ffbc75e752a0d3004afeed7b7e6b0))
+* bump axios from 1.16.0 to 1.18.0 ([#285](https://github.com/heroku/heroku-cli-plugin-applink/issues/285)) ([be23f44](https://github.com/heroku/heroku-cli-plugin-applink/commit/be23f44fcdfaf6d0caf33a2df015813041b095e2))
+
+
+### Code Refactoring
+
+* update authorization and connection types to match api changes ([#129](https://github.com/heroku/heroku-cli-plugin-applink/issues/129)) ([a8aebdc](https://github.com/heroku/heroku-cli-plugin-applink/commit/a8aebdcc5ce488cae250ab6b1239f66bbda9aec7))
+
 ## [2.0.2](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.1...plugin-applink-v2.0.2) (2026-07-23)
 
 
