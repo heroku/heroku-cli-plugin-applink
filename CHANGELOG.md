@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.0.4](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.3...plugin-applink-v2.0.4) (2026-09-11)
+
+
+### Dependencies
+
+* bump axios from 1.18.0 to 1.19.0 ([#297](https://github.com/heroku/heroku-cli-plugin-applink/issues/297)) ([6770c80](https://github.com/heroku/heroku-cli-plugin-applink/commit/6770c80d55b7bce2829e32e0a8a23fc452e5976a))
+
 ## [2.0.3](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.2...plugin-applink-v2.0.3) (2026-08-21)
 
 
