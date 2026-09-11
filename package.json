@@ -20,7 +20,7 @@
     "@heroku-cli/test-utils": "^1.0.1",
     "@types/adm-zip": "^0.5.7",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^24.7.0",
+    "@types/node": "^26.2.0",
     "@types/sinon": "^22.0.0",
     "ansis": "^3",
     "c8": "^10.1.3",
