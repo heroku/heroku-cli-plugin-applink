@@ -1,5 +1,13 @@
 # Change Log
 
+## [2.0.4](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.3...plugin-applink-v2.0.4) (2026-09-23)
+
+
+### Dependencies
+
+* bump adm-zip from 0.6.0 to 0.6.1 ([#306](https://github.com/heroku/heroku-cli-plugin-applink/issues/306)) ([442d03c](https://github.com/heroku/heroku-cli-plugin-applink/commit/442d03c2de9d351321789a00b209ef7df67122eb))
+* bump axios from 1.18.0 to 1.19.0 ([#297](https://github.com/heroku/heroku-cli-plugin-applink/issues/297)) ([6770c80](https://github.com/heroku/heroku-cli-plugin-applink/commit/6770c80d55b7bce2829e32e0a8a23fc452e5976a))
+
 ## [2.0.3](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.2...plugin-applink-v2.0.3) (2026-08-21)
 
 
