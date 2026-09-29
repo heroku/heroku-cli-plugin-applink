@@ -112,7 +112,7 @@
     "lint:fix": "eslint . --fix",
     "pretest": "npm run type-check",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "test:watch": "mocha --watch \"test/**/*.test.ts\"",
+    "test:watch": "mocha --parallel --watch \"test/**/*.test.ts\"",
     "test:coverage": "c8 --reporter=text-summary --reporter=lcovonly mocha --forbid-only \"test/**/*.test.ts\"",
     "docs:generate": "npm run build && npm run manifest && oclif readme --output-dir docs --multi",
     "prepare": "husky && npm run build && npm run manifest",
