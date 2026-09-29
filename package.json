@@ -123,8 +123,7 @@
     "format": "npm run prettier && npm run lint:fix",
     "test:local": "c8 mocha \"test/**/*.test.ts\"",
     "type-check": "tsc --noEmit",
-    "lint-staged": "npx lint-staged",
-    "check": "npm run format && npm test"
+    "lint-staged": "npx lint-staged"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
