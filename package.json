@@ -31,7 +31,6 @@
     "mocha": "^11.7.5",
     "nock": "^14.0.1",
     "oclif": "^4.22.81",
-    "prettier": "^3.7.4",
     "rimraf": "^6.1.3",
     "sinon": "^22.1.0",
     "tsx": "^4.21.0",
@@ -118,19 +117,13 @@
     "docs:generate": "npm run build && npm run manifest && oclif readme --output-dir docs --multi",
     "prepare": "husky && npm run build && npm run manifest",
     "postpack": "rimraf oclif.manifest.json",
-    "prettier": "prettier . --write --config ./.prettier.mjs",
-    "format": "npm run prettier && npm run lint:fix",
     "test:local": "c8 mocha \"test/**/*.test.ts\"",
     "type-check": "tsc --noEmit",
     "lint-staged": "npx lint-staged"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "prettier --write",
       "eslint --fix"
-    ],
-    "**/*.{json,md,yaml,yml}": [
-      "prettier --write"
     ]
   },
   "overrides": {
