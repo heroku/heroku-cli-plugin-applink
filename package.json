@@ -31,7 +31,7 @@
     "mocha": "^11.7.5",
     "nock": "^14.0.1",
     "oclif": "^4.22.81",
-    "prettier": "^3.7.4",
+    "rimraf": "^6.1.3",
     "sinon": "^22.1.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
@@ -104,30 +104,26 @@
   },
   "repository": "heroku/heroku-cli-plugin-applink",
   "scripts": {
-    "prepare": "husky",
-    "build": "rm -rf dist && tsc",
-    "postpublish": "rm -f oclif.manifest.json",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "manifest": "oclif manifest",
+    "readme": "oclif readme",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prettier": "prettier . --write --config ./.prettier.mjs",
-    "format": "npm run prettier && npm run lint:fix",
     "pretest": "npm run type-check",
-    "test": "c8 mocha --forbid-only \"test/**/*.test.ts\"",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "test:watch": "mocha --parallel --watch --reporter dot \"test/**/*.test.ts\"",
+    "test:coverage": "c8 --reporter=text-summary --reporter=lcovonly mocha --forbid-only \"test/**/*.test.ts\"",
+    "docs:generate": "npm run build && npm run manifest && oclif readme --output-dir docs --multi",
+    "prepare": "husky && npm run build && npm run manifest",
+    "postpack": "rimraf oclif.manifest.json",
     "test:local": "c8 mocha \"test/**/*.test.ts\"",
-    "posttest": "npm run lint",
     "type-check": "tsc --noEmit",
-    "lint-staged": "npx lint-staged",
-    "check": "npm run format && npm test",
-    "ci": "npm run lint && npm test",
-    "version": "oclif readme && git add README.md"
+    "lint-staged": "npx lint-staged"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
-      "prettier --write",
       "eslint --fix"
-    ],
-    "**/*.{json,md,yaml,yml}": [
-      "prettier --write"
     ]
   },
   "overrides": {

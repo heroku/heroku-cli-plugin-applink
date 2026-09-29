@@ -124,7 +124,7 @@ jobs:
         with:
           package-manager: npm # npm | yarn | pnpm
           workflows_token: ${{ secrets.WORKFLOWS_ACCESS_GITHUB_TOKEN }}
-          build_command: 'run build'
+          build_command: ''
           dry_run: ${{ inputs.dry_run }}
           npm_tag: ${{ needs.release-please-pr.outputs.npm_tag }}
           package_name: ${{ needs.release-please-pr.outputs.package_name }}
