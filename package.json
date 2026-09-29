@@ -124,8 +124,7 @@
     "test:local": "c8 mocha \"test/**/*.test.ts\"",
     "type-check": "tsc --noEmit",
     "lint-staged": "npx lint-staged",
-    "check": "npm run format && npm test",
-    "ci": "npm run lint && npm run test:coverage"
+    "check": "npm run format && npm test"
   },
   "lint-staged": {
     "**/*.{js,ts}": [
