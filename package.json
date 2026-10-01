@@ -6,7 +6,7 @@
   "author": "Heroku",
   "bugs": "https://github.com/heroku/heroku-cli-plugin-applink/issues",
   "dependencies": {
-    "@heroku-cli/command": "^13.0.0",
+    "@heroku-cli/command": "^13.2.2",
     "@heroku-cli/schema": "^2.0.1",
     "@heroku/heroku-cli-util": "^10.9.0",
     "@oclif/core": "^4.3.0",
