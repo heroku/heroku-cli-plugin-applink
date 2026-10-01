@@ -8,7 +8,7 @@
   "dependencies": {
     "@heroku-cli/command": "^13.2.2",
     "@heroku-cli/schema": "^2.0.1",
-    "@heroku/heroku-cli-util": "^10.9.0",
+    "@heroku/heroku-cli-util": "^10.10.1",
     "@oclif/core": "^4.3.0",
     "@oclif/plugin-help": "^6",
     "adm-zip": "^0.6.0",
