@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.0.6](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.5...plugin-applink-v2.0.6) (2026-10-29)
+
+
+### Dependencies
+
+* bump follow-redirects from 1.16.0 to 1.16.1 ([#323](https://github.com/heroku/heroku-cli-plugin-applink/issues/323)) ([2318f5b](https://github.com/heroku/heroku-cli-plugin-applink/commit/2318f5b8c3b7f9fd6e1b018e6e37c6b8ccc58069))
+
 ## [2.0.5](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.4...plugin-applink-v2.0.5) (2026-10-01)
 
 
