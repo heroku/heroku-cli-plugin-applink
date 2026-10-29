@@ -38,7 +38,7 @@ DESCRIPTION
   store a user's credentials for connecting a Data Cloud org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/authorizations/add.ts)_
+_See code: [src/commands/datacloud/authorizations/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/authorizations/add.ts)_
 
 ## `heroku datacloud:authorizations:jwt:add DEVELOPER_NAME`
 
@@ -90,7 +90,7 @@ EXAMPLES
     --alias custom-alias
 ```
 
-_See code: [src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/authorizations/jwt/add.ts)_
+_See code: [src/commands/datacloud/authorizations/jwt/add.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/authorizations/jwt/add.ts)_
 
 ## `heroku datacloud:authorizations:remove DEVELOPER_NAME`
 
@@ -117,7 +117,7 @@ DESCRIPTION
   remove a Data Cloud authorization from a Heroku app
 ```
 
-_See code: [src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/authorizations/remove.ts)_
+_See code: [src/commands/datacloud/authorizations/remove.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/authorizations/remove.ts)_
 
 ## `heroku datacloud:connect CONNECTION_NAME`
 
@@ -147,7 +147,7 @@ DESCRIPTION
   connect a Data Cloud org to a Heroku app
 ```
 
-_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/connect.ts)_
+_See code: [src/commands/datacloud/connect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/connect.ts)_
 
 ## `heroku datacloud:data-action-target:create LABEL`
 
@@ -180,7 +180,7 @@ DESCRIPTION
   create a Data Cloud data action target for a Heroku app
 ```
 
-_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/data-action-target/create.ts)_
+_See code: [src/commands/datacloud/data-action-target/create.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/data-action-target/create.ts)_
 
 ## `heroku datacloud:disconnect CONNECTION_NAME`
 
@@ -206,4 +206,4 @@ DESCRIPTION
   disconnect a Data Cloud org from a Heroku app
 ```
 
-_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/datacloud/disconnect.ts)_
+_See code: [src/commands/datacloud/disconnect.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/datacloud/disconnect.ts)_

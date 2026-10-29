@@ -28,7 +28,7 @@ DESCRIPTION
   list Heroku AppLink authorized users
 ```
 
-_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/applink/authorizations/index.ts)_
+_See code: [src/commands/applink/authorizations/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/applink/authorizations/index.ts)_
 
 ## `heroku applink:authorizations:info DEVELOPER_NAME`
 
@@ -53,7 +53,7 @@ DESCRIPTION
   show info for a Heroku AppLink authorized user
 ```
 
-_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/applink/authorizations/info.ts)_
+_See code: [src/commands/applink/authorizations/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/applink/authorizations/info.ts)_
 
 ## `heroku applink:connections`
 
@@ -75,7 +75,7 @@ DESCRIPTION
   list Heroku AppLink connections
 ```
 
-_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/applink/connections/index.ts)_
+_See code: [src/commands/applink/connections/index.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/applink/connections/index.ts)_
 
 ## `heroku applink:connections:info CONNECTION_NAME`
 
@@ -100,4 +100,4 @@ DESCRIPTION
   show info for a Heroku AppLink connection
 ```
 
-_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.5/src/commands/applink/connections/info.ts)_
+_See code: [src/commands/applink/connections/info.ts](https://github.com/heroku/heroku-cli-plugin-applink/blob/v2.0.6/src/commands/applink/connections/info.ts)_
