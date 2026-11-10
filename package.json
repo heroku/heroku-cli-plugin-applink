@@ -14,7 +14,7 @@
     "adm-zip": "^0.6.0",
     "axios": "1.20.0",
     "open": "^8.4.2",
-    "tsheredoc": "^1"
+    "tsheredoc": "^2"
   },
   "devDependencies": {
     "@heroku-cli/test-utils": "^1.0.1",
