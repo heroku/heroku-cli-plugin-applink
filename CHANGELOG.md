@@ -1,5 +1,12 @@
 # Change Log
 
+## [2.0.8](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.7...plugin-applink-v2.0.8) (2026-11-20)
+
+
+### Dependencies
+
+* bump @heroku-cli/command from 13.2.5 to 13.2.6 ([#335](https://github.com/heroku/heroku-cli-plugin-applink/issues/335)) ([2a2d22d](https://github.com/heroku/heroku-cli-plugin-applink/commit/2a2d22dd5b420ec8f1b8f8ebeaa0342ee5e02c6d))
+
 ## [2.0.7](https://github.com/heroku/heroku-cli-plugin-applink/compare/plugin-applink-v2.0.6...plugin-applink-v2.0.7) (2026-11-10)
 
 
