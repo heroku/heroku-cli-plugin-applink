@@ -123,7 +123,7 @@ jobs:
         uses: ./workflows-repo/.github/actions/release-publish-public
         with:
           package-manager: npm # npm | yarn | pnpm
-          workflows_token: ${{ secrets.WORKFLOWS_ACCESS_GITHUB_TOKEN }}
+          workflows_token: ${{ steps.app-token.outputs.token }}
           build_command: ''
           dry_run: ${{ inputs.dry_run }}
           npm_tag: ${{ needs.release-please-pr.outputs.npm_tag }}
