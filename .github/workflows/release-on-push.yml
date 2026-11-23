@@ -41,4 +41,4 @@ jobs:
         with:
           package-manager: npm # npm | yarn | pnpm
           branch_name: ${{ github.ref_name }}
-          token: ${{ secrets.WORKFLOWS_ACCESS_GITHUB_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
